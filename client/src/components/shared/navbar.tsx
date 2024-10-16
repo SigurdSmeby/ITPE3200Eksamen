@@ -12,8 +12,8 @@ const NavMenu: React.FC = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
+          <Nav.Link href="/" className="mx-2 text-secondary">Home</Nav.Link>
           <Nav.Link href="/about" className="mx-2 text-secondary">About</Nav.Link>
-          <Nav.Link href="/contact" className="mx-2 text-secondary">Contact</Nav.Link>
           <NavDropdown title="Dropdown" id="basic-nav-dropdown" className="mx-2">
             <NavDropdown.Item href="#action/3.1" >ACTION</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">ACTION</NavDropdown.Item>
