@@ -482,19 +482,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\carlh\\.nuget\\packages\\": {}
+    "C:\\Users\\sindr\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\carlh\\Documents\\GitHub\\ITPE3200Eksamen\\server\\server.csproj",
+      "projectUniqueName": "C:\\Users\\sindr\\Documents\\GitHub\\ITPE3200Eksamen\\server\\server.csproj",
       "projectName": "server",
-      "projectPath": "C:\\Users\\carlh\\Documents\\GitHub\\ITPE3200Eksamen\\server\\server.csproj",
-      "packagesPath": "C:\\Users\\carlh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\carlh\\Documents\\GitHub\\ITPE3200Eksamen\\server\\obj\\",
+      "projectPath": "C:\\Users\\sindr\\Documents\\GitHub\\ITPE3200Eksamen\\server\\server.csproj",
+      "packagesPath": "C:\\Users\\sindr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sindr\\Documents\\GitHub\\ITPE3200Eksamen\\server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\carlh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\sindr\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
