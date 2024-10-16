@@ -7,6 +7,7 @@ import About from './pages/About.tsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 import Footer from './components/shared/footer.tsx';
+import Login from './pages/Login.tsx';
 
 
 const App: React.FC = () => {
@@ -17,6 +18,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
     <Footer />
