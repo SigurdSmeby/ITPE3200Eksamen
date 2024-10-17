@@ -1,47 +1,36 @@
 import React from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import NavMenu from '../components/shared/navbar.tsx';
+import ProfileCard from '../components/ProfileCard.jsx';
+import { users } from '../components/users.tsx';
 
 
 const Home: React.FC = () => {
+
+  // Step 1: Flatten the bodyImages with corresponding user details
+  const allImages = users.flatMap((user) =>
+    user.bodyImages.map((bodyImage) => ({
+      ...bodyImage,
+      userName: user.name,
+      profileImage: user.profileImage
+    }))
+  );
+
+  // Step 2: Sort the images by date
+  const sortedImages = allImages.filter(image => image.url).sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
   return (
     <>
-      <header className="hero-section text-white text-center">
-        <Container>
-          <h1 className="display-4">Welcome to MySite</h1>
-          <p className="lead">Discover amazing features and content</p>
-          <Button variant="light" size="lg" href="/about">Learn More</Button>
-        </Container>
-      </header>
-      <Container className="my-5">
-        <h2 className="text-center mb-4">Our Features</h2>
-        <Row className="text-center">
-          <Col md={4}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Feature 1</Card.Title>
-                <Card.Text>Detailed information about Feature 1.</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={4}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Feature 2</Card.Title>
-                <Card.Text>Detailed information about Feature 2.</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={4}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Feature 3</Card.Title>
-                <Card.Text>Detailed information about Feature 3.</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+    <Container>
+      {sortedImages.map((image, index) => (
+        <ProfileCard
+          key={index}
+          name={image.userName}
+          profileImage={image.profileImage}
+          bodyImage={image.url}
+          date={image.date} // Pass the date if you want to display it
+        />
+      ))}
+    </Container>
     </>
   );
 };
