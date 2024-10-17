@@ -1,16 +1,8 @@
-export interface BodyImage {
-    url: string;
-    date: string;
-    userName: string;
-    profileImage: string;
-  }
-  
-  // Interface for each user
-  export interface User {
+export interface User {
     name: string;
     profileImage: string;
-    bodyImages: Omit<BodyImage, 'userName' | 'profileImage'>[]; // Only need url and date in the user structure
-  }
+    bodyImages: {url: string; date: string;}[];
+}
   
   // Define and export the users array
   export const users: User[] = [
