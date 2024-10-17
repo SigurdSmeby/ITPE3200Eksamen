@@ -1,7 +1,15 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
+import { FaHeart } from "react-icons/fa";
+
 
 const ProfileCard = ({ name, profileImage, bodyImage, date }) => {
+
+  const [liked, setLiked] = React.useState(false);
+  const handleLikeClick = () => {
+    setLiked(!liked);
+  };
+
   return (
     <Card style={{ width: '30rem', margin: '1rem auto' }}>
       {/* User Profile Header */}
@@ -28,7 +36,13 @@ const ProfileCard = ({ name, profileImage, bodyImage, date }) => {
 
       {/* Card Footer with Like and Comment Buttons */}
       <Card.Footer className="text-center">
-        <Button variant="primary" className="me-2" style={{backgroundColor: '#f56530', borderColor: '#f56530'}}>Like</Button>
+        {/*<Button variant="primary" className="me-2" style={{backgroundColor: '#f56530', borderColor: '#f56530'}}>Like</Button>*/}
+        <div style={{
+          display: 'inline-block', // Makes the div behave like a button
+          cursor: 'pointer'}}
+          onClick={handleLikeClick}>
+            <FaHeart color={liked ? 'red' : 'black'} size={24} />
+        </div>
         <Button variant="secondary">Comment</Button>
       </Card.Footer>
     </Card>
