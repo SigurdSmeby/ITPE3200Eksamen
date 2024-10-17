@@ -9,7 +9,7 @@ const numberOfPosts = user?.bodyImages.length;
 
 const HeroSection: React.FC = () => {
   // If the user is not found, we can display a fallback message
-  if (!user) return <div>User not found</div>;
+  if (!user) return <h1>User not found</h1>;
 
   return (
     <div className="hero-section d-flex m-5">
@@ -28,12 +28,9 @@ const HeroSection: React.FC = () => {
 }
 
 const ImgSection: React.FC = () => {
-  // If the user is not found or has no body images
-  if (!user || user.bodyImages.length === 0) return <div>No images to display</div>;
-
   return (
     <div className="img-section">
-      {user.bodyImages.map((bodyImage, index) => (
+      {user?.bodyImages.map((bodyImage, index) => (
         <ProfileCard
           key={index}
           name={user.name}

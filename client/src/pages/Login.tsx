@@ -25,7 +25,7 @@ const Login: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Form submitted with data:', formData);
-    
+
     // You can now send `formData` to the server or perform any action you need
     // Example: submit formData to API, perform validation, etc.
   };
