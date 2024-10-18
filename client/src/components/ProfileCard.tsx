@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { FaHeart } from "react-icons/fa";
+import { Nav, Dropdown} from "react-bootstrap";
 
 // Format date function
 const formatDate = (dateString: string): string => {
@@ -29,6 +30,17 @@ const ProfileCard = ({ name, profileImage, bodyImage, date }) => {
           style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '1rem' }}
         />
         <h4>{name}</h4>
+
+        <Dropdown className="ms-auto">
+          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+           menu
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item href="#/action-1">Edit</Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Delete</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Card.Header>
 
       <Card.Body style={{ maxHeight: '30rem', alignContent: 'center', overflow: 'hidden', marginBottom: '5px' }}>
