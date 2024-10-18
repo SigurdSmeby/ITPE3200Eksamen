@@ -27,6 +27,7 @@ const ProfileCard = ({ name, profileImage, bodyImage, date }) => {
           variant="top"
           src={profileImage}
           alt="User profile"
+          loading="lazy"
           style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '1rem' }}
         />
         <h4>{name}</h4>
@@ -50,6 +51,7 @@ const ProfileCard = ({ name, profileImage, bodyImage, date }) => {
           variant="top"
           src={bodyImage}
           alt="Body Image"
+          loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
         />
       </Card.Body>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ProfileCard from '../components/ProfileCard.tsx';
-import { User, fetchUsers } from '../api.ts';
-import { flattenAndSortImages } from '../imageUtils.ts'; // Import the utility function
+import { User, fetchUsers } from '../components/api.ts';
+import { flattenAndSortImages } from '../components/imageUtils.ts'; // Import the utility function
 
 const Home: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);

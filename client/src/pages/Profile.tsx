@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { User, fetchUserById } from '../api.ts';
+import { User, fetchUserById } from '../components/api.ts';
 import ProfileCard from '../components/ProfileCard.tsx';
-import { flattenAndSortImages } from '../imageUtils.ts'; // Import the utility function
+import { flattenAndSortImages } from '../components/imageUtils.ts'; // Import the utility function
 
 const userId = 1; // Change this ID manually to fetch different users
 
