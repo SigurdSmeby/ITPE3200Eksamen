@@ -33,8 +33,27 @@ const Profile: React.FC = () => {
   if (error) return <div>{error}</div>;
   if (!user) return <div>User not found</div>;
 
-  return (
-    <div>
+  const HeroSection: React.FC<{ user: User }> = ({ user }) => {
+    const numberOfPosts = user.images.length;
+  
+    return (
+      <div className="hero-section d-flex m-5">
+        <div className='me-5' style={{ height: '150px', width: '150px' }}>
+          <img src={user.profilePicture} alt={user.profileName} className='img-fluid' style={{ width: '100%', borderRadius: '50%' }} />
+        </div>
+        
+        <div>
+          <h1>{user.profileName}</h1>
+          <p>A brief description or bio about {user.profileName}</p> {/* You can customize this part */}
+          <p className='btn btn-light'>Number of posts: {numberOfPosts}</p>
+        </div>
+      </div>
+    );
+  }
+  
+  const ImgSection: React.FC<{ user: User }> = ({ user }) => {
+    return (
+      <div>
       {sortedImages.map((image, index) => (
         <ProfileCard
           key={index}
@@ -45,6 +64,15 @@ const Profile: React.FC = () => {
         />
       ))}
     </div>
+    );
+  }
+
+  return (
+    <>
+      <HeroSection user={user}/>
+      <ImgSection user={user}/>
+    </>
+    
   );
 };
 
