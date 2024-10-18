@@ -24,14 +24,23 @@ namespace server.Data
             {
                 var images = new List<Image>();
                 var random = new Random();
+                
                 for (int i = 0; i < count; i++)
                 {
+                    // Generate random date and time within the last 30 days
+                    var randomDateTime = DateTime.Now
+                        .AddDays(-random.Next(1, 30))   // Subtract random days
+                        .AddHours(random.Next(0, 24))   // Add random hours
+                        .AddMinutes(random.Next(0, 60)) // Add random minutes
+                        .AddSeconds(random.Next(0, 60)); // Add random seconds
+
                     images.Add(new Image
                     {
-                        ImageUrl = $"https://picsum.photos/300/{random.Next(100, 500)}",
-                        UploadedAt = DateTime.Now.AddDays(-random.Next(1, 30))
+                        ImageUrl = $"https://picsum.photos/{random.Next(200, 800)}/{random.Next(200, 800)}",
+                        UploadedAt = randomDateTime // Assign the random date and time
                     });
                 }
+
                 return images;
             }
 

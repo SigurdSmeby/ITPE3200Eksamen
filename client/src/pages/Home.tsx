@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ProfileCard from '../components/ProfileCard.tsx';
-import { User, fetchUsers } from '../api.ts'; // Import fetchUsers from the API file
+import { User, fetchUsers } from '../api.ts';
+import { flattenAndSortImages } from '../imageUtils.ts'; // Import the utility function
 
 const Home: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -16,30 +17,17 @@ const Home: React.FC = () => {
         setUsers(data);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching user data:', err);  // Log the full error for debugging
-        setError('Error fetching user data');  // Set the error state
+        console.error(err);  // Log any error for debugging
+        setError('Error fetching user data');
         setLoading(false);
       }
     };
-  
+
     loadUsers();
   }, []);
-  
 
-  // Flatten the bodyImages and attach user details
-  const allImages = users.flatMap((user) =>
-    user.images.map((bodyImage) => ({
-      url: bodyImage.imageUrl,  // Matches 'imageUrl' from the API response
-      date: bodyImage.uploadedAt,  // Matches 'uploadedAt' from the API response
-      userName: user.profileName,  // Matches 'profileName' from the API response
-      profileImage: user.profilePicture,  // Matches 'profilePicture' from the API response
-    }))
-  );
-
-  // Sort the images by date
-  const sortedImages = allImages
-    .filter((image) => image.url)
-    .sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  // Use the utility function to flatten and sort images
+  const sortedImages = flattenAndSortImages(users);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
