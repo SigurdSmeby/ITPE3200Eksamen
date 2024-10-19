@@ -1,33 +1,42 @@
-using server.Data;
+using server.Models; // Importer AppDbContext
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();  // Add support for controllers
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Legg til tjenester til containeren.
+builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Legg til CORS for å tillate kommunikasjon fra React-frontend.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")  // Tillat forespørsler fra React
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
+// Legg til Entity Framework og konfigurer tilkobling til SQL Server
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Legg til Swagger for API-dokumentasjon (valgfritt)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Apply database migrations and seed data
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<AppDbContext>();
-    DbInitializer.Initialize(context);
-}
-
-// Configure the HTTP request pipeline.
+// Konfigurer HTTP-request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Bruk CORS-policy
+app.UseCors("AllowReactApp");
 
 app.UseHttpsRedirection();
 
