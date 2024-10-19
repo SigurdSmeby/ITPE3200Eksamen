@@ -3,8 +3,8 @@ namespace server.Models
     public class User
     {
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
+        public string Username { get; set; } // No need to specify max length for SQLite
+        public string Email { get; set; }    // No need to specify max length for SQLite
         public string PasswordHash { get; set; }
         public string ProfilePic { get; set; }
         public string Bio { get; set; }

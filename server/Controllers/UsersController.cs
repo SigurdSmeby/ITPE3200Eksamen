@@ -1,6 +1,8 @@
 using server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace server.Controllers
 {
@@ -16,7 +18,7 @@ namespace server.Controllers
         }
 
         // GET: api/Users
-        // Henter alle brukere
+        // Retrieve all users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -25,7 +27,7 @@ namespace server.Controllers
         }
 
         // GET: api/Users/{id}
-        // Henter en bruker basert på ID
+        // Retrieve a single user by ID
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
@@ -40,17 +42,16 @@ namespace server.Controllers
         }
 
         // POST: api/Users
-        // Oppretter en ny bruker
+        // Create a new user
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser([FromBody] User newUser)
         {
-            // Valider om e-post eller brukernavn allerede eksisterer
+            // Ensure unique email and username
             if (_context.Users.Any(u => u.Email == newUser.Email || u.Username == newUser.Username))
             {
                 return BadRequest("Email or Username already in use.");
             }
 
-            // Opprett ny bruker
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
@@ -58,7 +59,7 @@ namespace server.Controllers
         }
 
         // PUT: api/Users/{id}
-        // Oppdaterer en bruker basert på ID
+        // Update an existing user by ID
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
         {
@@ -73,7 +74,7 @@ namespace server.Controllers
                 return NotFound();
             }
 
-            // Oppdater brukerens detaljer
+            // Update fields
             user.Username = updatedUser.Username;
             user.Email = updatedUser.Email;
             user.Bio = updatedUser.Bio;
@@ -98,7 +99,7 @@ namespace server.Controllers
         }
 
         // DELETE: api/Users/{id}
-        // Sletter en bruker basert på ID
+        // Delete a user by ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -113,5 +114,34 @@ namespace server.Controllers
 
             return NoContent();
         }
+
+        // POST: api/Users/login
+        // Simple login API for testing purposes (using plain-text password)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequest request)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Email == request.Email);
+            
+            if (user == null)
+            {
+                return Unauthorized("User not found");
+            }
+
+            // Compare the plain-text password for testing (should use hashing in production)
+            if (user.PasswordHash != request.Password)
+            {
+                return Unauthorized("Invalid credentials");
+            }
+
+            // Return success for login (You can implement token or session management here)
+            return Ok(new { message = "Login successful", user = user.Username });
+        }
+    }
+
+    // DTO for login request
+    public class LoginRequest
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

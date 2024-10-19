@@ -34,9 +34,9 @@ const Home: React.FC = () => {
 
   return (
     <Container>
-      {sortedImages.map((image, imgID) => (
+      {sortedImages.map((image, index) => (
         <ProfileCard
-          key={imgID}
+          key={index}
           name={image.userName}
           profileImage={image.profileImage}
           bodyImage={image.url}
