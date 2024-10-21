@@ -20,8 +20,8 @@ namespace server.Models
         public DateTime DateUploaded { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public User User { get; set; }
-        public ICollection<Like> Likes { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public virtual User User { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

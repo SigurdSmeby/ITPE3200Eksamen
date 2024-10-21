@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Proxies;
 using server.Models;
 
 namespace server.Data
@@ -15,6 +14,17 @@ namespace server.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
+        }
+
+        // Enable lazy loading proxies
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder
+                    .UseLazyLoadingProxies()
+                    .UseSqlServer("YourConnectionStringHere"); // Replace with your actual connection string
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -85,7 +95,5 @@ namespace server.Data
                 .Property(u => u.ThemePreference)
                 .HasConversion<string>();
         }
-        
     }
-    
 }

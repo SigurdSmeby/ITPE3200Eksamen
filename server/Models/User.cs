@@ -24,12 +24,12 @@ namespace server.Models
         public DateTime DateJoined { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public ICollection<Post> Posts { get; set; }
-        public ICollection<Like> Likes { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
-        public ICollection<Follow> Followers { get; set; } // Users who follow this user
-        public ICollection<Follow> Following { get; set; } // Users this user follows
+        public virtual ICollection<Follow> Followers { get; set; } // Users who follow this user
+        public virtual ICollection<Follow> Following { get; set; } // Users this user follows
     }
 
     public enum ThemePreference

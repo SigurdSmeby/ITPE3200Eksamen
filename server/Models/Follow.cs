@@ -10,7 +10,7 @@ namespace server.Models
         public DateTime DateFollowed { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public User Follower { get; set; }
-        public User Following { get; set; }
+        public virtual User Follower { get; set; }
+        public virtual User Following { get; set; }
     }
 }

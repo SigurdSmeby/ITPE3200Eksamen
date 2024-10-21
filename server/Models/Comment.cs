@@ -19,7 +19,7 @@ namespace server.Models
         public DateTime DateCommented { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public User User { get; set; }
-        public Post Post { get; set; }
+        public virtual User User { get; set; }
+        public virtual Post Post { get; set; }
     }
 }
