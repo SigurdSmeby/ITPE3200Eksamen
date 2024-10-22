@@ -46,7 +46,6 @@ namespace server.Controllers
                 Email = registerDto.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
                 ProfilePictureUrl = "default_profile_pic.jpg",
-                ThemePreference = ThemePreference.Day
             };
 
             _context.Users.Add(user);
@@ -138,11 +137,6 @@ namespace server.Controllers
                 user.ProfilePictureUrl = profileDto.ProfilePictureUrl;
             }
 
-            if (profileDto.ThemePreference.HasValue)
-            {
-                user.ThemePreference = profileDto.ThemePreference.Value;
-            }
-
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
@@ -201,6 +195,7 @@ namespace server.Controllers
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
+            //todo: move secret key to appsettings.json
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
 
             var tokenDescriptor = new SecurityTokenDescriptor
