@@ -72,10 +72,16 @@ namespace server.Controllers
         }
 
         // GET: api/Users/profile
-        [Authorize]
+        //[Authorize]
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
+            // Log the token (for debugging purposes)
+            var token = Request.Headers["Authorization"];
+            Console.WriteLine($"Token received: {token}");
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            claims.ForEach(c => Console.WriteLine($"Claim: {c.Type} = {c.Value}"));
+
             int userId = GetCurrentUserId();
 
             var user = await _context.Users

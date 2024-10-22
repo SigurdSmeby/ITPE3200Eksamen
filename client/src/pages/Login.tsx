@@ -1,77 +1,107 @@
 import React, { useState } from 'react';
+import { Form, Button, Alert } from 'react-bootstrap';
+import axios from 'axios';
 
-interface LoginFormData {
-  email: string;
-  password: string;
-}
-
-const Login: React.FC = () => {
-  // Define state to manage form inputs
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    password: '',
-  });
-
-  // Handle input changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value, // Dynamically update the correct field (email or password)
-    });
-  };
+const LoginUser = () => {
+  // Form state
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [token, setToken] = useState('');
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('Form submitted with data:', formData);
-    
-    // You can now send `formData` to the server or perform any action you need
-    // Example: submit formData to API, perform validation, etc.
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Reset error and success messages
+      setError('');
+      setSuccess('');
+
+      // API request to log in the user
+      const response = await axios.post('http://localhost:5229/api/Users/login', {
+        username,
+        password,
+      });
+
+      // Handle success
+      if (response.status === 200) {
+        setSuccess('Login successful!');
+        
+        // Extract token from response
+        const jwtToken = response.data.token;
+
+        // Save the token in localStorage for future requests
+        localStorage.setItem('jwtToken', jwtToken);
+
+        // Save token to state for display (optional)
+        setToken(jwtToken);
+
+        // Clear form fields
+        setUsername('');
+        setPassword('');
+      }
+    } catch (err) {
+      // Handle error
+      if (err.response && err.response.data) {
+        setError(err.response.data);
+      } else {
+        setError('An error occurred during login.');
+      }
+    }
   };
 
   return (
-    <>
-      <h1>Login her din mongo</h1>
+    <div className="container mt-4">
+      <h2>Login</h2>
 
-      <form onSubmit={handleSubmit} className='form'>
-        {/* Email input */}
-        <div className="mb-3">
-          <label htmlFor="email" className='form-label'>Email:</label>
-          <input
-            style={{ maxWidth: '300px', width: '100%' }}
-            className="form-control"
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">{success}</Alert>}
+
+      <Form onSubmit={handleSubmit}>
+        {/* Username Field */}
+        <Form.Group className="mb-3" controlId="formUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </div>
+        </Form.Group>
 
-        {/* Password input */}
-        <div className="mb-3">
-          <label htmlFor="password" className='form-label'>Password:</label>
-          <input
-            style={{ maxWidth: '300px', width: '100%' }}
-            className="form-control"
+        {/* Password Field */}
+        <Form.Group className="mb-3" controlId="formPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
+        </Form.Group>
 
-        {/* Submit button */}
-        <button type="submit" className='btn btn-success'>Submit</button>
+        {/* Submit Button */}
+        <Button variant="primary" type="submit">
+          Login
+        </Button>
         <a href='' className='btn btn-light'>Forgot password?</a> 
         <a href="/register" className='btn btn-light'>New User?</a>
-      </form>
-    </>
+        <a href="/test">test</a>
+      </Form>
+
+      {/* Display Token (For debugging or further use) */}
+      {token && (
+        <div className="mt-3">
+          <h5>Your JWT Token:</h5>
+          <code>{token}</code>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default Login;
+export default LoginUser;

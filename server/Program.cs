@@ -4,6 +4,9 @@ using server.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BCrypt.Net;
+
+// Set up the builder
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,11 +19,12 @@ builder.Services.AddControllers()
         // Handle potential circular references
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
+
+// Configure SQLite database
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseLazyLoadingProxies()
-           .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-           
-// Inside your builder configuration
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure authentication and JWT Bearer
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -34,7 +38,7 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false, // Set to true and specify valid audience in production
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSecretKey")) // Replace with your secret key
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])) // Replace with your secret key
     };
 });
 
@@ -42,11 +46,35 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
-
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Seed the database with a sample user
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    // Automatically apply any pending migrations (for simplicity in testing)
+    dbContext.Database.Migrate();
+
+    // Check if there are any users in the database
+    if (!dbContext.Users.Any())
+    {
+        // Add a sample user
+        var sampleUser = new User
+        {
+            Username = "TestUser",
+            Email = "testuser@example.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
+            ProfilePictureUrl = "default_profile_pic.jpg",
+            DateJoined = DateTime.UtcNow
+        };
+
+        dbContext.Users.Add(sampleUser);
+        dbContext.SaveChanges();
+    }
+}
+
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -55,10 +83,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
-

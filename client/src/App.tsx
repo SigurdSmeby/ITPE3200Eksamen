@@ -9,6 +9,7 @@ import { Container } from 'react-bootstrap';
 import Footer from './components/shared/footer.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
+import TestPage from './pages/testPage.jsx';
 
 
 const App: React.FC = () => {
@@ -21,6 +22,7 @@ const App: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/test" element={<TestPage/>} />
       </Routes>
     </Router>
     <Footer />

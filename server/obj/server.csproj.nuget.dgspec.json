@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\server\\server.csproj": {}
+    "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\server\\server.csproj": {
+    "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\server\\server.csproj",
+        "projectUniqueName": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\server\\server.csproj",
-        "packagesPath": "C:\\Users\\olaax\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\server\\obj\\",
+        "projectPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj",
+        "packagesPath": "C:\\Users\\sigur\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\olaax\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\sigur\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -69,6 +67,10 @@
               "target": "Package",
               "version": "[8.0.10, )"
             },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -99,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
