@@ -48,7 +48,7 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Seed the database with a sample user
+// Seed the database with a sample user and two posts
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -70,6 +70,26 @@ using (var scope = app.Services.CreateScope())
         };
 
         dbContext.Users.Add(sampleUser);
+        dbContext.SaveChanges();
+
+        // Add two posts for the sample user
+        var post1 = new Post
+        {
+            ImageUrl = "https://example.com/image1.jpg",  // Example image URL
+            Title = "First Post",
+            DateUploaded = DateTime.UtcNow,
+            UserId = sampleUser.UserId // Link the post to the TestUser
+        };
+
+        var post2 = new Post
+        {
+            ImageUrl = "https://example.com/image2.jpg",  // Example image URL
+            Title = "Second Post",
+            DateUploaded = DateTime.UtcNow,
+            UserId = sampleUser.UserId // Link the post to the TestUser
+        };
+
+        dbContext.Posts.AddRange(post1, post2);
         dbContext.SaveChanges();
     }
 }

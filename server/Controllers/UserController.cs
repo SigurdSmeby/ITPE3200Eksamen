@@ -72,7 +72,7 @@ namespace server.Controllers
         }
 
         // GET: api/Users/profile
-        //[Authorize]
+        [Authorize]
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
