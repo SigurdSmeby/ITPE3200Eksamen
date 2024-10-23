@@ -1,3 +1,4 @@
+server/obj
 server/obj/Debug
 server/obj/server.csproj.nuget.g.props
 server/obj/server.csproj.nuget.dgspec.json

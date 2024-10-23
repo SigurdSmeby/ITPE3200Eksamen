@@ -30,6 +30,8 @@ const TestPage = () => {
     TestApi.register("testName", "test@exsample.com", "testPassword")
       .then((response) => {
         console.log(response.data);
+      }).catch((error) => {
+        console.log(error);
       });
   };
 
@@ -78,16 +80,14 @@ const TestPage = () => {
           placeholder="imgUrl" 
           onChange={(e) => setImageUrl(e.target.value)}
         />
-        <button onClick={() => {setImageUrl("https://picsum.photos/600"); console.log("picsum is set");}}>
-          setpicksum
-        </button>
         <button onClick={handleCreatePost}>submit</button>
       </div>
       <div>
-        <input type="text" onChange={(e) => setProfilePicture(e.target.value)} />
+        <input type="text" onChange={(e) => setProfilePicture(e.target.value)} placeholder="profilePictureURL" />
         <button onClick={() => {TestApi.updateProfilePicture(profilePicture)}}>change profilePicture</button>
       </div>
-      <p>https://picsum.photos/</p>
+      <h4>picture site:</h4>
+      <p>https://picsum.photos/[number]</p>
 
       {/* Render the post cards at the bottom of the page */}
       <div style={{ marginTop: '2rem' }}>
