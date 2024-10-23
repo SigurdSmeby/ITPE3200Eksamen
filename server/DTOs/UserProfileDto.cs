@@ -8,7 +8,6 @@ namespace server.DTOs
         public string Username { get; set; }
         public string Email { get; set; }
         public string ProfilePictureUrl { get; set; }
-        public string ThemePreference { get; set; }
         public DateTime DateJoined { get; set; }
         public int PostCount { get; set; }
         public int FollowerCount { get; set; }

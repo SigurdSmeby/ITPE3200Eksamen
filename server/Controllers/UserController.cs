@@ -108,7 +108,6 @@ namespace server.Controllers
             return Ok(userDto);
         }
 
-        // PUT: api/Users/profile
         [Authorize]
         [HttpPut("profile")]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto profileDto)
@@ -120,8 +119,10 @@ namespace server.Controllers
             if (user == null)
                 return NotFound();
 
+            // Update username if provided
             if (!string.IsNullOrEmpty(profileDto.Username))
             {
+                // Ensure the new username isn't taken by someone else
                 if (await _context.Users.AnyAsync(u => u.Username == profileDto.Username && u.UserId != userId))
                 {
                     return BadRequest("Username is already taken.");
@@ -129,8 +130,10 @@ namespace server.Controllers
                 user.Username = profileDto.Username;
             }
 
+            // Update email if provided
             if (!string.IsNullOrEmpty(profileDto.Email))
             {
+                // Ensure the new email isn't already registered to another user
                 if (await _context.Users.AnyAsync(u => u.Email == profileDto.Email && u.UserId != userId))
                 {
                     return BadRequest("Email is already registered.");
@@ -138,16 +141,19 @@ namespace server.Controllers
                 user.Email = profileDto.Email;
             }
 
+            // Update profile picture if provided
             if (!string.IsNullOrEmpty(profileDto.ProfilePictureUrl))
             {
                 user.ProfilePictureUrl = profileDto.ProfilePictureUrl;
             }
 
+            // Save changes to the database
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
             return Ok("Profile updated successfully.");
         }
+
 
         // PUT: api/Users/change-password
         [Authorize]

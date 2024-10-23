@@ -54,12 +54,37 @@ const createPost = (ImageUrl, title) => {
   );
 };
 
+const deletePost = (id) => {
+  const token = localStorage.getItem('jwtToken');
+  return axios.delete(API_URL + "Posts/" + id, {
+    headers: { Authorization: `Bearer ${token}` }
+  }).catch((error) => {
+    console.error("Error deleting post:", error);
+    throw error;  // Re-throw to handle in the calling function if needed
+  });
+}
+
+const updateProfilePicture = async (profilePictureUrl) => {
+  const token = localStorage.getItem('jwtToken');
+  const data = {
+    profilePictureUrl: profilePictureUrl // Pass the new profile picture URL
+  };
+
+  // Axios PUT request to update the profile picture
+  await axios.put(API_URL + "Users/profile", data, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};
+
+
 
 const TestApi = {
     register,
     getUsers,
     getPosts,
-    createPost
+    createPost,
+    deletePost,
+    updateProfilePicture
     };
 
 export default TestApi;

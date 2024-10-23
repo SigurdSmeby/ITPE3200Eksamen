@@ -65,7 +65,7 @@ using (var scope = app.Services.CreateScope())
             Username = "TestUser",
             Email = "testuser@example.com",
             PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
-            ProfilePictureUrl = "default_profile_pic.jpg",
+            ProfilePictureUrl = "https://picsum.photos/200",
             DateJoined = DateTime.UtcNow
         };
 
@@ -75,7 +75,7 @@ using (var scope = app.Services.CreateScope())
         // Add two posts for the sample user
         var post1 = new Post
         {
-            ImageUrl = "https://example.com/image1.jpg",  // Example image URL
+            ImageUrl = "https://picsum.photos/600",  // Example image URL
             Title = "First Post",
             DateUploaded = DateTime.UtcNow,
             UserId = sampleUser.UserId // Link the post to the TestUser
@@ -83,7 +83,7 @@ using (var scope = app.Services.CreateScope())
 
         var post2 = new Post
         {
-            ImageUrl = "https://example.com/image2.jpg",  // Example image URL
+            ImageUrl = "https://picsum.photos/600",  // Example image URL
             Title = "Second Post",
             DateUploaded = DateTime.UtcNow,
             UserId = sampleUser.UserId // Link the post to the TestUser
