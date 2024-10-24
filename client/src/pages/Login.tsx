@@ -1,56 +1,39 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import axios from 'axios';
+import { login } from '../api/authApi';
 
 const LoginUser = () => {
-  // Form state
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [token, setToken] = useState('');
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // Reset error and success messages
       setError('');
       setSuccess('');
 
-      // API request to log in the user
-      const response = await axios.post('http://localhost:5229/api/Users/login', {
-        username,
-        password,
-      });
+      // Call the login function and get both the token and message
+      const { token: jwtToken } = await login(username, password);
 
-      // Handle success
-      if (response.status === 200) {
-        setSuccess('Login successful!');
-        
-        // Extract token from response
-        const jwtToken = response.data.token;
+      // Set the success message (if provided by the backend)
+      setSuccess('Login successful!');
 
-        // Save the token in localStorage for future requests
-        localStorage.setItem('jwtToken', jwtToken);
+      // Store the token in local storage and state
+      localStorage.setItem('jwtToken', jwtToken);
+      setToken(jwtToken);
 
-        // Save token to state for display (optional)
-        setToken(jwtToken);
-
-        // Clear form fields
-        setUsername('');
-        setPassword('');
-      }
+      // Clear form fields
+      setUsername('');
+      setPassword('');
     } catch (err) {
-      // Handle error
-      if (err.response && err.response.data) {
-        setError(err.response.data);
-      } else {
-        setError('An error occurred during login.');
-      }
+      setError(err);
     }
   };
+
 
   return (
     <div className="container mt-4">
@@ -60,7 +43,6 @@ const LoginUser = () => {
       {success && <Alert variant="success">{success}</Alert>}
 
       <Form onSubmit={handleSubmit}>
-        {/* Username Field */}
         <Form.Group className="mb-3" controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
@@ -72,7 +54,6 @@ const LoginUser = () => {
           />
         </Form.Group>
 
-        {/* Password Field */}
         <Form.Group className="mb-3" controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -84,16 +65,12 @@ const LoginUser = () => {
           />
         </Form.Group>
 
-        {/* Submit Button */}
-        <Button variant="primary" type="submit">
-          Login
-        </Button>
+        <Button variant="primary" type="submit">Login</Button>
         <a href='' className='btn btn-light'>Forgot password?</a> 
         <a href="/register" className='btn btn-light'>New User?</a>
         <a href="/test">test</a>
       </Form>
 
-      {/* Display Token (For debugging or further use) */}
       {token && (
         <div className="mt-3">
           <h5>Your JWT Token:</h5>

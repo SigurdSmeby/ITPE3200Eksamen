@@ -15,19 +15,21 @@ const formatDate = (dateString: string): string => {
   return `${day}.${month}.${year} - ${hours}.${minutes}`;
 };
 
-const handleDeletePost = (id) => {
-    console.log("click");
-    TestApi.deletePost(id).then((response) => {
-      console.log(response.data);
-    });
-  }
-
-const PostCards = ({ postId, imageUrl, title, dateUploaded, author, likesCount}) => {
+// PostCards component
+const PostCards = ({ postId, imageUrl, title, dateUploaded, author, likesCount, onDeleted}) => {
 	const [liked, setLiked] = React.useState(false);
   
 	const handleLikeClick = () => {
 	  setLiked(!liked);
 	};
+
+	const handleDeletePost = (id) => {
+		console.log("click");
+		TestApi.deletePost(id).then((response) => {
+		  console.log(response.data);
+		  onDeleted()
+		});
+	  }
   
 	const authorName = author?.username || "Unknown Author";
 	const profilePicture = author?.profilePictureUrl || "default-profile.png"; // Fallback image if none is provided

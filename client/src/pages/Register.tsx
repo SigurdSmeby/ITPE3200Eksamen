@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import axios from 'axios';
+import { register } from '../api/authApi';
 
 const RegisterUser = () => {
   // Form state
@@ -20,26 +20,13 @@ const RegisterUser = () => {
       setSuccess('');
 
       // API request to register a new user
-      const response = await axios.post('http://localhost:5229/api/Users/register', {
-        username,
-        email,
-        password,
-      });
-
-      // Handle success
-      if (response.status === 200) {
-        setSuccess('Registration successful!');
-        setUsername('');
-        setEmail('');
-        setPassword('');
-      }
+      const {} = await register(username, email, password);
+      setSuccess('Registration successful!');
+      setUsername('');
+      setEmail('');
+      setPassword('');
     } catch (err) {
-      // Handle error
-      if (err.response && err.response.data) {
-        setError(err.response.data);
-      } else {
-        setError('An error occurred during registration.');
-      }
+        setError(err);
     }
   };
 
@@ -91,6 +78,7 @@ const RegisterUser = () => {
         <Button variant="primary" type="submit">
           Register
         </Button>
+        <a href="/login" className='btn btn-light'>Login</a>
       </Form>
     </div>
   );
