@@ -33,18 +33,20 @@ const PostCards = ({ postId, imageUrl, title, dateUploaded, author, likesCount, 
   
 	const authorName = author?.username || "Unknown Author";
 	const profilePicture = author?.profilePictureUrl || "default-profile.png"; // Fallback image if none is provided
+	const profileUrl = `/profile/${authorName}`;
   
 	return (
 	  <Card style={{ width: '30rem', margin: '1rem auto' }}>
 		<Card.Header className="d-flex align-items-center">
-		  <Card.Img
-			variant="top"
-			src={profilePicture}
-			alt="User profile"
-			loading="lazy"
-			style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '1rem' }}
-		  />
-		  <h4>{authorName}</h4>
+			<a href={profileUrl} style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+				<Card.Img
+					variant="top"
+					src={profilePicture}
+					alt="User profile"
+					loading="lazy"
+					style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '1rem' }}
+				/>
+		  	<h4>{authorName}</h4></a>
   
 		  <Dropdown className="ms-auto">
 			<Dropdown.Toggle variant="secondary" id="dropdown-basic">

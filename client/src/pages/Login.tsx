@@ -10,6 +10,7 @@ const LoginUser = () => {
   const [token, setToken] = useState('');
 
   const handleSubmit = async (event) => {
+    // Prevent the default form submission behavior (page refresh)
     event.preventDefault();
 
     try {

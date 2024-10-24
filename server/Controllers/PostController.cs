@@ -153,6 +153,58 @@ namespace server.Controllers
             return Ok("Post deleted successfully.");
         }
 
+        // GET: api/Posts/user/{username}
+        [HttpGet("user/{username}")]
+        public async Task<IActionResult> GetPostsByUsername(string username, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+        {
+            // Find the user by username
+            var user = await _context.Users
+                .Where(u => u.Username == username)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Fetch the posts for the user
+            var posts = await _context.Posts
+                .Where(p => p.UserId == user.UserId) // Filter by the UserId of the user with the provided username
+                .OrderByDescending(p => p.DateUploaded)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Include(p => p.User)
+                .Include(p => p.Likes)
+                .Select(p => new PostDto
+                {
+                    PostId = p.PostId,
+                    ImageUrl = p.ImageUrl,
+                    Title = p.Title,
+                    DateUploaded = p.DateUploaded,
+                    Author = new UserDto
+                    {
+                        UserId = p.User.UserId,
+                        Username = p.User.Username,
+                        ProfilePictureUrl = p.User.ProfilePictureUrl
+                    },
+                    LikesCount = p.Likes.Count
+                })
+                .ToListAsync();
+
+            // Return user information along with the posts
+            var response = new 
+            {
+                Username = user.Username,
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                Bio = user.Bio,
+                Posts = posts // List of posts for the user
+            };
+
+            return Ok(response);
+        }
+
+
+
         // Helper method
         private int GetCurrentUserId()
         {

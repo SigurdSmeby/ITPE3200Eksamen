@@ -76,12 +76,6 @@ namespace server.Controllers
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
-            // Log the token (for debugging purposes)
-            var token = Request.Headers["Authorization"];
-            Console.WriteLine($"Token received: {token}");
-            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-            claims.ForEach(c => Console.WriteLine($"Claim: {c.Type} = {c.Value}"));
-
             int userId = GetCurrentUserId();
 
             var user = await _context.Users
@@ -102,7 +96,8 @@ namespace server.Controllers
                 DateJoined = user.DateJoined,
                 PostCount = user.Posts.Count,
                 FollowerCount = user.Followers.Count,
-                FollowingCount = user.Following.Count
+                FollowingCount = user.Following.Count,
+                Bio = user.Bio // Include Bio in the response
             };
 
             return Ok(userDto);
@@ -145,6 +140,12 @@ namespace server.Controllers
             if (!string.IsNullOrEmpty(profileDto.ProfilePictureUrl))
             {
                 user.ProfilePictureUrl = profileDto.ProfilePictureUrl;
+            }
+
+            // Update bio if provided
+            if (!string.IsNullOrEmpty(profileDto.Bio))
+            {
+                user.Bio = profileDto.Bio;
             }
 
             // Save changes to the database

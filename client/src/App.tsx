@@ -10,6 +10,7 @@ import Footer from './components/shared/footer.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import TestPage from './pages/testPage.jsx';
+import Profile from './pages/profile.jsx';
 
 
 const App: React.FC = () => {
@@ -22,7 +23,8 @@ const App: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/test" element={<TestPage/>} />
+        <Route path="/test" element={<TestPage />} />
+        <Route path="/profile/:username" element={<Profile />} />
       </Routes>
     </Router>
     <Footer />

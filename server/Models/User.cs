@@ -19,7 +19,8 @@ namespace server.Models
 
         public string ProfilePictureUrl { get; set; } = "default_profile_pic.jpg";
 
-        public ThemePreference ThemePreference { get; set; } = ThemePreference.Day;
+        [MaxLength(500)] // Set a limit for the bio length (optional)
+        public string Bio { get; set; } = "Welcome to my page";// New Bio field
 
         public DateTime DateJoined { get; set; } = DateTime.UtcNow;
 
@@ -30,11 +31,5 @@ namespace server.Models
 
         public virtual ICollection<Follow> Followers { get; set; } // Users who follow this user
         public virtual ICollection<Follow> Following { get; set; } // Users this user follows
-    }
-
-    public enum ThemePreference
-    {
-        Day,
-        Night
     }
 }

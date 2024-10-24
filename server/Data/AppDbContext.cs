@@ -90,10 +90,6 @@ namespace server.Data
                 .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Enum conversion for ThemePreference
-            modelBuilder.Entity<User>()
-                .Property(u => u.ThemePreference)
-                .HasConversion<string>();
         }
     }
 }
