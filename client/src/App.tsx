@@ -12,6 +12,7 @@ import Register from './pages/Register.tsx';
 import TestPage from './pages/testPage.jsx';
 import Profile from './pages/profile.jsx';
 import UserSettings from './pages/UserSettings.jsx';
+import PrivateRoute from './components/PrivateRoute'; // Import PrivateRoute
 
 const App: React.FC = () => {
     return (
@@ -24,8 +25,24 @@ const App: React.FC = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/test" element={<TestPage />} />
-                    <Route path="/profile/:username" element={<Profile />} />
-                    <Route path="/settings" element={<UserSettings />} />
+
+                    {/* Protect the Profile and Settings routes */}
+                    <Route
+                        path="/profile/:username"
+                        element={
+                            <PrivateRoute>
+                                <Profile />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/settings"
+                        element={
+                            <PrivateRoute>
+                                <UserSettings />
+                            </PrivateRoute>
+                        }
+                    />
                 </Routes>
             </Router>
             <Footer />

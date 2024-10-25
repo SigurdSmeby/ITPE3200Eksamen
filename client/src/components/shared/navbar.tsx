@@ -36,14 +36,28 @@ const NavMenu: React.FC = () => {
                         <Nav.Link href="/about" className="mx-2 text-secondary">
                             About
                         </Nav.Link>
+
                         {/* Conditionally render Login/Logout based on isLoggedIn */}
                         {isLoggedIn ? (
-                            <Nav.Link
-                                href="/"
-                                onClick={handleLogout}
-                                className="mx-2 text-secondary">
-                                Logout
-                            </Nav.Link>
+                            <>
+                                {/* Show these links only when logged in */}
+                                <Nav.Link
+                                    href="/profile"
+                                    className="mx-2 text-secondary">
+                                    Profile
+                                </Nav.Link>
+                                <Nav.Link
+                                    href="/settings"
+                                    className="mx-2 text-secondary">
+                                    Settings
+                                </Nav.Link>
+                                <Nav.Link
+                                    href="/"
+                                    onClick={handleLogout}
+                                    className="mx-2 text-secondary">
+                                    Logout
+                                </Nav.Link>
+                            </>
                         ) : (
                             <Nav.Link
                                 href="/login"
@@ -51,29 +65,20 @@ const NavMenu: React.FC = () => {
                                 Login
                             </Nav.Link>
                         )}
-                        <Nav.Link
-                            href="/profile/"
-                            className="mx-2 text-secondary">
-                            Profile
-                        </Nav.Link>
-                        <Nav.Link
-                            href="/settings"
-                            className="mx-2 text-secondary">
-                            Settings
-                        </Nav.Link>
+
                         <NavDropdown
                             title="Dropdown"
                             id="basic-nav-dropdown"
                             className="mx-2">
                             <NavDropdown.Item href="#action/3.1">
-                                ACTION
+                                Action
                             </NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">
-                                ACTION
+                                Action
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.3">
-                                ACTION
+                                Action
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
