@@ -70,8 +70,8 @@ const NavMenu: React.FC = () => {
                             title="Dropdown"
                             id="basic-nav-dropdown"
                             className="mx-2">
-                            <NavDropdown.Item href="#action/3.1">
-                                Action
+                            <NavDropdown.Item href="/test">
+                                TestPage
                             </NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">
                                 Action

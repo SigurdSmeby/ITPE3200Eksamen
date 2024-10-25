@@ -2,15 +2,15 @@ using System;
 
 namespace server.Models
 {
-    public class Follow
-    {
-        public int FollowerId { get; set; } // Composite key
-        public int FollowingId { get; set; } // Composite key
+	public class Follow
+	{
+		public int FollowerId { get; set; } // Composite key
+		public int FollowingId { get; set; } // Composite key
 
-        public DateTime DateFollowed { get; set; } = DateTime.UtcNow;
+		public DateTime DateFollowed { get; set; } = DateTime.Now;
 
-        // Navigation properties
-        public virtual User Follower { get; set; }
-        public virtual User Following { get; set; }
-    }
+		// Navigation properties
+		public virtual User Follower { get; set; }
+		public virtual User Following { get; set; }
+	}
 }
