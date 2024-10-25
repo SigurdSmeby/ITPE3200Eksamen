@@ -63,7 +63,7 @@ const Profile = () => {
     return (
       <div>
         {posts
-          .sort((a, b) => new Date(a.dateUploaded) - new Date(b.dateUploaded)) // Sort by date ascending
+          .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded))
           .map(post => (
             <PostCards 
               key={post.postId}
@@ -75,8 +75,6 @@ const Profile = () => {
               likesCount={post.likesCount}
               />
           ))}
-
-      
     </div>
     );
   }
