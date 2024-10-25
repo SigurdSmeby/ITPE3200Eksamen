@@ -11,25 +11,26 @@ import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import TestPage from './pages/testPage.jsx';
 import Profile from './pages/profile.jsx';
-
+import UserSettings from './pages/UserSettings.jsx';
 
 const App: React.FC = () => {
-  return (
-    <>
-    <NavMenu />
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/test" element={<TestPage />} />
-        <Route path="/profile/:username" element={<Profile />} />
-      </Routes>
-    </Router>
-    <Footer />
-    </>
-  );
+    return (
+        <>
+            <NavMenu />
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/test" element={<TestPage />} />
+                    <Route path="/profile/:username" element={<Profile />} />
+                    <Route path="/settings" element={<UserSettings />} />
+                </Routes>
+            </Router>
+            <Footer />
+        </>
+    );
 };
 
 export default App;

@@ -56,6 +56,11 @@ const NavMenu: React.FC = () => {
                             className="mx-2 text-secondary">
                             Profile
                         </Nav.Link>
+                        <Nav.Link
+                            href="/settings"
+                            className="mx-2 text-secondary">
+                            Settings
+                        </Nav.Link>
                         <NavDropdown
                             title="Dropdown"
                             id="basic-nav-dropdown"
