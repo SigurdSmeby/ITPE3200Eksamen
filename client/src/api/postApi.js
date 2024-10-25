@@ -33,3 +33,15 @@ export const deletePost = async (postId) => {
     const response = await axiosInstance.delete(`/Posts/${postId}`); // Reuse the axios instance
     return response.data;
 };
+
+// Update a post
+export const updatePost = async (postId, postData) => {
+    const response = await axiosInstance.put(`/Posts/${postId}`, postData); // Reuse the axios instance
+    return response.data;
+};
+
+// Get a single post
+export const getPost = async (postId) => {
+    const response = await axiosInstance.get(`/Posts/${postId}`); // Reuse the axios instance
+    return response.data;
+};

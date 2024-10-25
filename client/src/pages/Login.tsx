@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { login } from '../api/authApi';
+import { useNavigate } from 'react-router-dom';
 
 const LoginUser = () => {
     const [username, setUsername] = useState('');
@@ -8,6 +9,8 @@ const LoginUser = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [token, setToken] = useState('');
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         // Prevent the default form submission behavior (page refresh)
@@ -30,6 +33,9 @@ const LoginUser = () => {
             // Clear form fields
             setUsername('');
             setPassword('');
+            setTimeout(() => {
+                navigate('/'); // Redirect to home
+            }, 2000); // Delay before redirecting to home
         } catch (err) {
             setError(err);
         }

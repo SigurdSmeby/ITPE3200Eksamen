@@ -13,6 +13,7 @@ import TestPage from './pages/testPage.jsx';
 import Profile from './pages/profile.jsx';
 import UserSettings from './pages/UserSettings.jsx';
 import PrivateRoute from './components/PrivateRoute'; // Import PrivateRoute
+import EditPost from './pages/EditPost.jsx';
 
 const App: React.FC = () => {
     return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/test" element={<TestPage />} />
+                    <Route path="/edit-post/:postId" element={<EditPost />} />
 
                     {/* Protect the Profile and Settings routes */}
                     <Route

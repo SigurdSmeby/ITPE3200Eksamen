@@ -75,7 +75,9 @@ const PostCards = ({
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Edit</Dropdown.Item>
+                        <Dropdown.Item href={`/edit-post/${postId}`}>
+                            Edit
+                        </Dropdown.Item>
                         <Dropdown.Item onClick={() => handleDeletePost(postId)}>
                             Delete
                         </Dropdown.Item>
