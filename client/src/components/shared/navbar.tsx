@@ -27,6 +27,7 @@ const NavMenu: React.FC = () => {
                         ) : (
                             <Nav.Link href="/login" className="mx-2 text-secondary">Login</Nav.Link>
                         )}
+                        <Nav.Link href="/test" className="mx-2 text-secondary">Test Page</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
