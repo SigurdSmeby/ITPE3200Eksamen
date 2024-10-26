@@ -68,9 +68,10 @@ const UserSettings = () => {
 
             await updateUserProfile(data);
             setProfileSuccess('Profile updated successfully');
+            localStorage.setItem('username', user.username);
         } catch (error) {
-            setProfileError('An error occurred while updating the profile');
-            console.error('Error updating profile:', error);
+            setProfileError(error.response.data);
+            console.error('Error updating profile:', error) ;
         }
     };
 

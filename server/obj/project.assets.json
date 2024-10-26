@@ -4727,19 +4727,22 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj",
+      "projectUniqueName": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\server\\server.csproj",
       "projectName": "server",
-      "projectPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj",
+      "projectPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\server\\server.csproj",
       "packagesPath": "C:\\Users\\sigur\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\obj\\",
+      "outputPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\sigur\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\sigur\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

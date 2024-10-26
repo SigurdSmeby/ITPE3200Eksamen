@@ -1,8 +1,7 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Dropdown } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
-import { Dropdown } from 'react-bootstrap';
-import TestApi from '../api/testapi';
+import { deletePost } from '../api/postApi';
 
 // Format date function
 const formatDate = (dateString: string): string => {
@@ -27,20 +26,26 @@ const PostCards = ({
 }) => {
     const [liked, setLiked] = React.useState(false);
 
+    // Get logged-in username from localStorage
+    const loggedInUsername = localStorage.getItem('username');
+    const isOwner = loggedInUsername === author?.username;
+
     const handleLikeClick = () => {
         setLiked(!liked);
     };
 
     const handleDeletePost = (id) => {
         console.log('click');
-        TestApi.deletePost(id).then((response) => {
+        deletePost(id).then((response) => {
             console.log(response.data);
             onDeleted();
+        }).catch((error) => {
+            console.error(error);
         });
     };
 
     const authorName = author?.username || 'Unknown Author';
-    const profilePicture = author?.profilePictureUrl || 'default-profile.png'; // Fallback image if none is provided
+    const profilePicture = author?.profilePictureUrl || 'default-profile.png';
     const profileUrl = `/profile/${authorName}`;
 
     return (
@@ -69,20 +74,23 @@ const PostCards = ({
                     <h4>{authorName}</h4>
                 </a>
 
-                <Dropdown className="ms-auto">
-                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                        Menu
-                    </Dropdown.Toggle>
+                {/* Show the dropdown only if the user is the owner */}
+                {isOwner && (
+                    <Dropdown className="ms-auto">
+                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                            Menu
+                        </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item href={`/edit-post/${postId}`}>
-                            Edit
-                        </Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleDeletePost(postId)}>
-                            Delete
-                        </Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href={`/edit-post/${postId}`}>
+                                Edit
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDeletePost(postId)}>
+                                Delete
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                )}
             </Card.Header>
 
             <Card.Body
@@ -92,8 +100,7 @@ const PostCards = ({
                     overflow: 'hidden',
                     marginBottom: '5px',
                 }}>
-                {/* Format the date here */}
-                <p style={{ margin: '0' }}>{formatDate(dateUploaded)} </p>
+                <p style={{ margin: '0' }}>{formatDate(dateUploaded)}</p>
                 <h4>{title}</h4>
                 <Card.Img
                     variant="top"

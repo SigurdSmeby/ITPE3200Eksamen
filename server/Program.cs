@@ -38,6 +38,7 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false, // Set to true and specify valid audience in production
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero, // Remove default 5-minute clock skew
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])) // Replace with your secret key
     };
 });

@@ -71,9 +71,11 @@ namespace server.Controllers
 		}
 
 		// GET: api/Posts/5
+		[Authorize]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetPost(int id)
 		{
+			// Fetch the post from the database
 			var post = await _context.Posts
 				.Include(p => p.User)
 				.Include(p => p.Likes)
@@ -81,9 +83,22 @@ namespace server.Controllers
 				.ThenInclude(c => c.User)
 				.SingleOrDefaultAsync(p => p.PostId == id);
 
+			// If the post does not exist, return a 404 Not Found
 			if (post == null)
 				return NotFound();
 
+			// Retrieve the UserId of the authenticated user from the JWT claims
+			var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+			if (userIdClaim == null)
+				return Unauthorized("User is not authenticated.");
+
+			int userId = int.Parse(userIdClaim.Value);
+
+			// Check if the logged-in user is the owner of the post
+			if (post.UserId != userId)
+				return Forbid("You are not authorized to view this post.");
+
+			// Convert the post to a DTO if the user is authorized
 			var postDto = new PostDto
 			{
 				PostId = post.PostId,

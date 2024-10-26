@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getUserPosts } from '../api/postApi';
 import PostCards from '../components/postCards.tsx';
-
-const userId = 2; // Change this ID manually to fetch different users
 
 const Profile = () => {
     const [posts, setPosts] = useState([]);
@@ -11,17 +9,16 @@ const Profile = () => {
     const [userName, setUserName] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
     const [bio, setBio] = useState('');
-    const [refresh, setRefresh] = React.useState(false); // State to trigger a re-fetch
+    const [refresh, setRefresh] = React.useState(false);
 
-    const { username } = useParams();
-    //console.log(username);
-    //console.log(posts);
+    const { username } = useParams(); // Get the username from the URL
+    const navigate = useNavigate(); // Use navigate for redirection
+    const loggedInUsername = localStorage.getItem('username'); // Get logged-in user's username
 
     useEffect(() => {
         const fetchUserPosts = async () => {
             try {
                 const response = await getUserPosts(username);
-                console.log('response: ' + response);
                 setPosts(response.posts);
                 setUserName(response.username);
                 setProfilePicture(response.profilePictureUrl);
@@ -32,11 +29,10 @@ const Profile = () => {
         };
 
         fetchUserPosts(); // Call the async function
-    }, [refresh]);
+    }, [refresh, username]);
 
-    // Function to trigger a refresh after deletion
     const triggerRefresh = () => {
-        setRefresh(!refresh); // Toggle refresh state to re-trigger useEffect
+        setRefresh(!refresh);
     };
 
     const HeroSection = () => {
@@ -44,9 +40,7 @@ const Profile = () => {
 
         return (
             <div className="hero-section d-flex m-5">
-                <div
-                    className="me-5"
-                    style={{ height: '150px', width: '150px' }}>
+                <div className="me-5" style={{ height: '150px', width: '150px' }}>
                     <img
                         src={profilePicture}
                         alt={userName}
@@ -57,10 +51,16 @@ const Profile = () => {
 
                 <div>
                     <h1>{userName}</h1>
-                    <p>{bio}</p> {/* You can customize this part */}
-                    <p className="btn btn-light">
-                        Number of posts: {numberOfPosts}
-                    </p>
+                    <p>{bio}</p>
+                    <div className="btn btn-light">Number of posts: {numberOfPosts}</div>
+                    {/* Conditionally render the Edit Profile button if this is the logged-in user's profile */}
+                    {loggedInUsername === username && (
+                        <div
+                            className="btn btn-primary ms-2"
+                            onClick={() => navigate('/settings')}>
+                            Edit Profile
+                        </div>
+                    )}
                 </div>
             </div>
         );
@@ -71,15 +71,12 @@ const Profile = () => {
             return <h1>{error}</h1>;
         }
         if (posts.length === 0) {
-            return <h1>the user have not posted any images yet</h1>;
+            return <h1>The user has not posted any images yet</h1>;
         }
         return (
             <div>
                 {posts
-                    .sort(
-                        (a, b) =>
-                            new Date(b.dateUploaded) - new Date(a.dateUploaded),
-                    )
+                    .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded))
                     .map((post) => (
                         <PostCards
                             key={post.postId}

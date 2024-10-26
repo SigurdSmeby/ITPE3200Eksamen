@@ -1,43 +1,40 @@
+// LoginUser.tsx
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { login } from '../api/authApi';
+import { login as loginApi } from '../api/authApi';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/shared/AuthContext.tsx';
 
 const LoginUser = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [token, setToken] = useState('');
-
+    const { login } = useAuth(); // Use login function from AuthContext
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
-        // Prevent the default form submission behavior (page refresh)
         event.preventDefault();
 
         try {
             setError('');
             setSuccess('');
 
-            // Call the login function and get both the token and message
-            const { token: jwtToken } = await login(username, password);
+            const { token: jwtToken } = await loginApi(username, password);
 
-            // Set the success message (if provided by the backend)
+            // Call the login function from AuthContext to set state, localStorage, and timer
+            login(jwtToken, username);
+
             setSuccess('Login successful!');
-
-            // Store the token in local storage and state
-            localStorage.setItem('jwtToken', jwtToken);
-            setToken(jwtToken);
-
-            // Clear form fields
             setUsername('');
             setPassword('');
+
+            // Redirect to home page after a short delay
             setTimeout(() => {
-                navigate('/'); // Redirect to home
-            }, 2000); // Delay before redirecting to home
+                navigate(`/`);
+            }, 1000);
         } catch (err) {
-            setError(err);
+            setError('Login failed. Please try again.');
         }
     };
 
@@ -82,13 +79,6 @@ const LoginUser = () => {
                 </a>
                 <a href="/test">test</a>
             </Form>
-
-            {token && (
-                <div className="mt-3">
-                    <h5>Your JWT Token:</h5>
-                    <code>{token}</code>
-                </div>
-            )}
         </div>
     );
 };

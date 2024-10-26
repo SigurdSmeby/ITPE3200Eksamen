@@ -1,11 +1,13 @@
+// PrivateRoute.tsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useAuth } from './shared/AuthContext.tsx';
 
 const PrivateRoute = ({ children }) => {
-    const token = localStorage.getItem('jwtToken');
+    const { isLoggedIn } = useAuth();
 
-    if (!token) {
-        // If no token, redirect to login page
+    if (!isLoggedIn) {
+        // If not logged in, redirect to login page
         return <Navigate to="/login" />;
     }
 

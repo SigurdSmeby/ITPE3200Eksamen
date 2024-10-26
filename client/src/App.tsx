@@ -1,34 +1,40 @@
+// App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import NavMenu from './components/shared/navbar.tsx';
-import Home from './pages/Home.jsx';
+import Home from './pages/Home';
 import About from './pages/About.tsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container } from 'react-bootstrap';
 import Footer from './components/shared/footer.tsx';
-import Login from './pages/Login.tsx';
+import LoginUser from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
-import TestPage from './pages/testPage.jsx';
-import Profile from './pages/profile.jsx';
-import UserSettings from './pages/UserSettings.jsx';
-import PrivateRoute from './components/PrivateRoute'; // Import PrivateRoute
-import EditPost from './pages/EditPost.jsx';
+import TestPage from './pages/testPage';
+import Profile from './pages/profile';
+import UserSettings from './pages/UserSettings';
+import PrivateRoute from './components/PrivateRoute';
+import EditPost from './pages/EditPost';
+import { AuthProvider } from './components/shared/AuthContext.tsx'; // Import AuthProvider
 
 const App: React.FC = () => {
     return (
-        <>
-            <NavMenu />
+        <AuthProvider>
             <Router>
+                <NavMenu />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<LoginUser />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/test" element={<TestPage />} />
-                    <Route path="/edit-post/:postId" element={<EditPost />} />
-
-                    {/* Protect the Profile and Settings routes */}
+                    <Route 
+                        path="/edit-post/:postId" 
+                        element={
+                            <PrivateRoute>
+                                <EditPost />
+                            </PrivateRoute>
+                        }
+                    />
                     <Route
                         path="/profile/:username"
                         element={
@@ -46,9 +52,9 @@ const App: React.FC = () => {
                         }
                     />
                 </Routes>
+                <Footer />
             </Router>
-            <Footer />
-        </>
+        </AuthProvider>
     );
 };
 
