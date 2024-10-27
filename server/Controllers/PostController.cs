@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
+
 namespace server.Controllers
 {
 	[ApiController]
@@ -32,7 +33,11 @@ namespace server.Controllers
 			{
 				UserId = userId,
 				ImageUrl = postDto.ImageUrl,
-				Title = postDto.Title
+				TextContent = postDto.TextContent,
+				Title = postDto.Title,
+				FontSize = postDto.FontSize ?? 16, // Default font size
+				TextColor = postDto.TextColor ?? "#000000", // Default text color (black)
+				BackgroundColor = postDto.BackgroundColor ?? "#FFFFFF" // Default background color (white)
 			};
 
 			_context.Posts.Add(post);
@@ -55,8 +60,12 @@ namespace server.Controllers
 				{
 					PostId = p.PostId,
 					ImageUrl = p.ImageUrl,
+					TextContent = p.TextContent,
 					Title = p.Title,
 					DateUploaded = p.DateUploaded,
+					FontSize = p.FontSize,
+					TextColor = p.TextColor,
+					BackgroundColor = p.BackgroundColor,
 					Author = new UserDto
 					{
 						UserId = p.User.UserId,
@@ -75,7 +84,6 @@ namespace server.Controllers
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetPost(int id)
 		{
-			// Fetch the post from the database
 			var post = await _context.Posts
 				.Include(p => p.User)
 				.Include(p => p.Likes)
@@ -83,28 +91,28 @@ namespace server.Controllers
 				.ThenInclude(c => c.User)
 				.SingleOrDefaultAsync(p => p.PostId == id);
 
-			// If the post does not exist, return a 404 Not Found
 			if (post == null)
 				return NotFound();
 
-			// Retrieve the UserId of the authenticated user from the JWT claims
 			var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 			if (userIdClaim == null)
 				return Unauthorized("User is not authenticated.");
 
 			int userId = int.Parse(userIdClaim.Value);
 
-			// Check if the logged-in user is the owner of the post
 			if (post.UserId != userId)
 				return Forbid("You are not authorized to view this post.");
 
-			// Convert the post to a DTO if the user is authorized
 			var postDto = new PostDto
 			{
 				PostId = post.PostId,
 				ImageUrl = post.ImageUrl,
+				TextContent = post.TextContent,
 				Title = post.Title,
 				DateUploaded = post.DateUploaded,
+				FontSize = post.FontSize,
+				TextColor = post.TextColor,
+				BackgroundColor = post.BackgroundColor,
 				Author = new UserDto
 				{
 					UserId = post.User.UserId,
@@ -141,6 +149,10 @@ namespace server.Controllers
 
 			post.Title = postDto.Title ?? post.Title;
 			post.ImageUrl = postDto.ImageUrl ?? post.ImageUrl;
+			post.TextContent = postDto.TextContent ?? post.TextContent;
+			post.FontSize = postDto.FontSize ?? post.FontSize;
+			post.TextColor = postDto.TextColor ?? post.TextColor;
+			post.BackgroundColor = postDto.BackgroundColor ?? post.BackgroundColor;
 
 			_context.Posts.Update(post);
 			await _context.SaveChangesAsync();
@@ -173,7 +185,6 @@ namespace server.Controllers
 		[HttpGet("user/{username}")]
 		public async Task<IActionResult> GetPostsByUsername(string username, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
 		{
-			// Find the user by username
 			var user = await _context.Users
 				.Where(u => u.Username == username)
 				.FirstOrDefaultAsync();
@@ -183,9 +194,8 @@ namespace server.Controllers
 				return NotFound("User not found");
 			}
 
-			// Fetch the posts for the user
 			var posts = await _context.Posts
-				.Where(p => p.UserId == user.UserId) // Filter by the UserId of the user with the provided username
+				.Where(p => p.UserId == user.UserId)
 				.OrderByDescending(p => p.DateUploaded)
 				.Skip((pageNumber - 1) * pageSize)
 				.Take(pageSize)
@@ -195,8 +205,12 @@ namespace server.Controllers
 				{
 					PostId = p.PostId,
 					ImageUrl = p.ImageUrl,
+					TextContent = p.TextContent,
 					Title = p.Title,
 					DateUploaded = p.DateUploaded,
+					FontSize = p.FontSize,
+					TextColor = p.TextColor,
+					BackgroundColor = p.BackgroundColor,
 					Author = new UserDto
 					{
 						UserId = p.User.UserId,
@@ -207,19 +221,16 @@ namespace server.Controllers
 				})
 				.ToListAsync();
 
-			// Return user information along with the posts
 			var response = new
 			{
 				Username = user.Username,
 				ProfilePictureUrl = user.ProfilePictureUrl,
 				Bio = user.Bio,
-				Posts = posts // List of posts for the user
+				Posts = posts
 			};
 
 			return Ok(response);
 		}
-
-
 
 		// Helper method
 		private int GetCurrentUserId()

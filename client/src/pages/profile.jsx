@@ -82,10 +82,14 @@ const Profile = () => {
                             key={post.postId}
                             postId={post.postId}
                             imageUrl={post.imageUrl}
+                            textContent={post.textContent}
                             title={post.title}
                             dateUploaded={post.dateUploaded}
                             author={post.author}
                             likesCount={post.likesCount}
+                            fontSize={post.fontSize}
+                            textColor={post.textColor}
+                            backgroundColor={post.backgroundColor}
                             onDeleted={triggerRefresh}
                         />
                     ))}

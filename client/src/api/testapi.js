@@ -43,15 +43,12 @@ const getPosts = () => {
     });
 };
 
-const createPost = (ImageUrl, title) => {
+const createPost = (postData) => {
     const token = localStorage.getItem('jwtToken');
     return axios
         .post(
             API_URL + 'Posts',
-            {
-                ImageUrl,
-                title,
-            },
+            postData, // Send the payload directly
             {
                 headers: { Authorization: `Bearer ${token}` },
             },
@@ -61,6 +58,7 @@ const createPost = (ImageUrl, title) => {
             throw error; // Re-throw to handle in the calling function if needed
         });
 };
+
 
 const deletePost = (id) => {
     const token = localStorage.getItem('jwtToken');

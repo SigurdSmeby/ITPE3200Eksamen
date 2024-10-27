@@ -9,7 +9,12 @@ const EditPost = () => {
     const [post, setPost] = useState({
         title: '',
         imageUrl: '',
+        textContent: '',
+        fontSize: 16,
+        textColor: '#000000',
+        backgroundColor: '#FFFFFF',
     });
+    const [isImagePost, setIsImagePost] = useState(true); // Set the post type based on content
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 
@@ -18,17 +23,21 @@ const EditPost = () => {
         const fetchPost = async () => {
             try {
                 const response = await getPost(postId); // Fetch post by ID from postApi
-                console.log(response);
                 setPost({
                     title: response.title,
-                    imageUrl: response.imageUrl,
+                    imageUrl: response.imageUrl || '',
+                    textContent: response.textContent || '',
+                    fontSize: response.fontSize || 16,
+                    textColor: response.textColor || '#000000',
+                    backgroundColor: response.backgroundColor || '#FFFFFF',
                 });
+                setIsImagePost(!!response.imageUrl); // Lock the post type based on whether imageUrl is present
             } catch (error) {
                 setError('Error fetching post details');
             }
         };
         fetchPost();
-    }, []);
+    }, [postId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,6 +48,17 @@ const EditPost = () => {
         e.preventDefault();
         setError('');
         setSuccess('');
+
+        // Validation: Abort if the required field is empty based on post type
+        if (isImagePost && !post.imageUrl.trim()) {
+            setError('Image URL cannot be blank for an image post');
+            return;
+        }
+        if (!isImagePost && !post.textContent.trim()) {
+            setError('Text content cannot be blank for a text post');
+            return;
+        }
+
         try {
             await updatePost(postId, post); // Update the post using postApi
             setSuccess('Post updated successfully');
@@ -46,7 +66,7 @@ const EditPost = () => {
                 navigate('/'); // Redirect to home
             }, 2000); // Delay before redirecting to home
         } catch (error) {
-            setError(error);
+            setError('Error updating post');
         }
     };
 
@@ -74,36 +94,99 @@ const EditPost = () => {
                     </Col>
                 </Form.Group>
 
-                {/* Image URL */}
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formPostImageUrl">
-                    <Form.Label column sm="2">
-                        Image URL
-                    </Form.Label>
-                    <Col sm="10">
-                        <Form.Control
-                            type="text"
-                            name="imageUrl"
-                            value={post.imageUrl}
-                            onChange={handleChange}
-                            placeholder="Enter the URL of your post image"
-                            required
-                        />
-                        {post.imageUrl && (
-                            <img
-                                src={post.imageUrl}
-                                alt="Post"
-                                className="mt-2"
-                                style={{
-                                    maxHeight: '400px',
-                                    maxWidth: '400px',
-                                }}
+                {/* Image URL - Locked for image posts */}
+                {isImagePost && (
+                    <Form.Group as={Row} className="mb-3" controlId="formPostImageUrl">
+                        <Form.Label column sm="2">
+                            Image URL
+                        </Form.Label>
+                        <Col sm="10">
+                            <Form.Control
+                                type="text"
+                                name="imageUrl"
+                                value={post.imageUrl}
+                                onChange={handleChange}
+                                placeholder="Enter the URL of your post image"
                             />
-                        )}
-                    </Col>
-                </Form.Group>
+                            {post.imageUrl && (
+                                <img
+                                    src={post.imageUrl}
+                                    alt="Post"
+                                    className="mt-2"
+                                    style={{
+                                        maxHeight: '400px',
+                                        maxWidth: '400px',
+                                    }}
+                                />
+                            )}
+                        </Col>
+                    </Form.Group>
+                )}
+
+                {/* Text Content - Locked for text posts */}
+                {!isImagePost && (
+                    <>
+                        <Form.Group as={Row} className="mb-3" controlId="formPostTextContent">
+                            <Form.Label column sm="2">
+                                Text Content
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control
+                                    as="textarea"
+                                    name="textContent"
+                                    value={post.textContent}
+                                    onChange={handleChange}
+                                    rows={5}
+                                    placeholder="Enter your text content"
+                                />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} className="mb-3" controlId="formPostFontSize">
+                            <Form.Label column sm="2">
+                                Font Size
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control
+                                    type="number"
+                                    name="fontSize"
+                                    value={post.fontSize}
+                                    onChange={handleChange}
+                                    min="10"
+                                    max="72"
+                                />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} className="mb-3" controlId="formPostTextColor">
+                            <Form.Label column sm="2">
+                                Text Color
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control
+                                    type="color"
+                                    name="textColor"
+                                    value={post.textColor}
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} className="mb-3" controlId="formPostBackgroundColor">
+                            <Form.Label column sm="2">
+                                Background Color
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control
+                                    type="color"
+                                    name="backgroundColor"
+                                    value={post.backgroundColor}
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Form.Group>
+                    </>
+                )}
 
                 {/* Submit Button */}
                 <Form.Group as={Row} className="mb-3">

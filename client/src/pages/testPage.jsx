@@ -5,6 +5,11 @@ import PostCards from "../components/postCards.tsx"; // Import the PostCards com
 const TestPage = () => {
 	const [title, setTitle] = useState("");
 	const [imageUrl, setImageUrl] = useState("");
+	const [textContent, setTextContent] = useState(""); // State to hold text content
+	const [isImagePost, setIsImagePost] = useState(true); // Toggle between image and text post
+	const [textColor, setTextColor] = useState("#000000"); // Default text color
+	const [backgroundColor, setBackgroundColor] = useState("#FFFFFF"); // Default background color
+	const [fontSize, setFontSize] = useState(16); // Default font size
 	const [posts, setPosts] = useState([]); // State to hold posts data
 	const [profilePicture, setProfilePicture] = useState(""); // State to hold profile picture URL
 
@@ -48,14 +53,20 @@ const TestPage = () => {
 	};
 
 	const handleCreatePost = () => {
-		console.log("click");
-		console.log(title);
-		console.log(imageUrl);
-
-		TestApi.createPost(imageUrl, title).then((response) => {
-			console.log(response.data);
-		});
+		const post = isImagePost
+			? { title, imageUrl } // For image posts
+			: { title, textContent, fontSize, textColor, backgroundColor }; // For text posts
+	
+		TestApi.createPost(post)
+			.then((response) => {
+				console.log(response.data);
+			})
+			.catch((error) => {
+				console.error("Error creating post:", error.response?.data || error.message);
+			});
 	};
+	
+	
 
 	return (
 		<>
@@ -67,51 +78,116 @@ const TestPage = () => {
 				<button onClick={handleLogout}>logout</button>
 			</div>
 
+			{/* Toggle between creating an image post or a text post */}
 			<div>
+				<h4>Create a Post</h4>
+				<label>
+					<input
+						type="radio"
+						name="postType"
+						value="image"
+						checked={isImagePost}
+						onChange={() => setIsImagePost(true)}
+					/>{" "}
+					Image Post
+				</label>
+				<label>
+					<input
+						type="radio"
+						name="postType"
+						value="text"
+						checked={!isImagePost}
+						onChange={() => setIsImagePost(false)}
+					/>{" "}
+					Text Post
+				</label>
+
 				<input
 					type="text"
-					placeholder="title"
+					placeholder="Title"
 					onChange={(e) => setTitle(e.target.value)}
 				/>
-				<input
-					type="text"
-					placeholder="imgUrl"
-					onChange={(e) => setImageUrl(e.target.value)}
-				/>
-				<button onClick={handleCreatePost}>submit</button>
+
+				{/* Conditionally render image URL or text content input based on post type */}
+				{isImagePost ? (
+					<input
+						type="text"
+						placeholder="Image URL"
+						onChange={(e) => setImageUrl(e.target.value)}
+					/>
+				) : (
+					<div>
+						<textarea
+							placeholder="Text Content"
+							onChange={(e) => setTextContent(e.target.value)}
+						/>
+						<div>
+							<label>Font Size:</label>
+							<input
+								type="number"
+								min="10"
+								max="72"
+								value={fontSize}
+								onChange={(e) => setFontSize(Number(e.target.value))}
+							/>
+						</div>
+						<div>
+							<label>Text Color:</label>
+							<input
+								type="color"
+								value={textColor}
+								onChange={(e) => setTextColor(e.target.value)}
+							/>
+						</div>
+						<div>
+							<label>Background Color:</label>
+							<input
+								type="color"
+								value={backgroundColor}
+								onChange={(e) => setBackgroundColor(e.target.value)}
+							/>
+						</div>
+					</div>
+				)}
+				<button onClick={handleCreatePost}>Submit</button>
 			</div>
+
 			<div>
 				<input
 					type="text"
 					onChange={(e) => setProfilePicture(e.target.value)}
-					placeholder="profilePictureURL"
+					placeholder="Profile Picture URL"
 				/>
 				<button
 					onClick={() => {
 						TestApi.updateProfilePicture(profilePicture);
 					}}
 				>
-					change profilePicture
+					Change Profile Picture
 				</button>
 			</div>
-			<h4>picture site:</h4>
+			<h4>Picture Site:</h4>
 			<p>https://picsum.photos/seed/[number]/300/400</p>
 			<p>
-				seed bestemmer bildet, siste del bestemmer størrelse, bare ett
-				tall gir kvadratisk
+				Seed controls the image, and the final part controls size. A
+				single number creates a square.
 			</p>
 
 			{/* Render the post cards at the bottom of the page */}
 			<div style={{ marginTop: "2rem" }}>
 				{posts.map((post) => (
 					<PostCards
-						key={post.postId} // Updated to match JSON structure
+						key={post.postId}
 						postId={post.postId}
 						imageUrl={post.imageUrl}
+						textContent={post.textContent}
 						title={post.title}
 						dateUploaded={post.dateUploaded}
 						author={post.author}
 						likesCount={post.likesCount}
+						fontSize={post.fontSize}
+						textColor={post.textColor}
+						backgroundColor={post.backgroundColor}
 					/>
 				))}
 			</div>

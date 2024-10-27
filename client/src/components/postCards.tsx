@@ -4,7 +4,7 @@ import { FaHeart } from 'react-icons/fa';
 import { deletePost } from '../api/postApi';
 
 // Format date function
-const formatDate = (dateString: string): string => {
+const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -18,10 +18,14 @@ const formatDate = (dateString: string): string => {
 const PostCards = ({
     postId,
     imageUrl,
+    textContent,
     title,
     dateUploaded,
     author,
     likesCount,
+    fontSize,
+    textColor,
+    backgroundColor,
     onDeleted,
 }) => {
     const [liked, setLiked] = React.useState(false);
@@ -35,7 +39,6 @@ const PostCards = ({
     };
 
     const handleDeletePost = (id) => {
-        console.log('click');
         deletePost(id).then((response) => {
             console.log(response.data);
             onDeleted();
@@ -74,7 +77,6 @@ const PostCards = ({
                     <h4>{authorName}</h4>
                 </a>
 
-                {/* Show the dropdown only if the user is the owner */}
                 {isOwner && (
                     <Dropdown className="ms-auto">
                         <Dropdown.Toggle variant="secondary" id="dropdown-basic">
@@ -99,20 +101,33 @@ const PostCards = ({
                     alignContent: 'center',
                     overflow: 'hidden',
                     marginBottom: '5px',
+                    
                 }}>
                 <p style={{ margin: '0' }}>{formatDate(dateUploaded)}</p>
                 <h4>{title}</h4>
-                <Card.Img
-                    variant="top"
-                    src={imageUrl}
-                    alt="Body Image"
-                    loading="lazy"
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'contain',
-                    }}
-                />
+                
+                {/* Conditionally render image or styled text content */}
+                {imageUrl ? (
+                    <Card.Img
+                        variant="top"
+                        src={imageUrl}
+                        alt="Post Image"
+                        loading="lazy"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                        }}
+                    />
+                ) : (
+                    <p style={{
+                        fontSize: fontSize ? `${fontSize}px` : '16px', // Default to 16px if not provided
+                        color: textColor || '#000000', // Default to black if not provided
+                        backgroundColor: backgroundColor || '#FFFFFF', // Default to white if not provided
+                    }}>
+                        {textContent}
+                    </p>
+                )}
             </Card.Body>
 
             <Card.Footer className="text-center">
