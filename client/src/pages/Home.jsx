@@ -25,6 +25,7 @@ const Home = () => {
             {posts
                 .sort(
                     (a, b) =>
+                        // sortering på nyeste først
                         new Date(b.dateUploaded) - new Date(a.dateUploaded),
                 )
                 .map((post) => (

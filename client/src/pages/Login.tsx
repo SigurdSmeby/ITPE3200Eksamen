@@ -14,6 +14,7 @@ const LoginUser = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
+        //hindrer default behavior til formen
         event.preventDefault();
 
         try {

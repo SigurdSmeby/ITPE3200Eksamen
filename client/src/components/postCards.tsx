@@ -78,7 +78,8 @@ const PostCards = ({
                     />
                     <h4>{authorName}</h4>
                 </a>
-
+                
+                {/* hvis brukeren er eier av posten, vis dropdown meny */}
                 {isOwner && (
                     <Dropdown className="ms-auto">
                         <Dropdown.Toggle
