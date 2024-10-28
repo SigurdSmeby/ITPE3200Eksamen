@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "894x+yvVWKo=",
+  "dgSpecHash": "DTxYrPdpo/Q=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\server\\server.csproj",
+  "projectFilePath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sigur\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\sigur\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

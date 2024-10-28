@@ -39,12 +39,14 @@ const PostCards = ({
     };
 
     const handleDeletePost = (id) => {
-        deletePost(id).then((response) => {
-            console.log(response.data);
-            onDeleted();
-        }).catch((error) => {
-            console.error(error);
-        });
+        deletePost(id)
+            .then((response) => {
+                console.log(response.data);
+                onDeleted();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const authorName = author?.username || 'Unknown Author';
@@ -79,7 +81,9 @@ const PostCards = ({
 
                 {isOwner && (
                     <Dropdown className="ms-auto">
-                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                        <Dropdown.Toggle
+                            variant="secondary"
+                            id="dropdown-basic">
                             Menu
                         </Dropdown.Toggle>
 
@@ -87,7 +91,8 @@ const PostCards = ({
                             <Dropdown.Item href={`/edit-post/${postId}`}>
                                 Edit
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleDeletePost(postId)}>
+                            <Dropdown.Item
+                                onClick={() => handleDeletePost(postId)}>
                                 Delete
                             </Dropdown.Item>
                         </Dropdown.Menu>
@@ -101,11 +106,10 @@ const PostCards = ({
                     alignContent: 'center',
                     overflow: 'hidden',
                     marginBottom: '5px',
-                    
                 }}>
                 <p style={{ margin: '0' }}>{formatDate(dateUploaded)}</p>
                 <h4>{title}</h4>
-                
+
                 {/* Conditionally render image or styled text content */}
                 {imageUrl ? (
                     <Card.Img
@@ -120,11 +124,12 @@ const PostCards = ({
                         }}
                     />
                 ) : (
-                    <p style={{
-                        fontSize: fontSize ? `${fontSize}px` : '16px', // Default to 16px if not provided
-                        color: textColor || '#000000', // Default to black if not provided
-                        backgroundColor: backgroundColor || '#FFFFFF', // Default to white if not provided
-                    }}>
+                    <p
+                        style={{
+                            fontSize: fontSize ? `${fontSize}px` : '16px', // Default to 16px if not provided
+                            color: textColor || '#000000', // Default to black if not provided
+                            backgroundColor: backgroundColor || '#FFFFFF', // Default to white if not provided
+                        }}>
                         {textContent}
                     </p>
                 )}

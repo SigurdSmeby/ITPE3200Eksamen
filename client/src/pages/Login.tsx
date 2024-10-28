@@ -34,7 +34,7 @@ const LoginUser = () => {
                 navigate(`/`);
             }, 1000);
         } catch (err) {
-            setError('Login failed. Please try again.');
+            setError(err);
         }
     };
 

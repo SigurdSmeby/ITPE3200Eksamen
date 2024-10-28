@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { register } from '../api/authApi';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterUser = () => {
     // Form state
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const navigate = useNavigate();
 
     // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (password !== confirmPassword) {
+            setSuccess('');
+            setError('Passwords do not match');
+            return;
+        }
 
         try {
             // Reset error and success messages
@@ -25,6 +33,11 @@ const RegisterUser = () => {
             setUsername('');
             setEmail('');
             setPassword('');
+            setConfirmPassword('');
+            // Redirect to home page after a short delay
+            setTimeout(() => {
+                navigate(`/login`);
+            }, 1000);
         } catch (err) {
             setError(err);
         }
@@ -70,6 +83,16 @@ const RegisterUser = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formConfirmPassword">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
                 </Form.Group>
