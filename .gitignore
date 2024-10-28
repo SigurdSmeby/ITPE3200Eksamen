@@ -1,8 +1,4 @@
-server/obj
-server/obj/Debug
-server/obj/server.csproj.nuget.g.props
-server/obj/server.csproj.nuget.dgspec.json
-server/obj/project.nuget.cache
-server/obj/server.csproj.nuget.dgspec.json
-server/obj/server.csproj.nuget.g.props
-server/obj/project.assets.json
+server/bin/
+server/obj/
+*.db-wal
+*.db-shm
