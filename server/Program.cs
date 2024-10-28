@@ -43,12 +43,22 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+//Cors for å tillate react client til å sende ajax kall
+builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowReactClient",
+                policy => policy.WithOrigins("http://localhost:3000")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod());
+        });
+
 // Add authorization
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
 var app = builder.Build();
-
+//Cors for å tillate react client til å sende ajax kall
+app.UseCors("AllowReactClient");
 // Seed the database with a sample user and two posts
 using (var scope = app.Services.CreateScope())
 {

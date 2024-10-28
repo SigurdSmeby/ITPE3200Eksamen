@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj": {}
+    "C:\\Users\\Olav\\Documents\\GitHub\\ITPE3200Eksamen\\server\\server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj": {
+    "C:\\Users\\Olav\\Documents\\GitHub\\ITPE3200Eksamen\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj",
+        "projectUniqueName": "C:\\Users\\Olav\\Documents\\GitHub\\ITPE3200Eksamen\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\server.csproj",
-        "packagesPath": "C:\\Users\\sigur\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\server\\obj\\",
+        "projectPath": "C:\\Users\\Olav\\Documents\\GitHub\\ITPE3200Eksamen\\server\\server.csproj",
+        "packagesPath": "C:\\Users\\Olav\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Olav\\Documents\\GitHub\\ITPE3200Eksamen\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\sigur\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Olav\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -107,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
