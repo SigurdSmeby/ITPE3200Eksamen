@@ -1,0 +1,129 @@
+
+.card-container {
+  width: 30rem;
+  margin: 1rem auto;
+  padding: 0;
+  
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+}
+
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50% !important; /* for rundt profilbilde */
+  margin-right: 1rem;
+}
+
+.post-title {
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 1rem;
+}
+
+.card-body {
+  display: flex;
+  align-content: center;
+  overflow: hidden;
+  font-size: 16px; /* Default størrelse på teksten */
+  color: #000000; /* Default tekstfarge */
+  background-color: #FFFFFF; /* Default bakgrunn */
+  padding: 0 !important;  /* måtte bruke important for den jævla paddinga */
+  
+}
+
+.text-content {
+padding: 1rem;
+}
+
+.card-footer {
+  text-align: center;
+}
+
+.like-comment-container {
+  display: inline-block;
+  cursor: pointer;
+  display: flex;
+}
+
+.date { 
+  color: #888888;  
+  margin-top:auto;
+  margin-bottom: auto;
+  padding-left: 1rem;
+}
+
+.date:hover {
+  color: #555555; 
+}
+
+
+/* Bildehåndtering for glow ogsånt*/
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.post-image {
+  width: 100%;
+  height: auto;
+
+  padding: 0 ;
+  margin: auto;
+  display: block;
+  
+}
+
+/*Footer greier*/
+
+.comment-icon {
+  padding: 10px;
+}
+.comment-icon:hover {
+  color: #555555; /*Må finne ut hvordan å endre farge på ikon*/
+}
+.heart-icon {
+  padding: 10px;
+}
+.heart-icon:hover {
+  color: #555555; /*Må finne ut hvordan å endre farge på ikon, for detta funker ikke*/
+}
+.comments-section {
+  padding: 1rem;
+  border-top: 1px solid #e0e0e0;
+  max-height: 200px; /* lager en maks størrelse*/
+  overflow-y: auto; /* gjør at man kan scrolle om man er over den størrelse */
+}
+.comment {
+  align-items: baseline;
+  padding: 0.5rem 0;
+}
+.comment-author {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: #007bff; /* blått navn, ser litt stygt ut men  */
+  text-decoration: none;
+}
+.comment-author:hover {
+  text-decoration: underline; /* gjør at navnet får en strek under seg */
+}
+.comment-text {
+  font-size: 0.9rem;
+  color: #333; /* Normal text color */
+}
