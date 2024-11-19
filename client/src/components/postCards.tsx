@@ -146,12 +146,12 @@ const PostCards = ({
     
             <Card.Footer >
                 <div className="like-comment-container" >
-                    <div className="heart-icon" onClick={handleLikeClick}>
-                        <FaHeart color={liked ? 'red' : 'black'} size={24} />
+                    <div className="heart-icon-container" onClick={handleLikeClick}>
+                        <FaHeart className={liked ? 'heart-icon-red' : 'heart-icon-black'} size={24} />
                         <p>{likesCount}</p>
                         </div>
-                    <div className="comment-icon" onClick={handleToggleComments}>
-                        <FaComment color='black' size={24} />
+                    <div className="comment-icon-container" onClick={handleToggleComments}>
+                        <FaComment className="comment-icon" color='black' size={24} />
                         <p>{comments.length}</p>
                     </div>
                 </div>
@@ -166,6 +166,10 @@ const PostCards = ({
                             <span className="comment-text">{comment.text}</span>
                         </div>
                     ))}
+                    <div style={{ display: 'flex'}}>
+                    <input type="text" className='comment-field form-control' placeholder='comment here' />
+                    <button className='comment-button btn' >Comment</button>
+                    </div>
                 </div>
             )}
         </Card>

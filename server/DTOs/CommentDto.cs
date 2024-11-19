@@ -1,5 +1,3 @@
-// File: DTOs/CommentDto.cs
-
 using System;
 
 namespace server.DTOs
