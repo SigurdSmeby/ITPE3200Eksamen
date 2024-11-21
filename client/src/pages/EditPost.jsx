@@ -64,7 +64,7 @@ const EditPost = () => {
             setSuccess('Post updated successfully');
             setTimeout(() => {
                 navigate('/'); // Redirect to home
-            }, 2000); // Delay before redirecting to home
+            }, 1000); // Delay before redirecting to home
         } catch (error) {
             setError('Error updating post');
         }

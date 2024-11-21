@@ -9,82 +9,83 @@ using System.Security.Claims;
 
 namespace server.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class CommentsController : ControllerBase
-    {
-        private readonly AppDbContext _context;
+	[ApiController]
+	[Route("api/[controller]")]
+	public class CommentsController : ControllerBase
+	{
+		private readonly AppDbContext _context;
 
-        public CommentsController(AppDbContext context)
-        {
-            _context = context;
-        }
+		public CommentsController(AppDbContext context)
+		{
+			_context = context;
+		}
 
-        // POST: api/Comments
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AddComment([FromBody] AddCommentDto commentDto)
-        {
-            int userId = GetCurrentUserId();
+		// POST: api/Comments
+		[Authorize]
+		[HttpPost]
+		public async Task<IActionResult> AddComment([FromBody] AddCommentDto commentDto)
+		{
+			int userId = GetCurrentUserId();
 
-            var comment = new Comment
-            {
-                UserId = userId,
-                PostId = commentDto.PostId,
-                Content = commentDto.Content
-            };
+			var comment = new Comment
+			{
+				UserId = userId,
+				PostId = commentDto.PostId,
+				Content = commentDto.Content
+			};
 
-            _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
+			_context.Comments.Add(comment);
+			await _context.SaveChangesAsync();
 
-            return Ok("Comment added successfully.");
-        }
+			return Ok("Comment added successfully.");
+		}
 
-        // GET: api/Comments/post/5
-        [HttpGet("post/{postId}")]
-        public async Task<IActionResult> GetCommentsForPost(int postId)
-        {
-            var comments = await _context.Comments
-                .Where(c => c.PostId == postId)
-                .Include(c => c.User)
-                .OrderBy(c => c.DateCommented)
-                .Select(c => new CommentDto
-                {
-                    CommentId = c.CommentId,
-                    Content = c.Content,
-                    DateCommented = c.DateCommented,
-                    AuthorUsername = c.User.Username
-                })
-                .ToListAsync();
 
-            return Ok(comments);
-        }
+		// GET: api/Comments/post/5
+		[HttpGet("post/{postId}")]
+		public async Task<IActionResult> GetCommentsForPost(int postId)
+		{
+			var comments = await _context.Comments
+				.Where(c => c.PostId == postId)
+				.Include(c => c.User)
+				.OrderBy(c => c.DateCommented)
+				.Select(c => new CommentDto
+				{
+					CommentId = c.CommentId,
+					Content = c.Content,
+					DateCommented = c.DateCommented,
+					AuthorUsername = c.User.Username
+				})
+				.ToListAsync();
 
-        // DELETE: api/Comments/5
-        [Authorize]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteComment(int id)
-        {
-            int userId = GetCurrentUserId();
+			return Ok(comments);
+		}
 
-            var comment = await _context.Comments.FindAsync(id);
+		// DELETE: api/Comments/5
+		[Authorize]
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteComment(int id)
+		{
+			int userId = GetCurrentUserId();
 
-            if (comment == null)
-                return NotFound();
+			var comment = await _context.Comments.FindAsync(id);
 
-            if (comment.UserId != userId)
-                return Forbid("You are not authorized to delete this comment.");
+			if (comment == null)
+				return NotFound();
 
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
+			if (comment.UserId != userId)
+				return Forbid("You are not authorized to delete this comment.");
 
-            return Ok("Comment deleted successfully.");
-        }
+			_context.Comments.Remove(comment);
+			await _context.SaveChangesAsync();
 
-        // Helper method
-        private int GetCurrentUserId()
-        {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        }
-    }
+			return Ok("Comment deleted successfully.");
+		}
+
+		// Helper method
+		private int GetCurrentUserId()
+		{
+			return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+		}
+	}
 }

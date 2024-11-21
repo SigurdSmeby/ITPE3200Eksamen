@@ -2,34 +2,10 @@ import React from 'react';
 import { Card, Button, Dropdown } from 'react-bootstrap';
 import { FaHeart, FaComment } from 'react-icons/fa';
 import { deletePost } from '../api/postApi';
+import { createComment, fetchCommentsForPost } from '../api/commentApi';
+import CommentsSection from './commentsSection';
+import { timeAgo } from './timeAgo';
 import './postCards.css';
-
-// Format date function
-const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = String(date.getFullYear()).slice(-2);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${day}.${month}.${year} - ${hours}.${minutes}`;
-};
-const timeAgo = (dateString) => {
-    const now = new Date();
-    const postDate = new Date(dateString);
-    const diffInSeconds = Math.floor((now.getTime() - postDate.getTime()) / 1000);
-
-    const minutes = Math.floor(diffInSeconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    const weeks = Math.floor(days / 7);
-
-    if (weeks > 0) return `${weeks}w`;
-    if (days > 0) return `${days}d`;
-    if (hours > 0) return `${hours}h`;
-    if (minutes > 0) return `${minutes}m`;
-    return `${diffInSeconds}s`;
-};
 
 // PostCards component
 const PostCards = ({
@@ -47,16 +23,11 @@ const PostCards = ({
 }) => {
     const [liked, setLiked] = React.useState(false);
     const [showComments, setShowComments] = React.useState(false);
+    const [commentsInput, setCommentsInput] = React.useState(String);
+    const [comments, setComments] = React.useState([]);
     // Get logged-in username from localStorage
     const loggedInUsername = localStorage.getItem('username');
     const isOwner = loggedInUsername === author?.username;
-
-        // hardkoda kommentarer som vi kan fikse senere
-    const comments = [
-        { author: { username: 'user1', profileUrl: '/profile/user1' }, text: 'Great post!' },
-        { author: { username: 'user2', profileUrl: '/profile/user2' }, text: 'Amazing picture!' },
-        { author: { username: 'user3', profileUrl: '/profile/user3' }, text: 'Thanks for sharing!' }
-    ];
 
     const handleLikeClick = () => {
         setLiked(!liked);
@@ -64,8 +35,17 @@ const PostCards = ({
     const handleToggleComments = () => {
         setShowComments(!showComments);
     };
-
-
+    const handleSendComment = () => {
+        // send comment to backend
+        const commentData = { PostId: postId, Content: commentsInput };
+        createComment(commentData)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handleDeletePost = (id) => {
         deletePost(id)
@@ -84,8 +64,7 @@ const PostCards = ({
 
     return (
         <Card className="card-container">
-            
-            <Card.Header >
+            <Card.Header>
                 <a href={profileUrl} className="profile-link">
                     <Card.Img
                         variant="top"
@@ -95,80 +74,105 @@ const PostCards = ({
                         className="profile-img"
                     />
                     <h4>{authorName}</h4>
-                    
-                </a><p className="date" title={new Date(dateUploaded).toLocaleString()}>
+                </a>
+                <p
+                    className="date"
+                    title={new Date(dateUploaded).toLocaleString()}>
                     {timeAgo(dateUploaded)}
                 </p>
-    
+
                 {isOwner && (
                     <Dropdown className="ms-auto">
-                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                        <Dropdown.Toggle
+                            variant="secondary"
+                            id="dropdown-basic">
                             Menu
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item href={`/edit-post/${postId}`}>
                                 Edit
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleDeletePost(postId)}>
+                            <Dropdown.Item
+                                onClick={() => handleDeletePost(postId)}>
                                 Delete
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 )}
             </Card.Header>
-    
-            <Card.Body 
-            style={{
-                fontSize: fontSize ? `${fontSize}px` : undefined,
-                color: textColor || undefined,
-                backgroundColor: backgroundColor || undefined,
-            }}>
-                
 
-    
+            <Card.Body
+                style={{
+                    fontSize: fontSize ? `${fontSize}px` : undefined,
+                    color: textColor || undefined,
+                    backgroundColor: backgroundColor || undefined,
+                }}>
                 {imageUrl ? (
-                    <div className="image-container" style={{backgroundImage: `url(${imageUrl})`,}}>
-                    <img
-                        src={imageUrl}
-                        alt={title} //bruker tittel her litt for å bruke det, kan evt velge å bruke filnavn
-                        loading="lazy"
-                        className="post-image"
-                    />
+                    <div
+                        className="image-container"
+                        style={{ backgroundImage: `url(${imageUrl})` }}>
+                        <img
+                            src={imageUrl}
+                            alt={title} //bruker tittel her litt for å bruke det, kan evt velge å bruke filnavn
+                            loading="lazy"
+                            className="post-image"
+                        />
                     </div>
                 ) : (
-                    <p
-                        className="text-content"
-                        >
-                        {textContent}
-                    </p>
+                    <p className="text-content">{textContent}</p>
                 )}
             </Card.Body>
-    
-            <Card.Footer >
-                <div className="like-comment-container" >
-                    <div className="heart-icon-container" onClick={handleLikeClick}>
-                        <FaHeart className={liked ? 'heart-icon-red' : 'heart-icon-black'} size={24} />
+
+            <Card.Footer>
+                <div className="like-comment-container">
+                    <div
+                        className="heart-icon-container"
+                        onClick={handleLikeClick}>
+                        <FaHeart
+                            className={
+                                liked ? 'heart-icon-red' : 'heart-icon-black'
+                            }
+                            size={24}
+                        />
                         <p>{likesCount}</p>
-                        </div>
-                    <div className="comment-icon-container" onClick={handleToggleComments}>
-                        <FaComment className="comment-icon" color='black' size={24} />
+                    </div>
+                    <div
+                        className="comment-icon-container"
+                        onClick={handleToggleComments}>
+                        <FaComment
+                            className="comment-icon"
+                            color="black"
+                            size={24}
+                        />
                         <p>{comments.length}</p>
                     </div>
                 </div>
             </Card.Footer>
             {showComments && (
                 <div className="comments-section">
-                    {comments.map((comment, index) => (
+                    {/*comments.map((comment, index) => (
                         <div key={index} className="comment">
-                            <a href={comment.author.profileUrl} className="comment-author">
+                            <a
+                                href={comment.author.profileUrl}
+                                className="comment-author">
                                 {comment.author.username}
                             </a>
                             <span className="comment-text">{comment.text}</span>
                         </div>
-                    ))}
-                    <div style={{ display: 'flex'}}>
-                    <input type="text" className='comment-field form-control' placeholder='comment here' />
-                    <button className='comment-button btn' >Comment</button>
+                    ))*/}
+                    <CommentsSection postId={postId} />
+                    <div style={{ display: 'flex' }}>
+                        <input
+                            type="text"
+                            className="comment-field form-control"
+                            placeholder="comment here"
+                            onChange={(e) => setCommentsInput(e.target.value)}
+                        />
+                        <button
+                            className="comment-button btn"
+                            onClick={handleSendComment}>
+                            Comment
+                        </button>
                     </div>
                 </div>
             )}
