@@ -5,6 +5,7 @@ import { deletePost } from '../api/postApi';
 import { createComment, fetchCommentsForPost } from '../api/commentApi';
 import CommentsSection from './commentsSection';
 import { timeAgo } from './timeAgo';
+import LikeButton from './likeCounter.tsx';
 import './postCards.css';
 
 // PostCards component
@@ -125,17 +126,7 @@ const PostCards = ({
 
             <Card.Footer>
                 <div className="like-comment-container">
-                    <div
-                        className="heart-icon-container"
-                        onClick={handleLikeClick}>
-                        <FaHeart
-                            className={
-                                liked ? 'heart-icon-red' : 'heart-icon-black'
-                            }
-                            size={24}
-                        />
-                        <p>{likesCount}</p>
-                    </div>
+                    <LikeButton/>
                     <div
                         className="comment-icon-container"
                         onClick={handleToggleComments}>
