@@ -34,7 +34,6 @@ namespace server.Controllers
 				UserId = userId,
 				ImageUrl = postDto.ImageUrl,
 				TextContent = postDto.TextContent,
-				Title = postDto.Title,
 				FontSize = postDto.FontSize ?? 16, // Default font size
 				TextColor = postDto.TextColor ?? "#000000", // Default text color (black)
 				BackgroundColor = postDto.BackgroundColor ?? "#FFFFFF" // Default background color (white)
@@ -62,7 +61,6 @@ namespace server.Controllers
 					PostId = p.PostId,
 					ImageUrl = p.ImageUrl,
 					TextContent = p.TextContent,
-					Title = p.Title,
 					DateUploaded = p.DateUploaded,
 					FontSize = p.FontSize,
 					TextColor = p.TextColor,
@@ -118,7 +116,6 @@ namespace server.Controllers
 				PostId = post.PostId,
 				ImageUrl = post.ImageUrl,
 				TextContent = post.TextContent,
-				Title = post.Title,
 				DateUploaded = post.DateUploaded,
 				FontSize = post.FontSize,
 				TextColor = post.TextColor,
@@ -157,7 +154,6 @@ namespace server.Controllers
 			if (post.UserId != userId)
 				return Forbid("You are not authorized to update this post.");
 
-			post.Title = postDto.Title ?? post.Title;
 			post.ImageUrl = postDto.ImageUrl ?? post.ImageUrl;
 			post.TextContent = postDto.TextContent ?? post.TextContent;
 			post.FontSize = postDto.FontSize ?? post.FontSize;
@@ -217,7 +213,6 @@ namespace server.Controllers
 					PostId = p.PostId,
 					ImageUrl = p.ImageUrl,
 					TextContent = p.TextContent,
-					Title = p.Title,
 					DateUploaded = p.DateUploaded,
 					FontSize = p.FontSize,
 					TextColor = p.TextColor,

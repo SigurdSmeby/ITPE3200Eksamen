@@ -13,9 +13,6 @@ namespace server.Models
 
         public string? ImageUrl { get; set; } // Optional for text-only posts
 
-        [MaxLength(255)]
-        public string Title { get; set; }
-
         [MaxLength(1000)]
         public string? TextContent { get; set; } // New field for text content
 

@@ -90,7 +90,6 @@ using (var scope = app.Services.CreateScope())
         var post1 = new Post
         {
             ImageUrl = "https://picsum.photos/seed/1/600",  // Example image URL
-            Title = "First Post",
             DateUploaded = DateTime.UtcNow.AddDays(-random.Next(0, 365 * 5)),
             UserId = sampleUser.UserId // Link the post to the TestUser
         };
@@ -98,7 +97,6 @@ using (var scope = app.Services.CreateScope())
         var post2 = new Post
         {
             ImageUrl = "https://picsum.photos/seed/2/600",  // Example image URL
-            Title = "Second Post",
             DateUploaded = DateTime.UtcNow.AddDays(-random.Next(0, 365 * 5)),
             UserId = sampleUser.UserId // Link the post to the TestUser
         };

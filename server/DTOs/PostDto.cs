@@ -12,8 +12,6 @@ namespace server.DTOs
         public string? ImageUrl { get; set; } // Nullable for text-only posts
         
         public string? TextContent { get; set; } // Nullable for image-only posts
-
-        public string Title { get; set; }
         
         public DateTime DateUploaded { get; set; }
         
