@@ -22,8 +22,23 @@ const UploadPost = () => {
     };
 
     const handleFileChange = (e) => {
-        setImageFile(e.target.files[0]); // Capture the uploaded file
+        const file = e.target.files[0];
+        setImageFile(file); // Capture the uploaded file
+    
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setPost((prev) => ({
+                    ...prev,
+                    previewUrl: reader.result, // Set the preview URL
+                }));
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setPost((prev) => ({ ...prev, previewUrl: null }));
+        }
     };
+    
 
     const handleTogglePostType = () => {
         setIsImagePost((prev) => !prev);
@@ -98,21 +113,30 @@ const UploadPost = () => {
                 {/* Image Post */}
                 {isImagePost && (
                     <Form.Group as={Row} className="mb-3" controlId="formPostImageFile">
-                        <Form.Label column sm="2">
-                            Upload Image
-                        </Form.Label>
-                        <Col sm="10">
-                            <Form.Control
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                required={isImagePost}
-                            />
-                            {imageFile && (
+                    <Form.Label column sm="2">
+                        Upload Image
+                    </Form.Label>
+                    <Col sm="10">
+                        <Form.Control
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            required={isImagePost}
+                        />
+                        {imageFile && (
+                            <>
                                 <p className="mt-2">Selected file: {imageFile.name}</p>
-                            )}
-                        </Col>
-                    </Form.Group>
+                                <img
+                                    src={post.previewUrl}
+                                    alt="Preview"
+                                    className="mt-2"
+                                    style={{ maxHeight: '200px', maxWidth: '200px' }}
+                                />
+                            </>
+                        )}
+                    </Col>
+                </Form.Group>
+                
                 )}
 
                 {/* Text Post */}

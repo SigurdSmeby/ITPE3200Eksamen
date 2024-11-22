@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getUserPosts } from '../api/postApi';
 import PostCards from '../components/postCards.tsx';
 
+const BACKEND_URL = 'http://localhost:5229';
+
 const Profile = () => {
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
@@ -42,7 +44,7 @@ const Profile = () => {
             <div className="hero-section d-flex m-5">
                 <div className="me-5" style={{ height: '150px', width: '150px' }}>
                     <img
-                        src={profilePicture}
+                        src={BACKEND_URL + profilePicture}
                         alt={userName}
                         className="img-fluid"
                         style={{ width: '100%', borderRadius: '50%' }}
@@ -81,9 +83,8 @@ const Profile = () => {
                         <PostCards
                             key={post.postId}
                             postId={post.postId}
-                            imageUrl={post.imageUrl}
+                            imagePath={post.imagePath}
                             textContent={post.textContent}
-                            title={post.title}
                             dateUploaded={post.dateUploaded}
                             author={post.author}
                             likesCount={post.likesCount}

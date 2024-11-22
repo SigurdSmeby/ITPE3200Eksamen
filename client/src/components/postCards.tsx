@@ -16,7 +16,6 @@ const PostCards = ({
     postId,
     imagePath: imageUrl,
     textContent,
-    title,
     dateUploaded,
     author,
     likesCount,
@@ -92,7 +91,7 @@ const PostCards = ({
                 <a href={profileUrl} className="profile-link">
                     <Card.Img
                         variant="top"
-                        src={profilePicture}
+                        src={BACKEND_URL + profilePicture}
                         alt="User profile"
                         loading="lazy"
                         className="profile-img"
@@ -133,17 +132,15 @@ const PostCards = ({
                 }}>
                 {imageUrl ? (
                     <div
-                        className="image-container"
-                        style={{ backgroundImage: `url(${BACKEND_URL + imageUrl})` }}>
+                        className="image-container">
                         <img
                             src={BACKEND_URL + imageUrl}
-                            alt={title}
                             loading="lazy"
                             className="post-image"
                         />
                     </div>
                 ) : (
-                    <p className="text-content">{textContent}</p>
+                    <p className="text-content mb-0" style={{ whiteSpace: 'pre-wrap' }}>{textContent}</p>
                 )}
             </Card.Body>
 

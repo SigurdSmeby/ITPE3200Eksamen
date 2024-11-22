@@ -4,15 +4,18 @@ import {
     getUserProfile,
     updateUserProfile,
     changeUserPassword,
+    deleteUserAccount,
 } from '../api/userApi';
 
 const UserSettings = () => {
     const [user, setUser] = useState({
         username: '',
         email: '',
-        profilePictureUrl: 'default_profile_pic.jpg',
         bio: '',
     });
+
+    const [profilePicture, setProfilePicture] = useState(null); // State to handle file upload
+    const [previewUrl, setPreviewUrl] = useState(''); // State for image preview
 
     const [passwords, setPasswords] = useState({
         currentPassword: '',
@@ -20,11 +23,9 @@ const UserSettings = () => {
         confirmPassword: '',
     });
 
-    // State for profile form messages
     const [profileSuccess, setProfileSuccess] = useState('');
     const [profileError, setProfileError] = useState('');
 
-    // State for password form messages
     const [passwordSuccess, setPasswordSuccess] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
@@ -35,11 +36,9 @@ const UserSettings = () => {
                 setUser({
                     username: response.data.username,
                     email: response.data.email,
-                    profilePictureUrl:
-                        response.data.profilePictureUrl ||
-                        'default_profile_pic.jpg',
                     bio: response.data.bio,
                 });
+                setPreviewUrl(response.data.profilePictureUrl || 'default_profile_pic.jpg');
             } catch (error) {
                 setProfileError('Error fetching user data');
                 console.error('Error fetching user data:', error);
@@ -48,9 +47,15 @@ const UserSettings = () => {
         fetchUser();
     }, []);
 
-    const handleChange = (e) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser({ ...user, [name]: value });
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setProfilePicture(file);
+        setPreviewUrl(URL.createObjectURL(file)); // Set preview image
     };
 
     const handleProfileSubmit = async (e) => {
@@ -59,19 +64,20 @@ const UserSettings = () => {
         setProfileSuccess('');
 
         try {
-            const data = {
-                username: user.username,
-                email: user.email,
-                profilePictureUrl: user.profilePictureUrl,
-                bio: user.bio,
-            };
+            const formData = new FormData();
+            formData.append('username', user.username);
+            formData.append('email', user.email);
+            formData.append('bio', user.bio);
+            if (profilePicture) {
+                formData.append('profilePicture', profilePicture); // Append the file
+            }
 
-            await updateUserProfile(data);
+            await updateUserProfile(formData);
             setProfileSuccess('Profile updated successfully');
             localStorage.setItem('username', user.username);
         } catch (error) {
-            setProfileError(error.response.data);
-            console.error('Error updating profile:', error) ;
+            setProfileError('Error updating profile. Please try again.');
+            console.error('Error updating profile:', error);
         }
     };
 
@@ -104,10 +110,25 @@ const UserSettings = () => {
                 confirmPassword: '',
             });
         } catch (error) {
-            setPasswordError(error);
+            setPasswordError('Error updating password. Please try again.');
             console.error('Error updating password:', error);
         }
     };
+    const handleDeleteAccount = async () => {
+        const confirmDelete = window.confirm(
+            'Are you sure you want to delete your account? This action cannot be undone.'
+        );
+
+        if (confirmDelete) {
+            try {
+                await deleteUserAccount();
+                localStorage.clear();
+                window.location.href = '/login';
+            } catch (error) {
+                console.error('Error deleting account:', error);
+            }
+        }
+    }
 
     return (
         <Container>
@@ -115,9 +136,7 @@ const UserSettings = () => {
 
             {/* Profile Settings Form */}
             {profileError && <Alert variant="danger">{profileError}</Alert>}
-            {profileSuccess && (
-                <Alert variant="success">{profileSuccess}</Alert>
-            )}
+            {profileSuccess && <Alert variant="success">{profileSuccess}</Alert>}
             <Form onSubmit={handleProfileSubmit}>
                 <Form.Group as={Row} className="mb-3" controlId="formUsername">
                     <Form.Label column sm="2">
@@ -128,7 +147,7 @@ const UserSettings = () => {
                             type="text"
                             name="username"
                             value={user.username}
-                            onChange={handleChange}
+                            onChange={handleInputChange}
                             maxLength={50}
                         />
                     </Col>
@@ -143,32 +162,27 @@ const UserSettings = () => {
                             type="email"
                             name="email"
                             value={user.email}
-                            onChange={handleChange}
+                            onChange={handleInputChange}
                             maxLength={100}
                         />
                     </Col>
                 </Form.Group>
 
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formProfilePictureUrl">
+                <Form.Group as={Row} className="mb-3" controlId="formProfilePicture">
                     <Form.Label column sm="2">
-                        Profile Picture URL
+                        Profile Picture
                     </Form.Label>
                     <Col sm="10">
                         <Form.Control
-                            type="text"
-                            name="profilePictureUrl"
-                            value={user.profilePictureUrl}
-                            onChange={handleChange}
-                            placeholder="Enter the URL of your profile picture"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
                         />
-                        {user.profilePictureUrl && (
+                        {previewUrl && (
                             <img
-                                src={user.profilePictureUrl}
-                                alt="Profile"
-                                className="mt-2"
+                                src={previewUrl}
+                                alt="Profile Preview"
+                                className="mt-3"
                                 width="100"
                                 height="100"
                             />
@@ -185,7 +199,7 @@ const UserSettings = () => {
                             as="textarea"
                             name="bio"
                             value={user.bio}
-                            onChange={handleChange}
+                            onChange={handleInputChange}
                             maxLength={500}
                             rows={3}
                         />
@@ -204,14 +218,9 @@ const UserSettings = () => {
             {/* Change Password Form */}
             <h4 className="mt-4">Change Password</h4>
             {passwordError && <Alert variant="danger">{passwordError}</Alert>}
-            {passwordSuccess && (
-                <Alert variant="success">{passwordSuccess}</Alert>
-            )}
+            {passwordSuccess && <Alert variant="success">{passwordSuccess}</Alert>}
             <Form onSubmit={handlePasswordSubmit}>
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formCurrentPassword">
+                <Form.Group as={Row} className="mb-3" controlId="formCurrentPassword">
                     <Form.Label column sm="2">
                         Current Password
                     </Form.Label>
@@ -226,10 +235,7 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formNewPassword">
+                <Form.Group as={Row} className="mb-3" controlId="formNewPassword">
                     <Form.Label column sm="2">
                         New Password
                     </Form.Label>
@@ -244,10 +250,7 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formConfirmPassword">
+                <Form.Group as={Row} className="mb-3" controlId="formConfirmPassword">
                     <Form.Label column sm="2">
                         Confirm New Password
                     </Form.Label>
@@ -270,6 +273,15 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
             </Form>
+                
+                {/* Delete Account Button */}
+                <div className="text-end">
+                    <Button
+                        variant="danger"
+                        onClick={handleDeleteAccount}>
+                        Delete Account
+                    </Button>
+                </div>
         </Container>
     );
 };

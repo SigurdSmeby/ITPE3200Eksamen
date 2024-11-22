@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPost, updatePost } from '../api/postApi'; // Use your existing postApi methods
+import { getPost, updatePost } from '../api/postApi';
 
 const EditPost = () => {
     const { postId } = useParams(); // Get postId from the URL parameters
@@ -11,6 +11,7 @@ const EditPost = () => {
         fontSize: 16,
         textColor: '#000000',
         backgroundColor: '#FFFFFF',
+        previewUrl: null, // Add previewUrl to manage image preview
     });
     const [isImagePost, setIsImagePost] = useState(true); // Set the post type based on content
     const [imageFile, setImageFile] = useState(null); // State to store the uploaded file
@@ -27,6 +28,9 @@ const EditPost = () => {
                     fontSize: response.fontSize || 16,
                     textColor: response.textColor || '#000000',
                     backgroundColor: response.backgroundColor || '#FFFFFF',
+                    previewUrl: response.imagePath 
+                        ? `http://localhost:5229/${response.imagePath}` // Set full path to image
+                        : null,
                 });
                 setIsImagePost(!!response.imagePath); // Determine post type based on imagePath
             } catch (error) {
@@ -42,7 +46,19 @@ const EditPost = () => {
     };
 
     const handleFileChange = (e) => {
-        setImageFile(e.target.files[0]); // Store the uploaded file
+        const file = e.target.files[0];
+        setImageFile(file); // Store the uploaded file
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setPost((prev) => ({
+                    ...prev,
+                    previewUrl: reader.result, // Set preview URL for uploaded file
+                }));
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -103,6 +119,14 @@ const EditPost = () => {
                                 onChange={handleFileChange}
                                 required
                             />
+                            {post.previewUrl && (
+                                <img
+                                    src={post.previewUrl}
+                                    alt="Preview"
+                                    className="mt-3"
+                                    style={{ maxHeight: '200px', maxWidth: '200px' }}
+                                />
+                            )}
                             {imageFile && (
                                 <p className="mt-2">Selected file: {imageFile.name}</p>
                             )}

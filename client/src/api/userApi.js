@@ -1,48 +1,39 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5229/api/';
+// Create an axios instance with common configurations
+const axiosInstance = axios.create({
+    baseURL: 'http://localhost:5229/api',
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        'Content-Type': 'multipart/form-data', // Optional: Can add other common headers
+    },
+});
 
 // Get the current user profile
-export const getUserProfile = () => {
-    const token = localStorage.getItem('jwtToken');
-    return axios
-        .get(`${API_URL}Users/profile`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .catch((error) => {
-            console.error('Error fetching user profile:', error);
-            throw error;
-        });
+export const getUserProfile = async () => {
+    const response = await axiosInstance.get('/Users/profile');
+    return response;
 };
 
 // Update the current user profile
-export const updateUserProfile = (data) => {
-    const token = localStorage.getItem('jwtToken');
-    return axios
-        .put(`${API_URL}Users/profile`, data, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .catch((error) => {
-            console.error('Error updating profile:', error);
-            throw error;
-        });
+export const updateUserProfile = async (data) => {
+    const response = await axiosInstance.put('/Users/profile', data);
+    return response;
 };
 
 // Change the user's password
-export const changeUserPassword = (data) => {
-    const token = localStorage.getItem('jwtToken');
-    return axios
-        .put(`${API_URL}Users/change-password`, data, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .catch((error) => {
-            console.error('Error changing password:', error);
-            throw error.response.data;
-        });
+export const changeUserPassword = async (passwordData) => {
+    const response = await axiosInstance.put('/Users/change-password', passwordData, {
+        headers: {
+            'Content-Type': 'application/json', // Explicitly set the Content-Type header
+        },
+    });
+    return response;
+};
+
+
+// Delete the user's account
+export const deleteUserAccount = async () => {
+    const response = await axiosInstance.delete('/Users/delete-account');
+    return response;
 };

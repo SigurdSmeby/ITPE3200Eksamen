@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
 
 namespace server.Controllers
 {
@@ -19,11 +20,13 @@ namespace server.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public UsersController(AppDbContext context, IConfiguration configuration)
+        public UsersController(AppDbContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // POST: api/Users/register
@@ -45,7 +48,7 @@ namespace server.Controllers
                 Username = registerDto.Username,
                 Email = registerDto.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                ProfilePictureUrl = "default_profile_pic.jpg",
+                ProfilePictureUrl = "/uploads/default_profile.jpg",
             };
 
             _context.Users.Add(user);
@@ -103,9 +106,10 @@ namespace server.Controllers
             return Ok(userDto);
         }
 
+        // PUT: api/Users/profile
         [Authorize]
         [HttpPut("profile")]
-        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto profileDto)
+        public async Task<IActionResult> UpdateProfile([FromForm] IFormFile? profilePicture, [FromForm] string? username, [FromForm] string? email, [FromForm] string? bio)
         {
             int userId = GetCurrentUserId();
 
@@ -115,46 +119,60 @@ namespace server.Controllers
                 return NotFound();
 
             // Update username if provided
-            if (!string.IsNullOrEmpty(profileDto.Username))
+            if (!string.IsNullOrEmpty(username))
             {
                 // Ensure the new username isn't taken by someone else
-                if (await _context.Users.AnyAsync(u => u.Username == profileDto.Username && u.UserId != userId))
+                if (await _context.Users.AnyAsync(u => u.Username == username && u.UserId != userId))
                 {
                     return BadRequest("Username is already taken.");
                 }
-                user.Username = profileDto.Username;
+                user.Username = username;
             }
 
             // Update email if provided
-            if (!string.IsNullOrEmpty(profileDto.Email))
+            if (!string.IsNullOrEmpty(email))
             {
                 // Ensure the new email isn't already registered to another user
-                if (await _context.Users.AnyAsync(u => u.Email == profileDto.Email && u.UserId != userId))
+                if (await _context.Users.AnyAsync(u => u.Email == email && u.UserId != userId))
                 {
                     return BadRequest("Email is already registered.");
                 }
-                user.Email = profileDto.Email;
+                user.Email = email;
             }
 
-            // Update profile picture if provided
-            if (!string.IsNullOrEmpty(profileDto.ProfilePictureUrl))
+            // Handle profile picture upload
+            if (profilePicture != null && profilePicture.Length > 0)
             {
-                user.ProfilePictureUrl = profileDto.ProfilePictureUrl;
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(profilePicture.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await profilePicture.CopyToAsync(fileStream);
+                }
+
+                // Update the user's profile picture URL to the relative path
+                user.ProfilePictureUrl = "/uploads/" + uniqueFileName;
             }
 
             // Update bio if provided
-            if (!string.IsNullOrEmpty(profileDto.Bio))
+            if (!string.IsNullOrEmpty(bio))
             {
-                user.Bio = profileDto.Bio;
+                user.Bio = bio;
             }
 
             // Save changes to the database
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
-            return Ok("Profile updated successfully.");
+            return Ok(new { success = true, message = "Profile updated successfully." });
         }
-
 
         // PUT: api/Users/change-password
         [Authorize]
@@ -208,7 +226,6 @@ namespace server.Controllers
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            //todo: move secret key to appsettings.json
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
 
             var tokenDescriptor = new SecurityTokenDescriptor

@@ -60,6 +60,7 @@ const CommentsSection = ({ postId, refresh, onCommentDelete  }) => {
                             <div>
                                 <p
                                     className="mb-0"
+                                    title={new Date(comment.dateCommented).toLocaleString()}
                                     style={{
                                         fontSize: '12px',
                                         color: 'gray',

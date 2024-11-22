@@ -34,7 +34,6 @@ const Home = () => {
                         postId={post.postId}
                         imagePath={post.imagePath}
                         textContent={post.textContent}
-                        title={post.title}
                         dateUploaded={post.dateUploaded}
                         author={post.author}
                         likesCount={post.likesCount}
