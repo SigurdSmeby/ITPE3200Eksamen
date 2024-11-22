@@ -22,6 +22,7 @@ namespace server.DTOs
         public int LikesCount { get; set; }
         
         public List<CommentDto> Comments { get; set; }
+        public int CommentsCount { get; set; }
         
         public int FontSize { get; set; } = 16; // Default font size
         

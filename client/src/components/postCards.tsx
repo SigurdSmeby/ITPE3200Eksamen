@@ -1,11 +1,13 @@
 import React from 'react';
 import { Card, Button, Dropdown } from 'react-bootstrap';
-import { FaHeart, FaComment } from 'react-icons/fa';
+import { FaComment } from 'react-icons/fa';
 import { deletePost } from '../api/postApi';
-import { createComment, fetchCommentsForPost } from '../api/commentApi';
+import { createComment } from '../api/commentApi';
 import CommentsSection from './commentsSection';
 import { timeAgo } from './timeAgo';
 import LikeButton from './likeCounter.tsx';
+import { useAuth } from './shared/AuthContext.tsx';
+import { useNavigate } from 'react-router-dom';
 import './postCards.css';
 
 // PostCards component
@@ -13,10 +15,11 @@ const PostCards = ({
     postId,
     imageUrl,
     textContent,
-    title, // kan fjernes om vi bestemmer oss for å ikke bruke tittel
+    title,
     dateUploaded,
     author,
     likesCount,
+    commentsCount: initialCommentsCount,
     fontSize,
     textColor,
     backgroundColor,
@@ -24,29 +27,48 @@ const PostCards = ({
 }) => {
     const [liked, setLiked] = React.useState(false);
     const [showComments, setShowComments] = React.useState(false);
-    const [commentsInput, setCommentsInput] = React.useState(String);
-    const [comments, setComments] = React.useState([]);
-    // Get logged-in username from localStorage
+    const [commentsInput, setCommentsInput] = React.useState('');
+    const [refreshComments, setRefreshComments] = React.useState(false); // Track when to refresh comments
+    const [commentsCount, setCommentsCount] = React.useState(initialCommentsCount);
+    const { isLoggedIn } = useAuth();
+    const navigate = useNavigate();
+
     const loggedInUsername = localStorage.getItem('username');
     const isOwner = loggedInUsername === author?.username;
 
-    const handleLikeClick = () => {
-        setLiked(!liked);
-    };
+
+
     const handleToggleComments = () => {
+        if (!isLoggedIn) {
+            navigate('/login', { state: { from: `/post/${postId}` } }); // Redirect to login
+            return;
+        }
         setShowComments(!showComments);
     };
+    const incrementCommentsCount = () => {
+        setCommentsCount((prevCount) => prevCount + 1);
+    };
+
+    const decrementCommentsCount = () => {
+        setCommentsCount((prevCount) => prevCount - 1);
+    };
+
     const handleSendComment = () => {
-        // send comment to backend
         const commentData = { PostId: postId, Content: commentsInput };
+
         createComment(commentData)
             .then((response) => {
-                console.log(response.data);
+                console.log('Comment created:', response.data);
+                setCommentsInput(''); // Clear the input field
+                setRefreshComments((prev) => !prev); // Trigger comments refresh
+                incrementCommentsCount();
             })
             .catch((error) => {
-                console.log(error);
+                console.error('Error creating comment:', error);
             });
     };
+
+    
 
     const handleDeletePost = (id) => {
         deletePost(id)
@@ -114,7 +136,7 @@ const PostCards = ({
                         style={{ backgroundImage: `url(${imageUrl})` }}>
                         <img
                             src={imageUrl}
-                            alt={title} //bruker tittel her litt for å bruke det, kan evt velge å bruke filnavn
+                            alt={title}
                             loading="lazy"
                             className="post-image"
                         />
@@ -126,7 +148,7 @@ const PostCards = ({
 
             <Card.Footer>
                 <div className="like-comment-container">
-                    <LikeButton/>
+                    <span className="heart-icon-container "><LikeButton/></span>
                     <div
                         className="comment-icon-container"
                         onClick={handleToggleComments}>
@@ -135,37 +157,42 @@ const PostCards = ({
                             color="black"
                             size={24}
                         />
-                        <p>{comments.length}</p>
+                        <p>{commentsCount}</p>
                     </div>
                 </div>
             </Card.Footer>
             {showComments && (
-                <div className="comments-section">
-                    {/*comments.map((comment, index) => (
-                        <div key={index} className="comment">
-                            <a
-                                href={comment.author.profileUrl}
-                                className="comment-author">
-                                {comment.author.username}
-                            </a>
-                            <span className="comment-text">{comment.text}</span>
-                        </div>
-                    ))*/}
-                    <CommentsSection postId={postId} />
-                    <div style={{ display: 'flex' }}>
+                <>
+                    <div className="comments-section">
+                        <CommentsSection
+                            postId={postId}
+                            refresh={refreshComments} // Pass the refresh flag
+                            onCommentDelete={decrementCommentsCount}
+                        />
+                    </div>
+                    <form
+                        className="comments-section"
+                        style={{ display: 'flex' }}
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSendComment();
+                        }}
+                    >
                         <input
                             type="text"
                             className="comment-field form-control"
-                            placeholder="comment here"
+                            placeholder="Comment here"
+                            value={commentsInput}
                             onChange={(e) => setCommentsInput(e.target.value)}
                         />
                         <button
+                            type="submit"
                             className="comment-button btn"
-                            onClick={handleSendComment}>
+                        >
                             Comment
                         </button>
-                    </div>
-                </div>
+                    </form>
+                </>
             )}
         </Card>
     );

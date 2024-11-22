@@ -118,7 +118,7 @@ padding: 1rem;
 .comments-section {
   padding: 1rem;
   border-top: 1px solid #e0e0e0;
-  max-height: 200px; /* lager en maks størrelse*/
+  max-height: 300px; /* lager en maks størrelse*/
   overflow-y: auto; /* gjør at man kan scrolle om man er over den størrelse */
 }
 .comment {

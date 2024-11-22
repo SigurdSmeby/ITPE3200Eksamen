@@ -30,3 +30,12 @@ export const fetchCommentsForPost = async (postId) => {
         throw error;
     }
 };
+
+export const deleteComment = async (commentId) => {
+    try {
+        const response = await axiosInstance.delete(`/Comments/${commentId}`);
+        return response.data; // Return server response
+    } catch (error) {
+        throw error.response?.data || 'Failed to delete comment';
+    }
+};

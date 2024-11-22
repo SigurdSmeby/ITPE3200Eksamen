@@ -56,6 +56,7 @@ namespace server.Controllers
 				.Take(pageSize)
 				.Include(p => p.User)
 				.Include(p => p.Likes)
+				.Include(p => p.Comments)
 				.Select(p => new PostDto
 				{
 					PostId = p.PostId,
@@ -72,12 +73,21 @@ namespace server.Controllers
 						Username = p.User.Username,
 						ProfilePictureUrl = p.User.ProfilePictureUrl
 					},
-					LikesCount = p.Likes.Count
+					LikesCount = p.Likes.Count,
+					/*Comments = p.Comments.Select(c => new CommentDto
+					{
+						CommentId = c.CommentId,
+						Content = c.Content,
+						DateCommented = c.DateCommented,
+						AuthorUsername = c.User.Username
+					}).ToList(),*/
+					CommentsCount = p.Comments.Count // Calculate comment count
 				})
 				.ToListAsync();
 
 			return Ok(posts);
 		}
+
 
 		// GET: api/Posts/5
 		[Authorize]
@@ -201,6 +211,7 @@ namespace server.Controllers
 				.Take(pageSize)
 				.Include(p => p.User)
 				.Include(p => p.Likes)
+				.Include(p => p.Comments)
 				.Select(p => new PostDto
 				{
 					PostId = p.PostId,
@@ -217,7 +228,9 @@ namespace server.Controllers
 						Username = p.User.Username,
 						ProfilePictureUrl = p.User.ProfilePictureUrl
 					},
-					LikesCount = p.Likes.Count
+					LikesCount = p.Likes.Count,
+					CommentsCount = p.Comments.Count
+					
 				})
 				.ToListAsync();
 

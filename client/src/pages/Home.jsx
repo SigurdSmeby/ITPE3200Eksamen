@@ -38,6 +38,7 @@ const Home = () => {
                         dateUploaded={post.dateUploaded}
                         author={post.author}
                         likesCount={post.likesCount}
+                        commentsCount={post.commentsCount}
                         fontSize={post.fontSize}
                         textColor={post.textColor}
                         backgroundColor={post.backgroundColor}

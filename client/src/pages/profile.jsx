@@ -29,7 +29,7 @@ const Profile = () => {
         };
 
         fetchUserPosts(); // Call the async function
-    }, [refresh, username]);
+    }, [refresh]);
 
     const triggerRefresh = () => {
         setRefresh(!refresh);
@@ -87,6 +87,7 @@ const Profile = () => {
                             dateUploaded={post.dateUploaded}
                             author={post.author}
                             likesCount={post.likesCount}
+                            commentsCount={post.commentsCount}
                             fontSize={post.fontSize}
                             textColor={post.textColor}
                             backgroundColor={post.backgroundColor}
