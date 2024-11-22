@@ -14,6 +14,7 @@ import Profile from './pages/profile';
 import UserSettings from './pages/UserSettings';
 import PrivateRoute from './components/PrivateRoute';
 import EditPost from './pages/EditPost';
+import UploadPost from './pages/UploadPost';
 import { AuthProvider } from './components/shared/AuthContext.tsx'; // Import AuthProvider
 
 const App: React.FC = () => {
@@ -40,6 +41,14 @@ const App: React.FC = () => {
                         element={
                             <PrivateRoute>
                                 <Profile />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/upload"
+                        element={
+                            <PrivateRoute>
+                                <UploadPost />
                             </PrivateRoute>
                         }
                     />

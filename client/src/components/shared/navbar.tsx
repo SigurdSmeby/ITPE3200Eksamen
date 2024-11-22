@@ -33,6 +33,11 @@ const NavMenu: React.FC = () => {
                                     Profile
                                 </Nav.Link>
                                 <Nav.Link
+                                    href="/Upload"
+                                    className="mx-2 text-secondary">
+                                    Upload
+                                </Nav.Link>
+                                <Nav.Link
                                     href="/settings"
                                     className="mx-2 text-secondary">
                                     Settings

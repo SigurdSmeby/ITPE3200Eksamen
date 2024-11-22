@@ -6,7 +6,6 @@ import { createPost } from '../api/postApi'; // Add a createPost method to handl
 const UploadPost = () => {
     const navigate = useNavigate();
     const [post, setPost] = useState({
-        title: '',
         textContent: '',
         fontSize: 16,
         textColor: '#000000',
@@ -24,35 +23,59 @@ const UploadPost = () => {
 
     const handleFileChange = (e) => {
         setImageFile(e.target.files[0]); // Capture the uploaded file
-		console.log(e.target.files[0]);
     };
 
     const handleTogglePostType = () => {
         setIsImagePost((prev) => !prev);
+        // Reset the state for the other post type
+        if (isImagePost) {
+            setPost({
+                textContent: '',
+                fontSize: 16,
+                textColor: '#000000',
+                backgroundColor: '#FFFFFF',
+            });
+        } else {
+            setImageFile(null);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        const formData = new FormData();
-        formData.append("textContent", post.textContent || ""); // Optional
-        formData.append("fontSize", post.fontSize || 16);
-        formData.append("textColor", post.textColor || "#000000");
-        formData.append("backgroundColor", post.backgroundColor || "#FFFFFF");
-    
-        if (imageFile) {
-            formData.append("imageFile", imageFile); // Append the uploaded image
+        setError('');
+        setSuccess('');
+
+        // Validation: Ensure either an image or text content is provided
+        if (isImagePost && !imageFile) {
+            setError('Please upload an image for an image post.');
+            return;
         }
-    
+        if (!isImagePost && !post.textContent.trim()) {
+            setError('Text content cannot be empty for a text post.');
+            return;
+        }
+
+        // Create form data
+        const formData = new FormData();
+        if (isImagePost) {
+            formData.append('imageFile', imageFile); // Add the uploaded image
+        } else {
+            formData.append('textContent', post.textContent);
+            formData.append('fontSize', post.fontSize);
+            formData.append('textColor', post.textColor);
+            formData.append('backgroundColor', post.backgroundColor);
+        }
+
         try {
-            await createPost(formData);
-            alert("Post created successfully!");
+            await createPost(formData); // API call
+            setSuccess('Post created successfully!');
+            setTimeout(() => {
+                navigate('/'); // Redirect to home
+            }, 1000);
         } catch (error) {
-            console.error(error);
-            alert("Failed to create post.");
+            setError('Failed to create post. Please try again.');
         }
     };
-    
 
     return (
         <Container>
@@ -72,8 +95,7 @@ const UploadPost = () => {
             </div>
 
             <Form onSubmit={handleSubmit}>
-
-                {/* Conditional Rendering: Image Post */}
+                {/* Image Post */}
                 {isImagePost && (
                     <Form.Group as={Row} className="mb-3" controlId="formPostImageFile">
                         <Form.Label column sm="2">
@@ -84,6 +106,7 @@ const UploadPost = () => {
                                 type="file"
                                 accept="image/*"
                                 onChange={handleFileChange}
+                                required={isImagePost}
                             />
                             {imageFile && (
                                 <p className="mt-2">Selected file: {imageFile.name}</p>
@@ -92,7 +115,7 @@ const UploadPost = () => {
                     </Form.Group>
                 )}
 
-                {/* Conditional Rendering: Text Post */}
+                {/* Text Post */}
                 {!isImagePost && (
                     <>
                         <Form.Group as={Row} className="mb-3" controlId="formPostTextContent">
@@ -107,6 +130,7 @@ const UploadPost = () => {
                                     onChange={handleChange}
                                     rows={5}
                                     placeholder="Enter your text content"
+                                    required={!isImagePost}
                                 />
                             </Col>
                         </Form.Group>

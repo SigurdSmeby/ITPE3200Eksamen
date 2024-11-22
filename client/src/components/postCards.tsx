@@ -10,10 +10,11 @@ import { useAuth } from './shared/AuthContext.tsx';
 import { useNavigate } from 'react-router-dom';
 import './postCards.css';
 
+const BACKEND_URL = 'http://localhost:5229';
 // PostCards component
 const PostCards = ({
     postId,
-    imageUrl,
+    imagePath: imageUrl,
     textContent,
     title,
     dateUploaded,
@@ -133,9 +134,9 @@ const PostCards = ({
                 {imageUrl ? (
                     <div
                         className="image-container"
-                        style={{ backgroundImage: `url(${imageUrl})` }}>
+                        style={{ backgroundImage: `url(${BACKEND_URL + imageUrl})` }}>
                         <img
-                            src={imageUrl}
+                            src={BACKEND_URL + imageUrl}
                             alt={title}
                             loading="lazy"
                             className="post-image"

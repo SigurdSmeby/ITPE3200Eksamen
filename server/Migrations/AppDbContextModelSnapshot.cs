@@ -97,7 +97,7 @@ namespace server.Migrations
                     b.Property<int>("FontSize")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("ImagePath")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TextColor")

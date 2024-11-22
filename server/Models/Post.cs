@@ -11,10 +11,10 @@ namespace server.Models
         [Required]
         public int UserId { get; set; } // Foreign key
 
-        public string? ImageUrl { get; set; } // Optional for text-only posts
+        public string? ImagePath { get; set; } // Path to the uploaded file in wwwroot/uploads
 
         [MaxLength(1000)]
-        public string? TextContent { get; set; } // New field for text content
+        public string? TextContent { get; set; } // Optional text content
 
         public DateTime DateUploaded { get; set; } = DateTime.Now;
 

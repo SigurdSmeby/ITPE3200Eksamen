@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
     baseURL: 'http://localhost:5229/api',
     headers: {
         Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        'Content-Type': 'application/json', // Optional: Can add other common headers
+        'Content-Type': 'multipart/form-data', // Optional: Can add other common headers
     },
 });
 

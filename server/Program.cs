@@ -89,14 +89,14 @@ using (var scope = app.Services.CreateScope())
         var random = new Random();
         var post1 = new Post
         {
-            ImageUrl = "https://picsum.photos/seed/1/600",  // Example image URL
+            //ImageUrl = "https://picsum.photos/seed/1/600",  // Example image URL
             DateUploaded = DateTime.UtcNow.AddDays(-random.Next(0, 365 * 5)),
             UserId = sampleUser.UserId // Link the post to the TestUser
         };
 
         var post2 = new Post
         {
-            ImageUrl = "https://picsum.photos/seed/2/600",  // Example image URL
+            //ImageUrl = "https://picsum.photos/seed/2/600",  // Example image URL
             DateUploaded = DateTime.UtcNow.AddDays(-random.Next(0, 365 * 5)),
             UserId = sampleUser.UserId // Link the post to the TestUser
         };
@@ -119,5 +119,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseStaticFiles();
 
 app.Run();

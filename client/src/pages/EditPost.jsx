@@ -7,14 +7,13 @@ const EditPost = () => {
     const { postId } = useParams(); // Get postId from the URL parameters
     const navigate = useNavigate(); // To redirect after editing
     const [post, setPost] = useState({
-        title: '',
-        imageUrl: '',
         textContent: '',
         fontSize: 16,
         textColor: '#000000',
         backgroundColor: '#FFFFFF',
     });
     const [isImagePost, setIsImagePost] = useState(true); // Set the post type based on content
+    const [imageFile, setImageFile] = useState(null); // State to store the uploaded file
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 
@@ -24,14 +23,12 @@ const EditPost = () => {
             try {
                 const response = await getPost(postId); // Fetch post by ID from postApi
                 setPost({
-                    title: response.title,
-                    imageUrl: response.imageUrl || '',
                     textContent: response.textContent || '',
                     fontSize: response.fontSize || 16,
                     textColor: response.textColor || '#000000',
                     backgroundColor: response.backgroundColor || '#FFFFFF',
                 });
-                setIsImagePost(!!response.imageUrl); // Lock the post type based on whether imageUrl is present
+                setIsImagePost(!!response.imagePath); // Determine post type based on imagePath
             } catch (error) {
                 setError('Error fetching post details');
             }
@@ -44,86 +41,76 @@ const EditPost = () => {
         setPost({ ...post, [name]: value });
     };
 
+    const handleFileChange = (e) => {
+        setImageFile(e.target.files[0]); // Store the uploaded file
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
 
-        // Validation: Abort if the required field is empty based on post type
-        if (isImagePost && !post.imageUrl.trim()) {
-            setError('Image URL cannot be blank for an image post');
+        // Validation: Ensure the required field is not empty
+        if (isImagePost && !imageFile) {
+            setError('Please upload an image file for the post.');
             return;
         }
         if (!isImagePost && !post.textContent.trim()) {
-            setError('Text content cannot be blank for a text post');
+            setError('Text Content cannot be blank for a text post.');
             return;
         }
 
+        // Prepare form data
+        const formData = new FormData();
+        if (isImagePost) {
+            formData.append('imageFile', imageFile); // Add the uploaded image
+        } else {
+            formData.append('textContent', post.textContent);
+            formData.append('fontSize', post.fontSize);
+            formData.append('textColor', post.textColor);
+            formData.append('backgroundColor', post.backgroundColor);
+        }
+
         try {
-            await updatePost(postId, post); // Update the post using postApi
-            setSuccess('Post updated successfully');
+            await updatePost(postId, formData); // Update the post using postApi
+            setSuccess('Post updated successfully!');
             setTimeout(() => {
                 navigate('/'); // Redirect to home
             }, 1000); // Delay before redirecting to home
         } catch (error) {
-            setError('Error updating post');
+            setError('Error updating post. Please try again.');
         }
     };
 
     return (
         <Container>
-            <h2 className="my-4">Edit Post</h2>
+            <h2 className="my-4">{isImagePost ? 'Edit Image Post' : 'Edit Text Post'}</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
             {success && <Alert variant="success">{success}</Alert>}
 
             <Form onSubmit={handleSubmit}>
-                {/* Title */}
-                <Form.Group as={Row} className="mb-3" controlId="formPostTitle">
-                    <Form.Label column sm="2">
-                        Post Title
-                    </Form.Label>
-                    <Col sm="10">
-                        <Form.Control
-                            type="text"
-                            name="title"
-                            value={post.title}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Col>
-                </Form.Group>
-
-                {/* Image URL - Locked for image posts */}
+                {/* Conditional Rendering: Image Post */}
                 {isImagePost && (
-                    <Form.Group as={Row} className="mb-3" controlId="formPostImageUrl">
+                    <Form.Group as={Row} className="mb-3" controlId="formPostImageFile">
                         <Form.Label column sm="2">
-                            Image URL
+                            Upload New Image
                         </Form.Label>
                         <Col sm="10">
                             <Form.Control
-                                type="text"
-                                name="imageUrl"
-                                value={post.imageUrl}
-                                onChange={handleChange}
-                                placeholder="Enter the URL of your post image"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                required
                             />
-                            {post.imageUrl && (
-                                <img
-                                    src={post.imageUrl}
-                                    alt="Post"
-                                    className="mt-2"
-                                    style={{
-                                        maxHeight: '400px',
-                                        maxWidth: '400px',
-                                    }}
-                                />
+                            {imageFile && (
+                                <p className="mt-2">Selected file: {imageFile.name}</p>
                             )}
                         </Col>
                     </Form.Group>
                 )}
 
-                {/* Text Content - Locked for text posts */}
+                {/* Conditional Rendering: Text Post */}
                 {!isImagePost && (
                     <>
                         <Form.Group as={Row} className="mb-3" controlId="formPostTextContent">
@@ -138,6 +125,7 @@ const EditPost = () => {
                                     onChange={handleChange}
                                     rows={5}
                                     placeholder="Enter your text content"
+                                    required
                                 />
                             </Col>
                         </Form.Group>
@@ -154,6 +142,7 @@ const EditPost = () => {
                                     onChange={handleChange}
                                     min="10"
                                     max="72"
+                                    required
                                 />
                             </Col>
                         </Form.Group>
@@ -168,6 +157,7 @@ const EditPost = () => {
                                     name="textColor"
                                     value={post.textColor}
                                     onChange={handleChange}
+                                    required
                                 />
                             </Col>
                         </Form.Group>
@@ -182,6 +172,7 @@ const EditPost = () => {
                                     name="backgroundColor"
                                     value={post.backgroundColor}
                                     onChange={handleChange}
+                                    required
                                 />
                             </Col>
                         </Form.Group>

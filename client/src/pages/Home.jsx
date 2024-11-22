@@ -32,7 +32,7 @@ const Home = () => {
                     <PostCards
                         key={post.postId}
                         postId={post.postId}
-                        imageUrl={post.imageUrl}
+                        imagePath={post.imagePath}
                         textContent={post.textContent}
                         title={post.title}
                         dateUploaded={post.dateUploaded}
