@@ -8,7 +8,19 @@ const axiosInstance = axios.create({
         'Content-Type': 'multipart/form-data', // Optional: Can add other common headers
     },
 });
-
+// Add a request interceptor to include the token dynamically
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 // Get all posts
 export const getPosts = async () => {
     const response = await axiosInstance.get('/Posts'); // Reuse the axios instance
