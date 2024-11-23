@@ -1,0 +1,110 @@
+.card-container {
+  width: 100%;
+  max-width: 500px; /* Ensure the card has a nice width */
+  margin: 1.5rem auto; /* Add spacing between cards */
+  padding: 0;
+  border-radius: 12px; /* Rounded corners for a modern look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  overflow: hidden;
+  background-color: #ffffff; /* Card background color */
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px; /* Add padding */
+  background-color: #f8f9fa; /* Light gray header */
+  border-bottom: 1px solid #ddd; /* Subtle border */
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-img {
+  width: 50px; /* Bigger profile image */
+  height: 50px;
+  border-radius: 50%; /* Circular image */
+  margin-right: 15px; /* Add spacing between image and text */
+  object-fit: cover; /* Prevent image distortion */
+  border: 2px solid #ddd; /* Subtle border for profile picture */
+}
+
+.date {
+  color: #888; /* Muted color for date */
+  font-size: 0.85rem; /* Slightly smaller text */
+  margin-left: auto; /* Push to the far right */
+}
+
+.card-body {
+  font-size: 16px;
+  color: #000;
+  background-color: #fff;
+  padding: 15px;
+}
+
+.image-container {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.post-image {
+  width: 100%;
+  height: auto;
+  border-radius: 0; /* No extra rounding for images */
+}
+
+.text-content {
+  padding: 10px 0;
+  font-size: 1rem;
+  color: #333; /* Slightly muted text color */
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd; /* Subtle border */
+}
+
+.like-comment-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Spacing between heart and comment icons */
+}
+
+.heart-icon-container,
+.comment-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Add space between the icon and text */
+  cursor: pointer;
+}
+
+.heart-icon-black:hover,
+.comment-icon:hover {
+  color: red;
+}
+.comments-section {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: none; /* Hidden by default */
+  max-height: 200px; /* Limit height */
+  overflow-y: auto; /* Scroll if too long */
+}
+
+.comment {
+  margin-bottom: 10px;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
