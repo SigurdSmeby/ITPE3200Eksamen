@@ -17,7 +17,7 @@ namespace server.Models
 		[Required]
 		public string PasswordHash { get; set; }
 
-		public string ProfilePictureUrl { get; set; } = "default_profile_pic.jpg";
+		public string ProfilePictureUrl { get; set; } = "/images/default_profile.jpg";
 
 		[MaxLength(500)] // Set a limit for the bio length (optional)
 		public string Bio { get; set; } = "Welcome to my page";// New Bio field

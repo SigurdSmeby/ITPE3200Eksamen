@@ -1,0 +1,13 @@
+@page
+@model server.Pages.Account.LogoutModel
+@{
+    ViewData["Title"] = "Log out";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <p>Are you sure you want to log out?</p>
+    <button type="submit" class="btn btn-primary">Log out</button>
+    <a asp-page="/Index" class="btn btn-secondary">Cancel</a>
+</form>

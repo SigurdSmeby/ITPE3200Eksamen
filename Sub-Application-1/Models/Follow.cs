@@ -1,16 +1,15 @@
-using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Models
 {
-	public class Follow
-	{
-		public int FollowerId { get; set; } // Composite key
-		public int FollowingId { get; set; } // Composite key
+    public class Follow
+    {
+        [ForeignKey("Followers")]
+        public int FollowerId { get; set; }
+        public virtual User Follower { get; set; }
 
-		public DateTime DateFollowed { get; set; } = DateTime.Now;
-
-		// Navigation properties
-		public virtual User Follower { get; set; }
-		public virtual User Following { get; set; }
-	}
+        [ForeignKey("Following")]
+        public int FollowingId { get; set; }
+        public virtual User Following { get; set; }
+    }
 }
