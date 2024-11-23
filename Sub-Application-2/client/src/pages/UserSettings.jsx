@@ -38,7 +38,7 @@ const UserSettings = () => {
                     email: response.data.email,
                     bio: response.data.bio,
                 });
-                setPreviewUrl(response.data.profilePictureUrl || 'default_profile_pic.jpg');
+                setPreviewUrl("http://localhost:5229"+response.data.profilePictureUrl);
             } catch (error) {
                 setProfileError('Error fetching user data');
                 console.error('Error fetching user data:', error);

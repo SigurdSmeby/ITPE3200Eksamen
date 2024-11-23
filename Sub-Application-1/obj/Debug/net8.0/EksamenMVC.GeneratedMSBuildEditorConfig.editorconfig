@@ -17,47 +17,47 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = EksamenMVC
 build_property.RootNamespace = EksamenMVC
-build_property.ProjectDir = C:\Users\olaax\Desktop\Razorpages eksamen\EksamenMVC\
+build_property.ProjectDir = C:\Users\sigur\OneDrive\Dokumenter\Skole\Webapp\ITPE3200Eksamen\Sub-Application-1\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\olaax\Desktop\Razorpages eksamen\EksamenMVC
+build_property.MSBuildProjectDirectory = C:\Users\sigur\OneDrive\Dokumenter\Skole\Webapp\ITPE3200Eksamen\Sub-Application-1
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/Create.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/Error.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/Index.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/Privacy.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/Shared/_PostCard.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/Shared/_PostCard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Qb3N0Q2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/_ViewImports.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/_ViewStart.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/olaax/Desktop/Razorpages eksamen/EksamenMVC/Pages/Shared/_Layout.cshtml]
+[C:/Users/sigur/OneDrive/Dokumenter/Skole/Webapp/ITPE3200Eksamen/Sub-Application-1/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-2l13jeiiuy
