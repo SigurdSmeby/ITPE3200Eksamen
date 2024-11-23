@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Button, Dropdown } from 'react-bootstrap';
-import { FaComment } from 'react-icons/fa';
+import { FaComment, FaEllipsisH, FaTrash } from 'react-icons/fa';
 import { deletePost } from '../api/postApi';
 import { createComment } from '../api/commentApi';
 import CommentsSection from './commentsSection';

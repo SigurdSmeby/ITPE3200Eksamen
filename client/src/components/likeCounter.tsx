@@ -22,10 +22,9 @@ const LikeButton: React.FC = () => {
           style={{ color: hasLiked ? 'red' : 'black' }}
           size={24}
         />
-        <p>{likes} {likes === 1 ? 'like' : 'likes'}</p>
+        <p>{likes}</p>
       </div>
       <div style={{ display: 'block' }}>
-        
       </div>
     </>
   );
