@@ -5,9 +5,8 @@ Sub-Application-2/server/tmp/
 *.db-shm
 Sub-Application-2/client/node_modules
 
-Sub-Application-1/server/bin/
-Sub-Application-1/server/obj/
-Sub-Application-1/node_modules
+Sub-Application-1/bin/
+Sub-Application-1/obj/
 Sub-Application-1/tmp/
 *.dll
 *.exe
