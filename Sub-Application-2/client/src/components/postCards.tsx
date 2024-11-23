@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, Dropdown } from 'react-bootstrap';
 import { FaComment, FaEllipsisH, FaTrash } from 'react-icons/fa';
 import { deletePost } from '../api/postApi';
 import { createComment } from '../api/commentApi';
 import CommentsSection from './commentsSection';
 import { timeAgo } from './timeAgo';
-import LikeButton from './likeCounter.tsx';
+import LikeButton from './likeCounter';
 import { useAuth } from './shared/AuthContext.tsx';
 import { useNavigate } from 'react-router-dom';
 import './postCards.css';
+import { checkIfUserHasLikedPost } from '../api/likeApi.js'
 
 const BACKEND_URL = 'http://localhost:5229';
 // PostCards component
@@ -35,6 +36,20 @@ const PostCards = ({
 
     const loggedInUsername = localStorage.getItem('username');
     const isOwner = loggedInUsername === author?.username;
+    const [hasLiked, setHasLiked] = useState(false);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            checkIfUserHasLikedPost(postId)
+            .then((response) => {
+                setHasLiked(response);
+                console.log("Response: "+response+"\n"+response.data);
+            })
+            .catch((error) => {
+                console.error("Error checking like status:", error);
+            });
+        }
+    }, [postId, isLoggedIn]);
 
 
 
@@ -146,7 +161,9 @@ const PostCards = ({
 
             <Card.Footer>
                 <div className="like-comment-container">
-                    <span className="heart-icon-container "><LikeButton/></span>
+                    <span className="heart-icon-container ">
+                        <LikeButton postId={postId} likeCounter={likesCount} hasLiked={hasLiked}/>
+                        </span>
                     <div
                         className="comment-icon-container"
                         onClick={handleToggleComments}>

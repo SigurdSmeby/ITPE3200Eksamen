@@ -80,6 +80,21 @@ namespace server.Controllers
             return Ok(likes);
         }
 
+        [Authorize]
+        [HttpGet("hasLiked/{postId}")]
+        public async Task<IActionResult> checkIfLiked(int postId)
+        {
+            int userId = GetCurrentUserId();
+
+            var like = await _context.Likes.FindAsync(userId, postId);
+
+            if (like == null)
+                return Ok(false);
+
+            else
+                return Ok(true);
+        }
+
         // Helper method
         private int GetCurrentUserId()
         {
