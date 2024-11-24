@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using server.Data;
-using server.Models;
+using Sub_Application_1.Data;
+using Sub_Application_1.Models;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace server.Pages.Account
+namespace Sub_Application_1.Views.Account
 {
     public class RegisterModel : PageModel
     {

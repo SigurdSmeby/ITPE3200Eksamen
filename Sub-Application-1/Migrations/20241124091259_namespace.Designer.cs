@@ -11,16 +11,16 @@ using Sub_Application_1.Data;
 namespace Sub_Application_1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241123125508_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241124091259_namespace")]
+    partial class @namespace
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
-            modelBuilder.Entity("server.Models.Comment", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.Comment", b =>
                 {
                     b.Property<int>("CommentId")
                         .ValueGeneratedOnAdd()
@@ -48,22 +48,7 @@ namespace Sub_Application_1.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("server.Models.Follow", b =>
-                {
-                    b.Property<int>("FollowerId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FollowingId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("FollowerId", "FollowingId");
-
-                    b.HasIndex("FollowingId");
-
-                    b.ToTable("Follows");
-                });
-
-            modelBuilder.Entity("server.Models.Like", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.Like", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -81,7 +66,7 @@ namespace Sub_Application_1.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("server.Models.Post", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
@@ -118,7 +103,7 @@ namespace Sub_Application_1.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("server.Models.User", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -155,15 +140,15 @@ namespace Sub_Application_1.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("server.Models.Comment", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.Comment", b =>
                 {
-                    b.HasOne("server.Models.Post", "Post")
+                    b.HasOne("Sub_Application_1.Models.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("server.Models.User", "User")
+                    b.HasOne("Sub_Application_1.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -174,34 +159,15 @@ namespace Sub_Application_1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("server.Models.Follow", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.Like", b =>
                 {
-                    b.HasOne("server.Models.User", "Follower")
-                        .WithMany("Following")
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("server.Models.User", "Following")
-                        .WithMany("Followers")
-                        .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Follower");
-
-                    b.Navigation("Following");
-                });
-
-            modelBuilder.Entity("server.Models.Like", b =>
-                {
-                    b.HasOne("server.Models.Post", "Post")
+                    b.HasOne("Sub_Application_1.Models.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("server.Models.User", "User")
+                    b.HasOne("Sub_Application_1.Models.User", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -212,9 +178,9 @@ namespace Sub_Application_1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("server.Models.Post", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.Post", b =>
                 {
-                    b.HasOne("server.Models.User", "User")
+                    b.HasOne("Sub_Application_1.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -223,20 +189,16 @@ namespace Sub_Application_1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("server.Models.Post", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.Post", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Likes");
                 });
 
-            modelBuilder.Entity("server.Models.User", b =>
+            modelBuilder.Entity("Sub_Application_1.Models.User", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Followers");
-
-                    b.Navigation("Following");
 
                     b.Navigation("Likes");
 

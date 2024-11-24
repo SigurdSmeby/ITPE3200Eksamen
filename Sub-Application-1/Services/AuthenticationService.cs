@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using server.Data;
-using server.Models;
+using Sub_Application_1.Data;
+using Sub_Application_1.Models;
 using System.Threading.Tasks;
 
-namespace server.Services
+namespace Sub_Application_1.Services
 {
     public class AuthenticationService
     {

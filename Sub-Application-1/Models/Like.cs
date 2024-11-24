@@ -1,6 +1,6 @@
 using System;
 
-namespace server.Models
+namespace Sub_Application_1.Models
 {
 	public class Like
 	{

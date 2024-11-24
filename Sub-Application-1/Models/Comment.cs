@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Models
+namespace Sub_Application_1.Models
 {
 	public class Comment
 	{

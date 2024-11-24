@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Models
+namespace Sub_Application_1.Models
 {
     public class Post
     {
