@@ -27,10 +27,7 @@
 						@if (User.Identity.IsAuthenticated)
 						{
 							<li class="nav-item">
-								<form asp-controller="Users" asp-action="Logout" method="post" class="form-inline">
-									<button type="submit" class="nav-link btn btn-link"
-										style="padding: 0; border: none; background: none;">Logout</button>
-								</form>
+								<a class="nav-link btn btn-link" href="@Url.Action("Logout", "Users")">Logout</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link btn btn-link" asp-area="" asp-controller="Home"
