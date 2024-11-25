@@ -45,6 +45,13 @@ namespace Sub_Application_1.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+
 
 
         // Post register
@@ -87,14 +94,13 @@ namespace Sub_Application_1.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
 
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, isPersistent: true, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, isPersistent: false, lockoutOnFailure: false);
             
             
             if (result.Succeeded)
@@ -121,23 +127,19 @@ namespace Sub_Application_1.Controllers
         [HttpGet]
         public async Task<IActionResult> Settings()
         {
-            String userId = GetCurrentUserId();
-
-            var user = await _context.Users
-                .SingleOrDefaultAsync(u => u.Id == userId);
+            var user = await _userManager.GetUserAsync(User);
 
             if (user == null){
                 ModelState.AddModelError("User", "User not found");
+                Console.WriteLine("User not found");
                 return View();
             }
+            //TODO: Se ann om vi trenger å sende me all infoen
             var userDto = new UserProfileDto
             {
-                UserId = user.Id,
                 Username = user.UserName,
                 Email = user.Email,
                 ProfilePictureUrl = user.ProfilePictureUrl,
-                DateJoined = user.DateJoined,
-                PostCount = user.Posts.Count,
                 Bio = user.Bio
             };
 
@@ -146,104 +148,86 @@ namespace Sub_Application_1.Controllers
 
         // 
         [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> Settings(IFormFile? profilePicture,  string? username,  string? email, string? bio)
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(UserProfileDto userProfileDto)
         {
-            String userId = GetCurrentUserId();
-
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _userManager.GetUserAsync(User);
 
             if (user == null){
                 ModelState.AddModelError("User", "User not found");
-                return View();
-                }
-
-            // Update username if provided
-            if (!string.IsNullOrEmpty(username))
-            {
-                // Ensure the new username isn't taken by someone else
-                if (await _context.Users.AnyAsync(u => u.UserName == username && u.Id != userId))
-                {
-                    ModelState.AddModelError("User", "Username is already taken");
-                    return View();
-                }
-                user.UserName = username;
+                return View("Settings", userProfileDto);
             }
-
-            // Update email if provided
-            if (!string.IsNullOrEmpty(email))
+            if (!ModelState.IsValid)
             {
-                // Ensure the new email isn't already registered to another user
-                if (await _context.Users.AnyAsync(u => u.Email == email && u.Id != userId))
-                {
-                    ModelState.AddModelError("Email", "Email is already registered.");
-                    return View();
-                }
-                user.Email = email;
+                return View("Settings", userProfileDto);
             }
+                user.UserName = userProfileDto.Username;
+                user.Email = userProfileDto.Email;
+                user.Bio = userProfileDto.Bio; 
 
             // Handle profile picture upload
-            if (profilePicture != null && profilePicture.Length > 0)
+            if (userProfileDto.ProfilePicture != null && userProfileDto.ProfilePicture.Length > 0)
             {
                 // TODO: maybe unnececary consider removal
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/profile_pictures");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
 
-                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(profilePicture.FileName);
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(userProfileDto.ProfilePicture.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                
+                if (user.ProfilePictureUrl != "/images/default_profile.jpg")
+                {
+                    // Delete the old profile picture
+                    var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, user.ProfilePictureUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    await profilePicture.CopyToAsync(fileStream);
+                    await userProfileDto.ProfilePicture.CopyToAsync(fileStream);
                 }
 
                 // Update the user's profile picture URL to the relative path
-                user.ProfilePictureUrl = "/uploads/" + uniqueFileName;
+                user.ProfilePictureUrl = "/uploads/profile_pictures/" + uniqueFileName;
+                userProfileDto.ProfilePictureUrl = user.ProfilePictureUrl;
             }
+            var result = await _userManager.UpdateAsync(user);
+            
+            //TODO: Add error handling
 
-            // Update bio if provided
-            if (!string.IsNullOrEmpty(bio))
-            {
-                user.Bio = bio;
-            }
-
-            // Save changes to the database
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
             ViewBag.SuccessMessage = "Profile updated successfully.";
-            return View();
+            return View("Settings", userProfileDto);
         }
 
         // PUT: api/Users/change-password
         [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> ChangePassword(ChangePasswordDto passwordDto)
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(UserProfileDto userProfileDto)
         {
-            String userId = GetCurrentUserId();
-
-            var user = await _context.Users.FindAsync(userId);
-
+            var user = await _userManager.GetUserAsync(User);
             if (user == null){
                 ModelState.AddModelError("User", "User not found");
-                return RedirectToAction("Settings");
-        }
-            if (!BCrypt.Net.BCrypt.Verify(passwordDto.CurrentPassword, user.PasswordHash))
-            {
-                ModelState.AddModelError("password", "Current password is incorrect");
-                return RedirectToAction("Settings");
-
+                return View("Settings", userProfileDto);
             }
-
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(passwordDto.NewPassword);
-
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "Password updated successfully.";
-            return RedirectToAction("Settings");
+            if (userProfileDto.NewPassword != userProfileDto.ConfirmPassword) {
+                ViewData["PasswordError"] = "The passwords do not match";
+                return View("Settings", userProfileDto);
+            }
+            var results = await _userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
+            if (results.Succeeded){
+                ViewData["PasswordSuccess"] = "Your password is updated";
+            }
+            else {
+                var errorMessages = string.Join("<br/>", results.Errors.Select(e => e.Description));
+                ViewData["PasswordError"] = errorMessages;
+            }
+            return View("Settings", userProfileDto);
         }
 
         // DELETE: api/Users/delete-account
@@ -251,32 +235,31 @@ namespace Sub_Application_1.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAccount()
         {
-            String userId = GetCurrentUserId();
-
-            var user = await _context.Users.FindAsync(userId);
-
+            var user = await _userManager.GetUserAsync(User);
             if (user == null){
                 ModelState.AddModelError("User", "User not found");
                 return RedirectToAction("Settings");
             }
+            if (user.ProfilePictureUrl != "/images/default_profile.jpg")
+            {
+                // Delete the old profile picture
+                var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, user.ProfilePictureUrl.TrimStart('/'));
+                if (System.IO.File.Exists(oldFilePath))
+                {
+                    System.IO.File.Delete(oldFilePath);
+                }
+            }
+            var result = await _userManager.DeleteAsync(user);
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Users");
+            }
 
-            TempData["SuccessMessage"] = "Account deleted successfully.";
-            return RedirectToAction("Login");
+            ViewData["ProfileError"] = "Error deleting account.";
+            return RedirectToAction("Settings");
 
         }
 
-        // Helper methods
-		private String GetCurrentUserId()
-		{
-			return User.FindFirstValue(ClaimTypes.NameIdentifier);
-		}
-
-        private string GenerateJwtToken(User user)
-        {
-            return "hei";
-        }
     }
 }
