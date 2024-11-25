@@ -265,6 +265,34 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\3fed21da-ae04-4edb-b6bc-743b5f9a73ea.jpg",
+      "PackagePath": "staticwebassets\\uploads\\3fed21da-ae04-4edb-b6bc-743b5f9a73ea.jpg"
+    },
+    {
+      "Id": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\608e5c17-3ac8-4fdd-923b-d7dc4f3cc2c8.png",
+      "PackagePath": "staticwebassets\\uploads\\608e5c17-3ac8-4fdd-923b-d7dc4f3cc2c8.png"
+    },
+    {
+      "Id": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\6a8d368c-845b-495c-a58d-30e8f772bb97.gif",
+      "PackagePath": "staticwebassets\\uploads\\6a8d368c-845b-495c-a58d-30e8f772bb97.gif"
+    },
+    {
+      "Id": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\7ba1c3fc-2ce9-410c-9b75-cde046523462.png",
+      "PackagePath": "staticwebassets\\uploads\\7ba1c3fc-2ce9-410c-9b75-cde046523462.png"
+    },
+    {
+      "Id": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\8b9c2662-1cd0-43c2-95d4-6ff03ab033cb.png",
+      "PackagePath": "staticwebassets\\uploads\\8b9c2662-1cd0-43c2-95d4-6ff03ab033cb.png"
+    },
+    {
+      "Id": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\af3e2c97-9fe9-4740-ba80-76b3daa6e346.png",
+      "PackagePath": "staticwebassets\\uploads\\af3e2c97-9fe9-4740-ba80-76b3daa6e346.png"
+    },
+    {
+      "Id": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\afc247b1-5933-4da3-88ad-dba838dfd9a2.jpg",
+      "PackagePath": "staticwebassets\\uploads\\afc247b1-5933-4da3-88ad-dba838dfd9a2.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Sub-Application-1.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

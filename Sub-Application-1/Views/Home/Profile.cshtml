@@ -1,0 +1,45 @@
+@model IEnumerable<Sub_Application_1.DTOs.PostDto>
+
+@{
+    var username = ViewData["Username"] as string;
+    var profilePictureUrl = Model.FirstOrDefault()?.Author.ProfilePictureUrl;
+}
+
+@if (!string.IsNullOrEmpty(username))
+{
+    <div class="profile-header d-flex align-items-center mb-4">
+        <img src="@profilePictureUrl" alt="Profile Picture" class="rounded-circle me-3" style="width: 100px; height: 100px;" />
+        <h1>Profile Page for @username</h1>
+    </div>
+    <p>Below are all the posts created by @username.</p>
+
+    <form method="post" action="/Users/Logout">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+
+    <!-- Posts Section -->
+    <div class="posts-container mt-5">
+        <h2>@username's Posts</h2>
+        <div id="posts">
+            @if (Model == null || !Model.Any())
+            {
+                <p>No posts available for this user.</p>
+            }
+            else
+            {
+                @await Html.PartialAsync("_PostsPartial", Model)
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="container text-center mt-5">
+        <h1 class="display-4">Welcome to the Application</h1>
+        <p class="lead">Please log in or register to continue.</p>
+        <div class="mt-4">
+            <a href="/Users/Login" class="btn btn-primary btn-lg me-3">Login</a>
+            <a href="/Users/Register" class="btn btn-success btn-lg">Register</a>
+        </div>
+    </div>
+}
