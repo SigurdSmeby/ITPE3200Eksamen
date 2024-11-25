@@ -11,29 +11,43 @@ using System.IO;
 
 namespace Sub_Application_1.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PostsController : ControllerBase
+    public class PostController : Controller
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public PostsController(AppDbContext context, IWebHostEnvironment webHostEnvironment)
+        public PostController(AppDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
 
+        /* --------------------------------------------------------------------------------------------
+            POSTS
+            The following methods are used to create, read, update, and delete posts.
+        ----------------------------------------------------------------------------------------------*/
+
+        [HttpGet]
+        public IActionResult CreatePost()
+        {
+            return View();
+        }
+
         // POST: api/Posts
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromForm] CreatePostDto postDto, [FromForm] IFormFile? imageFile)
+        public async Task<IActionResult> CreatePost(CreatePostDto postDto)
         {
             String userId = GetCurrentUserId();
 
-            string? imagePath = null;
+            if (!ModelState.IsValid)
+            {
+                return View(postDto);
+            }
+            
+            string imagePath = string.Empty;
 
-            if (imageFile != null && imageFile.Length > 0)
+            if (postDto.Image != null && postDto.Image.Length > 0)
             {
                 // Define the uploads folder path
                 var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
@@ -43,13 +57,13 @@ namespace Sub_Application_1.Controllers
                 }
 
                 // Generate a unique filename for the uploaded file
-                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(postDto.Image.FileName);
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
                 // Save the file
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    await imageFile.CopyToAsync(fileStream);
+                    await postDto.Image.CopyToAsync(fileStream);
                 }
 
                 // Set the relative path
@@ -69,8 +83,12 @@ namespace Sub_Application_1.Controllers
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
 
-            return Ok("Post created successfully.");
+            return RedirectToAction("Index", "Home");
         }
+//  ---------------------------
+//      Fortsett HER
+//-------------------------
+
 
         // GET: api/Posts
         [HttpGet]
@@ -105,6 +123,8 @@ namespace Sub_Application_1.Controllers
 
             return Ok(posts);
         }
+
+        
 
         // GET: api/Posts/5
         [Authorize]
@@ -271,6 +291,140 @@ namespace Sub_Application_1.Controllers
 
             return Ok(response);
         }
+
+        /* --------------------------------------------------------------------------------------------
+            COMMENTS
+            The following methods are used to create, read and delete comments.
+        ----------------------------------------------------------------------------------------------*/
+
+		// POST: api/Comments
+		[Authorize]
+		[HttpPost]
+		public async Task<IActionResult> AddComment([FromBody] AddCommentDto commentDto)
+		{
+			String userId = GetCurrentUserId();
+
+			var comment = new Comment
+			{
+				UserId = userId,
+				PostId = commentDto.PostId,
+				Content = commentDto.Content
+			};
+
+			_context.Comments.Add(comment);
+			await _context.SaveChangesAsync();
+
+			return Ok("Comment added successfully.");
+		}
+
+
+		// GET: api/Comments/post/5
+		[HttpGet("post/{postId}")]
+		public async Task<IActionResult> GetCommentsForPost(int postId)
+		{
+			var comments = await _context.Comments
+				.Where(c => c.PostId == postId)
+				.Include(c => c.User)
+				.OrderBy(c => c.DateCommented)
+				.Select(c => new CommentDto
+				{
+					CommentId = c.CommentId,
+					Content = c.Content,
+					DateCommented = c.DateCommented,
+					AuthorUsername = c.User.UserName
+				})
+				.ToListAsync();
+
+			return Ok(comments);
+		}
+
+		// DELETE: api/Comments/5
+		[Authorize]
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteComment(int id)
+		{
+			String userId = GetCurrentUserId();
+
+			var comment = await _context.Comments.FindAsync(id);
+
+			if (comment == null)
+				return NotFound();
+
+			if (comment.UserId != userId)
+				return Forbid("You are not authorized to delete this comment.");
+
+			_context.Comments.Remove(comment);
+			await _context.SaveChangesAsync();
+
+			return Ok("Comment deleted successfully.");
+		}
+
+
+        /* --------------------------------------------------------------------------------------------
+            LIKES
+            The following methods are used to create, read and delete likes.
+        ----------------------------------------------------------------------------------------------*/
+                // POST: api/Likes/like/5
+        [Authorize]
+        [HttpPost("like/{postId}")]
+        public async Task<IActionResult> LikePost(int postId)
+        {
+            String userId = GetCurrentUserId();
+
+            if (await _context.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId))
+            {
+                return BadRequest("You have already liked this post.");
+            }
+
+            var like = new Like
+            {
+                UserId = userId,
+                PostId = postId
+            };
+
+            _context.Likes.Add(like);
+            await _context.SaveChangesAsync();
+
+            return Ok("Post liked successfully.");
+        }
+
+        // DELETE: api/Likes/unlike/5
+        [Authorize]
+        [HttpDelete("unlike/{postId}")]
+        public async Task<IActionResult> UnlikePost(int postId)
+        {
+            String userId = GetCurrentUserId();
+
+            var like = await _context.Likes.FindAsync(userId, postId);
+
+            if (like == null)
+                return NotFound("You have not liked this post.");
+
+            _context.Likes.Remove(like);
+            await _context.SaveChangesAsync();
+
+            return Ok("Post unliked successfully.");
+        }
+
+        // GET: api/Likes/post/5
+        [HttpGet("post/{postId}")]
+        public async Task<IActionResult> GetLikesForPost(int postId)
+        {
+            var likes = await _context.Likes
+                .Where(l => l.PostId == postId)
+                .Include(l => l.User)
+                .Select(l => new UserDto
+                {
+                    UserId = l.User.Id,
+                    Username = l.User.UserName,
+                    ProfilePictureUrl = l.User.ProfilePictureUrl
+                })
+                .ToListAsync();
+
+            return Ok(likes);
+        }
+
+        
 
         // Helper method
 		private String GetCurrentUserId()

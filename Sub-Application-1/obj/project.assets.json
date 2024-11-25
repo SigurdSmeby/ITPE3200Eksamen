@@ -4879,19 +4879,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\olaax\\.nuget\\packages\\": {}
+    "C:\\Users\\sigur\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\Sub-Application-1.csproj",
+      "projectUniqueName": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\Sub-Application-1.csproj",
       "projectName": "Sub-Application-1",
-      "projectPath": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\Sub-Application-1.csproj",
-      "packagesPath": "C:\\Users\\olaax\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\obj\\",
+      "projectPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\Sub-Application-1.csproj",
+      "packagesPath": "C:\\Users\\sigur\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\olaax\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\sigur\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4970,7 +4970,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
