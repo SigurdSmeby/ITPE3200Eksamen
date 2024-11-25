@@ -1,72 +1,73 @@
+<link rel="stylesheet" href="/css/cards.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+
 @model IEnumerable<Sub_Application_1.DTOs.PostDto>
+@using Sub_Application_1.DTOs
+
 
 @if (Model == null || !Model.Any())
 {
-    <p>No posts available.</p>
+	<p>No posts available.</p>
 }
 else
 {
-    @foreach (var post in Model)
-    {
-        <div class="card mb-4 shadow-sm" style="border-radius: 10px; overflow: hidden; max-width: 478px;">
-            <div class="d-flex align-items-center p-3" style="background-color: #f8f9fa;">
-                <a href="/profile/@post.Author?.Username" class="text-decoration-none d-flex align-items-center">
-                    <img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" 
-                         class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                    <div>
-                        <strong>@post.Author?.Username</strong>
-                        <br />
-                        <span class="text-muted" style="font-size: 0.9rem;">@post.DateUploaded.ToString("MMM dd, yyyy")</span>
-                    </div>
-                </a>
-                @if (User.Identity?.Name == post.Author?.Username)
-                {
-                    <div class="ms-auto">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Options
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="/posts/edit/@post.PostId">Edit</a></li>
-                                <li>
-                                    <form asp-action="DeletePost" method="post" asp-route-id="@post.PostId" class="d-inline">
-                                        <button type="submit" class="dropdown-item text-danger">Delete</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                }
-            </div>
+	@foreach (var post in Model)
+	{
+		<div class="card mb-4 shadow-sm" style="border-radius: 10px; overflow: hidden; width: 30rem;">
+			<!-- CARD HEADER -->
+			<div class="d-flex align-items-center p-3" style="background-color: #f8f9fa;">
+				<a href="/profile/@post.Author?.Username" class="text-decoration-none d-flex align-items-center">
+					<img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" class="rounded-circle me-2"
+						style="width: 50px; height: 50px; object-fit: cover;">
+					<div>
+						<h5 class="mb-0">@post.Author?.Username</h5>
+						<small class="text-muted">@post.DateUploaded.ToString("MMM dd, yyyy")</small>
+					</div>
+				</a>
+			</div>
 
-            <div class="card-body" 
-                 style="font-size: @(post.FontSize > 0 ? post.FontSize : 16)px; color: @post.TextColor; background-color: @post.BackgroundColor;">
-                @if (!string.IsNullOrEmpty(post.TextContent))
-                {
-                    <p>@post.TextContent</p>
-                }
-                @if (!string.IsNullOrEmpty(post.ImagePath))
-                {
-                    <img src="@post.ImagePath" alt="Post Image" class="img-fluid" 
-                         style="max-width: 100%; border-radius: 10px;">
-                }
-            </div>
+			<!-- CARD BODY -->
+			<div class="card-body" style="font-size: 16px; color: #000000; background-color: #ffffff;">
+				@if (!string.IsNullOrEmpty(post.TextContent))
+				{
+					<p class="mb-3">@post.TextContent</p>
+				}
+				@if (!string.IsNullOrEmpty(post.ImagePath))
+				{
+					<div class="image-container">
+						<img src="@post.ImagePath" alt="Post Image" class="img-fluid rounded">
+					</div>
+				}
+			</div>
 
-            <div class="d-flex justify-content-between align-items-center p-3" style="background-color: #f8f9fa;">
-                <div class="d-flex align-items-center">
-                    <button class="btn btn-light d-flex align-items-center me-3" style="border-radius: 50%;">
-                        <i class="bi bi-heart"></i>
-                    </button>
-                    <span>@post.LikesCount</span>
-                    
-                    <button class="btn btn-light d-flex align-items-center ms-4 toggle-comments" 
-                            style="border-radius: 50%;" data-post-id="@post.PostId">
-                        <i class="bi bi-chat"></i>
-                        <p>comment</p>
-                    </button>
-                    <span>@post.CommentsCount</span>
-                </div>
-            </div>
-        </div>
-    }
+			<!-- CARD FOOTER -->
+			<div class="d-flex justify-content-between align-items-center p-3" style="background-color: #f8f9fa;">
+				<button class="btn btn-light d-flex align-items-center ms-4 toggle-comments" style="border-radius: 50%;">
+					<i class="bi bi-heart"></i> <span>@post.LikesCount</span>
+				</button>
+
+				<!-- Comments Toggle -->
+				@using (Html.BeginForm("GetCommentsForPost", "Comments", FormMethod.Get, new { @class = "d-inline" }))
+				{
+					<input type="hidden" name="postId" value="@post.PostId" />
+					<button type="submit" class="btn btn-light d-flex align-items-center ms-4">
+						<i class="bi bi-chat"></i> View Comments
+					</button>
+				}
+			</div>
+
+			<!-- COMMENTS SECTION -->
+			@if (ViewBag.ActivePostId == post.PostId)
+			{
+				<div id="comments-container-@post.PostId">
+					@{
+						@Html.Partial("_CommentsPartial", (IEnumerable<CommentDto>)ViewBag.Comments)
+
+					}
+
+				</div>
+			}
+		</div>
+	}
 }
