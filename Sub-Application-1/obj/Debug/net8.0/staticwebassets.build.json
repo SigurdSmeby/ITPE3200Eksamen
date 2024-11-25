@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "nB5W0CmCD0hkCqFQOm/SNBgUxZNw07eVGKUx03Uf0/Q=",
+  "Hash": "LtHvbgP8BCaO8JdFzp5DwZnWkzPqQAz0Ami/1P22bRE=",
   "Source": "Sub-Application-1",
   "BasePath": "_content/Sub-Application-1",
   "Mode": "Default",
@@ -2658,6 +2658,25 @@
       "OriginalItemSpec": "wwwroot\\uploads\\afc247b1-5933-4da3-88ad-dba838dfd9a2.jpg"
     },
     {
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\b776bd84-0978-4728-bf14-f9fcc2cb7b33.png",
+      "SourceId": "Sub-Application-1",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
+      "BasePath": "_content/Sub-Application-1",
+      "RelativePath": "uploads/b776bd84-0978-4728-bf14-f9fcc2cb7b33.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\b776bd84-0978-4728-bf14-f9fcc2cb7b33.png"
+    },
+    {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\c7d988a5-276e-4331-a041-e441462cf2d8.png",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
@@ -2694,6 +2713,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\profile_pictures\\62c447f5-6f5e-4e67-87d7-9e0d10df0cb5.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\profile_pictures\\66de4631-543f-4c3f-82b6-2db0fc3c90ad.png",
+      "SourceId": "Sub-Application-1",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
+      "BasePath": "_content/Sub-Application-1",
+      "RelativePath": "uploads/profile_pictures/66de4631-543f-4c3f-82b6-2db0fc3c90ad.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\profile_pictures\\66de4631-543f-4c3f-82b6-2db0fc3c90ad.png"
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\profile_pictures\\c78d5e39-822c-40ce-98c0-dcba0938c156.png",

@@ -215,11 +215,11 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 
 			// Fetch posts created by the user
 			var posts = await _context.Posts
-				.Where(p => p.UserId == user.Id)
 				.OrderByDescending(p => p.DateUploaded)
 				.Include(p => p.User)
 				.Include(p => p.Likes)
 				.Include(p => p.Comments)
+				.ThenInclude(c => c.User) // Include user details for comments
 				.Select(p => new PostDto
 				{
 					PostId = p.PostId,
@@ -236,7 +236,14 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 						ProfilePictureUrl = p.User.ProfilePictureUrl
 					},
 					LikesCount = p.Likes.Count,
-					CommentsCount = p.Comments.Count
+					CommentsCount = p.Comments.Count,
+					Comments = p.Comments.Select(c => new CommentDto
+					{
+						CommentId = c.CommentId,
+						Content = c.Content,
+						DateCommented = c.DateCommented,
+						AuthorUsername = c.User.UserName // Assuming User navigation property
+					}).ToList()
 				})
 				.ToListAsync();
 
