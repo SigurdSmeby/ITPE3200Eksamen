@@ -11,6 +11,7 @@
       "Name": "Sub-Application-1\\wwwroot",
       "Source": "Sub-Application-1",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "Pattern": "**"
     }
@@ -18,8 +19,10 @@
   "Assets": [
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\css\\site.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\css\\site.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "css/site.css",
@@ -34,11 +37,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\css\\site.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\css\\site.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\favicon.ico",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\favicon.ico",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "favicon.ico",
@@ -53,11 +59,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\favicon.ico"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\favicon.ico"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\js\\site.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\js\\site.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "js/site.js",
@@ -72,11 +81,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\js\\site.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\js\\site.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
@@ -91,11 +103,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
@@ -110,11 +125,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
@@ -129,11 +147,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
@@ -148,11 +169,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
@@ -167,11 +191,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
@@ -186,11 +213,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
@@ -205,11 +235,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
@@ -224,11 +257,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
@@ -243,11 +279,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
@@ -262,11 +301,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
@@ -281,11 +323,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
@@ -300,11 +345,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
@@ -319,11 +367,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
@@ -338,11 +389,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
@@ -357,11 +411,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
@@ -376,11 +433,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css",
@@ -395,11 +455,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css.map",
@@ -414,11 +477,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css",
@@ -433,11 +499,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
@@ -452,11 +521,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
@@ -471,11 +543,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
@@ -490,11 +565,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
@@ -509,11 +587,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
@@ -528,11 +609,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
@@ -547,11 +631,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
@@ -566,11 +653,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
@@ -585,11 +675,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
@@ -604,11 +697,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css",
@@ -623,11 +719,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css.map",
@@ -642,11 +741,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css",
@@ -661,11 +763,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
@@ -680,11 +785,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
@@ -699,11 +807,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
@@ -718,11 +829,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
@@ -737,11 +851,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
@@ -756,11 +873,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js",
@@ -775,11 +895,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js.map",
@@ -794,11 +917,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js",
@@ -813,11 +939,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
@@ -832,11 +961,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
@@ -851,11 +983,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
@@ -870,11 +1005,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
@@ -889,11 +1027,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
@@ -908,11 +1049,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\LICENSE",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\LICENSE",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/LICENSE",
@@ -927,11 +1071,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\LICENSE"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\bootstrap\\LICENSE"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
@@ -946,11 +1093,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
@@ -965,11 +1115,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
@@ -984,11 +1137,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\additional-methods.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
@@ -1003,11 +1159,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\additional-methods.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
@@ -1022,11 +1181,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
@@ -1041,11 +1203,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\jquery.validate.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
@@ -1060,11 +1225,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\LICENSE.md",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\LICENSE.md",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/LICENSE.md",
@@ -1079,11 +1247,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\LICENSE.md"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery-validation\\LICENSE.md"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery/dist/jquery.js",
@@ -1098,11 +1269,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.min.js",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
@@ -1117,11 +1291,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.min.js"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.min.map",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.min.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
@@ -1136,11 +1313,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.min.map"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
       "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\LICENSE.txt",
+      "Identity": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\LICENSE.txt",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "ContentRoot": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery/LICENSE.txt",
@@ -1155,11 +1335,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\LICENSE.txt"
+      "OriginalItemSpec": "C:\\Users\\sigur\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.8\\staticwebassets\\V5\\lib\\jquery\\LICENSE.txt"
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Sub-Application-1.styles.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Sub-Application-1.styles.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "Sub-Application-1.styles.css",
@@ -1174,11 +1357,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Sub-Application-1.styles.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Sub-Application-1.styles.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Sub-Application-1.bundle.scp.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Sub-Application-1.bundle.scp.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "Sub-Application-1.bundle.scp.css",
@@ -1193,11 +1379,14 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Sub-Application-1.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Sub-Application-1.bundle.scp.css"
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\css\\bootstrap.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\css\\bootstrap.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "css/bootstrap.css",
@@ -1215,8 +1404,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\css\\bootstrap.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\css\\bootstrap.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "css/bootstrap.min.css",
@@ -1234,8 +1425,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\css\\site.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\css\\site.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "css/site.css",
@@ -1253,8 +1446,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\favicon.ico",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\favicon.ico",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "favicon.ico",
@@ -1272,8 +1467,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\images\\default_profile.jpg",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\images\\default_profile.jpg",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "images/default_profile.jpg",
@@ -1291,8 +1488,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\js\\bootstrap.bundle.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\js\\bootstrap.bundle.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "js/bootstrap.bundle.js",
@@ -1310,8 +1509,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\js\\bootstrap.bundle.min.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "js/bootstrap.bundle.min.js",
@@ -1329,8 +1530,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\js\\site.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "js/site.js",
@@ -1348,8 +1551,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
@@ -1367,8 +1572,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
@@ -1386,8 +1593,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
@@ -1405,8 +1614,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
@@ -1424,8 +1635,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
@@ -1443,8 +1656,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
@@ -1462,8 +1677,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
@@ -1481,8 +1698,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
@@ -1500,8 +1719,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
@@ -1519,8 +1740,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
@@ -1538,8 +1761,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
@@ -1557,8 +1782,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
@@ -1576,8 +1803,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
@@ -1595,8 +1824,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
@@ -1614,8 +1845,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
@@ -1633,8 +1866,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
@@ -1652,8 +1887,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css",
@@ -1671,8 +1908,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css.map",
@@ -1690,8 +1929,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css",
@@ -1709,8 +1950,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
@@ -1728,8 +1971,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
@@ -1747,8 +1992,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
@@ -1766,8 +2013,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
@@ -1785,8 +2034,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
@@ -1804,8 +2055,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
@@ -1823,8 +2076,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
@@ -1842,8 +2097,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
@@ -1861,8 +2118,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
@@ -1880,8 +2139,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css",
@@ -1899,8 +2160,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css.map",
@@ -1918,8 +2181,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css",
@@ -1937,8 +2202,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
@@ -1956,8 +2223,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
@@ -1975,8 +2244,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
@@ -1994,8 +2265,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
@@ -2013,8 +2286,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
@@ -2032,8 +2307,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js",
@@ -2051,8 +2328,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js.map",
@@ -2070,8 +2349,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js",
@@ -2089,8 +2370,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
@@ -2108,8 +2391,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
@@ -2127,8 +2412,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
@@ -2146,8 +2433,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
@@ -2165,8 +2454,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
@@ -2184,8 +2475,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\bootstrap\\LICENSE",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/bootstrap/LICENSE",
@@ -2203,8 +2496,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
@@ -2222,8 +2517,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
@@ -2241,8 +2538,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
@@ -2260,8 +2559,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
@@ -2279,8 +2580,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
@@ -2298,8 +2601,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
@@ -2317,8 +2622,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
@@ -2336,8 +2643,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery-validation/LICENSE.md",
@@ -2355,8 +2664,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery/dist/jquery.js",
@@ -2374,8 +2685,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
@@ -2393,8 +2706,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
@@ -2412,8 +2727,10 @@
     },
     {
       "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Identity": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "SourceId": "Sub-Application-1",
       "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "ContentRoot": "C:\\Users\\sigur\\OneDrive\\Dokumenter\\Skole\\Webapp\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
       "BasePath": "_content/Sub-Application-1",
       "RelativePath": "lib/jquery/LICENSE.txt",
