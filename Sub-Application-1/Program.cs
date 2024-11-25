@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Sub_Application_1.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Sub_Application_1.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDefaultIdentity<User>().AddEntityFrameworkStores<AppDbContext>();
 
 // Configure Entity Framework Core with SQLite
 

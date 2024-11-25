@@ -29,7 +29,7 @@ namespace Sub_Application_1.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] CreatePostDto postDto, [FromForm] IFormFile? imageFile)
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             string? imagePath = null;
 
@@ -94,8 +94,8 @@ namespace Sub_Application_1.Controllers
                     BackgroundColor = p.BackgroundColor,
                     Author = new UserDto
                     {
-                        UserId = p.User.UserId,
-                        Username = p.User.Username,
+                        UserId = p.User.Id,
+                        Username = p.User.UserName,
                         ProfilePictureUrl = p.User.ProfilePictureUrl
                     },
                     LikesCount = p.Likes.Count,
@@ -132,8 +132,8 @@ namespace Sub_Application_1.Controllers
                 BackgroundColor = post.BackgroundColor,
                 Author = new UserDto
                 {
-                    UserId = post.User.UserId,
-                    Username = post.User.Username,
+                    UserId = post.User.Id,
+                    Username = post.User.UserName,
                     ProfilePictureUrl = post.User.ProfilePictureUrl
                 },
                 LikesCount = post.Likes.Count,
@@ -142,7 +142,7 @@ namespace Sub_Application_1.Controllers
                     CommentId = c.CommentId,
                     Content = c.Content,
                     DateCommented = c.DateCommented,
-                    AuthorUsername = c.User.Username
+                    AuthorUsername = c.User.UserName
                 }).ToList()
             };
 
@@ -204,14 +204,14 @@ namespace Sub_Application_1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(int id)
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             var post = await _context.Posts.FindAsync(id);
 
             if (post == null)
                 return NotFound();
 
-            if (post.UserId != userId)
+            if (!post.UserId.Equals(userId))
                 return Forbid("You are not authorized to delete this post.");
 
             _context.Posts.Remove(post);
@@ -225,7 +225,7 @@ namespace Sub_Application_1.Controllers
         public async Task<IActionResult> GetPostsByUsername(string username, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             var user = await _context.Users
-                .Where(u => u.Username == username)
+                .Where(u => u.UserName == username)
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -234,7 +234,7 @@ namespace Sub_Application_1.Controllers
             }
 
             var posts = await _context.Posts
-                .Where(p => p.UserId == user.UserId)
+                .Where(p => p.UserId.Equals(user.Id))
                 .OrderByDescending(p => p.DateUploaded)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -252,8 +252,8 @@ namespace Sub_Application_1.Controllers
                     BackgroundColor = p.BackgroundColor,
                     Author = new UserDto
                     {
-                        UserId = p.User.UserId,
-                        Username = p.User.Username,
+                        UserId = p.User.Id,
+                        Username = p.User.UserName,
                         ProfilePictureUrl = p.User.ProfilePictureUrl
                     },
                     LikesCount = p.Likes.Count,
@@ -263,7 +263,7 @@ namespace Sub_Application_1.Controllers
 
             var response = new
             {
-                Username = user.Username,
+                Username = user.UserName,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 Bio = user.Bio,
                 Posts = posts
@@ -273,9 +273,9 @@ namespace Sub_Application_1.Controllers
         }
 
         // Helper method
-        private int GetCurrentUserId()
-        {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        }
+		private String GetCurrentUserId()
+		{
+			return User.FindFirstValue(ClaimTypes.NameIdentifier);
+		}
     }
 }

@@ -9,7 +9,7 @@ namespace Sub_Application_1.Models
         public int PostId { get; set; }
 
         [Required]
-        public int UserId { get; set; } // Foreign key
+        public String UserId { get; set; } // Foreign key
 
         public string? ImagePath { get; set; } // Path to the uploaded file in wwwroot/uploads
 

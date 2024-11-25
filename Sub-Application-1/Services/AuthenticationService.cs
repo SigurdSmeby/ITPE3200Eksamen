@@ -20,7 +20,7 @@ namespace Sub_Application_1.Services
         public async Task<User> AuthenticateAsync(string usernameOrEmail, string password)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u =>
-                u.Username == usernameOrEmail || u.Email == usernameOrEmail);
+                u.UserName == usernameOrEmail || u.Email == usernameOrEmail);
 
             if (user == null)
                 return null;
@@ -43,7 +43,7 @@ namespace Sub_Application_1.Services
         public async Task<User> GetUserByUsernameOrEmailAsync(string username, string email)
         {
             return await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == username || u.Email == email);
+                .FirstOrDefaultAsync(u => u.UserName == username || u.Email == email);
         }
     }
 }

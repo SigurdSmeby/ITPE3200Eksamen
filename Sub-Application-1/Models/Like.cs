@@ -4,7 +4,7 @@ namespace Sub_Application_1.Models
 {
 	public class Like
 	{
-		public int UserId { get; set; } // Composite key
+		public string  UserId { get; set; } // Composite key
 		public int PostId { get; set; } // Composite key
 
 		public DateTime DateLiked { get; set; } = DateTime.Now;

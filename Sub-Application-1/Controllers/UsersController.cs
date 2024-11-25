@@ -19,11 +19,16 @@ namespace Sub_Application_1.Controllers
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
 
         //Constructor
-        public UsersController(AppDbContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public UsersController(
+            AppDbContext context, 
+            IConfiguration configuration, 
+            IWebHostEnvironment webHostEnvironment, 
+            SignInManager<User> signInManager, 
+            UserManager<User> userManager)
         {
             _context = context;
             _configuration = configuration;
@@ -55,21 +60,23 @@ namespace Sub_Application_1.Controllers
                 ModelState.AddModelError("Password", "Passwords do not match.");
                 return View(registerDto);
             }
-               var user = new IdentityUser
-            {
-                UserName = registerDto.Username,
-                Email = registerDto.Email
-            };
+            var user = new User
+                {
+                    UserName = registerDto.Username,
+                    Email = registerDto.Email,
+                };
+            
             var result = await _userManager.CreateAsync(user, registerDto.Password);
-
+            Console.WriteLine("Result: " + result);
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _signInManager.SignInAsync(user, isPersistent: true);
                 return RedirectToAction("Index", "Home");
             }
 
             foreach (var error in result.Errors)
-            {
+            {   
+                Console.WriteLine("Error: " + error.Description);
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
@@ -80,14 +87,14 @@ namespace Sub_Application_1.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == loginDto.Username);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
 
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, isPersistent: true, lockoutOnFailure: false);
             
             
             if (result.Succeeded)
@@ -103,15 +110,21 @@ namespace Sub_Application_1.Controllers
             }
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Settings()
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             var user = await _context.Users
-                .SingleOrDefaultAsync(u => u.UserId == userId);
+                .SingleOrDefaultAsync(u => u.Id == userId);
 
             if (user == null){
                 ModelState.AddModelError("User", "User not found");
@@ -119,8 +132,8 @@ namespace Sub_Application_1.Controllers
             }
             var userDto = new UserProfileDto
             {
-                UserId = user.UserId,
-                Username = user.Username,
+                UserId = user.Id,
+                Username = user.UserName,
                 Email = user.Email,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 DateJoined = user.DateJoined,
@@ -136,7 +149,7 @@ namespace Sub_Application_1.Controllers
         [HttpPut]
         public async Task<IActionResult> Settings(IFormFile? profilePicture,  string? username,  string? email, string? bio)
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             var user = await _context.Users.FindAsync(userId);
 
@@ -149,19 +162,19 @@ namespace Sub_Application_1.Controllers
             if (!string.IsNullOrEmpty(username))
             {
                 // Ensure the new username isn't taken by someone else
-                if (await _context.Users.AnyAsync(u => u.Username == username && u.UserId != userId))
+                if (await _context.Users.AnyAsync(u => u.UserName == username && u.Id != userId))
                 {
                     ModelState.AddModelError("User", "Username is already taken");
                     return View();
                 }
-                user.Username = username;
+                user.UserName = username;
             }
 
             // Update email if provided
             if (!string.IsNullOrEmpty(email))
             {
                 // Ensure the new email isn't already registered to another user
-                if (await _context.Users.AnyAsync(u => u.Email == email && u.UserId != userId))
+                if (await _context.Users.AnyAsync(u => u.Email == email && u.Id != userId))
                 {
                     ModelState.AddModelError("Email", "Email is already registered.");
                     return View();
@@ -209,7 +222,7 @@ namespace Sub_Application_1.Controllers
         [HttpPut]
         public async Task<IActionResult> ChangePassword(ChangePasswordDto passwordDto)
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             var user = await _context.Users.FindAsync(userId);
 
@@ -238,7 +251,7 @@ namespace Sub_Application_1.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAccount()
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             var user = await _context.Users.FindAsync(userId);
 
@@ -256,31 +269,14 @@ namespace Sub_Application_1.Controllers
         }
 
         // Helper methods
-        private int GetCurrentUserId()
-        {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        }
+		private String GetCurrentUserId()
+		{
+			return User.FindFirstValue(ClaimTypes.NameIdentifier);
+		}
 
         private string GenerateJwtToken(User user)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                    new Claim(ClaimTypes.Name, user.Username)
-                }),
-                Expires = DateTime.Now.AddHours(2),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
+            return "hei";
         }
     }
 }

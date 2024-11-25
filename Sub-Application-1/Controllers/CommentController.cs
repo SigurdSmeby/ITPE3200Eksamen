@@ -25,7 +25,7 @@ namespace Sub_Application_1.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AddComment([FromBody] AddCommentDto commentDto)
 		{
-			int userId = GetCurrentUserId();
+			String userId = GetCurrentUserId();
 
 			var comment = new Comment
 			{
@@ -54,7 +54,7 @@ namespace Sub_Application_1.Controllers
 					CommentId = c.CommentId,
 					Content = c.Content,
 					DateCommented = c.DateCommented,
-					AuthorUsername = c.User.Username
+					AuthorUsername = c.User.UserName
 				})
 				.ToListAsync();
 
@@ -66,7 +66,7 @@ namespace Sub_Application_1.Controllers
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteComment(int id)
 		{
-			int userId = GetCurrentUserId();
+			String userId = GetCurrentUserId();
 
 			var comment = await _context.Comments.FindAsync(id);
 
@@ -83,9 +83,9 @@ namespace Sub_Application_1.Controllers
 		}
 
 		// Helper method
-		private int GetCurrentUserId()
+		private String GetCurrentUserId()
 		{
-			return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			return User.FindFirstValue(ClaimTypes.NameIdentifier);
 		}
 	}
 }

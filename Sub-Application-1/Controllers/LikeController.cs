@@ -25,7 +25,7 @@ namespace Sub_Application_1.Controllers
         [HttpPost("like/{postId}")]
         public async Task<IActionResult> LikePost(int postId)
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             if (await _context.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId))
             {
@@ -49,7 +49,7 @@ namespace Sub_Application_1.Controllers
         [HttpDelete("unlike/{postId}")]
         public async Task<IActionResult> UnlikePost(int postId)
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             var like = await _context.Likes.FindAsync(userId, postId);
 
@@ -71,8 +71,8 @@ namespace Sub_Application_1.Controllers
                 .Include(l => l.User)
                 .Select(l => new UserDto
                 {
-                    UserId = l.User.UserId,
-                    Username = l.User.Username,
+                    UserId = l.User.Id,
+                    Username = l.User.UserName,
                     ProfilePictureUrl = l.User.ProfilePictureUrl
                 })
                 .ToListAsync();
@@ -81,9 +81,9 @@ namespace Sub_Application_1.Controllers
         }
 
         // Helper method
-        private int GetCurrentUserId()
-        {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        }
+		private String GetCurrentUserId()
+		{
+			return User.FindFirstValue(ClaimTypes.NameIdentifier);
+		}
     }
 }
