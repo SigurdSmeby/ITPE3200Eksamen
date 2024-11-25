@@ -27,7 +27,7 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 
 		// GET: /Home/Index or /
 		[HttpGet]
-		public async Task<IActionResult> Index(int? activePostId = null)
+		public async Task<IActionResult> Index()
 		{
 			if (User.Identity.IsAuthenticated)
 			{
@@ -44,6 +44,7 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 				.Include(p => p.User)
 				.Include(p => p.Likes)
 				.Include(p => p.Comments)
+				.ThenInclude(c => c.User) // Include user details for comments
 				.Select(p => new PostDto
 				{
 					PostId = p.PostId,
@@ -60,31 +61,20 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 						ProfilePictureUrl = p.User.ProfilePictureUrl
 					},
 					LikesCount = p.Likes.Count,
-					CommentsCount = p.Comments.Count
-				})
-				.ToListAsync();
-
-			if (activePostId.HasValue)
-			{
-				var comments = await _context.Comments
-					.Where(c => c.PostId == activePostId)
-					.Include(c => c.User)
-					.OrderBy(c => c.DateCommented)
-					.Select(c => new CommentDto
+					CommentsCount = p.Comments.Count,
+					Comments = p.Comments.Select(c => new CommentDto
 					{
 						CommentId = c.CommentId,
 						Content = c.Content,
 						DateCommented = c.DateCommented,
-						AuthorUsername = c.User.UserName
-					})
-					.ToListAsync();
-
-				ViewBag.ActivePostId = activePostId.Value;
-				ViewBag.Comments = comments;
-			}
+						AuthorUsername = c.User.UserName // Assuming User navigation property
+					}).ToList()
+				})
+				.ToListAsync();
 
 			return View(posts);
 		}
+
 
 
 
@@ -200,18 +190,30 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 			return RedirectToAction("Index");
 		}
 
-		[HttpGet("Profile/{username}")]
-		public async Task<IActionResult> Profile(string username)
+		[HttpGet("Profile/{username?}")] // Make 'username' optional
+		public async Task<IActionResult> Profile(string? username)
 		{
+			// Use the logged-in user's username if 'username' is null or empty
 			if (string.IsNullOrEmpty(username))
-				return NotFound("Username is required.");
+			{
+				username = User.Identity?.Name; // Get the logged-in user's username
 
-			// Fetch the posts by the specified username
+				if (string.IsNullOrEmpty(username))
+				{
+					// If no logged-in user, return an error or redirect to login
+					return RedirectToAction("Login", "Users");
+				}
+			}
+
+			// Fetch the user by username
 			var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
 
 			if (user == null)
+			{
 				return NotFound($"User with username '{username}' not found.");
+			}
 
+			// Fetch posts created by the user
 			var posts = await _context.Posts
 				.Where(p => p.UserId == user.Id)
 				.OrderByDescending(p => p.DateUploaded)
@@ -238,9 +240,61 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 				})
 				.ToListAsync();
 
-			ViewData["Username"] = username; // Pass the username to the view
+			// Set ViewData for profile details
+			ViewData["Username"] = user.UserName;
+			ViewData["ProfilePictureUrl"] = user.ProfilePictureUrl;
+			ViewData["Bio"] = user.Bio;
 
-			return View(posts); // Pass the filtered posts to the Profile.cshtml view
+			// Return the view with posts
+			return View(posts);
+		}
+
+
+		/* --------------------------------------------------------------------------------------------
+		COMMENTS
+
+		The following methods are used to create, read, and delete comments.
+		--------------------------------------------------------------------------------------------*/
+
+		// POST: api/Comments
+		[Authorize]
+		[HttpPost("CreateComment")]
+		public async Task<IActionResult> AddComment(AddCommentDto commentDto)
+		{
+			String userId = GetCurrentUserId();
+
+			var comment = new Comment
+			{
+				UserId = userId,
+				PostId = commentDto.PostId,
+				Content = commentDto.Content
+			};
+
+			_context.Comments.Add(comment);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction("Index");
+		}
+
+		// DELETE: api/Comments/5
+		[Authorize]
+		[HttpPost("DeleteComment")]
+		public async Task<IActionResult> DeleteComment(int id)
+		{
+			String userId = GetCurrentUserId();
+
+			var comment = await _context.Comments.FindAsync(id);
+
+			if (comment == null)
+				return NotFound();
+
+			if (comment.UserId != userId)
+				return Forbid("You are not authorized to delete this comment.");
+
+			_context.Comments.Remove(comment);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction("Index");
 		}
 
 

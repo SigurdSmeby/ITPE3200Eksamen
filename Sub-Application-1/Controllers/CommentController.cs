@@ -23,7 +23,7 @@ namespace Sub_Application_1.Controllers
 		}
 
 		// POST: api/Comments
-		[Authorize]
+		/*Authorize]
 		[HttpPost("create")]
 		public async Task<IActionResult> AddComment(AddCommentDto commentDto)
 		{
@@ -47,7 +47,7 @@ namespace Sub_Application_1.Controllers
 				author = User.Identity.Name,
 				dateCommented = comment.DateCommented.ToString("MMM dd, yyyy")
 			});
-		}
+		}*/
 
 
 		// GET: api/Comments/post/5
