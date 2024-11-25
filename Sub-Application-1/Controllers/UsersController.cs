@@ -235,20 +235,29 @@ namespace Sub_Application_1.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAccount()
         {
-            String userId = GetCurrentUserId();
-
-            var user = await _context.Users.FindAsync(userId);
-
+            var user = await _userManager.GetUserAsync(User);
             if (user == null){
                 ModelState.AddModelError("User", "User not found");
                 return RedirectToAction("Settings");
             }
+            if (user.ProfilePictureUrl != "/images/default_profile.jpg")
+            {
+                // Delete the old profile picture
+                var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, user.ProfilePictureUrl.TrimStart('/'));
+                if (System.IO.File.Exists(oldFilePath))
+                {
+                    System.IO.File.Delete(oldFilePath);
+                }
+            }
+            var result = await _userManager.DeleteAsync(user);
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Users");
+            }
 
-            TempData["SuccessMessage"] = "Account deleted successfully.";
-            return RedirectToAction("Login");
+            ViewData["ProfileError"] = "Error deleting account.";
+            return RedirectToAction("Settings");
 
         }
 
