@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Models
+namespace Sub_Application_1.Models
 {
 	public class Comment
 	{
@@ -11,7 +11,7 @@ namespace server.Models
 		public int PostId { get; set; }
 
 		[Required]
-		public int UserId { get; set; }
+		public string  UserId { get; set; }
 
 		[Required]
 		public string Content { get; set; }

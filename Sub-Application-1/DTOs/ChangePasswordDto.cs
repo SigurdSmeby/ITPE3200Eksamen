@@ -1,4 +1,4 @@
-namespace server.DTOs
+namespace Sub_Application_1.DTOs
 {
     public class ChangePasswordDto
     {

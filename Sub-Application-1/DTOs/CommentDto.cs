@@ -1,6 +1,5 @@
-using System;
+namespace Sub_Application_1.DTOs
 
-namespace server.DTOs
 {
     public class CommentDto
     {

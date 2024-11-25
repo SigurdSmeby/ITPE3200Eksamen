@@ -1,31 +1,37 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using server.Data;
-using server.Models;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using BCrypt.Net;
+using Sub_Application_1.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Sub_Application_1.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 // Add services to the container.
-builder.Services.AddRazorPages(); // Add Razor Pages services
+builder.Services.AddControllersWithViews();
+builder.Services.AddDefaultIdentity<User>().AddEntityFrameworkStores<AppDbContext>();
+
+// Configure Entity Framework Core with SQLite
+
+builder.Services.AddSession();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 
-// Add authorization
-builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-
-
-app.UseHttpsRedirection();
-app.UseStaticFiles(); // Enable serving static files
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 
-app.MapRazorPages(); // Map Razor Pages
+app.MapDefaultControllerRoute();
+
+// app.MapControllerRoute(
+//     name: "default",
+//     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

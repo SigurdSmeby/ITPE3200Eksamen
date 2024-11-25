@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using server.Data;
-using server.Models;
-using server.DTOs;
+using Sub_Application_1.Data;
+using Sub_Application_1.Models;
+using Sub_Application_1.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace server.Controllers
+namespace Sub_Application_1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -25,7 +25,7 @@ namespace server.Controllers
         [HttpPost("like/{postId}")]
         public async Task<IActionResult> LikePost(int postId)
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             if (await _context.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId))
             {
@@ -49,7 +49,7 @@ namespace server.Controllers
         [HttpDelete("unlike/{postId}")]
         public async Task<IActionResult> UnlikePost(int postId)
         {
-            int userId = GetCurrentUserId();
+            String userId = GetCurrentUserId();
 
             var like = await _context.Likes.FindAsync(userId, postId);
 
@@ -71,8 +71,8 @@ namespace server.Controllers
                 .Include(l => l.User)
                 .Select(l => new UserDto
                 {
-                    UserId = l.User.UserId,
-                    Username = l.User.Username,
+                    UserId = l.User.Id,
+                    Username = l.User.UserName,
                     ProfilePictureUrl = l.User.ProfilePictureUrl
                 })
                 .ToListAsync();
@@ -81,9 +81,9 @@ namespace server.Controllers
         }
 
         // Helper method
-        private int GetCurrentUserId()
-        {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        }
+		private String GetCurrentUserId()
+		{
+			return User.FindFirstValue(ClaimTypes.NameIdentifier);
+		}
     }
 }
