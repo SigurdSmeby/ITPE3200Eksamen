@@ -265,6 +265,10 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\profile_pictures\\3bc3f3b2-6946-4bb0-ab5a-20d8a7485696.png",
+      "PackagePath": "staticwebassets\\uploads\\profile_pictures\\3bc3f3b2-6946-4bb0-ab5a-20d8a7485696.png"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Sub-Application-1.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

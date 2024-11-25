@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2c3Ef4XTIK/ZCJSkf/pz9xYkfQlBJ8mFuXEqpU2eZbc=",
+  "Hash": "tgI0tR+cSa6mMJRP/a5FeqbcqJ1TPxxjAaqsuU8tt9g=",
   "Source": "Sub-Application-1",
   "BasePath": "_content/Sub-Application-1",
   "Mode": "Default",
@@ -2428,6 +2428,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\uploads\\profile_pictures\\3bc3f3b2-6946-4bb0-ab5a-20d8a7485696.png",
+      "SourceId": "Sub-Application-1",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\wwwroot\\",
+      "BasePath": "_content/Sub-Application-1",
+      "RelativePath": "uploads/profile_pictures/3bc3f3b2-6946-4bb0-ab5a-20d8a7485696.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\profile_pictures\\3bc3f3b2-6946-4bb0-ab5a-20d8a7485696.png"
     }
   ]
 }
