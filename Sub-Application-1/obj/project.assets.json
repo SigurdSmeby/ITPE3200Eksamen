@@ -4879,26 +4879,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\olaax\\.nuget\\packages\\": {}
+    "C:\\Users\\sindr\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\Sub-Application-1.csproj",
+      "projectUniqueName": "C:\\Users\\sindr\\Documents\\GitHub\\ITPE3200Eksamen\\Sub-Application-1\\Sub-Application-1.csproj",
       "projectName": "Sub-Application-1",
-      "projectPath": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\Sub-Application-1.csproj",
-      "packagesPath": "C:\\Users\\olaax\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\olaax\\AndroidStudioProjects\\mappe2\\ITPE3200Eksamen\\Sub-Application-1\\obj\\",
+      "projectPath": "C:\\Users\\sindr\\Documents\\GitHub\\ITPE3200Eksamen\\Sub-Application-1\\Sub-Application-1.csproj",
+      "packagesPath": "C:\\Users\\sindr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sindr\\Documents\\GitHub\\ITPE3200Eksamen\\Sub-Application-1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\olaax\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\sindr\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

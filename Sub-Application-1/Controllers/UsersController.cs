@@ -207,28 +207,27 @@ namespace Sub_Application_1.Controllers
 
         // PUT: api/Users/change-password
         [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> ChangePassword(ChangePasswordDto passwordDto)
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(UserProfileDto userProfileDto)
         {
-            var user = await _context.Users.FindAsync(GetCurrentUserId());
+            var user = await _userManager.GetUserAsync(User);
             if (user == null){
                 ModelState.AddModelError("User", "User not found");
-                return RedirectToAction("Settings");
-        }
-            if (!BCrypt.Net.BCrypt.Verify(passwordDto.CurrentPassword, user.PasswordHash))
-            {
-                ModelState.AddModelError("password", "Current password is incorrect");
-                return RedirectToAction("Settings");
-
+                return View("Settings", userProfileDto);
             }
-
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(passwordDto.NewPassword);
-
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "Password updated successfully.";
-            return RedirectToAction("Settings");
+            if (userProfileDto.NewPassword != userProfileDto.ConfirmPassword) {
+                ViewData["PasswordError"] = "The passwords do not match";
+                return View("Settings", userProfileDto);
+            }
+            var results = await _userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
+            if (results.Succeeded){
+                ViewData["PasswordSuccess"] = "Your password is updated";
+            }
+            else {
+                var errorMessages = string.Join("<br/>", results.Errors.Select(e => e.Description));
+                ViewData["PasswordError"] = errorMessages;
+            }
+            return View("Settings", userProfileDto);
         }
 
         // DELETE: api/Users/delete-account
