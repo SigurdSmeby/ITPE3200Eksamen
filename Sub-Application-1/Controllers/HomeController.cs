@@ -150,19 +150,104 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 			return RedirectToAction("Index");
 		}
 
-		// GET: api/Posts
-		[HttpGet]
-		public async Task<IActionResult> GetPosts()
+		[Authorize]
+		[HttpGet("EditPost/{postId}")]
+		public async Task<IActionResult> EditPost(int postId)
 		{
-			var posts = await _context.Posts
-				.OrderByDescending(p => p.DateUploaded)
-				.Include(p => p.User)
-				.Include(p => p.Likes)
-				.Include(p => p.Comments)
-				.ToListAsync();
+			// Fetch the post by ID
+			var post = await _context.Posts.FirstOrDefaultAsync(p => p.PostId == postId);
 
-			return PartialView("_PostsPartial", posts);
+			if (post == null)
+			{
+				return NotFound($"Post with ID '{postId}' not found.");
+			}
+
+			// Check if the logged-in user is the owner of the post
+			if (post.UserId != GetCurrentUserId())
+			{
+				return Forbid();
+			}
+
+			// Map the existing post data to UpdatePostDto
+			var updatePostDto = new UpdatePostDto
+			{
+				TextContent = post.TextContent,
+				FontSize = post.FontSize,
+				TextColor = post.TextColor,
+				BackgroundColor = post.BackgroundColor
+			};
+
+			ViewData["ImagePath"] = post.ImagePath; // Pass the existing image path to the view
+			return View(updatePostDto);
 		}
+
+		[Authorize]
+		[HttpPost("EditPost/{postId}")]
+		public async Task<IActionResult> EditPost(int postId, UpdatePostDto updatePostDto, IFormFile? ImageFile)
+		{
+			if (!ModelState.IsValid)
+			{
+				ViewData["ImagePath"] = (await _context.Posts.FindAsync(postId))?.ImagePath; // Maintain image preview on error
+				return View(updatePostDto);
+			}
+
+			// Fetch the post
+			var post = await _context.Posts.FirstOrDefaultAsync(p => p.PostId == postId);
+
+			if (post == null)
+			{
+				return NotFound($"Post with ID '{postId}' not found.");
+			}
+
+			// Check if the logged-in user is the owner of the post
+			if (post.UserId != GetCurrentUserId())
+			{
+				return Forbid();
+			}
+
+			// Update image if a new one is uploaded
+			if (ImageFile != null && ImageFile.Length > 0)
+			{
+				var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+				if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+				var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
+				var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+				using (var fileStream = new FileStream(filePath, FileMode.Create))
+				{
+					await ImageFile.CopyToAsync(fileStream);
+				}
+
+				// Remove old image file if it exists
+				if (!string.IsNullOrEmpty(post.ImagePath))
+				{
+					var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
+					if (System.IO.File.Exists(oldFilePath))
+					{
+						System.IO.File.Delete(oldFilePath);
+					}
+				}
+
+				post.ImagePath = "/uploads/" + uniqueFileName; // Set new image path
+			}
+			else
+			{
+				// Update the post
+				post.TextContent = updatePostDto.TextContent;
+				post.FontSize = updatePostDto.FontSize ?? post.FontSize;
+				post.TextColor = updatePostDto.TextColor;
+				post.BackgroundColor = updatePostDto.BackgroundColor;
+			}
+
+
+
+			_context.Posts.Update(post);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction("Index");
+		}
+
 
 		// DELETE: /Home/DeletePost/5
 		[Authorize]
@@ -215,6 +300,7 @@ namespace Sub_Application_1.Controllers // Proper namespace declaration
 
 			// Fetch posts created by the user
 			var posts = await _context.Posts
+				.Where(p => p.UserId == user.Id)
 				.OrderByDescending(p => p.DateUploaded)
 				.Include(p => p.User)
 				.Include(p => p.Likes)

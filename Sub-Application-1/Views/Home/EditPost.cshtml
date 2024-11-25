@@ -1,0 +1,105 @@
+@model Sub_Application_1.DTOs.UpdatePostDto
+
+@{
+	ViewData["Title"] = "Edit Post";
+	var imagePath = ViewData["ImagePath"] as string; // Existing image path
+	var isImagePost = !string.IsNullOrEmpty(imagePath); // Determine post type
+}
+
+<div class="container mt-5">
+	<h2>@(isImagePost ? "Edit Image Post" : "Edit Text Post")</h2>
+
+	<!-- Alerts for Success or Error -->
+	@if (ViewData["Error"] != null)
+	{
+		<div class="alert alert-danger">@ViewData["Error"]</div>
+	}
+	@if (ViewData["Success"] != null)
+	{
+		<div class="alert alert-success">@ViewData["Success"]</div>
+	}
+
+	<!-- Form for Editing the Post -->
+	<form asp-action="EditPost" method="post" enctype="multipart/form-data">
+		<!-- Conditional Rendering: Image Post -->
+		@if (isImagePost)
+		{
+			<div class="form-group row mb-4">
+				<label for="ImageFile" class="col-sm-2 col-form-label">Upload New Image</label>
+				<div class="col-sm-10">
+					<input type="file" id="ImageFile" name="ImageFile" class="form-control" accept="image/*"
+						onchange="updatePreview()" />
+
+					<!-- Image Preview -->
+					<div class="mt-3">
+						<img id="previewImage" src="@imagePath" alt="Preview" class="img-fluid"
+							style="max-height: 200px; max-width: 200px;" />
+					</div>
+				</div>
+			</div>
+		}
+		else
+		{
+			<!-- Conditional Rendering: Text Post -->
+			<div class="form-group row mb-3">
+				<label for="TextContent" class="col-sm-2 col-form-label">Text Content</label>
+				<div class="col-sm-10">
+					<textarea id="TextContent" name="TextContent" class="form-control" rows="5"
+						placeholder="Enter your text content" required>@(Model.TextContent)</textarea>
+				</div>
+			</div>
+
+
+			<div class="form-group row mb-3">
+				<label for="FontSize" class="col-sm-2 col-form-label">Font Size</label>
+				<div class="col-sm-10">
+					<input type="number" id="FontSize" name="FontSize" class="form-control" value="@Model.FontSize" min="10"
+						max="72" required />
+				</div>
+			</div>
+
+			<div class="form-group row mb-3">
+				<label for="TextColor" class="col-sm-2 col-form-label">Text Color</label>
+				<div class="col-sm-10">
+					<input type="color" id="TextColor" name="TextColor" class="form-control" value="@Model.TextColor"
+						required />
+				</div>
+			</div>
+
+			<div class="form-group row mb-3">
+				<label for="BackgroundColor" class="col-sm-2 col-form-label">Background Color</label>
+				<div class="col-sm-10">
+					<input type="color" id="BackgroundColor" name="BackgroundColor" class="form-control"
+						value="@Model.BackgroundColor" required />
+				</div>
+			</div>
+		}
+
+		<!-- Submit Button -->
+		<div class="form-group row mb-3">
+			<div class="col-sm-10 offset-sm-2">
+				<button type="submit" class="btn btn-primary">Save Changes</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+@section Scripts {
+	<script>
+		function updatePreview() {
+			const fileInput = document.getElementById('ImageFile');
+			const previewImage = document.getElementById('previewImage');
+
+			if (fileInput.files && fileInput.files[0]) {
+				const reader = new FileReader();
+
+				// Set the preview image source to the uploaded file
+				reader.onload = function (e) {
+					previewImage.src = e.target.result;
+				};
+
+				reader.readAsDataURL(fileInput.files[0]);
+			}
+		}
+	</script>
+}

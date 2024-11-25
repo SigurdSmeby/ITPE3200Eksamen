@@ -30,7 +30,7 @@ else
 								Options
 							</button>
 							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<li><a class="dropdown-item" href="/posts/edit/@post.PostId">Edit</a></li>
+								<li><a class="dropdown-item" href="EditPost/@post.PostId">Edit</a></li>
 								<li>
 									<form asp-action="DeletePost" method="post" asp-route-id="@post.PostId" class="d-inline">
 										<button type="submit" class="dropdown-item text-danger">Delete</button>
