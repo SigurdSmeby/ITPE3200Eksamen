@@ -1,0 +1,36 @@
+@model IEnumerable<Sub_Application_1.DTOs.PostDto>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No posts available.</p>
+}
+else
+{
+    @foreach (var post in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                <strong>@post.Author?.Username</strong>
+                <a href="/Profile/@post.Author.Username" class="btn btn-link">@post.Author.Username's Profile</a>
+                <span class="text-muted" style="float: right;">@post.DateUploaded.ToString("MMM dd, yyyy")</span>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(post.ImagePath))
+                {
+                    <img style="max-width: 300px;" src="@post.ImagePath" alt="Post Image" class="img-fluid mb-3" />
+                }
+                @if (!string.IsNullOrEmpty(post.TextContent))
+                {
+                    <p>@post.TextContent</p>
+                }
+            </div>
+            <form asp-action="DeletePost" method="post" asp-route-id="@post.PostId">
+              <button type="submit" >Delete</button>
+            </form>
+            <div class="card-footer">
+                <span>@post.LikesCount Likes</span> |
+                <span>@post.CommentsCount Comments</span>
+            </div>
+        </div>
+    }
+}

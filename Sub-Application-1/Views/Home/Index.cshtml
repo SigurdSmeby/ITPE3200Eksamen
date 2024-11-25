@@ -1,23 +1,40 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@model IEnumerable<Sub_Application_1.DTOs.PostDto>
+
+@{
     var username = ViewData["Username"] as string;
 }
+
 @if (!string.IsNullOrEmpty(username))
 {
     <h1>Welcome, @username!</h1>
     <p>We're glad to see you back!</p>
     <form method="post" action="/Users/Logout">
-        <button type="submit">Logout</button>
+        <button type="submit" class="btn btn-danger">Logout</button>
     </form>
+
+    <!-- Posts Section -->
+    <div class="posts-container mt-5">
+        <h2>Your Feed</h2>
+        <div id="posts">
+            @if (Model == null || !Model.Any())
+            {
+                <p>No posts available. Start by creating one!</p>
+            }
+            else
+            {
+                @await Html.PartialAsync("_PostsPartial", Model)
+            }
+        </div>
+    </div>
 }
 else
 {
-<div class="container text-center mt-5">
-    <h1 class="display-4">Welcome to the Application</h1>
-    <p class="lead">Please log in or register to continue.</p>
-    <div class="mt-4">
-        <a href="/Users/Login" class="btn btn-primary btn-lg me-3">Login</a>
-        <a href="/Users/Register" class="btn btn-success btn-lg">Register</a>
+    <div class="container text-center mt-5">
+        <h1 class="display-4">Welcome to the Application</h1>
+        <p class="lead">Please log in or register to continue.</p>
+        <div class="mt-4">
+            <a href="/Users/Login" class="btn btn-primary btn-lg me-3">Login</a>
+            <a href="/Users/Register" class="btn btn-success btn-lg">Register</a>
+        </div>
     </div>
-</div>
 }
