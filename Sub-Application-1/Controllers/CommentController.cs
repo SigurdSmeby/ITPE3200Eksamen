@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Sub_Application_1.Data;
 using Sub_Application_1.Models;
 using Sub_Application_1.DTOs;
@@ -9,21 +10,22 @@ using System.Security.Claims;
 
 namespace Sub_Application_1.Controllers
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class CommentsController : ControllerBase
+	[Route("Comments")]
+	public class CommentsController : Controller
 	{
+		private readonly UserManager<User> _userManager;
 		private readonly AppDbContext _context;
 
-		public CommentsController(AppDbContext context)
+		public CommentsController(UserManager<User> userManager, AppDbContext context)
 		{
+			_userManager = userManager;
 			_context = context;
 		}
 
 		// POST: api/Comments
-		[Authorize]
-		[HttpPost]
-		public async Task<IActionResult> AddComment([FromBody] AddCommentDto commentDto)
+		/*Authorize]
+		[HttpPost("create")]
+		public async Task<IActionResult> AddComment(AddCommentDto commentDto)
 		{
 			String userId = GetCurrentUserId();
 
@@ -37,12 +39,19 @@ namespace Sub_Application_1.Controllers
 			_context.Comments.Add(comment);
 			await _context.SaveChangesAsync();
 
-			return Ok("Comment added successfully.");
-		}
+			return Json(new
+			{
+				success = true,
+				commentId = comment.CommentId,
+				content = comment.Content,
+				author = User.Identity.Name,
+				dateCommented = comment.DateCommented.ToString("MMM dd, yyyy")
+			});
+		}*/
 
 
 		// GET: api/Comments/post/5
-		[HttpGet("post/{postId}")]
+		[HttpGet("GetCommentsForPost")]
 		public async Task<IActionResult> GetCommentsForPost(int postId)
 		{
 			var comments = await _context.Comments
@@ -58,7 +67,7 @@ namespace Sub_Application_1.Controllers
 				})
 				.ToListAsync();
 
-			return Ok(comments);
+			return PartialView("_CommentsPartial", comments);
 		}
 
 		// DELETE: api/Comments/5

@@ -9,6 +9,20 @@ const axiosInstance = axios.create({
     },
 });
 
+// Add a request interceptor to include the token dynamically
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 // Create a new comment
 export const createComment = async (commentData) => {
     try {

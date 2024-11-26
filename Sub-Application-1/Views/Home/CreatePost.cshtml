@@ -1,0 +1,129 @@
+@model Sub_Application_1.DTOs.CreatePostDto
+
+@{
+	ViewData["Title"] = "Create Post"; // Sets the page title
+}
+
+<h2 class="my-4">Upload New Post</h2>
+
+<!-- Display success or error messages -->
+@if (ViewData["ErrorMessage"] != null)
+{
+	<div class="alert alert-danger">@ViewData["ErrorMessage"]</div> <!-- Error alert -->
+}
+@if (ViewData["SuccessMessage"] != null)
+{
+	<div class="alert alert-success">@ViewData["SuccessMessage"]</div> <!-- Success alert -->
+}
+
+<!-- Toggle button for switching between Image Post and Text Post -->
+<div class="mb-4">
+	<button id="togglePostType" class="btn btn-primary" onclick="togglePostType()">
+		Switch to <span id="toggleLabel">Text Post</span>
+	</button>
+</div>
+
+<!-- Main form for creating a post -->
+<form asp-action="CreatePost" method="post" enctype="multipart/form-data">
+	<!-- Fields for Image Post -->
+	<div id="imagePostFields" class="form-group">
+		<label for="Image">Upload Image:</label>
+		<input type="file" id="Image" name="Image" class="form-control" accept="image/*" onchange="previewImage()" />
+		<!-- Preview container for uploaded image -->
+		<div id="imagePreview" class="mt-2"></div>
+	</div>
+
+	<!-- Fields for Text Post (hidden by default using d-none class) -->
+	<div id="textPostFields" class="d-none">
+		<div class="form-group">
+			<label for="TextContent">Text Content:</label>
+			<textarea id="TextContent" name="TextContent" class="form-control" rows="5"></textarea>
+		</div>
+
+		<div class="form-group">
+			<label for="FontSize">Font Size:</label>
+			<input type="number" id="FontSize" name="FontSize" class="form-control" value="16" min="10" max="72" />
+		</div>
+
+		<div class="form-group">
+			<label for="TextColor">Text Color:</label>
+			<input type="color" id="TextColor" name="TextColor" class="form-control" value="#000000" />
+		</div>
+
+		<div class="form-group">
+			<label for="BackgroundColor">Background Color:</label>
+			<input type="color" id="BackgroundColor" name="BackgroundColor" class="form-control" value="#FFFFFF" />
+		</div>
+	</div>
+
+	<!-- Submit button -->
+	<button type="submit" class="btn btn-primary mt-3">Upload Post</button>
+</form>
+
+@section Scripts {
+	<script>
+		// Initialize the default post type as Image Post
+		let isImagePost = true;
+
+		/**
+		 * Toggles between Image Post and Text Post
+		 * - Shows the relevant fields and hides the others.
+		 * - Updates the toggle button label accordingly.
+		 */
+		function togglePostType() {
+			isImagePost = !isImagePost;
+
+			// Show/Hide Image Post fields
+			document.getElementById("imagePostFields").classList.toggle("d-none", !isImagePost);
+			// Show/Hide Text Post fields
+			document.getElementById("textPostFields").classList.toggle("d-none", isImagePost);
+
+			// Update the button label
+			document.getElementById("toggleLabel").innerText = isImagePost ? "Text Post" : "Image Post";
+
+			// Clear the fields
+			if (isImagePost) {
+				// Clear text fields when switching to Image Post
+				document.getElementById("TextContent").value = "";
+				document.getElementById("FontSize").value = "16";
+				document.getElementById("TextColor").value = "#000000";
+				document.getElementById("BackgroundColor").value = "#FFFFFF";
+			} else {
+				// Clear file input and preview when switching to Text Post
+				document.getElementById("Image").value = "";
+				document.getElementById("imagePreview").innerHTML = "";
+			}
+		}
+
+		/**
+		 * Previews the uploaded image
+		 * - Displays a small preview below the file input field.
+		 */
+		function previewImage() {
+			const fileInput = document.getElementById("Image"); // Get the file input element
+			const previewContainer = document.getElementById("imagePreview"); // Get the preview container
+
+			previewContainer.innerHTML = ""; // Clear any previous preview
+
+			// Check if a file is selected
+			if (fileInput.files && fileInput.files[0]) {
+				const file = fileInput.files[0]; // Get the selected file
+				const reader = new FileReader(); // Create a FileReader to read the file
+
+				// When the file is read, display the preview
+				reader.onload = function (e) {
+					const img = document.createElement("img"); // Create an <img> element
+					img.src = e.target.result; // Set the source to the file's data
+					img.alt = "Preview"; // Add an alt tag
+					img.style.maxWidth = "200px"; // Limit the preview size
+					img.style.maxHeight = "200px";
+					img.classList.add("mt-2"); // Add some spacing
+					previewContainer.appendChild(img); // Add the image to the preview container
+				};
+
+				// Read the file as a Data URL
+				reader.readAsDataURL(file);
+			}
+		}
+	</script>
+}

@@ -1,0 +1,64 @@
+@model IEnumerable<Sub_Application_1.DTOs.PostDto>
+<link rel="stylesheet" href="/css/cards.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+@{
+	var username = ViewData["Username"] as string;
+	var profilePictureUrl = ViewData["ProfilePictureUrl"] as string;
+	var bio = ViewData["Bio"] as string;
+	var loggedInUsername = User.Identity?.Name;
+}
+
+<div class="container mt-5">
+	<!-- Hero Section -->
+	<div class="hero-section d-flex mb-5">
+		<!-- Profile Picture -->
+		<div class="me-5" style="height: 150px; width: 150px;">
+			<img src="@profilePictureUrl" alt="@username" class="img-fluid" style="width: 100%; border-radius: 50%;" />
+		</div>
+
+		<!-- User Details -->
+		<div>
+			<h1>@username</h1>
+			<p>@bio</p>
+			<div class="btn btn-light">Number of posts: @(Model?.Count() ?? 0)</div>
+
+			<!-- Edit Profile Button for Logged-in User -->
+			@if (loggedInUsername == username)
+			{
+				<a href="/Users/Settings" class="btn btn-primary ms-2">Edit Profile</a>
+			}
+		</div>
+	</div>
+
+	<!-- Error Section -->
+	@if (ViewData["Error"] != null)
+	{
+		<div class="alert alert-danger">@ViewData["Error"]</div>
+	}
+
+	<!-- Posts Section -->
+	<div class="posts-container">
+		@if (Model == null || !Model.Any())
+		{
+			<h1>The user has not posted any images yet</h1>
+		}
+		else
+		{
+			<!-- Posts Section -->
+			<div class="posts-container mt-5">
+				<div id="posts">
+					@if (Model == null || !Model.Any())
+					{
+						<p>No posts available for this user.</p>
+					}
+					else
+					{
+						@await Html.PartialAsync("_PostsPartial", Model)
+					}
+				</div>
+			</div>
+
+		}
+	</div>
+</div>

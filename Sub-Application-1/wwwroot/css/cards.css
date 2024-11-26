@@ -1,0 +1,155 @@
+/* Card container styling */
+.card {
+    width: 30rem;
+    margin: 1rem auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile picture styling */
+.profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Card header styles */
+.card-header {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Date text */
+.date {
+    color: #888888;
+    font-size: 0.85rem;
+    margin-left: auto;
+}
+
+.date:hover {
+    color: #555555;
+}
+
+/* Card body styles */
+.card-body {
+    font-size: 16px;
+    color: #000000;
+    background-color: #ffffff;
+    padding: 0rem;
+}
+
+.text-content {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.image-container img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Footer styles */
+.card-footer {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+/* Like and comment icons */
+.heart-icon-container,
+.comment-icon-container {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.heart-icon-container i {
+    font-size: 1.5rem;
+    margin-right: 5px;
+    transition: color 0.2s ease;
+}
+
+.heart-icon-container i:hover {
+    color: #ff4d4d; /* Red on hover */
+}
+
+.comment-icon-container i {
+    font-size: 1.5rem;
+    margin-right: 5px;
+    transition: color 0.2s ease;
+}
+
+.comment-icon-container i:hover {
+    color: #4d79ff; /* Blue on hover */
+}
+
+/* Comments section styles */
+.comments-section {
+    padding: 1rem;
+    border-top: 1px solid #e0e0e0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.comment {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem 0;
+}
+
+.comment strong {
+    margin-right: 0.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.comment strong:hover {
+    text-decoration: underline;
+}
+
+.comment small {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.comment button {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+}
+
+.comment button:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+/* Add comment form */
+.comment-field {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #f8f8f8;
+}
+
+.comment-button {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: #007bff;
+    color: white;
+}
+
+.comment-button:hover {
+    background-color: #0056b3;
+    transition: background-color 0.2s;
+}

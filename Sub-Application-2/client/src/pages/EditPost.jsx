@@ -28,9 +28,7 @@ const EditPost = () => {
                     fontSize: response.fontSize || 16,
                     textColor: response.textColor || '#000000',
                     backgroundColor: response.backgroundColor || '#FFFFFF',
-                    previewUrl: response.imagePath 
-                        ? `http://localhost:5229/${response.imagePath}` // Set full path to image
-                        : null,
+                    previewUrl: `http://localhost:5229/${response.imagePath}` // Set full path to image
                 });
                 setIsImagePost(!!response.imagePath); // Determine post type based on imagePath
             } catch (error) {

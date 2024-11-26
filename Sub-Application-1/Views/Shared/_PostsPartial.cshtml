@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="/css/cards.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+@model IEnumerable<Sub_Application_1.DTOs.PostDto>
+
+@if (Model == null || !Model.Any())
+{
+	<p>No posts available.</p>
+}
+else
+{
+	@foreach (var post in Model)
+	{
+		<div class="card mb-4 shadow-sm">
+			<!-- CARD HEADER -->
+			<div class="card-header d-flex align-items-center">
+				<a href="/profile/@post.Author?.Username" class="profile-link">
+					<img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" class="profile-img me-2">
+					<div>
+						<h5 class="mb-0">@post.Author?.Username</h5>
+						<small class="text-muted date">@post.DateUploaded.ToString("MMM dd, yyyy")</small>
+					</div>
+				</a>
+				@if (User.Identity?.Name == post.Author?.Username)
+				{
+					<div class="ms-auto">
+						<div class="dropdown">
+							<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								Options
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<li><a class="dropdown-item" href="EditPost/@post.PostId">Edit</a></li>
+								<li>
+									<form asp-action="DeletePost" method="post" asp-route-id="@post.PostId" class="d-inline">
+										<button type="submit" class="dropdown-item text-danger">Delete</button>
+									</form>
+								</li>
+							</ul>
+						</div>
+					</div>
+				}
+			</div>
+
+			<!-- CARD BODY -->
+			<div class="card-body"
+				style="font-size: @(post.FontSize > 0 ? post.FontSize : 16)px; color: @post.TextColor; background-color: @post.BackgroundColor;">
+				@if (!string.IsNullOrEmpty(post.TextContent))
+				{
+					<p class="mb-3 text-content">@post.TextContent</p>
+				}
+				@if (!string.IsNullOrEmpty(post.ImagePath))
+				{
+					<div class="image-container">
+						<img src="@post.ImagePath" alt="Post Image" class="img-fluid rounded">
+					</div>
+				}
+			</div>
+
+			<!-- CARD FOOTER -->
+			<div class="card-footer d-flex justify-content-between align-items-center">
+				<div class="d-flex align-items-center">
+					<!-- Like Button -->
+					<form method="post" action="/posts/like/@post.PostId" class="me-3">
+						<button type="submit" class="btn btn-light heart-icon-container">
+							<i class="bi bi-heart"></i>
+						</button>
+					</form>
+					<span>@post.LikesCount</span>
+
+					<!-- Comment Button -->
+					<button class="btn btn-light comment-icon-container ms-4 toggle-comments" data-bs-toggle="collapse"
+						data-bs-target="#comments-section-@post.PostId" aria-expanded="false">
+						<i class="bi bi-chat"></i>
+					</button>
+					<span>@post.CommentsCount</span>
+				</div>
+			</div>
+
+			<!-- COMMENTS SECTION -->
+			<div class="collapse" id="comments-section-@post.PostId">
+				<div class="comments-section">
+					@if (post.Comments != null && post.Comments.Any())
+					{
+						@foreach (var comment in post.Comments)
+						{
+							<div class="comment d-flex justify-content-between align-items-center">
+								<!-- Left Section: Author and Content -->
+								<div>
+									<strong>@comment.AuthorUsername</strong>
+									<p class="mb-1">@comment.Content</p>
+								</div>
+
+								<!-- Right Section: Metadata and Actions -->
+								<div class="text-end">
+									<p class="text-muted" title="@comment.DateCommented.ToString("MMMM dd, yyyy HH:mm:ss")">
+										@comment.DateCommented.ToString("MMM dd, yyyy")
+									</p>
+
+									@if (comment.AuthorUsername == User.Identity.Name)
+									{
+										<form asp-action="DeleteComment" asp-route-id="@comment.CommentId" method="post">
+											<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+										</form>
+									}
+								</div>
+							</div>
+						}
+					}
+					else
+					{
+						<p class="text-muted">No comments yet. Be the first to comment!</p>
+					}
+				</div>
+
+				<!-- Add Comment Form -->
+				<form method="post" action="/CreateComment" class="d-flex mt-3">
+					<input type="hidden" name="PostId" value="@post.PostId">
+					<input type="text" name="Content" class="form-control me-2 comment-field" placeholder="Add a comment"
+						required>
+					<button type="submit" class="btn comment-button">Comment</button>
+				</form>
+			</div>
+		</div>
+	}
+}
