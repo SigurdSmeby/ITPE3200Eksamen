@@ -1,0 +1,7 @@
+C:\Users\olaax\AndroidStudioProjects\mappe2\ITPE3200Eksamen\Sub-Application-1.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_Sub-Application-1.Tests
+C:\Users\olaax\AndroidStudioProjects\mappe2\ITPE3200Eksamen\Sub-Application-1.Tests\obj\Debug\net8.0\Sub-Application-1.Tests.csproj.AssemblyReference.cache
+C:\Users\olaax\AndroidStudioProjects\mappe2\ITPE3200Eksamen\Sub-Application-1.Tests\obj\Debug\net8.0\Sub-Application-1.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\olaax\AndroidStudioProjects\mappe2\ITPE3200Eksamen\Sub-Application-1.Tests\obj\Debug\net8.0\Sub-Application-1.Tests.AssemblyInfoInputs.cache
+C:\Users\olaax\AndroidStudioProjects\mappe2\ITPE3200Eksamen\Sub-Application-1.Tests\obj\Debug\net8.0\Sub-Application-1.Tests.AssemblyInfo.cs
+C:\Users\olaax\AndroidStudioProjects\mappe2\ITPE3200Eksamen\Sub-Application-1.Tests\obj\Debug\net8.0\Sub-Application-1.Tests.csproj.CoreCompileInputs.cache
+C:\Users\olaax\AndroidStudioProjects\mappe2\ITPE3200Eksamen\Sub-Application-1.Tests\obj\Debug\net8.0\Sub-Application-1.Tests.sourcelink.json
