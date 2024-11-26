@@ -15,7 +15,7 @@ namespace Sub_Application_1.Data
             base.OnModelCreating(modelBuilder);
 
             // Composite key for the Like entity
-                 modelBuilder.Entity<Like>()
+                modelBuilder.Entity<Like>()
                 .HasKey(l => new { l.UserId, l.PostId });
 
             // Configure relationships (optional, adjust as needed)
