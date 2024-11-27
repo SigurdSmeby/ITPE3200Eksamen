@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Dropdown } from 'react-bootstrap';
-import { FaComment, FaEllipsisH, FaTrash } from 'react-icons/fa';
+import { Card, Dropdown } from 'react-bootstrap';
+import { FaComment } from 'react-icons/fa';
 import { deletePost } from '../api/postApi';
 import { createComment } from '../api/commentApi';
 import CommentsSection from './commentsSection';
@@ -26,7 +26,6 @@ const PostCards = ({
     backgroundColor,
     onDeleted,
 }) => {
-    const [liked, setLiked] = React.useState(false);
     const [showComments, setShowComments] = React.useState(false);
     const [commentsInput, setCommentsInput] = React.useState('');
     const [refreshComments, setRefreshComments] = React.useState(false); // Track when to refresh comments
@@ -150,6 +149,7 @@ const PostCards = ({
                         className="image-container">
                         <img
                             src={BACKEND_URL + imageUrl}
+                            alt='Post'
                             loading="lazy"
                             className="post-image"
                         />
