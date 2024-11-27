@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IO;
 
-namespace Sub_Application_1.Controllers // Proper namespace declaration
+namespace Sub_Application_1.Controllers 
 {
 	public class HomeController : Controller
 	{

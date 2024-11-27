@@ -14,4 +14,5 @@ Sub-Application-1/tmp/
 *.nuget
 *.user
 *.log
-
+Sub-Application-1.Tests/bin/
+Sub-Application-1.Tests/obj/

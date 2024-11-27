@@ -51,22 +51,30 @@ namespace Sub_Application_1.Controllers
 			return View();
 		}
 
-
-
-
 		// Post register
 		[HttpPost]
 		public async Task<IActionResult> Register(RegisterDto registerDto)
 		{
+
+			if (registerDto.Password != registerDto.confirmPassword)
+			{
+				ModelState.AddModelError("Password", "Passwords do not match.");
+			}
+			var existingUserByUsername = await _userManager.FindByNameAsync(registerDto.Username);
+			if (existingUserByUsername != null)
+			{
+				ModelState.AddModelError("Username", "Username already exists.");
+			}
+			var existingUserByEmail = await _userManager.FindByEmailAsync(registerDto.Email);
+			if (existingUserByEmail != null)
+			{
+				ModelState.AddModelError("Email", "Email already registered.");
+			}			
 			if (!ModelState.IsValid)
 			{
 				return View(registerDto);
 			}
-			if (registerDto.Password != registerDto.confirmPassword)
-			{
-				ModelState.AddModelError("Password", "Passwords do not match.");
-				return View(registerDto);
-			}
+			
 			var user = new User
 			{
 				UserName = registerDto.Username,
@@ -86,6 +94,7 @@ namespace Sub_Application_1.Controllers
 				Console.WriteLine("Error: " + error.Description);
 				ModelState.AddModelError(string.Empty, error.Description);
 			}
+			
 
 			return View(registerDto);
 		}
