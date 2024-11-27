@@ -24,8 +24,8 @@ namespace server.Models
         public string BackgroundColor { get; set; } = "#FFFFFF"; // Default background color (white)
 
         // Navigation properties
-        public virtual User User { get; set; }
-        public virtual ICollection<Like> Likes { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual User User { get; set; } = null!;
+        public virtual ICollection<Like> Likes { get; set; } = new HashSet<Like>();
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }
 }

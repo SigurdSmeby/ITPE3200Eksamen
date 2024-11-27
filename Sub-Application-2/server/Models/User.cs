@@ -4,29 +4,29 @@ using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
-	public class User
-	{
-		public int UserId { get; set; }
+    public class User
+    {
+        public int UserId { get; set; }
 
-		[Required, MaxLength(50)]
-		public string Username { get; set; }
+        [Required, MaxLength(50)]
+        public string Username { get; set; } = string.Empty;
 
-		[Required, MaxLength(100), EmailAddress]
-		public string Email { get; set; }
+        [Required, MaxLength(100), EmailAddress]
+        public string Email { get; set; } = string.Empty;
 
-		[Required]
-		public string PasswordHash { get; set; }
+        [Required]
+        public string PasswordHash { get; set; } = string.Empty;
 
-		public string ProfilePictureUrl { get; set; }
+        public string ProfilePictureUrl { get; set; } = string.Empty;
 
-		[MaxLength(500)] // Set a limit for the bio length (optional)
-		public string Bio { get; set; } = "Welcome to my page";// New Bio field
+        [MaxLength(500)]
+        public string Bio { get; set; } = "Welcome to my page";
 
-		public DateTime DateJoined { get; set; } = DateTime.Now;
+        public DateTime DateJoined { get; set; } = DateTime.Now;
 
-		// Navigation properties
-		public virtual ICollection<Post> Posts { get; set; }
-		public virtual ICollection<Like> Likes { get; set; }
-		public virtual ICollection<Comment> Comments { get; set; }
-	}
+        // Navigation properties
+        public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
+        public virtual ICollection<Like> Likes { get; set; } = new HashSet<Like>();
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+    }
 }

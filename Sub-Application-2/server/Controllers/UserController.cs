@@ -240,14 +240,15 @@ namespace server.Controllers
         // Retrieve the ID of the currently logged-in user
         private int GetCurrentUserId()
         {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userIdClaim = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim is missing."));
+            return userIdClaim;
         }
 
         // Generate a JWT token for a user
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"] ?? "DefaultSecretKey");
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

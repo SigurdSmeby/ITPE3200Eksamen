@@ -276,7 +276,8 @@ namespace server.Controllers
         // Helper method
         private int GetCurrentUserId()
         {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userIdClaim = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim is missing."));
+            return userIdClaim;
         }
     }
 }

@@ -87,7 +87,8 @@ namespace server.Controllers
         // Helper method to get the ID of the currently logged-in user.
         private int GetCurrentUserId()
         {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userIdClaim = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim is missing."));
+            return userIdClaim;
         }
     }
 }
