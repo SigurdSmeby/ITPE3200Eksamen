@@ -9,7 +9,6 @@ namespace server.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Follow> Follows { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -52,22 +51,6 @@ namespace server.Data
                 .HasOne(l => l.Post)
                 .WithMany(p => p.Likes)
                 .HasForeignKey(l => l.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Follow configurations (composite key)
-            modelBuilder.Entity<Follow>()
-                .HasKey(f => new { f.FollowerId, f.FollowingId });
-
-            modelBuilder.Entity<Follow>()
-                .HasOne(f => f.Follower)
-                .WithMany(u => u.Following)
-                .HasForeignKey(f => f.FollowerId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Follow>()
-                .HasOne(f => f.Following)
-                .WithMany(u => u.Followers)
-                .HasForeignKey(f => f.FollowingId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Post configurations

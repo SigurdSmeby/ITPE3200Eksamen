@@ -29,51 +29,59 @@ namespace Sub_Application_1.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			if (User.Identity.IsAuthenticated)
-			{
-				var user = await _userManager.GetUserAsync(User);
-				ViewData["Username"] = user?.UserName;
-			}
-			else
-			{
-				ViewData["Username"] = null;
-			}
-
-			var posts = await _context.Posts
-				.OrderByDescending(p => p.DateUploaded)
-				.Include(p => p.User)
-				.Include(p => p.Likes)
-				.Include(p => p.Comments)
-				.ThenInclude(c => c.User) // Include user details for comments
-				.Select(p => new PostDto
+				if (User.Identity.IsAuthenticated)
 				{
-					PostId = p.PostId,
-					ImagePath = p.ImagePath,
-					TextContent = p.TextContent,
-					DateUploaded = p.DateUploaded,
-					FontSize = p.FontSize,
-					TextColor = p.TextColor,
-					BackgroundColor = p.BackgroundColor,
-					Author = new UserDto
-					{
-						UserId = p.User.Id,
-						Username = p.User.UserName,
-						ProfilePictureUrl = p.User.ProfilePictureUrl
-					},
-					LikesCount = p.Likes.Count,
-					CommentsCount = p.Comments.Count,
-					Comments = p.Comments.Select(c => new CommentDto
-					{
-						CommentId = c.CommentId,
-						Content = c.Content,
-						DateCommented = c.DateCommented,
-						AuthorUsername = c.User.UserName // Assuming User navigation property
-					}).ToList()
-				})
-				.ToListAsync();
+						var user = await _userManager.GetUserAsync(User);
+						ViewData["Username"] = user?.UserName;
+				}
+				else
+				{
+						ViewData["Username"] = null;
+				}
 
-			return View(posts);
+				var posts = await _context.Posts
+						.OrderByDescending(p => p.DateUploaded)
+						.Include(p => p.User) // Include post owner details
+						.Include(p => p.Likes) // Include likes for each post
+						.ThenInclude(l => l.User) // Include details of users who liked the post
+						.Include(p => p.Comments)
+						.ThenInclude(c => c.User) // Include user details for comments
+						.Select(p => new PostDto
+						{
+								PostId = p.PostId,
+								ImagePath = p.ImagePath,
+								TextContent = p.TextContent,
+								DateUploaded = p.DateUploaded,
+								FontSize = p.FontSize,
+								TextColor = p.TextColor,
+								BackgroundColor = p.BackgroundColor,
+								Author = new UserDto
+								{
+										UserId = p.User.Id,
+										Username = p.User.UserName,
+										ProfilePictureUrl = p.User.ProfilePictureUrl
+								},
+								LikesCount = p.Likes.Count, // Count of likes for the post
+								CommentsCount = p.Comments.Count, // Count of comments for the post
+								Comments = p.Comments.Select(c => new CommentDto
+								{
+										CommentId = c.CommentId,
+										Content = c.Content,
+										DateCommented = c.DateCommented,
+										AuthorUsername = c.User.UserName // Assuming User navigation property
+								}).ToList(),
+								Likes = p.Likes.Select(l => new UserDto
+								{
+										UserId = l.User.Id,
+										Username = l.User.UserName,
+										ProfilePictureUrl = l.User.ProfilePictureUrl
+								}).ToList() // List of users who liked the post
+						})
+						.ToListAsync();
+
+				return View(posts);
 		}
+
 
 
 
@@ -390,6 +398,52 @@ namespace Sub_Application_1.Controllers
 			return RedirectToAction("Index");
 		}
 
+		/* --------------------------------------------------------------------------------------------
+		Likes
+
+		The following methods are used to create and delete likes.
+		--------------------------------------------------------------------------------------------*/
+		[Authorize]
+		[HttpPost("LikePost")]
+		public async Task<IActionResult> LikePost(int postId)
+		{
+				string userId = GetCurrentUserId();
+
+				if (await _context.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId))
+				{
+						return BadRequest("You have already liked this post.");
+				}
+
+				var like = new Like
+				{
+						UserId = userId,
+						PostId = postId
+				};
+
+				_context.Likes.Add(like);
+				await _context.SaveChangesAsync();
+
+				return RedirectToAction("Index");
+		}
+
+		[Authorize]
+		[HttpPost("UnlikePost")]
+		public async Task<IActionResult> UnlikePost(int postId)
+		{
+				string userId = GetCurrentUserId();
+	
+				var like = await _context.Likes.FirstOrDefaultAsync(l => l.UserId == userId && l.PostId == postId);
+
+				if (like == null)
+				{
+						return NotFound("You have not liked this post.");
+				}
+
+				_context.Likes.Remove(like);
+				await _context.SaveChangesAsync();
+
+				return RedirectToAction("Index");
+		}
 
 		// Helper method
 		private string GetCurrentUserId()
