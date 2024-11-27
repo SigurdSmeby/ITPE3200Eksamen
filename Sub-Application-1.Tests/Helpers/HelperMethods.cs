@@ -1,6 +1,20 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Moq;
+using Sub_Application_1.Controllers;
+using Sub_Application_1.Data;
+using Sub_Application_1.DTOs;
+using Sub_Application_1.Models;
+using Xunit;
+
 
 namespace Sub_Application_1.Tests.Helpers
 {

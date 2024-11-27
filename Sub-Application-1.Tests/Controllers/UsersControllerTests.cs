@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Xunit.Abstractions;
 using System.Linq;
+using Sub_Application_1.Tests.Helpers;
 // Alias to avoid conflict with SignInResult from Microsoft.AspNetCore.Mvc
 using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult; 
 
@@ -23,34 +24,6 @@ namespace Sub_Application_1.Tests.Controllers
             _output = output;
         }
 
-        // Helper method to create a mocked UserManager
-        private Mock<UserManager<User>> CreateUserManagerMock()
-        {
-            var userStoreMock = new Mock<IUserStore<User>>();
-            return new Mock<UserManager<User>>(
-                userStoreMock.Object,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
-        }
-
-        // Helper method to create a mocked SignInManager
-        private Mock<SignInManager<User>> CreateSignInManagerMock(Mock<UserManager<User>> userManagerMock)
-        {
-            return new Mock<SignInManager<User>>(
-                userManagerMock.Object,
-                new Mock<IHttpContextAccessor>().Object,
-                new Mock<IUserClaimsPrincipalFactory<User>>().Object,
-                null,
-                null,
-                null,
-                null);
-        }
 
         [Fact]
         public async Task Register_ValidData_ReturnsRedirectToAction()
@@ -67,8 +40,8 @@ namespace Sub_Application_1.Tests.Controllers
                 confirmPassword = "Password123!"
             };
 
-            var userManagerMock = CreateUserManagerMock();
-            var signInManagerMock = CreateSignInManagerMock(userManagerMock);
+            var userManagerMock = HelperMethods.CreateUserManagerMock();
+            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
 
             userManagerMock.Setup(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
@@ -120,8 +93,8 @@ namespace Sub_Application_1.Tests.Controllers
                 confirmPassword = "DifferentPassword123!" // Passwords do not match
             };
 
-            var userManagerMock = CreateUserManagerMock();
-            var signInManagerMock = CreateSignInManagerMock(userManagerMock);
+            var userManagerMock = HelperMethods.CreateUserManagerMock();
+            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
 
             var controller = new UsersController(
                 null, null, null, 
@@ -173,8 +146,8 @@ namespace Sub_Application_1.Tests.Controllers
                 confirmPassword = "Password123!"
             };
 
-            var userManagerMock = CreateUserManagerMock();
-            var signInManagerMock = CreateSignInManagerMock(userManagerMock);
+            var userManagerMock = HelperMethods.CreateUserManagerMock();
+            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
 
             userManagerMock.Setup(um => um.FindByNameAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
@@ -222,8 +195,8 @@ namespace Sub_Application_1.Tests.Controllers
                 Password = "ValidPassword123!"
             };
 
-            var userManagerMock = CreateUserManagerMock();
-            var signInManagerMock = CreateSignInManagerMock(userManagerMock);
+            var userManagerMock = HelperMethods.CreateUserManagerMock();
+            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
 
             signInManagerMock.Setup(sm => sm.PasswordSignInAsync(
                 loginDto.Username, 
@@ -275,8 +248,8 @@ namespace Sub_Application_1.Tests.Controllers
                 Password = "WrongPassword123!"
             };
 
-            var userManagerMock = CreateUserManagerMock();
-            var signInManagerMock = CreateSignInManagerMock(userManagerMock);
+            var userManagerMock = HelperMethods.CreateUserManagerMock();
+            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
 
             signInManagerMock.Setup(sm => sm.PasswordSignInAsync(
                 loginDto.Username, 
