@@ -25,61 +25,59 @@ namespace server.Controllers
         }
 
         // POST: api/Posts
+        // Creates a new post with optional text and an image. The post is associated with the currently logged-in user.
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromForm] CreatePostDto postDto, [FromForm] IFormFile? imageFile)
+        public async Task<IActionResult> CreatePost([FromForm] CreatePostDto postDto)
         {
             int userId = GetCurrentUserId();
 
             string? imagePath = null;
 
-            if (imageFile != null && imageFile.Length > 0)
+            // Handle the image file if provided in the DTO
+            if (postDto.ImageFile != null && postDto.ImageFile.Length > 0)
             {
-                // Define the uploads folder path
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/posts");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
 
-                // Generate a unique filename for the uploaded file
-                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(postDto.ImageFile.FileName);
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                // Save the file
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    await imageFile.CopyToAsync(fileStream);
+                    await postDto.ImageFile.CopyToAsync(fileStream);
                 }
 
-                // Set the relative path
-                imagePath = "/uploads/" + uniqueFileName;
+                imagePath = "/uploads/posts/" + uniqueFileName; // Set relative path
             }
 
+            // Create and save the new post
             var post = new Post
             {
                 UserId = userId,
-                ImagePath = imagePath, // Save the relative path
+                ImagePath = imagePath,
                 TextContent = postDto.TextContent,
-                FontSize = postDto.FontSize ?? 16, // Default font size
-                TextColor = postDto.TextColor ?? "#000000", // Default text color (black)
-                BackgroundColor = postDto.BackgroundColor ?? "#FFFFFF" // Default background color (white)
+                FontSize = postDto.FontSize ?? 16,
+                TextColor = postDto.TextColor ?? "#000000",
+                BackgroundColor = postDto.BackgroundColor ?? "#FFFFFF"
             };
 
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
 
-            return Ok("Post created successfully.");
+            return Ok("Post created successfully");
         }
 
         // GET: api/Posts
+        // Retrieves all posts, sorted by upload date, along with user and interaction data.
         [HttpGet]
-        public async Task<IActionResult> GetPosts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetPosts()
         {
             var posts = await _context.Posts
                 .OrderByDescending(p => p.DateUploaded)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
                 .Include(p => p.User)
                 .Include(p => p.Likes)
                 .Include(p => p.Comments)
@@ -107,6 +105,7 @@ namespace server.Controllers
         }
 
         // GET: api/Posts/5
+        // Retrieves a specific post by its ID. Includes user and interaction data.
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPost(int id)
@@ -123,83 +122,77 @@ namespace server.Controllers
 
             var postDto = new PostDto
             {
-                PostId = post.PostId,
                 ImagePath = post.ImagePath,
                 TextContent = post.TextContent,
-                DateUploaded = post.DateUploaded,
                 FontSize = post.FontSize,
                 TextColor = post.TextColor,
                 BackgroundColor = post.BackgroundColor,
-                Author = new UserDto
-                {
-                    UserId = post.User.UserId,
-                    Username = post.User.Username,
-                    ProfilePictureUrl = post.User.ProfilePictureUrl
-                },
-                LikesCount = post.Likes.Count,
-                Comments = post.Comments.Select(c => new CommentDto
-                {
-                    CommentId = c.CommentId,
-                    Content = c.Content,
-                    DateCommented = c.DateCommented,
-                    AuthorUsername = c.User.Username
-                }).ToList()
             };
 
             return Ok(postDto);
         }
 
         // PUT: api/Posts/5
-		[Authorize]
-		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdatePost(int id, [FromForm] IFormFile? imageFile, [FromForm] string? textContent, [FromForm] int? fontSize, [FromForm] string? textColor, [FromForm] string? backgroundColor)
-		{
-			var post = await _context.Posts.FindAsync(id);
+        // Updates an existing post by its ID. Allows updating the image, text, and styling.
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePost(int id, [FromForm] UpdatePostDto updatePostDto)
+        {
+            var post = await _context.Posts.FindAsync(id);
 
-			if (post == null)
-				return NotFound();
+            if (post == null)
+                return NotFound();
 
-			// If an image is uploaded, process it
-			if (imageFile != null && imageFile.Length > 0)
-			{
-				var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-				if (!Directory.Exists(uploadsFolder))
-				{
-					Directory.CreateDirectory(uploadsFolder);
-				}
+            // Update the image if provided
+            if (updatePostDto.ImageFile != null && updatePostDto.ImageFile.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(post.ImagePath))
+                {
+                    var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
 
-				var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
-				var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/posts");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
 
-				using (var fileStream = new FileStream(filePath, FileMode.Create))
-				{
-					await imageFile.CopyToAsync(fileStream);
-				}
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(updatePostDto.ImageFile.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-				post.ImagePath = "/uploads/" + uniqueFileName; // Update the image path
-			}
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await updatePostDto.ImageFile.CopyToAsync(fileStream);
+                }
 
-			// Update other fields for text posts
-			if (textContent != null)
-				post.TextContent = textContent;
+                post.ImagePath = "/uploads/posts/" + uniqueFileName;
+            }
 
-			if (fontSize.HasValue)
-				post.FontSize = fontSize.Value;
+            // Update text and styling fields if provided
+            if (!string.IsNullOrEmpty(updatePostDto.TextContent))
+                post.TextContent = updatePostDto.TextContent;
 
-			if (!string.IsNullOrEmpty(textColor))
-				post.TextColor = textColor;
+            if (updatePostDto.FontSize.HasValue)
+                post.FontSize = updatePostDto.FontSize.Value;
 
-			if (!string.IsNullOrEmpty(backgroundColor))
-				post.BackgroundColor = backgroundColor;
+            if (!string.IsNullOrEmpty(updatePostDto.TextColor))
+                post.TextColor = updatePostDto.TextColor;
 
-			_context.Posts.Update(post);
-			await _context.SaveChangesAsync();
+            if (!string.IsNullOrEmpty(updatePostDto.BackgroundColor))
+                post.BackgroundColor = updatePostDto.BackgroundColor;
 
-			return Ok(new { success = true, message = "Post updated successfully!" });
-		}
+            _context.Posts.Update(post);
+            await _context.SaveChangesAsync();
 
+            return Ok(new { success = true, message = "Post updated successfully!" });
+        }
 
         // DELETE: api/Posts/5
+        // Deletes a specific post by its ID, including the associated image file.
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(int id)
@@ -214,6 +207,15 @@ namespace server.Controllers
             if (post.UserId != userId)
                 return Forbid("You are not authorized to delete this post.");
 
+            if (!string.IsNullOrEmpty(post.ImagePath))
+            {
+                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
 
@@ -221,6 +223,7 @@ namespace server.Controllers
         }
 
         // GET: api/Posts/user/{username}
+        // Retrieves all posts created by a specific user, with pagination support.
         [HttpGet("user/{username}")]
         public async Task<IActionResult> GetPostsByUsername(string username, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
@@ -229,9 +232,7 @@ namespace server.Controllers
                 .FirstOrDefaultAsync();
 
             if (user == null)
-            {
                 return NotFound("User not found");
-            }
 
             var posts = await _context.Posts
                 .Where(p => p.UserId == user.UserId)

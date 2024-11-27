@@ -10,8 +10,6 @@ namespace server.DTOs
         public string ProfilePictureUrl { get; set; }
         public DateTime DateJoined { get; set; }
         public int PostCount { get; set; }
-        public int FollowerCount { get; set; }
-        public int FollowingCount { get; set; }
         public string Bio { get; set; }
     }
 }

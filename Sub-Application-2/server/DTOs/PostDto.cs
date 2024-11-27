@@ -8,7 +8,6 @@ namespace server.DTOs
         public DateTime DateUploaded { get; set; }
         public UserDto Author { get; set; }
         public int LikesCount { get; set; }
-        public List<CommentDto> Comments { get; set; }
         public int CommentsCount { get; set; }
         public int FontSize { get; set; } = 16;
         public string TextColor { get; set; } = "#000000";

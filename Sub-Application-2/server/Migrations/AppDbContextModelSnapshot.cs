@@ -45,24 +45,6 @@ namespace server.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("server.Models.Follow", b =>
-                {
-                    b.Property<int>("FollowerId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FollowingId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateFollowed")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("FollowerId", "FollowingId");
-
-                    b.HasIndex("FollowingId");
-
-                    b.ToTable("Follows");
-                });
-
             modelBuilder.Entity("server.Models.Like", b =>
                 {
                     b.Property<int>("UserId")
@@ -180,25 +162,6 @@ namespace server.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("server.Models.Follow", b =>
-                {
-                    b.HasOne("server.Models.User", "Follower")
-                        .WithMany("Following")
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("server.Models.User", "Following")
-                        .WithMany("Followers")
-                        .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Follower");
-
-                    b.Navigation("Following");
-                });
-
             modelBuilder.Entity("server.Models.Like", b =>
                 {
                     b.HasOne("server.Models.Post", "Post")
@@ -239,10 +202,6 @@ namespace server.Migrations
             modelBuilder.Entity("server.Models.User", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Followers");
-
-                    b.Navigation("Following");
 
                     b.Navigation("Likes");
 
