@@ -136,7 +136,6 @@ const PostCards = ({
                     </Dropdown>
                 )}
             </Card.Header>
-
             <Card.Body
                 style={{
                     fontSize: fontSize ? `${fontSize}px` : undefined,
@@ -150,6 +149,8 @@ const PostCards = ({
                             alt="Post"
                             loading="lazy"
                             className="post-image"
+                            //immege fit
+                            style={{}}
                         />
                     </div>
                 ) : (
@@ -160,7 +161,6 @@ const PostCards = ({
                     </p>
                 )}
             </Card.Body>
-
             <Card.Footer>
                 <div className="like-comment-container">
                     <span className="heart-icon-container ">

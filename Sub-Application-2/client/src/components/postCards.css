@@ -1,6 +1,7 @@
 
 .card-container {
-  width: 30rem;
+  max-width: 36rem;
+  max-height: 40rem;
   margin: 1rem auto;
   padding: 0;
   filter: drop-shadow(1px 3px 3px #0000004f);
@@ -83,7 +84,6 @@ padding: 1rem;
 .post-image {
   width: 100%;
   height: auto;
-
   padding: 0 ;
   margin: auto;
   display: block;
