@@ -23,8 +23,14 @@ const UploadPost = () => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
+        if (file.size > 10 * 1024 * 1024) {
+            setError('File size exceeds 10MB, please upload a smaller file.');
+            e.target.value = null;
+            return;
+        }
         setImageFile(file); // Capture the uploaded file
-    
+        setError(''); // Reset error message
+
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
@@ -38,12 +44,12 @@ const UploadPost = () => {
             setPost((prev) => ({ ...prev, previewUrl: null }));
         }
     };
-    
 
     const handleTogglePostType = () => {
         setIsImagePost((prev) => !prev);
         // Reset the state for the other post type
         if (isImagePost) {
+            setError('');
             setPost({
                 textContent: '',
                 fontSize: 16,
@@ -51,6 +57,7 @@ const UploadPost = () => {
                 backgroundColor: '#FFFFFF',
             });
         } else {
+            setError('');
             setImageFile(null);
         }
     };
@@ -103,8 +110,7 @@ const UploadPost = () => {
             <div className="mb-4">
                 <Button
                     variant={isImagePost ? 'primary' : 'secondary'}
-                    onClick={handleTogglePostType}
-                >
+                    onClick={handleTogglePostType}>
                     Switch to {isImagePost ? 'Text Post' : 'Image Post'}
                 </Button>
             </div>
@@ -112,37 +118,47 @@ const UploadPost = () => {
             <Form onSubmit={handleSubmit}>
                 {/* Image Post */}
                 {isImagePost && (
-                    <Form.Group as={Row} className="mb-3" controlId="formPostImageFile">
-                    <Form.Label column sm="2">
-                        Upload Image
-                    </Form.Label>
-                    <Col sm="10">
-                        <Form.Control
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            required={isImagePost}
-                        />
-                        {imageFile && (
-                            <>
-                                <p className="mt-2">Selected file: {imageFile.name}</p>
-                                <img
-                                    src={post.previewUrl}
-                                    alt="Preview"
-                                    className="mt-2"
-                                    style={{ maxHeight: '200px', maxWidth: '200px' }}
-                                />
-                            </>
-                        )}
-                    </Col>
-                </Form.Group>
-                
+                    <Form.Group
+                        as={Row}
+                        className="mb-3"
+                        controlId="formPostImageFile">
+                        <Form.Label column sm="2">
+                            Upload Image
+                        </Form.Label>
+                        <Col sm="10">
+                            <Form.Control
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                required={isImagePost}
+                            />
+                            {imageFile && (
+                                <>
+                                    <p className="mt-2">
+                                        Selected file: {imageFile.name}
+                                    </p>
+                                    <img
+                                        src={post.previewUrl}
+                                        alt="Preview"
+                                        className="mt-2"
+                                        style={{
+                                            maxHeight: '200px',
+                                            maxWidth: '200px',
+                                        }}
+                                    />
+                                </>
+                            )}
+                        </Col>
+                    </Form.Group>
                 )}
 
                 {/* Text Post */}
                 {!isImagePost && (
                     <>
-                        <Form.Group as={Row} className="mb-3" controlId="formPostTextContent">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostTextContent">
                             <Form.Label column sm="2">
                                 Text Content
                             </Form.Label>
@@ -159,7 +175,10 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostFontSize">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostFontSize">
                             <Form.Label column sm="2">
                                 Font Size
                             </Form.Label>
@@ -175,7 +194,10 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostTextColor">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostTextColor">
                             <Form.Label column sm="2">
                                 Text Color
                             </Form.Label>
@@ -189,7 +211,10 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostBackgroundColor">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostBackgroundColor">
                             <Form.Label column sm="2">
                                 Background Color
                             </Form.Label>

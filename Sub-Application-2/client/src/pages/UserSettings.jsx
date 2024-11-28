@@ -38,7 +38,9 @@ const UserSettings = () => {
                     email: response.data.email,
                     bio: response.data.bio,
                 });
-                setPreviewUrl("http://localhost:5229"+response.data.profilePictureUrl);
+                setPreviewUrl(
+                    'http://localhost:5229' + response.data.profilePictureUrl,
+                );
             } catch (error) {
                 setProfileError('Error fetching user data');
                 console.error('Error fetching user data:', error);
@@ -116,19 +118,19 @@ const UserSettings = () => {
     };
     const handleDeleteAccount = async () => {
         const confirmDelete = window.confirm(
-            'Are you sure you want to delete your account? This action cannot be undone.'
+            'Are you sure you want to delete your account? This action cannot be undone.',
         );
 
         if (confirmDelete) {
             try {
                 await deleteUserAccount();
                 localStorage.clear();
-                window.location.href = '/login';
+                window.location.href = '/';
             } catch (error) {
                 console.error('Error deleting account:', error);
             }
         }
-    }
+    };
 
     return (
         <Container>
@@ -136,7 +138,9 @@ const UserSettings = () => {
 
             {/* Profile Settings Form */}
             {profileError && <Alert variant="danger">{profileError}</Alert>}
-            {profileSuccess && <Alert variant="success">{profileSuccess}</Alert>}
+            {profileSuccess && (
+                <Alert variant="success">{profileSuccess}</Alert>
+            )}
             <Form onSubmit={handleProfileSubmit}>
                 <Form.Group as={Row} className="mb-3" controlId="formUsername">
                     <Form.Label column sm="2">
@@ -168,7 +172,10 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} className="mb-3" controlId="formProfilePicture">
+                <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formProfilePicture">
                     <Form.Label column sm="2">
                         Profile Picture
                     </Form.Label>
@@ -218,9 +225,14 @@ const UserSettings = () => {
             {/* Change Password Form */}
             <h4 className="mt-4">Change Password</h4>
             {passwordError && <Alert variant="danger">{passwordError}</Alert>}
-            {passwordSuccess && <Alert variant="success">{passwordSuccess}</Alert>}
+            {passwordSuccess && (
+                <Alert variant="success">{passwordSuccess}</Alert>
+            )}
             <Form onSubmit={handlePasswordSubmit}>
-                <Form.Group as={Row} className="mb-3" controlId="formCurrentPassword">
+                <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formCurrentPassword">
                     <Form.Label column sm="2">
                         Current Password
                     </Form.Label>
@@ -235,7 +247,10 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} className="mb-3" controlId="formNewPassword">
+                <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formNewPassword">
                     <Form.Label column sm="2">
                         New Password
                     </Form.Label>
@@ -250,7 +265,10 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} className="mb-3" controlId="formConfirmPassword">
+                <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formConfirmPassword">
                     <Form.Label column sm="2">
                         Confirm New Password
                     </Form.Label>
@@ -273,15 +291,13 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
             </Form>
-                
-                {/* Delete Account Button */}
-                <div className="text-end">
-                    <Button
-                        variant="danger"
-                        onClick={handleDeleteAccount}>
-                        Delete Account
-                    </Button>
-                </div>
+
+            {/* Delete Account Button */}
+            <div className="text-end">
+                <Button variant="danger" onClick={handleDeleteAccount}>
+                    Delete Account
+                </Button>
+            </div>
         </Container>
     );
 };

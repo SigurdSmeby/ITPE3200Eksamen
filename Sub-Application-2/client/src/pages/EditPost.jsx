@@ -28,7 +28,7 @@ const EditPost = () => {
                     fontSize: response.fontSize || 16,
                     textColor: response.textColor || '#000000',
                     backgroundColor: response.backgroundColor || '#FFFFFF',
-                    previewUrl: `http://localhost:5229/${response.imagePath}` // Set full path to image
+                    previewUrl: `http://localhost:5229/${response.imagePath}`, // Set full path to image
                 });
                 setIsImagePost(!!response.imagePath); // Determine post type based on imagePath
             } catch (error) {
@@ -45,7 +45,13 @@ const EditPost = () => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        setImageFile(file); // Store the uploaded file
+        if (file.size > 10 * 1024 * 1024) {
+            setError('File size exceeds 10MB, please upload a smaller file.');
+            e.target.value = null;
+            return;
+        }
+        setImageFile(file); // Capture the uploaded file
+        setError(''); // Reset error message
 
         if (file) {
             const reader = new FileReader();
@@ -98,7 +104,9 @@ const EditPost = () => {
 
     return (
         <Container>
-            <h2 className="my-4">{isImagePost ? 'Edit Image Post' : 'Edit Text Post'}</h2>
+            <h2 className="my-4">
+                {isImagePost ? 'Edit Image Post' : 'Edit Text Post'}
+            </h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
             {success && <Alert variant="success">{success}</Alert>}
@@ -106,7 +114,10 @@ const EditPost = () => {
             <Form onSubmit={handleSubmit}>
                 {/* Conditional Rendering: Image Post */}
                 {isImagePost && (
-                    <Form.Group as={Row} className="mb-3" controlId="formPostImageFile">
+                    <Form.Group
+                        as={Row}
+                        className="mb-3"
+                        controlId="formPostImageFile">
                         <Form.Label column sm="2">
                             Upload New Image
                         </Form.Label>
@@ -122,11 +133,16 @@ const EditPost = () => {
                                     src={post.previewUrl}
                                     alt="Preview"
                                     className="mt-3"
-                                    style={{ maxHeight: '200px', maxWidth: '200px' }}
+                                    style={{
+                                        maxHeight: '200px',
+                                        maxWidth: '200px',
+                                    }}
                                 />
                             )}
                             {imageFile && (
-                                <p className="mt-2">Selected file: {imageFile.name}</p>
+                                <p className="mt-2">
+                                    Selected file: {imageFile.name}
+                                </p>
                             )}
                         </Col>
                     </Form.Group>
@@ -135,7 +151,10 @@ const EditPost = () => {
                 {/* Conditional Rendering: Text Post */}
                 {!isImagePost && (
                     <>
-                        <Form.Group as={Row} className="mb-3" controlId="formPostTextContent">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostTextContent">
                             <Form.Label column sm="2">
                                 Text Content
                             </Form.Label>
@@ -152,7 +171,10 @@ const EditPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostFontSize">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostFontSize">
                             <Form.Label column sm="2">
                                 Font Size
                             </Form.Label>
@@ -169,7 +191,10 @@ const EditPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostTextColor">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostTextColor">
                             <Form.Label column sm="2">
                                 Text Color
                             </Form.Label>
@@ -184,7 +209,10 @@ const EditPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostBackgroundColor">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostBackgroundColor">
                             <Form.Label column sm="2">
                                 Background Color
                             </Form.Label>

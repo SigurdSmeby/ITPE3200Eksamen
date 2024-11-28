@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
     },
     (error) => {
         return Promise.reject(error);
-    }
+    },
 );
 // Get all posts
 export const getPosts = async () => {
