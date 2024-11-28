@@ -2,20 +2,20 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import NavMenu from './components/shared/navbar.tsx';
-import Home from './pages/Home';
-import About from './pages/About';
+import Home from './pages/Home.jsx';
+import About from './pages/About.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/shared/footer.tsx';
-import LoginUser from './pages/Login';
-import Register from './pages/Register';
-import Profile from './pages/profile';
-import UserSettings from './pages/UserSettings';
-import PrivateRoute from './components/PrivateRoute';
-import EditPost from './pages/EditPost';
-import UploadPost from './pages/UploadPost';
+import LoginUser from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Profile from './pages/profile.jsx';
+import UserSettings from './pages/UserSettings.jsx';
+import PrivateRoute from './components/PrivateRoute.js';
+import EditPost from './pages/EditPost.jsx';
+import UploadPost from './pages/UploadPost.jsx';
 import { AuthProvider } from './components/shared/AuthContext.tsx';
 
-const App: React.FC = () => {
+const App = () => {
     return (
         <AuthProvider>
             <Router>
