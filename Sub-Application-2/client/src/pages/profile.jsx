@@ -12,6 +12,7 @@ const Profile = () => {
     const [profilePicture, setProfilePicture] = useState('');
     const [bio, setBio] = useState('');
     const [refresh, setRefresh] = React.useState(false);
+    const [dateJoined, setDateJoined] = React.useState('');
 
     const { username } = useParams(); // Get the username from the URL
     const navigate = useNavigate(); // Use navigate for redirection
@@ -25,6 +26,11 @@ const Profile = () => {
                 setUserName(response.username);
                 setProfilePicture(response.profilePictureUrl);
                 setBio(response.bio);
+                setDateJoined(
+                    new Date(response.dateJoined)
+                        .toLocaleString('en-US')
+                        .split(',')[0],
+                );
             } catch (err) {
                 setError(err.response.data);
             }
@@ -50,14 +56,20 @@ const Profile = () => {
                         width: '150px',
                         height: '150px',
                         borderRadius: '50%',
-                        objectFit: 'cover'
+                        objectFit: 'cover',
                     }}
                 />
 
                 <div>
                     <h1>{userName}</h1>
                     <p>{bio}</p>
-                    <div className="btn btn-light">Number of posts: {numberOfPosts}</div>
+                    <div className="btn btn-light">
+                        Number of posts: {numberOfPosts}
+                    </div>
+                    <div className="btn btn-light">
+                        Member since: {dateJoined}
+                    </div>
+
                     {/* Conditionally render the Edit Profile button if this is the logged-in user's profile */}
                     {loggedInUsername === username && (
                         <div
@@ -118,10 +130,12 @@ const Profile = () => {
                     justifyContent: 'flex-start',
                     gap: '0rem', // Set spacing between posts to 1rem
                     padding: '1rem', // Optional padding for the container
-                }}
-            >
+                }}>
                 {posts
-                    .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded))
+                    .sort(
+                        (a, b) =>
+                            new Date(b.dateUploaded) - new Date(a.dateUploaded),
+                    )
                     .map((post) => (
                         <PostCards
                             key={post.postId}
@@ -141,7 +155,6 @@ const Profile = () => {
             </div>
         );
     };
-    
 
     return (
         <>

@@ -22,46 +22,48 @@ const App: React.FC = () => {
         <AuthProvider>
             <Router>
                 <NavMenu />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/login" element={<LoginUser />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/test" element={<TestPage />} />
-                    <Route 
-                        path="/edit-post/:postId" 
-                        element={
-                            <PrivateRoute>
-                                <EditPost />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path="/profile/:username"
-                        element={
-                            <PrivateRoute>
-                                <Profile />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path="/upload"
-                        element={
-                            <PrivateRoute>
-                                <UploadPost />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path="/settings"
-                        element={
-                            <PrivateRoute>
-                                <UserSettings />
-                            </PrivateRoute>
-                        }
-                    />
-                </Routes>
-                <Footer />
+                <div style={{ marginLeft: '250px', padding: '1rem' }}>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/login" element={<LoginUser />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/test" element={<TestPage />} />
+                        <Route
+                            path="/edit-post/:postId"
+                            element={
+                                <PrivateRoute>
+                                    <EditPost />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/profile/:username"
+                            element={
+                                <PrivateRoute>
+                                    <Profile />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/upload"
+                            element={
+                                <PrivateRoute>
+                                    <UploadPost />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/settings"
+                            element={
+                                <PrivateRoute>
+                                    <UserSettings />
+                                </PrivateRoute>
+                            }
+                        />
+                    </Routes>
+                    <Footer />
+                </div>
             </Router>
         </AuthProvider>
     );
