@@ -72,13 +72,9 @@ const LoginUser = () => {
                 <Button variant="primary" type="submit">
                     Login
                 </Button>
-                <a href="" className="btn btn-light">
-                    Forgot password?
-                </a>
                 <a href="/register" className="btn btn-light">
                     New User?
                 </a>
-                <a href="/test">test</a>
             </Form>
         </div>
     );

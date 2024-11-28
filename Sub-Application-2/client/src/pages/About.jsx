@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
-const About: React.FC = () => {
+const About = () => {
     return (
         <Container className="my-5">
             <h1>About Us</h1>

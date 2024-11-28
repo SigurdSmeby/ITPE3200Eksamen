@@ -57,9 +57,6 @@ const NavMenu: React.FC = () => {
                         Login
                     </Nav.Link>
                 )}
-                <Nav.Link href="/test" className="py-2 px-3">
-                    Test Page
-                </Nav.Link>
             </Nav>
         </Navbar>
     );
