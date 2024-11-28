@@ -2,6 +2,7 @@ import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { FaHome } from 'react-icons/fa';
 import { useAuth } from './AuthContext.tsx';
+import logo from './icons/webappLogo.png';
 
 const NavMenu: React.FC = () => {
     const { isLoggedIn, username, logout } = useAuth();
@@ -23,7 +24,12 @@ const NavMenu: React.FC = () => {
             <Navbar.Brand
                 href="/"
                 className="fw-bold text-primary mb-4 d-flex align-items-center">
-                <FaHome className="me-2" /> Home
+                <img src={logo} className="me-2" 
+                style={{
+                    width: '150px',
+                    height: 'auto',
+                    alignItems:'start'
+                }} alt="Home" />
             </Navbar.Brand>
             <Nav className="flex-column w-100">
                 <Nav.Link href="/" className="py-2 px-3">
