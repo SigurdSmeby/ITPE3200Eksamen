@@ -25,6 +25,7 @@ namespace server.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
+                        .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateCommented")
@@ -52,9 +53,6 @@ namespace server.Migrations
 
                     b.Property<int>("PostId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateLiked")
-                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "PostId");
 
