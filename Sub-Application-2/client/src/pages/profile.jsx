@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUserPosts } from '../api/postApi';
-import PostCards from '../components/postCards.tsx';
+import PostCards from '../components/postCards';
 
 const BACKEND_URL = 'http://localhost:5229';
 

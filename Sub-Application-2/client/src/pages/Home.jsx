@@ -1,5 +1,5 @@
 import React from 'react';
-import PostCards from '../components/postCards.tsx';
+import PostCards from '../components/postCards';
 import { getPosts } from '../api/postApi.js';
 
 const Home = () => {

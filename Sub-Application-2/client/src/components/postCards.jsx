@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Dropdown } from 'react-bootstrap';
 import { FaComment } from 'react-icons/fa';
-import { deletePost } from '../api/postApi';
-import { createComment } from '../api/commentApi';
-import CommentsSection from './commentsSection';
-import { timeAgo } from './timeAgo';
-import LikeButton from './likeCounter';
+import { deletePost } from '../api/postApi.js';
+import { createComment } from '../api/commentApi.js';
+import CommentsSection from './commentsSection.jsx';
+import { timeAgo } from './timeAgo.jsx';
+import LikeButton from './likeCounter.jsx';
 import { useAuth } from './shared/AuthContext.tsx';
 import { useNavigate } from 'react-router-dom';
 import './postCards.css';
-import { checkIfUserHasLikedPost } from '../api/likeApi.js'
+import { checkIfUserHasLikedPost } from '../api/likeApi.js';
 
 const BACKEND_URL = 'http://localhost:5229';
 // PostCards component
@@ -29,7 +29,8 @@ const PostCards = ({
     const [showComments, setShowComments] = React.useState(false);
     const [commentsInput, setCommentsInput] = React.useState('');
     const [refreshComments, setRefreshComments] = React.useState(false); // Track when to refresh comments
-    const [commentsCount, setCommentsCount] = React.useState(initialCommentsCount);
+    const [commentsCount, setCommentsCount] =
+        React.useState(initialCommentsCount);
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
 
@@ -40,17 +41,15 @@ const PostCards = ({
     useEffect(() => {
         if (isLoggedIn) {
             checkIfUserHasLikedPost(postId)
-            .then((response) => {
-                setHasLiked(response);
-                console.log("Response: "+response+"\n"+response.data);
-            })
-            .catch((error) => {
-                console.error("Error checking like status:", error);
-            });
+                .then((response) => {
+                    setHasLiked(response);
+                    console.log('Response: ' + response + '\n' + response.data);
+                })
+                .catch((error) => {
+                    console.error('Error checking like status:', error);
+                });
         }
     }, [postId, isLoggedIn]);
-
-
 
     const handleToggleComments = () => {
         if (!isLoggedIn) {
@@ -82,17 +81,17 @@ const PostCards = ({
             });
     };
 
-    
-
     const handleDeletePost = (id) => {
-        deletePost(id)
-            .then((response) => {
-                console.log(response.data);
-                onDeleted();
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        if (window.confirm('Are you sure you want to delete this post?')) {
+            deletePost(id)
+                .then((response) => {
+                    console.log(response.data);
+                    onDeleted();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     };
 
     const authorName = author?.username || 'Unknown Author';
@@ -145,25 +144,32 @@ const PostCards = ({
                     backgroundColor: backgroundColor || undefined,
                 }}>
                 {imageUrl ? (
-                    <div
-                        className="image-container">
+                    <div className="image-container">
                         <img
                             src={BACKEND_URL + imageUrl}
-                            alt='Post'
+                            alt="Post"
                             loading="lazy"
                             className="post-image"
                         />
                     </div>
                 ) : (
-                    <p className="text-content mb-0" style={{ whiteSpace: 'pre-wrap' }}>{textContent}</p>
+                    <p
+                        className="text-content mb-0"
+                        style={{ whiteSpace: 'pre-wrap' }}>
+                        {textContent}
+                    </p>
                 )}
             </Card.Body>
 
             <Card.Footer>
                 <div className="like-comment-container">
                     <span className="heart-icon-container ">
-                        <LikeButton postId={postId} likeCounter={likesCount} hasLiked={hasLiked}/>
-                        </span>
+                        <LikeButton
+                            postId={postId}
+                            likeCounter={likesCount}
+                            hasLiked={hasLiked}
+                        />
+                    </span>
                     <div
                         className="comment-icon-container"
                         onClick={handleToggleComments}>
@@ -191,8 +197,7 @@ const PostCards = ({
                         onSubmit={(e) => {
                             e.preventDefault();
                             handleSendComment();
-                        }}
-                    >
+                        }}>
                         <input
                             type="text"
                             className="comment-field form-control"
@@ -200,10 +205,7 @@ const PostCards = ({
                             value={commentsInput}
                             onChange={(e) => setCommentsInput(e.target.value)}
                         />
-                        <button
-                            type="submit"
-                            className="comment-button btn"
-                        >
+                        <button type="submit" className="comment-button btn">
                             Comment
                         </button>
                     </form>
