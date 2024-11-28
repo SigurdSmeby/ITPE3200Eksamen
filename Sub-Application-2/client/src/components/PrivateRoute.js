@@ -1,7 +1,7 @@
 // PrivateRoute.tsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from './shared/AuthContext.tsx';
+import { useAuth } from './shared/AuthContext';
 
 const PrivateRoute = ({ children }) => {
     const { isLoggedIn } = useAuth();

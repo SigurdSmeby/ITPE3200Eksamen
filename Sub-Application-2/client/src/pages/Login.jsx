@@ -3,15 +3,16 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { login as loginApi } from '../api/authApi';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/shared/AuthContext.tsx';
+import { useAuth } from '../components/shared/AuthContext';
+import { toast } from 'react-toastify';
 
 const LoginUser = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const { login } = useAuth(); // Use login function from AuthContext
     const navigate = useNavigate();
+    const notifyLoginSucsess = () => toast.success("Login successful!");
 
     const handleSubmit = async (event) => {
         //hindrer default behavior til formen
@@ -19,21 +20,20 @@ const LoginUser = () => {
 
         try {
             setError('');
-            setSuccess('');
 
             const { token: jwtToken } = await loginApi(username, password);
 
             // Call the login function from AuthContext to set state, localStorage, and timer
             login(jwtToken, username);
 
-            setSuccess('Login successful!');
             setUsername('');
             setPassword('');
 
+            notifyLoginSucsess();
+
             // Redirect to home page after a short delay
-            setTimeout(() => {
-                navigate(`/`);
-            }, 1000);
+            navigate(`/`);
+            
         } catch (err) {
             setError(err);
         }
@@ -44,7 +44,6 @@ const LoginUser = () => {
             <h2>Login</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
-            {success && <Alert variant="success">{success}</Alert>}
 
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formUsername">

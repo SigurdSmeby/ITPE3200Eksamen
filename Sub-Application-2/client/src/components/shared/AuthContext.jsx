@@ -1,35 +1,26 @@
-// AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
-interface AuthContextProps {
-    isLoggedIn: boolean;
-    username: string | null;
-    login: (token: string, username: string) => void;
-    logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextProps>({
+const AuthContext = createContext({
     isLoggedIn: false,
     username: null,
     login: () => {},
     logout: () => {},
+    deleteAccount: () => {}, // Added deleteAccount method to the context
 });
 
-let logoutTimer: ReturnType<typeof setTimeout>;
+let logoutTimer;
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-    children,
-}) => {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-        !!localStorage.getItem('jwtToken'),
+export const AuthProvider = ({ children }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(
+        !!localStorage.getItem('jwtToken')
     );
-    const [username, setUsername] = useState<string | null>(
-        localStorage.getItem('username'),
+    const [username, setUsername] = useState(
+        localStorage.getItem('username')
     );
 
     // Helper function to set the auto-logout timer
-    const setLogoutTimer = (expirationTime: number) => {
+    const setLogoutTimer = (expirationTime) => {
         const currentTime = Date.now();
         const timeUntilExpiration = expirationTime * 1000 - currentTime; // Convert to milliseconds
 
@@ -43,14 +34,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }, timeUntilExpiration);
     };
 
-    const login = (token: string, username: string) => {
+    const login = (token, username) => {
         localStorage.setItem('jwtToken', token);
         localStorage.setItem('username', username);
         setIsLoggedIn(true);
         setUsername(username);
 
         // Decode token to get expiration time and set auto-logout timer
-        const decodedToken: any = jwtDecode(token);
+        const decodedToken = jwtDecode(token);
         if (decodedToken.exp) {
             setLogoutTimer(decodedToken.exp);
         }
@@ -66,11 +57,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (logoutTimer) clearTimeout(logoutTimer);
     };
 
+    const deleteAccount = () => {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('username');
+    
+        if (logoutTimer) clearTimeout(logoutTimer);
+    
+        setIsLoggedIn(false);
+        setUsername(null); 
+    };
+    
+
     useEffect(() => {
         // Check if a token exists on app load and set the logout timer if so
         const token = localStorage.getItem('jwtToken');
         if (token) {
-            const decodedToken: any = jwtDecode(token);
+            const decodedToken = jwtDecode(token);
             if (decodedToken.exp && Date.now() / 1000 < decodedToken.exp) {
                 setLogoutTimer(decodedToken.exp);
             } else {
@@ -80,7 +82,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, username, login, logout }}>
+        <AuthContext.Provider
+            value={{ isLoggedIn, username, login, logout, deleteAccount }}
+        >
             {children}
         </AuthContext.Provider>
     );

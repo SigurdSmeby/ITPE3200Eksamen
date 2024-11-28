@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaHeart } from 'react-icons/fa';
-import { useAuth } from './shared/AuthContext.tsx';
+import { useAuth } from './shared/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { createLike, unLike } from '../api/likeApi.js';
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import { FaHome } from 'react-icons/fa';
-import { useAuth } from './AuthContext.tsx';
+import { useAuth } from './AuthContext';
 import logo from './icons/webappLogo.png';
 
-const NavMenu: React.FC = () => {
+const NavMenu = () => {
     const { isLoggedIn, username, logout } = useAuth();
 
     return (

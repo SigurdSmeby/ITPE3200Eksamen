@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchCommentsForPost, deleteComment } from '../api/commentApi';
 import { timeAgo } from './timeAgo';
-import { useAuth } from './shared/AuthContext.tsx';
+import { useAuth } from './shared/AuthContext';
 
 const CommentsSection = ({ postId, refresh, onCommentDelete  }) => {
     const [comments, setComments] = useState([]);

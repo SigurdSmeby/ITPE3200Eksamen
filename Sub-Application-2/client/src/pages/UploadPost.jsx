@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../api/postApi'; // Add a createPost method to handle file uploads
+import { toast } from 'react-toastify';
 
 const UploadPost = () => {
     const navigate = useNavigate();
@@ -13,8 +14,8 @@ const UploadPost = () => {
     });
     const [imageFile, setImageFile] = useState(null); // State to hold the uploaded file
     const [isImagePost, setIsImagePost] = useState(true); // Toggle between image and text post
-    const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
+    const UploadSucsess = () => toast.success("Post created successfully!");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -65,7 +66,6 @@ const UploadPost = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        setSuccess('');
 
         // Validation: Ensure either an image or text content is provided
         if (isImagePost && !imageFile) {
@@ -90,10 +90,8 @@ const UploadPost = () => {
 
         try {
             await createPost(formData); // API call
-            setSuccess('Post created successfully!');
-            setTimeout(() => {
-                navigate('/'); // Redirect to home
-            }, 1000);
+            UploadSucsess();
+            navigate('/'); // Redirect to home
         } catch (error) {
             setError('Failed to create post. Please try again.');
         }
@@ -104,7 +102,6 @@ const UploadPost = () => {
             <h2 className="my-4">Upload New Post</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
-            {success && <Alert variant="success">{success}</Alert>}
 
             {/* Toggle Button */}
             <div className="mb-4">

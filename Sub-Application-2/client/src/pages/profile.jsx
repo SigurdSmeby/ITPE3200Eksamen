@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUserPosts } from '../api/postApi';
 import PostCards from '../components/postCards';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BACKEND_URL = 'http://localhost:5229';
 
@@ -17,6 +19,7 @@ const Profile = () => {
     const { username } = useParams(); // Get the username from the URL
     const navigate = useNavigate(); // Use navigate for redirection
     const loggedInUsername = localStorage.getItem('username'); // Get logged-in user's username
+    const notifyDeleteSucsess = () => toast.success("Post deleted successfully!");
 
     useEffect(() => {
         const fetchUserPosts = async () => {
@@ -40,6 +43,7 @@ const Profile = () => {
     }, [refresh, username]);
 
     const triggerRefresh = () => {
+        notifyDeleteSucsess();
         setRefresh(!refresh);
     };
 
@@ -82,7 +86,7 @@ const Profile = () => {
             </div>
         );
     };
-    /* normal stacked view
+
 
     const ImgSection = () => {
         if (error) {
@@ -95,47 +99,6 @@ const Profile = () => {
             <div>
                 {posts
                     .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded))
-                    .map((post) => (
-                        <PostCards
-                            key={post.postId}
-                            postId={post.postId}
-                            imagePath={post.imagePath}
-                            textContent={post.textContent}
-                            dateUploaded={post.dateUploaded}
-                            author={post.author}
-                            likesCount={post.likesCount}
-                            commentsCount={post.commentsCount}
-                            fontSize={post.fontSize}
-                            textColor={post.textColor}
-                            backgroundColor={post.backgroundColor}
-                            onDeleted={triggerRefresh}
-                        />
-                    ))}
-            </div>
-        );
-    };*/
-    // grid view
-    const ImgSection = () => {
-        if (error) {
-            return <h1>{error}</h1>;
-        }
-        if (posts.length === 0) {
-            return <h1>The user has not posted any images yet</h1>;
-        }
-        return (
-            <div
-                style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'flex-start',
-                    gap: '0rem', // Set spacing between posts to 1rem
-                    padding: '1rem', // Optional padding for the container
-                }}>
-                {posts
-                    .sort(
-                        (a, b) =>
-                            new Date(b.dateUploaded) - new Date(a.dateUploaded),
-                    )
                     .map((post) => (
                         <PostCards
                             key={post.postId}

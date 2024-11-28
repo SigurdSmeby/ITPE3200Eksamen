@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPost, updatePost } from '../api/postApi';
+import { toast } from 'react-toastify';
 
 const EditPost = () => {
     const { postId } = useParams(); // Get postId from the URL parameters
@@ -15,8 +16,8 @@ const EditPost = () => {
     });
     const [isImagePost, setIsImagePost] = useState(true); // Set the post type based on content
     const [imageFile, setImageFile] = useState(null); // State to store the uploaded file
-    const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
+    const editPostSucsess = () => toast.success("Post updated successfully!");
 
     // Fetch the post details when component mounts
     useEffect(() => {
@@ -68,7 +69,6 @@ const EditPost = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        setSuccess('');
 
         // Validation: Ensure the required field is not empty
         if (isImagePost && !imageFile) {
@@ -93,10 +93,8 @@ const EditPost = () => {
 
         try {
             await updatePost(postId, formData); // Update the post using postApi
-            setSuccess('Post updated successfully!');
-            setTimeout(() => {
-                navigate('/'); // Redirect to home
-            }, 1000); // Delay before redirecting to home
+            editPostSucsess();
+            navigate('/');
         } catch (error) {
             setError('Error updating post. Please try again.');
         }
@@ -109,7 +107,6 @@ const EditPost = () => {
             </h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
-            {success && <Alert variant="success">{success}</Alert>}
 
             <Form onSubmit={handleSubmit}>
                 {/* Conditional Rendering: Image Post */}

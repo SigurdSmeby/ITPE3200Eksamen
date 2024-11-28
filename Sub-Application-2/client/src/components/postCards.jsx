@@ -3,10 +3,10 @@ import { Card, Dropdown } from 'react-bootstrap';
 import { FaComment } from 'react-icons/fa';
 import { deletePost } from '../api/postApi.js';
 import { createComment } from '../api/commentApi.js';
-import CommentsSection from './commentsSection.jsx';
-import { timeAgo } from './timeAgo.jsx';
-import LikeButton from './likeCounter.jsx';
-import { useAuth } from './shared/AuthContext.tsx';
+import CommentsSection from './commentsSection';
+import { timeAgo } from './timeAgo';
+import LikeButton from './likeCounter';
+import { useAuth } from './shared/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './postCards.css';
 import { checkIfUserHasLikedPost } from '../api/likeApi.js';
@@ -136,7 +136,7 @@ const PostCards = ({
                     </Dropdown>
                 )}
             </Card.Header>
-            <Card.Body
+            <Card.Body className='card-body'
                 style={{
                     fontSize: fontSize ? `${fontSize}px` : undefined,
                     color: textColor || undefined,

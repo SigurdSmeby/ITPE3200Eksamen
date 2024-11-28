@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/shared/AuthContext'; 
 import {
     getUserProfile,
     updateUserProfile,
@@ -23,11 +26,15 @@ const UserSettings = () => {
         confirmPassword: '',
     });
 
-    const [profileSuccess, setProfileSuccess] = useState('');
+    const profileSuccess = () => toast.success("Profile updated successfully!");
     const [profileError, setProfileError] = useState('');
 
-    const [passwordSuccess, setPasswordSuccess] = useState('');
+    const passwordSuccess = () => toast.success("Password updated successfully!");
     const [passwordError, setPasswordError] = useState('');
+
+    const notifyDeleteSucsess = () => toast.success("Account deleted successfully!");
+    const { deleteAccount } = useAuth(); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -63,7 +70,6 @@ const UserSettings = () => {
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
         setProfileError('');
-        setProfileSuccess('');
 
         try {
             const formData = new FormData();
@@ -75,10 +81,10 @@ const UserSettings = () => {
             }
 
             await updateUserProfile(formData);
-            setProfileSuccess('Profile updated successfully');
+            profileSuccess();
             localStorage.setItem('username', user.username);
         } catch (error) {
-            setProfileError('Error updating profile. Please try again.');
+            setProfileError(error.response.data);
             console.error('Error updating profile:', error);
         }
     };
@@ -91,8 +97,6 @@ const UserSettings = () => {
     const handlePasswordSubmit = async (e) => {
         e.preventDefault();
         setPasswordError('');
-        setPasswordSuccess('');
-
         if (passwords.newPassword !== passwords.confirmPassword) {
             setPasswordError('New password and confirmation do not match');
             return;
@@ -105,14 +109,14 @@ const UserSettings = () => {
             };
 
             await changeUserPassword(data);
-            setPasswordSuccess('Password updated successfully');
+            passwordSuccess();
             setPasswords({
                 currentPassword: '',
                 newPassword: '',
                 confirmPassword: '',
             });
         } catch (error) {
-            setPasswordError('Error updating password. Please try again.');
+            setPasswordError(error.response.data);
             console.error('Error updating password:', error);
         }
     };
@@ -123,9 +127,12 @@ const UserSettings = () => {
 
         if (confirmDelete) {
             try {
-                await deleteUserAccount();
-                localStorage.clear();
-                window.location.href = '/';
+                await deleteUserAccount().then(() =>
+                    deleteAccount(),
+                    notifyDeleteSucsess(),
+                    navigate(`/`)
+                );
+                
             } catch (error) {
                 console.error('Error deleting account:', error);
             }
@@ -138,9 +145,6 @@ const UserSettings = () => {
 
             {/* Profile Settings Form */}
             {profileError && <Alert variant="danger">{profileError}</Alert>}
-            {profileSuccess && (
-                <Alert variant="success">{profileSuccess}</Alert>
-            )}
             <Form onSubmit={handleProfileSubmit}>
                 <Form.Group as={Row} className="mb-3" controlId="formUsername">
                     <Form.Label column sm="2">
@@ -225,9 +229,6 @@ const UserSettings = () => {
             {/* Change Password Form */}
             <h4 className="mt-4">Change Password</h4>
             {passwordError && <Alert variant="danger">{passwordError}</Alert>}
-            {passwordSuccess && (
-                <Alert variant="success">{passwordSuccess}</Alert>
-            )}
             <Form onSubmit={handlePasswordSubmit}>
                 <Form.Group
                     as={Row}

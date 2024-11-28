@@ -23,7 +23,7 @@ namespace server.Controllers
         // POST: api/Comments
         // Adds a comment to a post. Requires the user to be logged in.
         [Authorize]
-        [HttpPost]
+        [HttpPost()]
         public async Task<IActionResult> AddComment([FromBody] AddCommentDto commentDto)
         {
             int userId = GetCurrentUserId();
@@ -35,7 +35,6 @@ namespace server.Controllers
                 PostId = commentDto.PostId,
                 Content = commentDto.Content
             };
-
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 

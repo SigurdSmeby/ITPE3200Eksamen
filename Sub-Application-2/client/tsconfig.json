@@ -18,7 +18,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "allowImportingTsExtensions": true
   },
   "include": [
     "src"

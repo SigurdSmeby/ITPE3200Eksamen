@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
-const Footer: React.FC = () => {
+const Footer = () => {
     return (
         <footer className="footer bg-primary text-white text-center py-4">
             <Container>

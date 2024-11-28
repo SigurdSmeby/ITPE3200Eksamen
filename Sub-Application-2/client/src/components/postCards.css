@@ -1,7 +1,6 @@
 
 .card-container {
-  max-width: 36rem;
-  max-height: 40rem;
+  max-width: 32rem;
   margin: 1rem auto;
   padding: 0;
   filter: drop-shadow(1px 3px 3px #0000004f);
@@ -33,6 +32,7 @@
 }
 
 .card-body {
+  max-height: 40rem;
   display: flex;
   align-content: center;
   overflow: hidden;

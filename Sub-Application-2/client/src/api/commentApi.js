@@ -29,6 +29,7 @@ export const createComment = async (commentData) => {
         const response = await axiosInstance.post('/Comments', commentData);
         return response.data; // Returns server response (e.g., success message)
     } catch (error) {
+        console.error('Error creating comment:', error);
         throw error.response?.data || 'Failed to send comment'; // Throw error to handle in UI
     }
 };

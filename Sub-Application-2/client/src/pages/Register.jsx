@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { register } from '../api/authApi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { login as loginApi } from '../api/authApi';
+import { useAuth } from '../components/shared/AuthContext';
+
 
 const RegisterUser = () => {
     // Form state
@@ -10,14 +14,14 @@ const RegisterUser = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+    const registerSucsess = () => toast.success("Profile created successfully!");
+    const { login } = useAuth(); // Use login function from AuthContext
     const navigate = useNavigate();
 
     // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (password !== confirmPassword) {
-            setSuccess('');
             setError('Passwords do not match');
             return;
         }
@@ -25,19 +29,16 @@ const RegisterUser = () => {
         try {
             // Reset error and success messages
             setError('');
-            setSuccess('');
 
             // API request to register a new user
             const {} = await register(username, email, password);
-            setSuccess('Registration successful!');
-            setUsername('');
-            setEmail('');
-            setPassword('');
-            setConfirmPassword('');
-            // Redirect to home page after a short delay
-            setTimeout(() => {
-                navigate(`/login`);
-            }, 1000);
+            const { token: jwtToken } = await loginApi(username, password);
+
+            // Call the login function from AuthContext to set state, localStorage, and timer
+            login(jwtToken, username);
+            
+            registerSucsess();
+            navigate(`/`);
         } catch (err) {
             setError(err);
         }
@@ -48,7 +49,6 @@ const RegisterUser = () => {
             <h2>Register</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
-            {success && <Alert variant="success">{success}</Alert>}
 
             <Form onSubmit={handleSubmit}>
                 {/* Username Field */}
