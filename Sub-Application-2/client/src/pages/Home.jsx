@@ -1,6 +1,5 @@
 import React from 'react';
 import PostCards from '../components/postCards.tsx';
-import TestApi from '../api/testapi.js';
 import { getPosts } from '../api/postApi.js';
 
 const Home = () => {
@@ -21,7 +20,6 @@ const Home = () => {
 
     return (
         <>
-            <h1>Home</h1>
             {posts
                 .sort(
                     (a, b) =>

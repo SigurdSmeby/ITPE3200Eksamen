@@ -13,14 +13,20 @@ const AuthContext = createContext<AuthContextProps>({
     isLoggedIn: false,
     username: null,
     login: () => {},
-    logout: () => {}
+    logout: () => {},
 });
 
 let logoutTimer: ReturnType<typeof setTimeout>;
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem('jwtToken'));
-    const [username, setUsername] = useState<string | null>(localStorage.getItem('username'));
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+    children,
+}) => {
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+        !!localStorage.getItem('jwtToken'),
+    );
+    const [username, setUsername] = useState<string | null>(
+        localStorage.getItem('username'),
+    );
 
     // Helper function to set the auto-logout timer
     const setLogoutTimer = (expirationTime: number) => {
@@ -33,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Set a new timer to log out the user when the token expires
         logoutTimer = setTimeout(() => {
             logout();
-            alert("Your session has expired. Please log in again.");
+            alert('Your session has expired. Please log in again.');
         }, timeUntilExpiration);
     };
 
