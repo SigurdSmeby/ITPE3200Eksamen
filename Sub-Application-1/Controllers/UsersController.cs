@@ -180,6 +180,11 @@ namespace Sub_Application_1.Controllers
 			// Handle profile picture upload
 			if (userProfileDto.ProfilePicture != null && userProfileDto.ProfilePicture.Length > 0)
 			{
+				if (!FileSmallerThan10MB(userProfileDto.ProfilePicture))
+				{
+					ViewData["ProfileError"] = "Profile picture must be smaller than 10MB.";
+					return View("Settings", userProfileDto);
+				}
 				// TODO: maybe unnececary consider removal
 				var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/profile_pictures");
 				if (!Directory.Exists(uploadsFolder))
@@ -277,6 +282,12 @@ namespace Sub_Application_1.Controllers
 			return RedirectToAction("Settings");
 
 		}
+
+		        public static bool FileSmallerThan10MB(IFormFile file)
+        {
+						long MaxFileSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
+            return file.Length <= MaxFileSizeInBytes;
+        }
 
 	}
 }

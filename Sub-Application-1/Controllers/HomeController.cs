@@ -116,11 +116,22 @@ namespace Sub_Application_1.Controllers
 			{
 				return View(postDto);
 			}
+			if (postDto.Image == null && string.IsNullOrEmpty(postDto.TextContent))
+			{
+				ViewData["ErrorMessage"] = "Please provide an image or text content.";
+				return View(postDto);
+			}
 
 			string imagePath = string.Empty;
 
 			if (postDto.Image != null && postDto.Image.Length > 0)
 			{
+				// Check if the file size is less than 10MB
+				if (!FileSmallerThan10MB(postDto.Image))
+				{
+					ViewData["ErrorMessage"] = "File size must be less than 10MB.";
+					return View(postDto);
+				}
 				// Define the uploads folder path
 				var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
 				if (!Directory.Exists(uploadsFolder))
@@ -216,6 +227,12 @@ namespace Sub_Application_1.Controllers
 			// Update image if a new one is uploaded
 			if (ImageFile != null && ImageFile.Length > 0)
 			{
+				if (!FileSmallerThan10MB(ImageFile))
+				{
+					ModelState.AddModelError("ImageFile", "File size must be less than 10MB.");
+					ViewData["ImagePath"] = post.ImagePath; // Maintain image preview on error
+					return View(updatePostDto);
+				}
 				var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
 				if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
 
@@ -449,6 +466,11 @@ namespace Sub_Application_1.Controllers
 		private string GetCurrentUserId()
 		{
 			return User.FindFirstValue(ClaimTypes.NameIdentifier);
+		}
+		public static bool FileSmallerThan10MB(IFormFile file)
+		{
+				long MaxFileSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
+				return file.Length <= MaxFileSizeInBytes;
 		}
 	}
 }
