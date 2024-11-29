@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
 import NavMenu from './components/shared/navbar';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -14,7 +13,7 @@ import PrivateRoute from './components/PrivateRoute.js';
 import EditPost from './pages/EditPost.jsx';
 import UploadPost from './pages/UploadPost';
 import { AuthProvider } from './components/shared/AuthContext';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
@@ -23,7 +22,6 @@ const App = () => {
         
         <ToastContainer />
         <AuthProvider>
-           
             <Router>
                 <div
                     style={{

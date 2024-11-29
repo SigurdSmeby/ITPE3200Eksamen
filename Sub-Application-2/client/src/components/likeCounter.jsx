@@ -4,43 +4,48 @@ import { useAuth } from './shared/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { createLike, unLike } from '../api/likeApi.js';
 
-const LikeButton = ({postId, likeCounter, hasLiked: initialHasLiked}) => {
+// LikeButton component
+const LikeButton = ({ postId, likeCounter, hasLiked: initialHasLiked }) => {
+  // State to track likes and whether the user has liked the post
   const [likes, setLikes] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth(); // Check if the user is logged in
   const navigate = useNavigate();
 
-  const logId = postId;
-  
+  // Initialize likes and liked status when props change
   React.useEffect(() => {
     setLikes(likeCounter);
     setHasLiked(initialHasLiked);
-}, [likeCounter,initialHasLiked]); 
+  }, [likeCounter, initialHasLiked]);
 
+  // Handle like/unlike logic
   const handleLike = () => {
     if (!isLoggedIn) {
-      navigate('/login', { state: { from: `/` } }); // Redirect to login
+      // Redirect to login if the user is not logged in
+      navigate('/login', { state: { from: `/` } });
       return;
-  }
+    }
+
     if (!hasLiked) {
+      // Like the post
       setLikes(likes + 1);
       setHasLiked(true);
       createLike(postId)
-            .then((response) => {
-                console.log('liked:', response);
-            })
-            .catch((error) => {
-                console.error('Error finding likes:', error);
-            });
-            console.log(logId)
+        .then((response) => {
+          console.log('Liked:', response);
+        })
+        .catch((error) => {
+          console.error('Error liking the post:', error);
+        });
     } else {
+      // Unlike the post
       unLike(postId)
-      .then((response) => {
-          console.log('unliked:', response);
-      })
-      .catch((error) => {
-          console.error('Error finding likes:', error);
-      });
+        .then((response) => {
+          console.log('Unliked:', response);
+        })
+        .catch((error) => {
+          console.error('Error unliking the post:', error);
+        });
       setLikes(likes - 1);
       setHasLiked(false);
     }
@@ -48,20 +53,16 @@ const LikeButton = ({postId, likeCounter, hasLiked: initialHasLiked}) => {
 
   return (
     <>
-      <div onClick={handleLike} style={{ display: 'block' }}>
+      {/* Like button with dynamic color based on liked status */}
+      <div onClick={handleLike} style={{ display: 'block', cursor: 'pointer' }}>
         <FaHeart
           style={{ color: hasLiked ? 'red' : 'black' }}
           size={24}
         />
         <p>{likes}</p>
       </div>
-      <div style={{ display: 'block' }}>
-      </div>
     </>
   );
 };
 
 export default LikeButton;
-                        
-                 
-

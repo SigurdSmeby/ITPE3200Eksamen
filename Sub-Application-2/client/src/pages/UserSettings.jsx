@@ -11,31 +11,29 @@ import {
 } from '../api/userApi';
 
 const UserSettings = () => {
-    const [user, setUser] = useState({
-        username: '',
-        email: '',
-        bio: '',
-    });
+    const navigate = useNavigate();
+    const { deleteAccount } = useAuth(); // Access account deletion from AuthContext
 
-    const [profilePicture, setProfilePicture] = useState(null); // State to handle file upload
-    const [previewUrl, setPreviewUrl] = useState(''); // State for image preview
+    // State for user profile data and image upload
+    const [user, setUser] = useState({ username: '', email: '', bio: '' });
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState('');
 
+    // State for password changes
     const [passwords, setPasswords] = useState({
         currentPassword: '',
         newPassword: '',
         confirmPassword: '',
     });
 
-    const profileSuccess = () => toast.success("Profile updated successfully!");
+    // State for error handling and success notifications
     const [profileError, setProfileError] = useState('');
-
-    const passwordSuccess = () => toast.success("Password updated successfully!");
     const [passwordError, setPasswordError] = useState('');
-
+    const profileSuccess = () => toast.success("Profile updated successfully!");
+    const passwordSuccess = () => toast.success("Password updated successfully!");
     const notifyDeleteSucsess = () => toast.success("Account deleted successfully!");
-    const { deleteAccount } = useAuth(); 
-    const navigate = useNavigate();
 
+    // Fetch user data on component mount
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -45,9 +43,7 @@ const UserSettings = () => {
                     email: response.data.email,
                     bio: response.data.bio,
                 });
-                setPreviewUrl(
-                    'http://localhost:5229' + response.data.profilePictureUrl,
-                );
+                setPreviewUrl('http://localhost:5229' + response.data.profilePictureUrl);
             } catch (error) {
                 setProfileError('Error fetching user data');
                 console.error('Error fetching user data:', error);
@@ -56,37 +52,10 @@ const UserSettings = () => {
         fetchUser();
     }, []);
 
+    // Handle input changes for profile and passwords
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser({ ...user, [name]: value });
-    };
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setProfilePicture(file);
-        setPreviewUrl(URL.createObjectURL(file)); // Set preview image
-    };
-
-    const handleProfileSubmit = async (e) => {
-        e.preventDefault();
-        setProfileError('');
-
-        try {
-            const formData = new FormData();
-            formData.append('username', user.username);
-            formData.append('email', user.email);
-            formData.append('bio', user.bio);
-            if (profilePicture) {
-                formData.append('profilePicture', profilePicture); // Append the file
-            }
-
-            await updateUserProfile(formData);
-            profileSuccess();
-            localStorage.setItem('username', user.username);
-        } catch (error) {
-            setProfileError(error.response.data);
-            console.error('Error updating profile:', error);
-        }
     };
 
     const handlePasswordChange = (e) => {
@@ -94,6 +63,34 @@ const UserSettings = () => {
         setPasswords({ ...passwords, [name]: value });
     };
 
+    // Handle file input for profile picture
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setProfilePicture(file);
+        setPreviewUrl(URL.createObjectURL(file)); // Set preview image URL
+    };
+
+    // Submit updated profile
+    const handleProfileSubmit = async (e) => {
+        e.preventDefault();
+        setProfileError('');
+        try {
+            const formData = new FormData();
+            formData.append('username', user.username);
+            formData.append('email', user.email);
+            formData.append('bio', user.bio);
+            if (profilePicture) formData.append('profilePicture', profilePicture);
+
+            await updateUserProfile(formData);
+            profileSuccess();
+            localStorage.setItem('username', user.username); // Update local username
+        } catch (error) {
+            setProfileError(error.response.data || 'Error updating profile');
+            console.error('Error updating profile:', error);
+        }
+    };
+
+    // Submit password change
     const handlePasswordSubmit = async (e) => {
         e.preventDefault();
         setPasswordError('');
@@ -103,36 +100,26 @@ const UserSettings = () => {
         }
 
         try {
-            const data = {
+            await changeUserPassword({
                 currentPassword: passwords.currentPassword,
                 newPassword: passwords.newPassword,
-            };
-
-            await changeUserPassword(data);
-            passwordSuccess();
-            setPasswords({
-                currentPassword: '',
-                newPassword: '',
-                confirmPassword: '',
             });
+            passwordSuccess();
+            setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
         } catch (error) {
-            setPasswordError(error.response.data);
+            setPasswordError(error.response.data || 'Error updating password');
             console.error('Error updating password:', error);
         }
     };
-    const handleDeleteAccount = async () => {
-        const confirmDelete = window.confirm(
-            'Are you sure you want to delete your account? This action cannot be undone.',
-        );
 
-        if (confirmDelete) {
+    // Handle account deletion
+    const handleDeleteAccount = async () => {
+        if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
             try {
-                await deleteUserAccount().then(() =>
-                    deleteAccount(),
-                    notifyDeleteSucsess(),
-                    navigate(`/`)
-                );
-                
+                await deleteUserAccount();
+                deleteAccount();
+                notifyDeleteSucsess();
+                navigate(`/`);
             } catch (error) {
                 console.error('Error deleting account:', error);
             }
@@ -147,9 +134,7 @@ const UserSettings = () => {
             {profileError && <Alert variant="danger">{profileError}</Alert>}
             <Form onSubmit={handleProfileSubmit}>
                 <Form.Group as={Row} className="mb-3" controlId="formUsername">
-                    <Form.Label column sm="2">
-                        Username
-                    </Form.Label>
+                    <Form.Label column sm="2">Username</Form.Label>
                     <Col sm="10">
                         <Form.Control
                             type="text"
@@ -162,9 +147,7 @@ const UserSettings = () => {
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formEmail">
-                    <Form.Label column sm="2">
-                        Email
-                    </Form.Label>
+                    <Form.Label column sm="2">Email</Form.Label>
                     <Col sm="10">
                         <Form.Control
                             type="email"
@@ -176,13 +159,8 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formProfilePicture">
-                    <Form.Label column sm="2">
-                        Profile Picture
-                    </Form.Label>
+                <Form.Group as={Row} className="mb-3" controlId="formProfilePicture">
+                    <Form.Label column sm="2">Profile Picture</Form.Label>
                     <Col sm="10">
                         <Form.Control
                             type="file"
@@ -202,9 +180,7 @@ const UserSettings = () => {
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formBio">
-                    <Form.Label column sm="2">
-                        Bio
-                    </Form.Label>
+                    <Form.Label column sm="2">Bio</Form.Label>
                     <Col sm="10">
                         <Form.Control
                             as="textarea"
@@ -219,9 +195,7 @@ const UserSettings = () => {
 
                 <Form.Group as={Row} className="mb-3">
                     <Col sm={{ span: 10, offset: 2 }}>
-                        <Button type="submit" variant="primary">
-                            Save Profile Changes
-                        </Button>
+                        <Button type="submit" variant="primary">Save Profile Changes</Button>
                     </Col>
                 </Form.Group>
             </Form>
@@ -230,13 +204,8 @@ const UserSettings = () => {
             <h4 className="mt-4">Change Password</h4>
             {passwordError && <Alert variant="danger">{passwordError}</Alert>}
             <Form onSubmit={handlePasswordSubmit}>
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formCurrentPassword">
-                    <Form.Label column sm="2">
-                        Current Password
-                    </Form.Label>
+                <Form.Group as={Row} className="mb-3" controlId="formCurrentPassword">
+                    <Form.Label column sm="2">Current Password</Form.Label>
                     <Col sm="10">
                         <Form.Control
                             type="password"
@@ -248,13 +217,8 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formNewPassword">
-                    <Form.Label column sm="2">
-                        New Password
-                    </Form.Label>
+                <Form.Group as={Row} className="mb-3" controlId="formNewPassword">
+                    <Form.Label column sm="2">New Password</Form.Label>
                     <Col sm="10">
                         <Form.Control
                             type="password"
@@ -266,13 +230,8 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formConfirmPassword">
-                    <Form.Label column sm="2">
-                        Confirm New Password
-                    </Form.Label>
+                <Form.Group as={Row} className="mb-3" controlId="formConfirmPassword">
+                    <Form.Label column sm="2">Confirm New Password</Form.Label>
                     <Col sm="10">
                         <Form.Control
                             type="password"
@@ -286,18 +245,14 @@ const UserSettings = () => {
 
                 <Form.Group as={Row} className="mb-3">
                     <Col sm={{ span: 10, offset: 2 }}>
-                        <Button type="submit" variant="secondary">
-                            Update Password
-                        </Button>
+                        <Button type="submit" variant="secondary">Update Password</Button>
                     </Col>
                 </Form.Group>
             </Form>
 
             {/* Delete Account Button */}
             <div className="text-end">
-                <Button variant="danger" onClick={handleDeleteAccount}>
-                    Delete Account
-                </Button>
+                <Button variant="danger" onClick={handleDeleteAccount}>Delete Account</Button>
             </div>
         </Container>
     );

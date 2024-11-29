@@ -1,4 +1,4 @@
-
+/* Card container styling */
 .card-container {
   max-width: 32rem;
   margin: 1rem auto;
@@ -6,11 +6,13 @@
   filter: drop-shadow(1px 3px 3px #0000004f);
 }
 
+/* Card header styling */
 .card-header {
   display: flex;
   align-items: center;
 }
 
+/* Profile link styling */
 .profile-link {
   display: inline-flex;
   align-items: center;
@@ -18,49 +20,46 @@
   color: inherit;
 }
 
+/* Profile image styling */
 .profile-img {
   width: 50px !important;
   height: 50px !important;
-  border-radius: 50% !important; /* for rundt profilbilde */
+  border-radius: 50% !important;
   margin-right: 1rem;
 }
 
-.post-title {
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 1rem;
-}
-
+/* Card body styling */
 .card-body {
   max-height: 40rem;
   display: flex;
   align-content: center;
   overflow: hidden;
-  font-size: 16px; /* Default størrelse på teksten */
-  color: #000000; /* Default tekstfarge */
-  background-color: #FFFFFF; /* Default bakgrunn */
-  padding: 0 !important;  /* måtte bruke important for den jævla paddinga */
-  
+  font-size: 16px;
+  color: #000000;
+  background-color: #FFFFFF;
+  padding: 0 !important;
 }
 
+/* Text content styling */
 .text-content {
-padding: 1rem;
+  padding: 1rem;
 }
 
+/* Card footer styling */
 .card-footer {
   text-align: center;
 }
 
+/* Like and comment container styling */
 .like-comment-container {
-  display: inline-block;
-  cursor: pointer;
   display: flex;
+  cursor: pointer;
 }
 
+/* Date text styling */
 .date { 
   color: #888888;  
-  margin-top:auto;
-  margin-bottom: auto;
+  margin: auto 1rem;
   padding-left: 1rem;
 }
 
@@ -68,9 +67,7 @@ padding: 1rem;
   color: #555555; 
 }
 
-
-/* Bildehåndtering for glow ogsånt*/
-
+/* Post image container */
 .image-container {
   position: relative;
   display: inline-block;
@@ -81,78 +78,92 @@ padding: 1rem;
   overflow: hidden;
 }
 
+/* Post image styling */
 .post-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 0 ;
+  padding: 0;
   margin: auto;
   display: block;
-  
 }
 
-/*Footer greier*/
-
+/* Comment icon container */
 .comment-icon-container {
   padding: 10px;
 }
+
 .comment-icon:hover {
-  color: #555555 ; /*Må finne ut hvordan å endre farge på ikon*/
+  color: #555555;
 }
+
+/* Like button styling */
 .heart-icon-container {
   padding: 10px;
 }
-.heart-icon-red{
-  color: red
+
+.heart-icon-red {
+  color: red;
 }
-.heart-icon-red:hover{
-  color: rgb(255, 80, 80)
+
+.heart-icon-red:hover {
+  color: rgb(255, 80, 80);
 }
-.heart-icon-black{
-  color: rgb(0, 0, 0)
+
+.heart-icon-black {
+  color: rgb(0, 0, 0);
 }
 
 .heart-icon-black:hover {
-  color: #555555 ; /*Må finne ut hvordan å endre farge på ikon, for detta funker ikke*/
-
+  color: #555555;
 }
+
+/* Comments section styling */
 .comments-section {
   padding: 1rem;
   border-top: 1px solid #e0e0e0;
-  max-height: 300px; /* lager en maks størrelse*/
-  overflow-y: auto; /* gjør at man kan scrolle om man er over den størrelse */
+  max-height: 300px;
+  overflow-y: auto;
 }
+
+/* Individual comment styling */
 .comment {
   align-items: baseline;
   padding: 0.5rem 0;
 }
+
+/* Comment author styling */
 .comment-author {
   font-weight: bold;
   margin-right: 0.5rem;
-  color: #007bff; /* blått navn, ser litt stygt ut men  */
+  color: #007bff;
   text-decoration: none;
 }
+
 .comment-author:hover {
-  text-decoration: underline; /* gjør at navnet får en strek under seg */
-}
-.comment-text {
-  font-size: 0.9rem;
-  color: #333; /* Normal text color */
+  text-decoration: underline;
 }
 
+/* Comment text styling */
+.comment-text {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Comment input field */
 .comment-field {
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
   background-color: #f8f8f8;
-  filter: drop-shadow(0px #00000000);
-}
-.comment-button{
-border-top-left-radius: 0px !important;
-border-bottom-left-radius: 0px !important;
 }
 
-.comment-button:hover{
-background-color: #eeeeee !important; 
-transition: 0.22s;
+/* Comment button */
+.comment-button {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
 
+.comment-button:hover {
+  background-color: #eeeeee !important;
+  transition: 0.22s;
 }

@@ -9,32 +9,28 @@ const LoginUser = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login } = useAuth(); // Use login function from AuthContext
+    const { login } = useAuth(); // Get login function from AuthContext
     const navigate = useNavigate();
-    const notifyLoginSucsess = () => toast.success("Login successful!");
+    const notifyLoginSucsess = () => toast.success("Login successful!"); // Notify user of successful login
 
     const handleSubmit = async (event) => {
-        //hindrer default behavior til formen
-        event.preventDefault();
+        event.preventDefault(); // Prevent form's default submission behavior
 
         try {
             setError('');
 
             const { token: jwtToken } = await loginApi(username, password);
 
-            // Call the login function from AuthContext to set state, localStorage, and timer
-            login(jwtToken, username);
+            login(jwtToken, username); // Update auth context with new token and username
 
             setUsername('');
             setPassword('');
 
             notifyLoginSucsess();
 
-            // Redirect to home page after a short delay
-            navigate(`/`);
-            
+            navigate(`/`); // Redirect to home page
         } catch (err) {
-            setError(err);
+            setError(err); // Set error state to display the error message
         }
     };
 
@@ -42,7 +38,7 @@ const LoginUser = () => {
         <div className="container mt-4">
             <h2>Login</h2>
 
-            {error && <Alert variant="danger">{error}</Alert>}
+            {error && <Alert variant="danger">{error}</Alert>} {/* Display error message if any */}
 
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formUsername">
@@ -70,9 +66,9 @@ const LoginUser = () => {
                 <Button variant="primary" type="submit">
                     Login
                 </Button>
-                <a href="/register" className="btn btn-light">
+                <Button variant="light" onClick={() => navigate('/register')}>
                     New User?
-                </a>
+                </Button>
             </Form>
         </div>
     );

@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
 @model IEnumerable<Sub_Application_1.DTOs.PostDto>
-
 @if (Model == null || !Model.Any())
 {
     <p>No posts available.</p>
@@ -17,7 +16,7 @@ else
                 <a href="/profile/@post.Author?.Username" class="profile-link">
                     <img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" class="profile-img me-2">
                     <div>
-                        <h5 class="mb-0">@post.Author?.Username</h5>
+                        <h3 aria-label="@($"Post by: {post.Author.Username}")" class="mb-0">@post.Author?.Username</h3>
                         <small class="text-muted date">@post.DateUploaded.ToString("MMM dd, yyyy")</small>
                     </div>
                 </a>
