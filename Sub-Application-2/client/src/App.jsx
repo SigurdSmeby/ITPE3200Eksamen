@@ -45,7 +45,7 @@ const App = () => {
                                 path="/edit-post/:postId"
                                 element={
                                     <PrivateRoute>
-                                        <EditPost />
+                                        <EditPost/>
                                     </PrivateRoute>
                                 }
                             />
