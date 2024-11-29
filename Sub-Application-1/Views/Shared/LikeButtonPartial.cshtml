@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/cards.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<link href="~/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link rel="stylesheet" href="~/css/bootstrap.min.css">
 @model Sub_Application_1.DTOs.PostDto
 
@@ -14,17 +14,18 @@
             <form method="post" action="/Likes/UnlikePost" class="mb-1">
                 <input type="hidden" name="postId" value="@Model.PostId" />
                 <button type="submit" class="btn btn-light heart-icon-container">
-                    <i class="bi bi-heart-fill text-danger"></i>
+                    <i aria-label="Unlike Post" class="bi bi-heart-fill text-danger"></i>
                 </button>
             </form>
         }
+        
         else
         {
             <!-- Like Button -->
             <form method="post" action="/Likes/LikePost" class="mb-1">
                 <input type="hidden" name="postId" value="@Model.PostId" />
-                <button type="submit" class="btn btn-light heart-icon-container">
-                    <i class="bi bi-heart"></i>
+                <button  type="submit" class="btn btn-light heart-icon-container">
+                    <i aria-label="like Post" class="bi bi-heart"></i>
                 </button>
             </form>
         }

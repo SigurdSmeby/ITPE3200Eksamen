@@ -16,14 +16,14 @@ else
                 <a href="/profile/@post.Author?.Username" class="profile-link">
                     <img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" class="profile-img me-2">
                     <div>
-                        <h3 aria-label="@($"Post by: {post.Author.Username}")" class="mb-0">@post.Author?.Username</h3>
+                        <h2 aria-label="@($"Post by: {post.Author.Username}")" class="mb-0">@post.Author?.Username</h2>
                         <small class="text-muted date">@post.DateUploaded.ToString("MMM dd, yyyy")</small>
                     </div>
                 </a>
                 @if (User.Identity?.Name == post.Author?.Username)
                 {
                     <div class="ms-auto">
-                        <a class="dropdown-item" style="font-size: 30px;" href="EditPost/@post.PostId"><i class="bi bi-gear"></i></a>
+                        <a aria-label="Post settings" class="dropdown-item" style="font-size: 30px;" href="EditPost/@post.PostId"><i class="bi bi-gear"></i></a>
                     </div>
                 }
             </div>
@@ -49,7 +49,7 @@ else
                 <div class="d-flex align-items-start" style="gap: 15px; line-height: 0;">
                     <!-- Like Button -->
                     <div style="display: flex; flex-direction: column; align-items: center;">
-                        <iframe class="lazy-load-like" 
+                        <iframe aria-label="Like Container" class="lazy-load-like" 
                                 data-src="@Url.Action("GetLikeButtonPartial", "Like", new { postId = post.PostId })" 
                                 frameborder="0" 
                                 scrolling="no" 
@@ -58,8 +58,8 @@ else
                     </div>
 
                     <!-- Comment Button -->
-                    <div style="display: flex; align-items: flex-start;">
-                        <button class="btn btn-light comment-icon-container toggle-comments" 
+                    <div  style="display: flex; align-items: flex-start;">
+                        <button aria-label="Toggle comments" class="btn btn-light comment-icon-container toggle-comments" 
                                 data-bs-toggle="collapse"
                                 data-bs-target="#comments-section-@post.PostId" 
                                 data-post-id="@post.PostId" 
