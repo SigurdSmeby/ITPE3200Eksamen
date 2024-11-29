@@ -24,7 +24,7 @@ else
                 @if (User.Identity?.Name == post.Author?.Username)
                 {
                     <div class="ms-auto">
-                        <a class="dropdown-item" href="EditPost/@post.PostId">Edit / Delete</a>
+                        <a class="dropdown-item" style="font-size: 30px;" href="EditPost/@post.PostId"><i class="bi bi-gear"></i></a>
                     </div>
                 }
             </div>
