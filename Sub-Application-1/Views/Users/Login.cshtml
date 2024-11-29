@@ -13,7 +13,6 @@
                     @if (!ViewData.ModelState.IsValid)
                     {
                         <div class="alert alert-danger">
-                            <--! Display error message form UserController -->
                             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                         </div>
                     }
