@@ -14,7 +14,7 @@ import PrivateRoute from './components/PrivateRoute.js';
 import EditPost from './pages/EditPost.jsx';
 import UploadPost from './pages/UploadPost.jsx';
 import { AuthProvider } from './components/shared/AuthContext';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
@@ -23,7 +23,6 @@ const App = () => {
         
         <ToastContainer />
         <AuthProvider>
-           
             <Router>
                 <div
                     style={{

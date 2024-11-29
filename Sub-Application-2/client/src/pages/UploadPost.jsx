@@ -1,43 +1,55 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { createPost } from '../api/postApi'; // Add a createPost method to handle file uploads
+import { createPost } from '../api/postApi'; // API call to handle post creation
 import { toast } from 'react-toastify';
 
 const UploadPost = () => {
     const navigate = useNavigate();
+
+    // State for managing post data
     const [post, setPost] = useState({
         textContent: '',
         fontSize: 16,
         textColor: '#000000',
         backgroundColor: '#FFFFFF',
     });
-    const [imageFile, setImageFile] = useState(null); // State to hold the uploaded file
-    const [isImagePost, setIsImagePost] = useState(true); // Toggle between image and text post
-    const [error, setError] = useState('');
-    const UploadSucsess = () => toast.success("Post created successfully!");
 
+    // State for file upload and toggle between post types
+    const [imageFile, setImageFile] = useState(null);
+    const [isImagePost, setIsImagePost] = useState(true);
+    const [error, setError] = useState('');
+
+    // Toast notification for success
+    const uploadSuccess = () => toast.success("Post created successfully!");
+
+    // Handle text input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setPost({ ...post, [name]: value });
     };
 
+    // Handle image file selection
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (file.size > 10 * 1024 * 1024) {
+
+        // Validate file size (10MB max)
+        if (file?.size > 10 * 1024 * 1024) {
             setError('File size exceeds 10MB, please upload a smaller file.');
             e.target.value = null;
             return;
         }
-        setImageFile(file); // Capture the uploaded file
-        setError(''); // Reset error message
 
+        setImageFile(file);
+        setError(''); // Clear error on valid file
+
+        // Generate a preview of the image
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
                 setPost((prev) => ({
                     ...prev,
-                    previewUrl: reader.result, // Set the preview URL
+                    previewUrl: reader.result,
                 }));
             };
             reader.readAsDataURL(file);
@@ -46,11 +58,13 @@ const UploadPost = () => {
         }
     };
 
+    // Toggle between image and text post
     const handleTogglePostType = () => {
         setIsImagePost((prev) => !prev);
-        // Reset the state for the other post type
+        setError(''); // Clear error when toggling post types
+
+        // Reset respective state based on post type
         if (isImagePost) {
-            setError('');
             setPost({
                 textContent: '',
                 fontSize: 16,
@@ -58,16 +72,16 @@ const UploadPost = () => {
                 backgroundColor: '#FFFFFF',
             });
         } else {
-            setError('');
             setImageFile(null);
         }
     };
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        // Validation: Ensure either an image or text content is provided
+        // Validate inputs based on post type
         if (isImagePost && !imageFile) {
             setError('Please upload an image for an image post.');
             return;
@@ -77,10 +91,10 @@ const UploadPost = () => {
             return;
         }
 
-        // Create form data
+        // Prepare form data for API call
         const formData = new FormData();
         if (isImagePost) {
-            formData.append('imageFile', imageFile); // Add the uploaded image
+            formData.append('imageFile', imageFile);
         } else {
             formData.append('textContent', post.textContent);
             formData.append('fontSize', post.fontSize);
@@ -89,10 +103,10 @@ const UploadPost = () => {
         }
 
         try {
-            await createPost(formData); // API call
-            UploadSucsess();
-            navigate('/'); // Redirect to home
-        } catch (error) {
+            await createPost(formData); // API call to create post
+            uploadSuccess();
+            navigate('/'); // Redirect to home page
+        } catch {
             setError('Failed to create post. Please try again.');
         }
     };
@@ -101,9 +115,10 @@ const UploadPost = () => {
         <Container>
             <h2 className="my-4">Upload New Post</h2>
 
+            {/* Display error messages */}
             {error && <Alert variant="danger">{error}</Alert>}
 
-            {/* Toggle Button */}
+            {/* Toggle Post Type */}
             <div className="mb-4">
                 <Button
                     variant={isImagePost ? 'primary' : 'secondary'}
@@ -112,13 +127,11 @@ const UploadPost = () => {
                 </Button>
             </div>
 
+            {/* Post Form */}
             <Form onSubmit={handleSubmit}>
                 {/* Image Post */}
                 {isImagePost && (
-                    <Form.Group
-                        as={Row}
-                        className="mb-3"
-                        controlId="formPostImageFile">
+                    <Form.Group as={Row} className="mb-3" controlId="formPostImageFile">
                         <Form.Label column sm="2">
                             Upload Image
                         </Form.Label>
@@ -131,17 +144,12 @@ const UploadPost = () => {
                             />
                             {imageFile && (
                                 <>
-                                    <p className="mt-2">
-                                        Selected file: {imageFile.name}
-                                    </p>
+                                    <p className="mt-2">Selected file: {imageFile.name}</p>
                                     <img
                                         src={post.previewUrl}
                                         alt="Preview"
                                         className="mt-2"
-                                        style={{
-                                            maxHeight: '200px',
-                                            maxWidth: '200px',
-                                        }}
+                                        style={{ maxHeight: '200px', maxWidth: '200px' }}
                                     />
                                 </>
                             )}
@@ -152,10 +160,7 @@ const UploadPost = () => {
                 {/* Text Post */}
                 {!isImagePost && (
                     <>
-                        <Form.Group
-                            as={Row}
-                            className="mb-3"
-                            controlId="formPostTextContent">
+                        <Form.Group as={Row} className="mb-3" controlId="formPostTextContent">
                             <Form.Label column sm="2">
                                 Text Content
                             </Form.Label>
@@ -172,10 +177,7 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group
-                            as={Row}
-                            className="mb-3"
-                            controlId="formPostFontSize">
+                        <Form.Group as={Row} className="mb-3" controlId="formPostFontSize">
                             <Form.Label column sm="2">
                                 Font Size
                             </Form.Label>
@@ -191,10 +193,7 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group
-                            as={Row}
-                            className="mb-3"
-                            controlId="formPostTextColor">
+                        <Form.Group as={Row} className="mb-3" controlId="formPostTextColor">
                             <Form.Label column sm="2">
                                 Text Color
                             </Form.Label>
@@ -208,10 +207,7 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group
-                            as={Row}
-                            className="mb-3"
-                            controlId="formPostBackgroundColor">
+                        <Form.Group as={Row} className="mb-3" controlId="formPostBackgroundColor">
                             <Form.Label column sm="2">
                                 Background Color
                             </Form.Label>

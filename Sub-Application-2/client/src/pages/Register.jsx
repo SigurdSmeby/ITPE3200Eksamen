@@ -6,48 +6,65 @@ import { toast } from 'react-toastify';
 import { login as loginApi } from '../api/authApi';
 import { useAuth } from '../components/shared/AuthContext';
 
-
 const RegisterUser = () => {
-    // Form state
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    // State for managing form inputs
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+
+    // State for handling errors
     const [error, setError] = useState('');
-    const registerSucsess = () => toast.success("Profile created successfully!");
-    const { login } = useAuth(); // Use login function from AuthContext
+
+    const { login } = useAuth(); // Access login method from AuthContext
     const navigate = useNavigate();
+
+    // Success notification
+    const registerSuccess = () => toast.success("Profile created successfully!");
 
     // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (password !== confirmPassword) {
+
+        // Validate that passwords match
+        if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
             return;
         }
 
         try {
-            // Reset error and success messages
-            setError('');
+            setError(''); // Clear any previous errors
 
-            // API request to register a new user
-            const {} = await register(username, email, password);
-            const { token: jwtToken } = await loginApi(username, password);
+            // Register the user
+            await register(formData.username, formData.email, formData.password);
 
-            // Call the login function from AuthContext to set state, localStorage, and timer
-            login(jwtToken, username);
-            
-            registerSucsess();
-            navigate(`/`);
+            // Log in the user automatically
+            const { token: jwtToken } = await loginApi(formData.username, formData.password);
+            login(jwtToken, formData.username); // Update auth context with token
+
+            registerSuccess(); // Notify success
+            navigate(`/`); // Redirect to home
         } catch (err) {
-            setError(err);
+            // Display error message from API or fallback message
+            setError(err?.response?.data?.message || 'Registration failed');
         }
+    };
+
+    // Handle input changes for form fields
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
     };
 
     return (
         <div className="container mt-4">
-            <h2>Register</h2>
+            <h2 className="text-center">Register</h2>
 
+            {/* Display error if present */}
             {error && <Alert variant="danger">{error}</Alert>}
 
             <Form onSubmit={handleSubmit}>
@@ -56,9 +73,10 @@ const RegisterUser = () => {
                     <Form.Label>Username</Form.Label>
                     <Form.Control
                         type="text"
+                        name="username" // Identifier for handleChange
                         placeholder="Enter username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={formData.username}
+                        onChange={handleChange} // Update state on input
                         required
                     />
                 </Form.Group>
@@ -68,9 +86,10 @@ const RegisterUser = () => {
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
                         type="email"
+                        name="email"
                         placeholder="Enter email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={formData.email}
+                        onChange={handleChange}
                         required
                     />
                 </Form.Group>
@@ -80,30 +99,36 @@ const RegisterUser = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type="password"
+                        name="password"
                         placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formConfirmPassword">
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        value={formData.password}
+                        onChange={handleChange}
                         required
                     />
                 </Form.Group>
 
-                {/* Submit Button */}
-                <Button variant="primary" type="submit">
-                    Register
-                </Button>
-                <a href="/login" className="btn btn-light">
-                    Login
-                </a>
+                {/* Confirm Password Field */}
+                <Form.Group className="mb-3" controlId="formConfirmPassword">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
+                    />
+                </Form.Group>
+
+                {/* Submit and Login Buttons */}
+                <div className="btn-group mt-3">
+                    <Button variant="primary" type="submit">
+                        Register
+                    </Button>
+                    <a href="/login" className="btn btn-light">
+                        Login
+                    </a>
+                </div>
             </Form>
         </div>
     );

@@ -8,62 +8,70 @@ import 'react-toastify/dist/ReactToastify.css';
 const BACKEND_URL = 'http://localhost:5229';
 
 const Profile = () => {
-    const [posts, setPosts] = useState([]);
-    const [error, setError] = useState(null);
-    const [userName, setUserName] = useState('');
-    const [profilePicture, setProfilePicture] = useState('');
-    const [bio, setBio] = useState('');
-    const [refresh, setRefresh] = React.useState(false);
-    const [dateJoined, setDateJoined] = React.useState('');
+    // State to store profile data and posts
+    const [profileData, setProfileData] = useState({
+        userName: '',
+        profilePicture: '',
+        bio: '',
+        dateJoined: '',
+        posts: [],
+    });
 
-    const { username } = useParams(); // Get the username from the URL
-    const navigate = useNavigate(); // Use navigate for redirection
-    const loggedInUsername = localStorage.getItem('username'); // Get logged-in user's username
+    // State for handling errors and triggering refresh
+    const [error, setError] = useState(null);
+    const [refresh, setRefresh] = useState(false);
+
+    // Get username from URL parameters and setup navigation
+    const { username } = useParams();
+    const navigate = useNavigate();
+
+    // Get the logged-in user's username from localStorage
+    const loggedInUsername = localStorage.getItem('username');
+
+    // Toast notification for post deletion
     const notifyDeleteSucsess = () => toast.success("Post deleted successfully!");
 
+    // Fetch user posts and profile data when component mounts or refresh triggers
     useEffect(() => {
         const fetchUserPosts = async () => {
             try {
                 const response = await getUserPosts(username);
-                setPosts(response.posts);
-                setUserName(response.username);
-                setProfilePicture(response.profilePictureUrl);
-                setBio(response.bio);
-                setDateJoined(
-                    new Date(response.dateJoined)
-                        .toLocaleString('en-US')
-                        .split(',')[0],
-                );
+                // Update profile data with API response
+                setProfileData({
+                    userName: response.username,
+                    profilePicture: response.profilePictureUrl,
+                    bio: response.bio,
+                    dateJoined: new Date(response.dateJoined).toLocaleDateString('en-US'),
+                    posts: response.posts,
+                });
             } catch (err) {
-                setError(err.response.data);
+                // Set error message if API call fails
+                setError(err.response?.data || 'An error occurred');
             }
         };
 
-        fetchUserPosts(); // Call the async function
+        fetchUserPosts();
     }, [refresh, username]);
 
+    // Trigger a refresh to reload posts after deletion
     const triggerRefresh = () => {
         notifyDeleteSucsess();
         setRefresh(!refresh);
     };
 
+    // Render the profile's hero section with user info
     const HeroSection = () => {
+        const { userName, profilePicture, bio, dateJoined, posts } = profileData;
         const numberOfPosts = posts.length;
 
         return (
-            <div className="hero-section d-flex m-5">
+            <div className="d-flex align-items-center m-5">
                 <img
-                    src={BACKEND_URL + profilePicture}
+                    src={`${BACKEND_URL}${profilePicture}`}
                     alt={userName}
-                    className="img-fluid me-5"
-                    style={{
-                        width: '150px',
-                        height: '150px',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                    }}
+                    className="rounded-circle img-fluid me-5"
+                    style={{ width: '150px', height: '150px', objectFit: 'cover' }}
                 />
-
                 <div>
                     <h1>{userName}</h1>
                     <p>{bio}</p>
@@ -73,32 +81,31 @@ const Profile = () => {
                     <div className="btn btn-light">
                         Member since: {dateJoined}
                     </div>
-
-                    {/* Conditionally render the Edit Profile button if this is the logged-in user's profile */}
                     {loggedInUsername === username && (
-                        <div
+                        <button
                             className="btn btn-primary ms-2"
                             onClick={() => navigate('/settings')}>
                             Edit Profile
-                        </div>
+                        </button>
                     )}
                 </div>
             </div>
         );
     };
 
-
+    // Render the user's posts or appropriate message
     const ImgSection = () => {
         if (error) {
-            return <h1>{error}</h1>;
+            return <h1 className="text-danger text-center">{error}</h1>; // Show error if present
         }
-        if (posts.length === 0) {
-            return <h1>The user has not posted any images yet</h1>;
+        if (profileData.posts.length === 0) {
+            return <h1>The user has not posted any images yet</h1>; // Show message if no posts
         }
+
         return (
             <div>
-                {posts
-                    .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded))
+                {profileData.posts
+                    .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded)) // Sort posts by date
                     .map((post) => (
                         <PostCards
                             key={post.postId}
@@ -112,7 +119,7 @@ const Profile = () => {
                             fontSize={post.fontSize}
                             textColor={post.textColor}
                             backgroundColor={post.backgroundColor}
-                            onDeleted={triggerRefresh}
+                            onDeleted={triggerRefresh} // Refresh posts after deletion
                         />
                     ))}
             </div>
@@ -121,8 +128,9 @@ const Profile = () => {
 
     return (
         <>
-            <HeroSection />
-            <ImgSection />
+            <HeroSection /> {/* Render hero section */}
+            <ImgSection /> {/* Render image posts section */}
+            <ToastContainer /> {/* Render toast notifications */}
         </>
     );
 };
