@@ -15,17 +15,6 @@ namespace server.Data
         {
         }
 
-        // Enable lazy loading proxies
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder
-                    .UseLazyLoadingProxies()
-                    .UseSqlServer("YourConnectionStringHere"); // Replace with your actual connection string
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // User configurations

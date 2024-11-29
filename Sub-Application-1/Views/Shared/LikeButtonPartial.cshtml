@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="/css/cards.css">
+<link href="~/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/bootstrap.min.css">
+@model Sub_Application_1.DTOs.PostDto
+
+<div class="d-flex align-items-center justify-content-center flex-column" 
+     style="background-color: #f8f9fa; width: 55px; height: 100%;">
+    <!-- Like Button -->
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (Model.Likes.Any(l => l.Username == User.Identity.Name))
+        {
+            <!-- Unlike Button -->
+            <form method="post" action="/Likes/UnlikePost" class="mb-1">
+                <input type="hidden" name="postId" value="@Model.PostId" />
+                <button type="submit" class="btn btn-light heart-icon-container">
+                    <i aria-label="Unlike Post" class="bi bi-heart-fill text-danger"></i>
+                </button>
+            </form>
+        }
+        
+        else
+        {
+            <!-- Like Button -->
+            <form method="post" action="/Likes/LikePost" class="mb-1">
+                <input type="hidden" name="postId" value="@Model.PostId" />
+                <button  type="submit" class="btn btn-light heart-icon-container">
+                    <i aria-label="like Post" class="bi bi-heart"></i>
+                </button>
+            </form>
+        }
+    }
+    <!-- Like Count -->
+    <p class="mb-0 text-muted" style="font-size: 0.9rem;">@Model.LikesCount</p>
+</div>
