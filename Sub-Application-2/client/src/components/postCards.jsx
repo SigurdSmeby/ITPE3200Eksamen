@@ -15,6 +15,7 @@ const BACKEND_URL = 'http://localhost:5229';
 
 // PostCards component
 const PostCards = ({ post, onDeleted }) => {
+    // Destructure properties from the post object
     const {
         postId,
         imagePath: imageUrl,
@@ -30,72 +31,66 @@ const PostCards = ({ post, onDeleted }) => {
 
     const [showComments, setShowComments] = useState(false);
     const [commentsInput, setCommentsInput] = useState('');
-    const [refreshComments, setRefreshComments] = useState(false); // Track when to refresh comments
+    const [refreshComments, setRefreshComments] = useState(false); // Tracks comment section refresh
     const [commentsCount, setCommentsCount] = useState(initialCommentsCount);
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
 
     const loggedInUsername = localStorage.getItem('username');
-    const isOwner = loggedInUsername === author?.username;
+    const isOwner = loggedInUsername === author?.username; // Checks if the current user owns the post
     const [hasLiked, setHasLiked] = useState(false);
 
+    // Check if the logged-in user has liked the post
     useEffect(() => {
         if (isLoggedIn) {
             checkIfUserHasLikedPost(postId)
-                .then((response) => {
-                    setHasLiked(response);
-                    console.log('Response: ' + response + '\n' + response.data);
-                })
-                .catch((error) => {
-                    console.error('Error checking like status:', error);
-                });
+                .then((response) => setHasLiked(response))
+                .catch((error) => console.error('Error checking like status:', error));
         }
     }, [postId, isLoggedIn]);
 
+    // Toggle comment section visibility
     const handleToggleComments = () => {
         if (!isLoggedIn) {
-            navigate('/login', { state: { from: `/post/${postId}` } }); // Redirect to login
+            navigate('/login', { state: { from: `/post/${postId}` } }); // Redirect to login if not logged in
             return;
         }
         setShowComments(!showComments);
     };
 
+    // Increment the comment count after a new comment is added
     const incrementCommentsCount = () => {
         setCommentsCount((prevCount) => prevCount + 1);
     };
 
+    // Decrement the comment count after a comment is deleted
     const decrementCommentsCount = () => {
         setCommentsCount((prevCount) => prevCount - 1);
     };
 
+    // Handle sending a new comment
     const handleSendComment = () => {
         const commentData = { PostId: postId, Content: commentsInput };
 
         createComment(commentData)
-            .then((response) => {
-                console.log('Comment created:', response.data);
+            .then(() => {
                 setCommentsInput(''); // Clear the input field
                 setRefreshComments((prev) => !prev); // Trigger comments refresh
                 incrementCommentsCount();
             })
-            .catch((error) => {
-                console.error('Error creating comment:', error);
-            });
+            .catch((error) => console.error('Error creating comment:', error));
     };
 
+    // Handle deleting the post
     const handleDeletePost = (id) => {
         if (window.confirm('Are you sure you want to delete this post?')) {
             deletePost(id)
-                .then((response) => {
-                    console.log(response.data);
-                    onDeleted();
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+                .then(() => onDeleted()) // Refresh posts after deletion
+                .catch((error) => console.error(error));
         }
     };
 
+    // Fallback values for author details
     const authorName = author?.username || 'Unknown Author';
     const profilePicture = author?.profilePictureUrl || 'default-profile.png';
     const profileUrl = `/profile/${authorName}`;
@@ -103,6 +98,7 @@ const PostCards = ({ post, onDeleted }) => {
     return (
         <Card className="card-container">
             <Card.Header>
+                {/* Link to the author's profile */}
                 <a href={profileUrl} className="profile-link">
                     <Card.Img
                         variant="top"
@@ -119,6 +115,7 @@ const PostCards = ({ post, onDeleted }) => {
                     {timeAgo(dateUploaded)}
                 </p>
 
+                {/* Dropdown for post editing or deletion (visible only to the owner) */}
                 {isOwner && (
                     <Dropdown className="ms-auto">
                         <Dropdown.Toggle
@@ -138,6 +135,8 @@ const PostCards = ({ post, onDeleted }) => {
                     </Dropdown>
                 )}
             </Card.Header>
+
+            {/* Post content */}
             <Card.Body
                 className="card-body"
                 style={{
@@ -162,6 +161,8 @@ const PostCards = ({ post, onDeleted }) => {
                     </p>
                 )}
             </Card.Body>
+
+            {/* Footer with like and comment icons */}
             <Card.Footer>
                 <div className="like-comment-container">
                     <span className="heart-icon-container ">
@@ -183,6 +184,8 @@ const PostCards = ({ post, onDeleted }) => {
                     </div>
                 </div>
             </Card.Footer>
+
+            {/* Comments section */}
             {showComments && (
                 <>
                     <div className="comments-section">

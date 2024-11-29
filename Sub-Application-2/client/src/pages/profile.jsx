@@ -93,35 +93,34 @@ const Profile = () => {
         );
     };
 
-    // Render the user's posts or appropriate message
     const ImgSection = () => {
         if (error) {
             return <h1 className="text-danger text-center">{error}</h1>; // Show error if present
         }
-        if (profileData.posts.length === 0) {
+        if (!profileData.posts || profileData.posts.length === 0) {
             return <h1>The user has not posted any images yet</h1>; // Show message if no posts
         }
-
+    
+        // Filter out undefined or null posts (safety check)
+        const validPosts = profileData.posts.filter((post) => post !== undefined && post !== null);
+    
         return (
             <div>
-                {profileData.posts
+                {validPosts
                     .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded)) // Sort posts by date
-                    .map((post) => (
-                        <PostCards
-                            key={post.postId}
-                            postId={post.postId}
-                            imagePath={post.imagePath}
-                            textContent={post.textContent}
-                            dateUploaded={post.dateUploaded}
-                            author={post.author}
-                            likesCount={post.likesCount}
-                            commentsCount={post.commentsCount}
-                            fontSize={post.fontSize}
-                            textColor={post.textColor}
-                            backgroundColor={post.backgroundColor}
-                            onDeleted={triggerRefresh}
-                        />
-                    ))}
+                    .map((post) => {
+                        if (!post.postId) {
+                            console.warn("Post object is missing required properties:", post);
+                            return null; // Skip invalid posts
+                        }
+                        return (
+                            <PostCards
+                                key={post.postId}
+                                post={post} // Pass the entire post object
+                                onDeleted={triggerRefresh}
+                            />
+                        );
+                    })}
             </div>
         );
     };
