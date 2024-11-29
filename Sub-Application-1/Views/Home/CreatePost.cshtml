@@ -1,10 +1,10 @@
 @model Sub_Application_1.DTOs.CreatePostDto
-
+<main>
 @{
 	ViewData["Title"] = "Create Post"; // Sets the page title
 }
 
-<h2 class="my-4">Upload New Post</h2>
+<h1 class="my-4">Upload New Post</h1>
 
 <!-- Display success or error messages -->
 @if (ViewData["ErrorMessage"] != null)
@@ -127,3 +127,4 @@
 		}
 	</script>
 }
+</main>

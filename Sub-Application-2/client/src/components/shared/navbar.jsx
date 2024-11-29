@@ -1,7 +1,7 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { useAuth } from './AuthContext';
-import logo from './icons/webappLogo.png';
+import logo from './icons/webappLogo2.png';
 
 const NavMenu = () => {
     const { isLoggedIn, username, logout } = useAuth();
@@ -10,7 +10,7 @@ const NavMenu = () => {
         <Navbar
             bg="light"
             expand="lg"
-            className="d-flex flex-column"
+            className="d-flex flex-column align-items-center"
             style={{
                 position: 'fixed',
                 height: '100vh',
@@ -22,43 +22,46 @@ const NavMenu = () => {
             }}>
             <Navbar.Brand
                 href="/"
-                className="fw-bold text-primary mb-4 d-flex align-items-center">
-                <img src={logo} className="me-2" 
+                className="fw-bold text-primary m-4 w-100 d-flex justify-content-center">
+                <img src={logo}
                 style={{
+                    marginTop: '-10px',
                     width: '150px',
                     height: 'auto',
-                    alignItems:'start'
-                }} alt="Home" />
+                }} alt="Home" 
+                onMouseOver={(e) => e.currentTarget.style.filter = 'brightness(0.8)'}
+                onMouseOut={(e) => e.currentTarget.style.filter = 'brightness(1)'}/>
             </Navbar.Brand>
-            <Nav className="flex-column w-100">
-                <Nav.Link href="/" className="py-2 px-3">
+            <Nav className="flex-column w-100 text-center">
+                <Nav.Link href="/" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
                     Home
                 </Nav.Link>
-                <Nav.Link href="/about" className="py-2 px-3">
+                <Nav.Link href="/about" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
                     About
                 </Nav.Link>
                 {isLoggedIn ? (
                     <>
                         <Nav.Link
                             href={`/profile/${username}`}
-                            className="py-2 px-3">
+                            className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
                             Profile
                         </Nav.Link>
-                        <Nav.Link href="/upload" className="py-2 px-3">
+                        <Nav.Link href="/upload" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
                             Upload
                         </Nav.Link>
-                        <Nav.Link href="/settings" className="py-2 px-3">
+                        <Nav.Link href="/settings" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
                             Settings
                         </Nav.Link>
                         <Nav.Link
                             href="/"
                             onClick={logout}
-                            className="py-2 px-3">
+                            className="py-2 px-3"
+                            style={{ fontSize: '1.25rem' }}>
                             Logout
                         </Nav.Link>
                     </>
                 ) : (
-                    <Nav.Link href="/login" className="py-2 px-3">
+                    <Nav.Link href="/login" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
                         Login
                     </Nav.Link>
                 )}

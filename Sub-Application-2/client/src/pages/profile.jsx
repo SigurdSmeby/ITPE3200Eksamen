@@ -119,7 +119,7 @@ const Profile = () => {
                             fontSize={post.fontSize}
                             textColor={post.textColor}
                             backgroundColor={post.backgroundColor}
-                            onDeleted={triggerRefresh} // Refresh posts after deletion
+                            onDeleted={triggerRefresh}
                         />
                     ))}
             </div>

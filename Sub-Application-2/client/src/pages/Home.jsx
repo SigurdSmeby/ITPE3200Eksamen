@@ -1,49 +1,35 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import PostCards from '../components/postCards';
 import { getPosts } from '../api/postApi.js';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const Home = () => {
-    const [posts, setPosts] = React.useState([]); // State to hold posts data
-    const [refresh, setRefresh] = React.useState(false); // State to trigger a re-fetch
-    const notifyDeleteSucsess = () => toast.success("Post deleted successfully!");
+    const [posts, setPosts] = useState([]); // Stores the list of posts
+    const [refresh, setRefresh] = useState(false); // Tracks when to reload posts
 
-    React.useEffect(() => {
+    const notifyDeleteSucsess = () => toast.success("Post deleted successfully!"); // Notification for successful deletion
+
+    useEffect(() => {
         getPosts().then((response) => {
-            setPosts(response); // Set the posts state with API data
-            console.log(response);
+            setPosts(response); // Load posts from API
         });
-    }, [refresh]); // Empty dependency array to run effect only once on mount
+    }, [refresh]); // Re-fetch posts when `refresh` changes
 
-    // Function to trigger a refresh after deletion
     const triggerRefresh = () => {
         notifyDeleteSucsess();
-        setRefresh(!refresh); // Toggle refresh state to re-trigger useEffect
+        setRefresh(!refresh); // Toggle `refresh` to reload posts
     };
 
     return (
         <>
-            {posts
-                .sort(
-                    (a, b) =>
-                        // sortering på nyeste først
-                        new Date(b.dateUploaded) - new Date(a.dateUploaded),
-                )
+            {// Loop through the posts and render PostCards component
+            posts
+                .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded)) // Sort by newest first
                 .map((post) => (
                     <PostCards
                         key={post.postId}
-                        postId={post.postId}
-                        imagePath={post.imagePath}
-                        textContent={post.textContent}
-                        dateUploaded={post.dateUploaded}
-                        author={post.author}
-                        likesCount={post.likesCount}
-                        commentsCount={post.commentsCount}
-                        fontSize={post.fontSize}
-                        textColor={post.textColor}
-                        backgroundColor={post.backgroundColor}
-                        onDeleted={triggerRefresh}
+                        post={post} // Pass the post object to the PostCards component
+                        onDeleted={triggerRefresh} // Refresh posts after deletion
                     />
                 ))}
         </>
