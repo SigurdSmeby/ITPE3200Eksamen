@@ -5,45 +5,47 @@ import { getPost, updatePost } from '../api/postApi';
 import { toast } from 'react-toastify';
 
 const EditPost = () => {
-    const { postId } = useParams(); // Get postId from the URL parameters
-    const navigate = useNavigate(); // To redirect after editing
+    const { postId } = useParams(); // Extract the post ID from the URL
+    const navigate = useNavigate(); // Redirect to another page after form submission
     const [post, setPost] = useState({
         textContent: '',
         fontSize: 16,
         textColor: '#000000',
         backgroundColor: '#FFFFFF',
-        previewUrl: null, // Add previewUrl to manage image preview
+        previewUrl: null, // Manage image preview for uploaded files
     });
-    const [isImagePost, setIsImagePost] = useState(true); // Set the post type based on content
-    const [imageFile, setImageFile] = useState(null); // State to store the uploaded file
+    const [isImagePost, setIsImagePost] = useState(true); // Identify post type (image or text)
+    const [imageFile, setImageFile] = useState(null); // Store the uploaded image file
     const [error, setError] = useState('');
-    const editPostSucsess = () => toast.success("Post updated successfully!");
+    const editPostSucsess = () => toast.success("Post updated successfully!"); // Toast message on success
 
-    // Fetch the post details when component mounts
+    // Fetch the post details when the component mounts
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await getPost(postId); // Fetch post by ID from postApi
+                const response = await getPost(postId); // Fetch post data by ID
                 setPost({
                     textContent: response.textContent || '',
                     fontSize: response.fontSize || 16,
                     textColor: response.textColor || '#000000',
                     backgroundColor: response.backgroundColor || '#FFFFFF',
-                    previewUrl: `http://localhost:5229/${response.imagePath}`, // Set full path to image
+                    previewUrl: `http://localhost:5229/${response.imagePath}`, // Set image URL for preview
                 });
-                setIsImagePost(!!response.imagePath); // Determine post type based on imagePath
+                setIsImagePost(!!response.imagePath); // Set type based on image presence
             } catch (error) {
-                setError('Error fetching post details');
+                setError('Error fetching post details'); // Error fetching post
             }
         };
         fetchPost();
     }, [postId]);
 
+    // Update the state on input change
     const handleChange = (e) => {
         const { name, value } = e.target;
         setPost({ ...post, [name]: value });
     };
 
+    // Handle file selection for image upload
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file.size > 10 * 1024 * 1024) {
@@ -51,26 +53,28 @@ const EditPost = () => {
             e.target.value = null;
             return;
         }
-        setImageFile(file); // Capture the uploaded file
-        setError(''); // Reset error message
+        setImageFile(file); // Store the selected file
+        setError(''); // Clear previous errors
 
+        // Create a preview for the uploaded image
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
                 setPost((prev) => ({
                     ...prev,
-                    previewUrl: reader.result, // Set preview URL for uploaded file
+                    previewUrl: reader.result,
                 }));
             };
             reader.readAsDataURL(file);
         }
     };
 
+    // Form submission handler
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        // Validation: Ensure the required field is not empty
+        // Validate fields based on post type
         if (isImagePost && !imageFile) {
             setError('Please upload an image file for the post.');
             return;
@@ -80,10 +84,10 @@ const EditPost = () => {
             return;
         }
 
-        // Prepare form data
+        // Prepare form data for the API
         const formData = new FormData();
         if (isImagePost) {
-            formData.append('imageFile', imageFile); // Add the uploaded image
+            formData.append('imageFile', imageFile); // Add the uploaded image file
         } else {
             formData.append('textContent', post.textContent);
             formData.append('fontSize', post.fontSize);
@@ -92,9 +96,9 @@ const EditPost = () => {
         }
 
         try {
-            await updatePost(postId, formData); // Update the post using postApi
+            await updatePost(postId, formData); // Update the post
             editPostSucsess();
-            navigate('/');
+            navigate('/'); // Redirect to home
         } catch (error) {
             setError('Error updating post. Please try again.');
         }
@@ -106,10 +110,10 @@ const EditPost = () => {
                 {isImagePost ? 'Edit Image Post' : 'Edit Text Post'}
             </h2>
 
-            {error && <Alert variant="danger">{error}</Alert>}
+            {error && <Alert variant="danger">{error}</Alert>} {/* Error message */}
 
             <Form onSubmit={handleSubmit}>
-                {/* Conditional Rendering: Image Post */}
+                {/* Image Post Fields */}
                 {isImagePost && (
                     <Form.Group
                         as={Row}
@@ -129,15 +133,12 @@ const EditPost = () => {
                                 <img
                                     src={post.previewUrl}
                                     alt="Preview"
-                                    className="mt-3"
-                                    style={{
-                                        maxHeight: '200px',
-                                        maxWidth: '200px',
-                                    }}
+                                    className="mt-3 img-thumbnail"
+                                    style={{ maxWidth: '200px', height: 'auto' }}
                                 />
                             )}
                             {imageFile && (
-                                <p className="mt-2">
+                                <p className="mt-2 text-muted">
                                     Selected file: {imageFile.name}
                                 </p>
                             )}
@@ -145,7 +146,7 @@ const EditPost = () => {
                     </Form.Group>
                 )}
 
-                {/* Conditional Rendering: Text Post */}
+                {/* Text Post Fields */}
                 {!isImagePost && (
                     <>
                         <Form.Group

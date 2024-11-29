@@ -102,17 +102,8 @@ const Profile = () => {
                     .map((post) => (
                         <PostCards
                             key={post.postId}
-                            postId={post.postId}
-                            imagePath={post.imagePath}
-                            textContent={post.textContent}
-                            dateUploaded={post.dateUploaded}
-                            author={post.author}
-                            likesCount={post.likesCount}
-                            commentsCount={post.commentsCount}
-                            fontSize={post.fontSize}
-                            textColor={post.textColor}
-                            backgroundColor={post.backgroundColor}
-                            onDeleted={triggerRefresh}
+                            post={post} // Pass the entire post object
+                            onDeleted={triggerRefresh} // Handle delete action
                         />
                     ))}
             </div>

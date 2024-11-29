@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap'; 
 
+// The About component displays information about the app or organization
 const About = () => {
     return (
         <Container className="my-5">
@@ -16,5 +17,4 @@ const About = () => {
         </Container>
     );
 };
-
 export default About;

@@ -12,25 +12,26 @@ import './postCards.css';
 import { checkIfUserHasLikedPost } from '../api/likeApi.js';
 
 const BACKEND_URL = 'http://localhost:5229';
+
 // PostCards component
-const PostCards = ({
-    postId,
-    imagePath: imageUrl,
-    textContent,
-    dateUploaded,
-    author,
-    likesCount,
-    commentsCount: initialCommentsCount,
-    fontSize,
-    textColor,
-    backgroundColor,
-    onDeleted,
-}) => {
-    const [showComments, setShowComments] = React.useState(false);
-    const [commentsInput, setCommentsInput] = React.useState('');
-    const [refreshComments, setRefreshComments] = React.useState(false); // Track when to refresh comments
-    const [commentsCount, setCommentsCount] =
-        React.useState(initialCommentsCount);
+const PostCards = ({ post, onDeleted }) => {
+    const {
+        postId,
+        imagePath: imageUrl,
+        textContent,
+        dateUploaded,
+        author,
+        likesCount,
+        commentsCount: initialCommentsCount,
+        fontSize,
+        textColor,
+        backgroundColor,
+    } = post;
+
+    const [showComments, setShowComments] = useState(false);
+    const [commentsInput, setCommentsInput] = useState('');
+    const [refreshComments, setRefreshComments] = useState(false); // Track when to refresh comments
+    const [commentsCount, setCommentsCount] = useState(initialCommentsCount);
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
 
@@ -58,6 +59,7 @@ const PostCards = ({
         }
         setShowComments(!showComments);
     };
+
     const incrementCommentsCount = () => {
         setCommentsCount((prevCount) => prevCount + 1);
     };
@@ -136,7 +138,8 @@ const PostCards = ({
                     </Dropdown>
                 )}
             </Card.Header>
-            <Card.Body className='card-body'
+            <Card.Body
+                className="card-body"
                 style={{
                     fontSize: fontSize ? `${fontSize}px` : undefined,
                     color: textColor || undefined,
@@ -149,8 +152,6 @@ const PostCards = ({
                             alt="Post"
                             loading="lazy"
                             className="post-image"
-                            //immege fit
-                            style={{}}
                         />
                     </div>
                 ) : (
