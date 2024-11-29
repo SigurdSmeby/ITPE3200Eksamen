@@ -6,17 +6,18 @@
 
     @if (!string.IsNullOrEmpty(username))
     {
-    <!-- Posts Section -->
-    <div class="posts-container mt-5">
-        <div id="posts">
-            @if (Model == null || !Model.Any())
-            {
-                <p>No posts available. Start by creating one!</p>
-            }
-            else
-            {
-                @await Html.PartialAsync("_PostsPartial", Model)
-            }
+        <!-- Posts Section -->
+        <div class="posts-container mt-5">
+            <div id="posts">
+                @if (Model == null || !Model.Any())
+                {
+                    <p>No posts available. Start by creating one!</p>
+                }
+                else
+                {
+                    @await Html.PartialAsync("_PostsPartial", Model)
+                }
+            </div>
         </div>
     }
     else
