@@ -58,87 +58,24 @@ else
             </div>
 
             <!-- CARD FOOTER -->
-            <div class="card-footer d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <!-- Like Button -->
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @if (post.Likes.Any(l => l.Username == User.Identity.Name))
-                        {
-                            <!-- Unlike Button -->
-                            <form method="post" action="UnlikePost" class="me-3">
-                                <input type="hidden" name="postId" value="@post.PostId" />
-                                <button type="submit" class="btn btn-light heart-icon-container">
-                                    <i class="bi bi-heart-fill text-danger"></i>
-                                </button>
-                            </form>
-                        }
-                        else
-                        {
-                            <!-- Like Button -->
-                            <form method="post" action="LikePost" class="me-3">
-                                <input type="hidden" name="postId" value="@post.PostId" />
-                                <button type="submit" class="btn btn-light heart-icon-container">
-                                    <i class="bi bi-heart"></i>
-                                </button>
-                            </form>
-                        }
-                    }
-                    <span>@post.LikesCount</span>
-
-                    <!-- Comment Button -->
-                    <button class="btn btn-light comment-icon-container ms-4 toggle-comments" data-bs-toggle="collapse"
-                        data-bs-target="#comments-section-@post.PostId" aria-expanded="false">
-                        <i class="bi bi-chat"></i>
-                    </button>
-                    <span>@post.CommentsCount</span>
-                </div>
+            <div class="card-footer">
+                <!-- Like Button and Likes Count in an iframe -->
+                <iframe src="@Url.Action("GetLikeButtonPartial", "Like", new { postId = post.PostId })" frameborder="0" scrolling="no" style="width: 100%; height: 80px;"></iframe>
             </div>
+
 
             <!-- COMMENTS SECTION -->
-            <div class="collapse" id="comments-section-@post.PostId">
-                <div class="comments-section">
-                    @if (post.Comments != null && post.Comments.Any())
-                    {
-                        @foreach (var comment in post.Comments)
-                        {
-                            <div class="comment d-flex justify-content-between align-items-center">
-                                <!-- Left Section: Author and Content -->
-                                <div>
-                                    <strong>@comment.AuthorUsername</strong>
-                                    <p class="mb-1">@comment.Content</p>
-                                </div>
-
-                                <!-- Right Section: Metadata and Actions -->
-                                <div class="text-end">
-                                    <p class="text-muted" title="@comment.DateCommented.ToString("MMMM dd, yyyy HH:mm:ss")">
-                                        @comment.DateCommented.ToString("MMM dd, yyyy")
-                                    </p>
-
-                                    @if (comment.AuthorUsername == User.Identity.Name)
-                                    {
-                                        <form asp-action="DeleteComment" asp-route-id="@comment.CommentId" method="post">
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                        </form>
-                                    }
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <p class="text-muted">No comments yet. Be the first to comment!</p>
-                    }
-                </div>
-
-                <!-- Add Comment Form -->
-                <form method="post" action="/Home/CreateComment" class="d-flex mt-3">
-                    <input type="hidden" name="PostId" value="@post.PostId">
-                    <input type="text" name="Content" class="form-control me-2 comment-field" placeholder="Add a comment"
-                        required>
-                    <button type="submit" class="btn comment-button">Comment</button>
-                </form>
+            <div>
+                <iframe name="commentsIframe_@post.PostId" src="@Url.Action("GetCommentsListPartial", "Comment", new { postId = post.PostId })" frameborder="0" style="width: 100%; height: 100%;"></iframe>
             </div>
+
+            <!-- Add Comment Form -->
+            <form method="post" action="/Comments/AddComment" target="commentsIframe_@post.PostId" class="d-flex mt-3">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="PostId" value="@post.PostId" />
+                <input type="text" name="Content" class="form-control me-2 comment-field" placeholder="Add a comment" required />
+                <button type="submit" class="btn comment-button">Comment</button>
+            </form>
         </div>
     }
 }
