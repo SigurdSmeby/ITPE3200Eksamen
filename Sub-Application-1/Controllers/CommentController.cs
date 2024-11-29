@@ -67,29 +67,52 @@ namespace Sub_Application_1.Controllers
         }
 
         // POST: Comments/DeleteComment
-        [Authorize]
-        [HttpPost("DeleteComment")]
-        public async Task<IActionResult> DeleteComment(int id)
-        {
-            string userId = GetCurrentUserId();
+		[Authorize]
+		[HttpPost("DeleteComment")]
+		public async Task<IActionResult> DeleteComment(int id)
+		{
+			// Get the current user ID
+			string userId = GetCurrentUserId();
 
-            var comment = await _context.Comments.FindAsync(id);
+			// Find the comment by ID
+			var comment = await _context.Comments.Include(c => c.Post).FirstOrDefaultAsync(c => c.CommentId == id);
 
-            if (comment == null)
-            {
-                return NotFound("Comment not found.");
-            }
+			if (comment == null)
+			{
+				return NotFound("Comment not found.");
+			}
 
-            if (comment.UserId != userId)
-            {
-                return Forbid("You are not authorized to delete this comment.");
-            }
+			// Check if the user is authorized to delete the comment
+			if (comment.UserId != userId)
+			{
+				return Forbid("You are not authorized to delete this comment.");
+			}
 
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
+			// Retrieve the Post ID from the comment
+			var postId = comment.PostId;
 
-            return Ok("Comment deleted successfully.");
-        }
+			// Delete the comment
+			_context.Comments.Remove(comment);
+			await _context.SaveChangesAsync();
+
+			// Fetch the updated comments list for the post
+			var comments = await _context.Comments
+				.Where(c => c.PostId == postId)
+				.Include(c => c.User)
+				.OrderBy(c => c.DateCommented)
+				.Select(c => new CommentDto
+				{
+					CommentId = c.CommentId,
+					Content = c.Content,
+					DateCommented = c.DateCommented,
+					AuthorUsername = c.User.UserName
+				})
+				.ToListAsync();
+
+			// Return the updated partial view
+			return PartialView("CommentsListPartial", comments);
+		}
+
 
         private string GetCurrentUserId()
         {

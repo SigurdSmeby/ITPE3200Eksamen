@@ -195,7 +195,7 @@ namespace Sub_Application_1.Controllers
 				TextColor = post.TextColor,
 				BackgroundColor = post.BackgroundColor
 			};
-
+			ViewData["PostId"] = post.PostId;
 			ViewData["ImagePath"] = post.ImagePath; // Pass the existing image path to the view
 			return View(updatePostDto);
 		}

@@ -12,7 +12,7 @@ else
     @foreach (var post in Model)
     {
         <div class="card mb-4 shadow-sm">
-        <!-- CARD HEADER -->
+            <!-- CARD HEADER -->
             <div class="card-header d-flex align-items-center">
                 <a href="/profile/@post.Author?.Username" class="profile-link">
                     <img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" class="profile-img me-2">
@@ -24,20 +24,7 @@ else
                 @if (User.Identity?.Name == post.Author?.Username)
                 {
                     <div class="ms-auto">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Options
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="EditPost/@post.PostId">Edit</a></li>
-                                <li>
-                                    <form asp-action="DeletePost" method="post" asp-route-id="@post.PostId" class="d-inline">
-                                        <button type="submit" class="dropdown-item text-danger">Delete</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
+                        <a class="dropdown-item" href="EditPost/@post.PostId">Edit / Delete</a>
                     </div>
                 }
             </div>
@@ -58,24 +45,82 @@ else
             </div>
 
             <!-- CARD FOOTER -->
-            <div class="card-footer">
-                <!-- Like Button and Likes Count in an iframe -->
-                <iframe src="@Url.Action("GetLikeButtonPartial", "Like", new { postId = post.PostId })" frameborder="0" scrolling="no" style="width: 100%; height: 80px;"></iframe>
+            <div class="card-footer d-flex justify-content-start" style="gap: 15px; align-items: flex-start;">
+                <!-- Like Button and Comment Button -->
+                <div class="d-flex align-items-start" style="gap: 15px; line-height: 0;">
+                    <!-- Like Button -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <iframe class="lazy-load-like" 
+                                data-src="@Url.Action("GetLikeButtonPartial", "Like", new { postId = post.PostId })" 
+                                frameborder="0" 
+                                scrolling="no" 
+                                style="width: 55px; height: 80px; display: block; border: none; margin: 0; padding: 0; vertical-align: top;">
+                        </iframe>
+                    </div>
+
+                    <!-- Comment Button -->
+                    <div style="display: flex; align-items: flex-start;">
+                        <button class="btn btn-light comment-icon-container toggle-comments" 
+                                data-bs-toggle="collapse"
+                                data-bs-target="#comments-section-@post.PostId" 
+                                data-post-id="@post.PostId" 
+                                aria-expanded="false"
+                                style="vertical-align: top;">
+                            <i class="bi bi-chat"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
+
+
+
 
 
             <!-- COMMENTS SECTION -->
-            <div>
-                <iframe name="commentsIframe_@post.PostId" src="@Url.Action("GetCommentsListPartial", "Comment", new { postId = post.PostId })" frameborder="0" style="width: 100%; height: 100%;"></iframe>
-            </div>
+            <div class="collapse" id="comments-section-@post.PostId">
+                <div>
+                    <iframe name="commentsIframe_@post.PostId" frameborder="0" style="width: 100%; height: 300px;" data-src="@Url.Action("GetCommentsListPartial", "Comment", new { postId = post.PostId })"></iframe>
+                </div>
 
-            <!-- Add Comment Form -->
-            <form method="post" action="/Comments/AddComment" target="commentsIframe_@post.PostId" class="d-flex mt-3">
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="PostId" value="@post.PostId" />
-                <input type="text" name="Content" class="form-control me-2 comment-field" placeholder="Add a comment" required />
-                <button type="submit" class="btn comment-button">Comment</button>
-            </form>
+                <!-- Add Comment Form -->
+                <form method="post" action="@Url.Action("AddComment", "Comment")" target="commentsIframe_@post.PostId" class="d-flex mt-3 comment-form" data-post-id="@post.PostId">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="PostId" value="@post.PostId" />
+                    <input type="text" name="Content" class="form-control me-2 comment-field" placeholder="Add a comment" required />
+                    <button type="submit" class="btn comment-button">Comment</button>
+                </form>
+            </div>
         </div>
     }
 }
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lazy load the like button iframe
+        const lazyLoadLikes = document.querySelectorAll(".lazy-load-like");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const iframe = entry.target;
+                    iframe.src = iframe.getAttribute("data-src");
+                    observer.unobserve(iframe); // Stop observing once loaded
+                }
+            });
+        });
+
+        lazyLoadLikes.forEach(iframe => observer.observe(iframe));
+
+        // Lazy load the comment iframe when toggled
+        document.querySelectorAll(".toggle-comments").forEach(button => {
+            button.addEventListener("click", function () {
+                const postId = this.getAttribute("data-post-id");
+                const iframe = document.querySelector(`#comments-section-${postId} iframe`);
+                if (!iframe.src) {
+                    iframe.src = iframe.getAttribute("data-src");
+                }
+            });
+        });
+
+    });
+</script>
