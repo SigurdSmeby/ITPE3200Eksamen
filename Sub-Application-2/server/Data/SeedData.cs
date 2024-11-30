@@ -51,7 +51,10 @@ namespace server.Data
 
                     // Turtle's deeply emotional post
                     new Post { UserId = turtle.UserId, TextContent = "Living a life as a turtle can be profoundly isolating and melancholic, a slow existence where each step feels like an eternity. Imagine carrying the weight of your home on your back, always a part of you, yet never a source of warmth or comfort. You move at a pace that allows the world to pass you by, and though you are surrounded by nature’s beauty, you can rarely interact with it in any meaningful way. Predators see you as nothing more than a hard meal to crack, and even the creatures you might call companions view you with indifference. Your life is a constant struggle between survival and insignificance, where the vastness of the ocean or the emptiness of the land only serves as a reminder of how small and vulnerable you truly are. And worst of all, your lifespan, though long, stretches out the loneliness, ensuring that every year feels like a decade, every moment a lifetime of sadness, as you crawl through a world that often seems like it has forgotten you exist.", FontSize = 18, TextColor = "#2ECC71", BackgroundColor = "#FFFFFF", DateUploaded = DateTime.Now.AddHours(-7) },
-
+                    // Turtle's other posts
+                    new Post { UserId = turtle.Id, ImagePath = "/images/seed/user4img1.jpg", DateUploaded = DateTime.Now.AddHours(-3) },
+                    new Post { UserId = turtle.Id, ImagePath = "/images/seed/user4img2.jpg", DateUploaded = DateTime.Now.AddHours(-5) },
+                    
                     // Red's posts
                     new Post { UserId = red.UserId, TextContent = "Running into the weekend!", FontSize = 16, TextColor = "#E74C3C", BackgroundColor = "#F8F8F8", DateUploaded = DateTime.Now.AddHours(-9) }
                 );

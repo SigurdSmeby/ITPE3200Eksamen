@@ -24,6 +24,7 @@
 		<!-- Conditional Rendering: Image Post -->
 		@if (isImagePost)
 		{
+			<!-- Image Post -->
 			<div class="form-group row mb-4">
 				<label for="ImageFile" class="col-sm-2 col-form-label">Upload New Image</label>
 				<div class="col-sm-10">
@@ -49,7 +50,7 @@
 				</div>
 			</div>
 
-
+			<!-- Font Size -->
 			<div class="form-group row mb-3">
 				<label for="FontSize" class="col-sm-2 col-form-label">Font Size</label>
 				<div class="col-sm-10">
@@ -58,6 +59,7 @@
 				</div>
 			</div>
 
+			<!-- Text Color -->
 			<div class="form-group row mb-3">
 				<label for="TextColor" class="col-sm-2 col-form-label">Text Color</label>
 				<div class="col-sm-10">
@@ -66,6 +68,7 @@
 				</div>
 			</div>
 
+			<!-- Background Color -->
 			<div class="form-group row mb-3">
 				<label for="BackgroundColor" class="col-sm-2 col-form-label">Background Color</label>
 				<div class="col-sm-10">
@@ -91,6 +94,7 @@
 
 @section Scripts {
 	<script>
+		// Update the preview image when a new image is selected
 		function updatePreview() {
 			const fileInput = document.getElementById('ImageFile');
 			const previewImage = document.getElementById('previewImage');

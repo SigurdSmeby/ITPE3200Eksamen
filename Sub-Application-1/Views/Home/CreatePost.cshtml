@@ -40,16 +40,19 @@
 			<textarea id="TextContent" name="TextContent" class="form-control" rows="5"></textarea>
 		</div>
 
+		<!-- Font Size -->
 		<div class="form-group">
 			<label for="FontSize">Font Size:</label>
 			<input type="number" id="FontSize" name="FontSize" class="form-control" value="16" min="10" max="72" />
 		</div>
 
+		<!-- Text Color -->
 		<div class="form-group">
 			<label for="TextColor">Text Color:</label>
 			<input type="color" id="TextColor" name="TextColor" class="form-control" value="#000000" />
 		</div>
 
+		<!-- Background Color -->
 		<div class="form-group">
 			<label for="BackgroundColor">Background Color:</label>
 			<input type="color" id="BackgroundColor" name="BackgroundColor" class="form-control" value="#FFFFFF" />
@@ -65,11 +68,7 @@
 		// Initialize the default post type as Image Post
 		let isImagePost = true;
 
-		/**
-		 * Toggles between Image Post and Text Post
-		 * - Shows the relevant fields and hides the others.
-		 * - Updates the toggle button label accordingly.
-		 */
+		// Toggle between Image Post and Text Post
 		function togglePostType() {
 			isImagePost = !isImagePost;
 

@@ -10,8 +10,8 @@ namespace Sub_Application_1.Models
 
 		public string ProfilePictureUrl { get; set; } = "/images/default_profile.jpg";
 
-		[MaxLength(500)] // Set a limit for the bio length (optional)
-		public string Bio { get; set; } = "Welcome to my page";// New Bio field
+		[MaxLength(500)]
+		public string Bio { get; set; } = "Welcome to my page";
 
 		public DateTime DateJoined { get; set; } = DateTime.Now;
 

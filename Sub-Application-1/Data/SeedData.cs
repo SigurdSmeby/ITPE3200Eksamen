@@ -26,13 +26,13 @@ namespace Sub_Application_1.Data
             var turtle = context.Users.SingleOrDefault(u => u.UserName == "Mr Turtle");
             var red = context.Users.SingleOrDefault(u => u.UserName == "Red");
 
-              if (barbie == null || racoony == null || duckface == null || turtle == null || red == null)
-              {
-                  throw new InvalidOperationException("Seeding failed: one or more users could not be found.");
-              }
+            if (barbie == null || racoony == null || duckface == null || turtle == null || red == null)
+            {
+                throw new InvalidOperationException("Seeding failed: one or more users could not be found.");
+            }
 
             // Seed Posts
-             if (!context.Posts.Any())
+            if (!context.Posts.Any())
             {
                 context.Posts.AddRange(
                     // Posts for barbie

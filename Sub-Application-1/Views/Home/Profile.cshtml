@@ -41,25 +41,26 @@
 
 	<!-- Posts Section -->
 	<div class="posts-container">
+		<!-- If there are no posts, display a message -->
 		@if (Model == null || !Model.Any())
 		{
 			<h2>The user has not posted any images yet</h2>
 		}
 		else
 		{
-			<!-- Posts Section -->
-			<div class="posts-container mt-5">
-				<div id="posts">
-					@if (Model == null || !Model.Any())
-					{
-						<p>No posts available for this user.</p>
-					}
-					else
-					{
-						@await Html.PartialAsync("_PostsPartial", Model)
-					}
-				</div>
+		<!-- If there are posts, display them -->
+		<div class="posts-container mt-5">
+			<div id="posts">
+				@if (Model == null || !Model.Any())
+				{
+					<p>No posts available for this user.</p>
+				}
+				else
+				{
+					@await Html.PartialAsync("_PostsPartial", Model)
+				}
 			</div>
+		</div>
 
 		}
 	</div>
