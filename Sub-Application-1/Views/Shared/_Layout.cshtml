@@ -12,68 +12,66 @@
 </head>
 
 <body>
-	<header>
-		<!-- Navigation Bar -->
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<div class="container">
-				<a class="navbar-brand" asp-controller="Home" asp-action="Index"><h1>Unstagram</h1></a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav ms-auto">
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-						</li>
-						@if (User.Identity!=null && User.Identity.IsAuthenticated)
-						{
+	<div class="wrapper">
+		<header>
+			<!-- Navigation Bar -->
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" asp-controller="Home" asp-action="Index"><h1>Unstagram</h1></a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+						aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav ms-auto">
 							<li class="nav-item">
-								<a class="nav-link btn btn-link" href="@Url.Action("Logout", "Users")">Logout</a>
+								<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link btn btn-link" asp-area="" asp-controller="Home"
-									asp-action="CreatePost">Create</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link btn btn-link" asp-area="" asp-controller="Users"
-									asp-action="Settings">Settings</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link btn btn-link" asp-area="" asp-controller="Home"
-									asp-action="Profile">Profile</a>
-							</li>
-						}
-						else
-						{
-							<li class="nav-item">
-								<a class="nav-link" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" asp-area="" asp-controller="Users" asp-action="Register">Register</a>
-							</li>
-						}
-					</ul>
+							@if (User.Identity!=null && User.Identity.IsAuthenticated)
+							{
+								<li class="nav-item">
+									<a class="nav-link btn btn-link" href="@Url.Action("Logout", "Users")">Logout</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link btn btn-link" asp-area="" asp-controller="Home"
+										asp-action="CreatePost">Create</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link btn btn-link" asp-area="" asp-controller="Users"
+										asp-action="Settings">Settings</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link btn btn-link" asp-area="" asp-controller="Home"
+										asp-action="Profile">Profile</a>
+								</li>
+							}
+							else
+							{
+								<li class="nav-item">
+									<a class="nav-link" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" asp-area="" asp-controller="Users" asp-action="Register">Register</a>
+								</li>
+							}
+						</ul>
+					</div>
 				</div>
-			</div>
-		</nav>
-	</header>
+			</nav>
+		</header>
 
-	<!-- Main Content -->
-	<div class="container mt-4">
-		@RenderBody()
-	</div>
+		<!-- Main Content -->
+		<div class="container mt-4">
+			@RenderBody()
+		</div>
 
-	<!-- Footer -->
-	<footer class="bg-dark text-white text-center py-3 mt-4">
-		<p>&copy; 2024 - YourAppName</p>
-	</footer>
+		<!-- Footer -->
+		<footer class="footer">
+			<p class="footertext">&copy; 2024 - Unstagram</p>
+		</footer>
 
-	<!-- Bootstrap JS -->
-	<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
-
-	<!-- Additional Scripts -->
-	@RenderSection("Scripts", required: false)
-</body>
-
+		<!-- Additional Scripts -->
+		@RenderSection("Scripts", required: false)
+	</body>
+</div>
 </html>
