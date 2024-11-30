@@ -24,18 +24,21 @@ axiosInstance.interceptors.request.use(
 );
 
 // Get paginated posts
-export const getPosts = async (page, pageSize) => {
+export const getPosts = async (pageNumber, pageSize) => {
     const response = await axiosInstance.get('/Posts', {
-        params: { page, pageSize }, // Add query parameters for pagination
+        params: { pageNumber, pageSize }, // Use 'pageNumber' to match the backend
     });
     return response.data;
 };
 
 // Get all posts by a user
-export const getUserPosts = async (userId) => {
-    const response = await axiosInstance.get(`/Posts/user/${userId}`); // Reuse the axios instance
+export const getUserPosts = async (username, pageNumber = 1, pageSize = 10) => {
+    const response = await axiosInstance.get(`/Posts/user/${username}`, {
+        params: { pageNumber, pageSize },
+    });
     return response.data;
 };
+
 
 // Create a new post
 export const createPost = async (postData) => {

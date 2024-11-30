@@ -1,101 +1,59 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Sub_Application_1.Data;
-using Sub_Application_1.DTOs;
 using Sub_Application_1.Models;
-using System.Linq;
+using Sub_Application_1.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace Sub_Application_1.Controllers
 {
-    [Route("Comments")]
-    public class CommentController : Controller
-    {
-        private readonly AppDbContext _context;
+	[Route("Comments")]
+	public class CommentsController : Controller
+	{
+		private readonly UserManager<User> _userManager;
+		private readonly AppDbContext _context;
 
-        public CommentController(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Comments/CommentsListPartial?postId=5
-        [HttpGet("CommentsListPartial")]
-        public async Task<IActionResult> GetCommentsListPartial(int postId)
-        {
-            var comments = await _context.Comments
-                .Where(c => c.PostId == postId)
-                .Include(c => c.User)
-                .OrderBy(c => c.DateCommented)
-                .Select(c => new CommentDto
-                {
-                    CommentId = c.CommentId,
-                    Content = c.Content,
-                    DateCommented = c.DateCommented,
-                    AuthorUsername = c.User.UserName
-                })
-                .ToListAsync();
-
-            return PartialView("CommentsListPartial", comments);
-        }
-
-        // POST: Comments/AddComment
-        [Authorize]
-        [HttpPost("AddComment")]
-        public async Task<IActionResult> AddComment(AddCommentDto commentDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid comment data.");
-            }
-
-            string userId = GetCurrentUserId();
-
-            var comment = new Comment
-            {
-                UserId = userId,
-                PostId = commentDto.PostId,
-                Content = commentDto.Content,
-                DateCommented = DateTime.UtcNow
-            };
-
-            _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("GetCommentsListPartial", new { postId = commentDto.PostId });
-        }
-
-        // POST: Comments/DeleteComment
-		[Authorize]
-		[HttpPost("DeleteComment")]
-		public async Task<IActionResult> DeleteComment(int id)
+		public CommentsController(UserManager<User> userManager, AppDbContext context)
 		{
-			// Get the current user ID
-			string userId = GetCurrentUserId();
+			_userManager = userManager;
+			_context = context;
+		}
 
-			// Find the comment by ID
-			var comment = await _context.Comments.Include(c => c.Post).FirstOrDefaultAsync(c => c.CommentId == id);
+		// POST: api/Comments
+		/*Authorize]
+		[HttpPost("create")]
+		public async Task<IActionResult> AddComment(AddCommentDto commentDto)
+		{
+			String userId = GetCurrentUserId();
 
-			if (comment == null)
+			var comment = new Comment
 			{
-				return NotFound("Comment not found.");
-			}
+				UserId = userId,
+				PostId = commentDto.PostId,
+				Content = commentDto.Content
+			};
 
-			// Check if the user is authorized to delete the comment
-			if (comment.UserId != userId)
-			{
-				return Forbid("You are not authorized to delete this comment.");
-			}
-
-			// Retrieve the Post ID from the comment
-			var postId = comment.PostId;
-
-			// Delete the comment
-			_context.Comments.Remove(comment);
+			_context.Comments.Add(comment);
 			await _context.SaveChangesAsync();
 
-			// Fetch the updated comments list for the post
+			return Json(new
+			{
+				success = true,
+				commentId = comment.CommentId,
+				content = comment.Content,
+				author = User.Identity.Name,
+				dateCommented = comment.DateCommented.ToString("MMM dd, yyyy")
+			});
+		}*/
+
+
+		// GET: api/Comments/post/5
+		[HttpGet("GetCommentsForPost")]
+		public async Task<IActionResult> GetCommentsForPost(int postId)
+		{
 			var comments = await _context.Comments
 				.Where(c => c.PostId == postId)
 				.Include(c => c.User)
@@ -109,14 +67,34 @@ namespace Sub_Application_1.Controllers
 				})
 				.ToListAsync();
 
-			// Return the updated partial view
-			return PartialView("CommentsListPartial", comments);
+			return PartialView("_CommentsPartial", comments);
 		}
 
+		// DELETE: api/Comments/5
+		[Authorize]
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteComment(int id)
+		{
+			String userId = GetCurrentUserId();
 
-        private string GetCurrentUserId()
-        {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
-    }
+			var comment = await _context.Comments.FindAsync(id);
+
+			if (comment == null)
+				return NotFound();
+
+			if (comment.UserId != userId)
+				return Forbid("You are not authorized to delete this comment.");
+
+			_context.Comments.Remove(comment);
+			await _context.SaveChangesAsync();
+
+			return Ok("Comment deleted successfully.");
+		}
+
+		// Helper method
+		private String GetCurrentUserId()
+		{
+			return User.FindFirstValue(ClaimTypes.NameIdentifier);
+		}
+	}
 }

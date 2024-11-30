@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUserPosts } from '../api/postApi';
 import PostCards from '../components/postCards';
@@ -8,61 +8,113 @@ import 'react-toastify/dist/ReactToastify.css';
 const BACKEND_URL = 'http://localhost:5229';
 
 const Profile = () => {
-    // State to store profile data and posts
     const [profileData, setProfileData] = useState({
         userName: '',
         profilePicture: '',
         bio: '',
         dateJoined: '',
-        posts: [],
     });
 
-    // State for handling errors and triggering refresh
-    const [error, setError] = useState(null);
-    const [refresh, setRefresh] = useState(false);
+    const [posts, setPosts] = useState([]); // Stores the list of posts
+    const [pageNumber, setPageNumber] = useState(1); // Tracks the current page number
+    const [totalPosts, setTotalPosts] = useState(0); // Total number of posts available
+    const [loading, setLoading] = useState(false); // Indicates if data is being loaded
+    const loader = useRef(null); // Reference to the loader div
 
-    // Get username from URL parameters and setup navigation
+    const postsLengthRef = useRef(posts.length);
+
+    useEffect(() => {
+        postsLengthRef.current = posts.length;
+    }, [posts.length]);
+
+    const [error, setError] = useState(null);
+
     const { username } = useParams();
     const navigate = useNavigate();
 
-    // Get the logged-in user's username from localStorage
     const loggedInUsername = localStorage.getItem('username');
 
-    // Toast notification for post deletion
-    const notifyDeleteSucsess = () => toast.success("Post deleted successfully!");
+    const notifyDeleteSuccess = () => toast.success("Post deleted successfully!");
 
-    // Fetch user posts and profile data when component mounts or refresh triggers
+    // Fetch user profile data
     useEffect(() => {
-        const fetchUserPosts = async () => {
+        const fetchUserProfile = async () => {
             try {
-                const response = await getUserPosts(username);
-                // Update profile data with API response
+                const response = await getUserPosts(username, 1, 1); // Fetch just one post to get profile info
                 setProfileData({
                     userName: response.username,
                     profilePicture: response.profilePictureUrl,
                     bio: response.bio,
                     dateJoined: new Date(response.dateJoined).toLocaleDateString('en-US'),
-                    posts: response.posts,
                 });
+                setTotalPosts(response.totalPosts);
             } catch (err) {
-                // Set error message if API call fails
                 setError(err.response?.data || 'An error occurred');
             }
         };
 
-        fetchUserPosts();
-    }, [refresh, username]);
+        fetchUserProfile();
+    }, [username]);
 
-    // Trigger a refresh to reload posts after deletion
-    const triggerRefresh = () => {
-        notifyDeleteSucsess();
-        setRefresh(!refresh);
+    // Fetch user posts with pagination
+    useEffect(() => {
+        const fetchUserPostsData = async () => {
+            setLoading(true);
+            try {
+                const response = await getUserPosts(username, pageNumber, 10);
+                console.log('Fetched posts:', response.posts.map((post) => post.postId));
+                setPosts((prevPosts) => {
+                    const newPosts = response.posts.filter(
+                        (newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId)
+                    );
+                    return [...prevPosts, ...newPosts];
+                });
+                setTotalPosts(response.totalPosts);
+            } catch (err) {
+                setError(err.response?.data || 'An error occurred');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserPostsData();
+    }, [username, pageNumber]);
+
+    // IntersectionObserver for lazy loading
+    useEffect(() => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0,
+        };
+
+        const observerCallback = (entries) => {
+            const target = entries[0];
+            if (target.isIntersecting && postsLengthRef.current < totalPosts && !loading) {
+                console.log('Loader is in view, incrementing page number');
+                setPageNumber((prevPageNumber) => prevPageNumber + 1);
+            }
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        if (loader.current) observer.observe(loader.current);
+
+        return () => {
+            if (loader.current) observer.unobserve(loader.current);
+        };
+    }, [loader.current, totalPosts, loading]);
+
+    const triggerRefresh = (deletedPostId) => {
+        notifyDeleteSuccess();
+        setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== deletedPostId));
+        setTotalPosts((prevTotal) => prevTotal - 1);
     };
 
     // Render the profile's hero section with user info
     const HeroSection = () => {
-        const { userName, profilePicture, bio, dateJoined, posts } = profileData;
-        const numberOfPosts = posts.length;
+        const { userName, profilePicture, bio, dateJoined } = profileData;
+        const numberOfPosts = totalPosts || 0;
 
         return (
             <div className="d-flex align-items-center m-5">
@@ -93,42 +145,27 @@ const Profile = () => {
         );
     };
 
-    const ImgSection = () => {
-        if (error) {
-            return <h1 className="text-danger text-center">{error}</h1>; // Show error if present
-        }
-        if (!profileData.posts || profileData.posts.length === 0) {
-            return <h1>The user has not posted any images yet</h1>; // Show message if no posts
-        }
-    
-        // Filter out undefined or null posts (safety check)
-        const validPosts = profileData.posts.filter((post) => post !== undefined && post !== null);
-    
-        return (
-            <div>
-                {validPosts
-                    .sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded)) // Sort posts by date
-                    .map((post) => {
-                        if (!post.postId) {
-                            console.warn("Post object is missing required properties:", post);
-                            return null; // Skip invalid posts
-                        }
-                        return (
-                            <PostCards
-                                key={post.postId}
-                                post={post} // Pass the entire post object
-                                onDeleted={triggerRefresh}
-                            />
-                        );
-                    })}
-            </div>
-        );
-    };
-
     return (
         <>
             <HeroSection /> {/* Render hero section */}
-            <ImgSection /> {/* Render image posts section */}
+            {error ? (
+                <h1 className="text-danger text-center">{error}</h1>
+            ) : (
+                <>
+                    {posts.map((post) => (
+                        <PostCards
+                            key={post.postId}
+                            post={post}
+                            onDeleted={() => triggerRefresh(post.postId)}
+                        />
+                    ))}
+                    {loading && <p>Loading more posts...</p>}
+                    {!loading && posts.length >= totalPosts && totalPosts !== 0 && (
+                        <p>You've reached the end!</p>
+                    )}
+                    <div ref={loader}></div>
+                </>
+            )}
             <ToastContainer /> {/* Render toast notifications */}
         </>
     );

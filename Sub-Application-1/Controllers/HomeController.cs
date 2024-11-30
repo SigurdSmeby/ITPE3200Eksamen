@@ -195,7 +195,7 @@ namespace Sub_Application_1.Controllers
 				TextColor = post.TextColor,
 				BackgroundColor = post.BackgroundColor
 			};
-			ViewData["PostId"] = post.PostId;
+
 			ViewData["ImagePath"] = post.ImagePath; // Pass the existing image path to the view
 			return View(updatePostDto);
 		}
@@ -367,6 +367,100 @@ namespace Sub_Application_1.Controllers
 			return View(posts);
 		}
 
+
+		/* --------------------------------------------------------------------------------------------
+		COMMENTS
+
+		The following methods are used to create, read, and delete comments.
+		--------------------------------------------------------------------------------------------*/
+
+		// POST: api/Comments
+		[Authorize]
+		[HttpPost("CreateComment")]
+		public async Task<IActionResult> AddComment(AddCommentDto commentDto)
+		{
+			String userId = GetCurrentUserId();
+
+			var comment = new Comment
+			{
+				UserId = userId,
+				PostId = commentDto.PostId,
+				Content = commentDto.Content
+			};
+
+			_context.Comments.Add(comment);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction("Index");
+		}
+
+		// DELETE: api/Comments/5
+		[Authorize]
+		[HttpPost("DeleteComment")]
+		public async Task<IActionResult> DeleteComment(int id)
+		{
+			String userId = GetCurrentUserId();
+
+			var comment = await _context.Comments.FindAsync(id);
+
+			if (comment == null)
+				return NotFound();
+
+			if (comment.UserId != userId)
+				return Forbid("You are not authorized to delete this comment.");
+
+			_context.Comments.Remove(comment);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction("Index");
+		}
+
+		/* --------------------------------------------------------------------------------------------
+		Likes
+
+		The following methods are used to create and delete likes.
+		--------------------------------------------------------------------------------------------*/
+		[Authorize]
+		[HttpPost("LikePost")]
+		public async Task<IActionResult> LikePost(int postId)
+		{
+				string userId = GetCurrentUserId();
+
+				if (await _context.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId))
+				{
+						return BadRequest("You have already liked this post.");
+				}
+
+				var like = new Like
+				{
+						UserId = userId,
+						PostId = postId
+				};
+
+				_context.Likes.Add(like);
+				await _context.SaveChangesAsync();
+
+				return RedirectToAction("Index");
+		}
+
+		[Authorize]
+		[HttpPost("UnlikePost")]
+		public async Task<IActionResult> UnlikePost(int postId)
+		{
+				string userId = GetCurrentUserId();
+	
+				var like = await _context.Likes.FirstOrDefaultAsync(l => l.UserId == userId && l.PostId == postId);
+
+				if (like == null)
+				{
+						return NotFound("You have not liked this post.");
+				}
+
+				_context.Likes.Remove(like);
+				await _context.SaveChangesAsync();
+
+				return RedirectToAction("Index");
+		}
 
 		// Helper method
 		private string GetCurrentUserId()
