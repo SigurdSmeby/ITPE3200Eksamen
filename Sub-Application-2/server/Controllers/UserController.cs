@@ -73,6 +73,22 @@ namespace server.Controllers
             return Ok(new { Token = token });
         }
 
+        // GET: api/Users/all
+		// Retrieve all users with their usernames and profile pictures
+		[HttpGet("all")]
+		public async Task<IActionResult> GetAllUsers()
+		{
+			var users = await _context.Users
+				.Select(u => new
+				{
+					u.Username,
+					u.ProfilePictureUrl
+				})
+				.ToListAsync();
+
+			return Ok(users);
+		}
+
         // GET: api/Users/profile
         // Retrieve the profile of the currently logged-in user
         [Authorize]

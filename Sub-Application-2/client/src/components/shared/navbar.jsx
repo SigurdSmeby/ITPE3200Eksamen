@@ -41,6 +41,9 @@ const NavMenu = () => {
                                 className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
                                 Profile
                             </Nav.Link>
+                            <Nav.Link href="/search" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
+                                Search
+                            </Nav.Link>
                             <Nav.Link href="/upload" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
                                 Upload
                             </Nav.Link>

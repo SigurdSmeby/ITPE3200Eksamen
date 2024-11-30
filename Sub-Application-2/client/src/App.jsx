@@ -15,6 +15,7 @@ import UploadPost from './pages/UploadPost';
 import { AuthProvider } from './components/shared/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Search from './pages/Search';
 
 const App = () => {
     return (
@@ -54,6 +55,14 @@ const App = () => {
                                 element={
                                     <PrivateRoute>
                                         <Profile />
+                                    </PrivateRoute>
+                                }
+                            />
+                            <Route
+                                path="/search"
+                                element={
+                                    <PrivateRoute>
+                                        <Search />
                                     </PrivateRoute>
                                 }
                             />
