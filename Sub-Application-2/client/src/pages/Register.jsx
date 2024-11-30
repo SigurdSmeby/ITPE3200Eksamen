@@ -19,9 +19,20 @@ const RegisterUser = () => {
     const { login } = useAuth(); // Access login method from AuthContext
     const navigate = useNavigate();
 
+    // Password requirements regex
+    const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
     // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // Validate password requirements
+        if (!passwordRequirements.test(formData.password)) {
+            setError(
+                'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.'
+            );
+            return;
+        }
 
         // Validate that passwords match
         if (formData.password !== formData.confirmPassword) {
