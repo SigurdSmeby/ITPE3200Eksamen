@@ -20,15 +20,13 @@ namespace server.Controllers
             _context = context;
         }
 
-        // POST: api/Comments
-        // Adds a comment to a post. Requires the user to be logged in.
+        // Adds a new comment to a post. User must be authenticated.
         [Authorize]
         [HttpPost()]
         public async Task<IActionResult> AddComment([FromBody] AddCommentDto commentDto)
         {
             int userId = GetCurrentUserId();
 
-            // Create and save the new comment
             var comment = new Comment
             {
                 UserId = userId,
@@ -41,12 +39,10 @@ namespace server.Controllers
             return Ok("Comment added successfully.");
         }
 
-        // GET: api/Comments/post/{postId}
-        // Fetches all comments for a specific post.
+        // Retrieves all comments for a specific post.
         [HttpGet("post/{postId}")]
         public async Task<IActionResult> GetCommentsForPost(int postId)
         {
-            // Query and return comments for the given post, including author info
             var comments = await _context.Comments
                 .Where(c => c.PostId == postId)
                 .Include(c => c.User)
@@ -63,9 +59,7 @@ namespace server.Controllers
             return Ok(comments);
         }
 
-
-        // DELETE: api/Comments/{id}
-        // Deletes a comment. Only the author can delete their own comments.
+        // Deletes a comment. Only the comment's author is allowed to delete it.
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComment(int id)
@@ -78,19 +72,19 @@ namespace server.Controllers
                 return NotFound();
 
             if (comment.UserId != userId)
-                return Forbid("You are not authorized to delete this comment."); // Unauthorized action
+                return Forbid("You are not authorized to delete this comment.");
 
-            // Remove the comment
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
 
             return Ok("Comment deleted successfully.");
         }
 
-        // Gets the ID of the currently authenticated user.
+        // Retrieves the currently authenticated user's ID.
         private int GetCurrentUserId()
         {
-            var userIdClaim = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim is missing."));
+            var userIdClaim = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) 
+                ?? throw new InvalidOperationException("User ID claim is missing."));
             return userIdClaim;
         }
     }

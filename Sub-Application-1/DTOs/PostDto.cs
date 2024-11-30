@@ -3,7 +3,7 @@ namespace Sub_Application_1.DTOs
 	public class PostDto
 	{
 		public required int PostId { get; set; }
-		public string? ImagePath { get; set; } // Updated to store the relative path
+		public string? ImagePath { get; set; } 
 		public string? TextContent { get; set; }
 		public DateTime DateUploaded { get; set; }
 		public UserDto? Author { get; set; }

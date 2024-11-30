@@ -14,7 +14,7 @@ namespace server.Models
         public int UserId { get; set; }
 
         [Required]
-        [MaxLength(1000)] // Optional: Limit the length of the content
+        [MaxLength(1000)]
         public string Content { get; set; } = string.Empty;
 
         public DateTime DateCommented { get; set; } = DateTime.Now;

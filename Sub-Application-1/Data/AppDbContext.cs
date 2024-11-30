@@ -14,16 +14,17 @@ namespace Sub_Application_1.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Composite key for the Like entity
-                modelBuilder.Entity<Like>()
+            // Configures a composte key for the Like entity (UserId + PostId).
+            modelBuilder.Entity<Like>()
                 .HasKey(l => new { l.UserId, l.PostId });
 
-            // Configure relationships (optional, adjust as needed)
+            // Establishes relationship: a Like belongs to a User.
             modelBuilder.Entity<Like>()
                 .HasOne(l => l.User)
                 .WithMany(u => u.Likes)
                 .HasForeignKey(l => l.UserId);
 
+            // Establishes relationship: a Like belongs to a Post.
             modelBuilder.Entity<Like>()
                 .HasOne(l => l.Post)
                 .WithMany(p => p.Likes)

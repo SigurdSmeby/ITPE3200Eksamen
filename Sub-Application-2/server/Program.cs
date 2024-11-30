@@ -6,65 +6,66 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BCrypt.Net;
 
-// Set up the builder
+// Configure application builder and add necessary services
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // Handle potential circular references
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
-// Configure SQLite database
+// Set up SQLite database connection
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure authentication and JWT Bearer
+// Configure authentication and JWT Bearer tokens
 builder.Services.AddAuthentication(options =>
 {
+    //Authentication
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
+    //JWT Bearer tokens
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = false,
-        ValidateAudience = false, 
+        ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ClockSkew = TimeSpan.Zero, // Remove default 5-minute clock skew
+        ClockSkew = TimeSpan.Zero,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey is missing.")))
     };
 });
 
-// Enable CORS for React client on localhost
+// Enable CORS to allow requests from the React client
 builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowReactClient",
-                policy => policy.WithOrigins("http://localhost:3000")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod());
-        });
+{
+    options.AddPolicy("AllowReactClient", policy => 
+        policy.WithOrigins("http://localhost:3000")
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
 
-// Add authorization
+// Add authorization support
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
-//Cors for å tillate react client til å sende ajax kall
+
 app.UseCors("AllowReactClient");
 
-// Configure the HTTP request pipeline
+// Configure middleware for development environment
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Set up database with seed data
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -74,13 +75,10 @@ using (var scope = app.Services.CreateScope())
     SeedData.Initialize(context);
 }
 
+// Configure routes and endpoints
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.UseStaticFiles();
-
 app.Run();
