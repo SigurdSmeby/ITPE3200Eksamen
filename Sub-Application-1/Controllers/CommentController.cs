@@ -7,6 +7,8 @@ using Sub_Application_1.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace Sub_Application_1.Controllers
 {
@@ -14,10 +16,12 @@ namespace Sub_Application_1.Controllers
     public class CommentController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public CommentController(AppDbContext context)
+        public CommentController(AppDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Comments/CommentsListPartial?postId=5
@@ -50,7 +54,12 @@ namespace Sub_Application_1.Controllers
                 return BadRequest("Invalid comment data.");
             }
 
-            string userId = GetCurrentUserId();
+            var user = await _userManager.GetUserAsync(User);
+			if (user == null)
+			{
+				return Unauthorized();
+			}
+    	    string userId = user.Id;
 
             var comment = new Comment
             {
@@ -71,8 +80,12 @@ namespace Sub_Application_1.Controllers
 		[HttpPost("DeleteComment")]
 		public async Task<IActionResult> DeleteComment(int id)
 		{
-			// Get the current user ID
-			string userId = GetCurrentUserId();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            string userId = user.Id;
 
 			// Find the comment by ID
 			var comment = await _context.Comments.Include(c => c.Post).FirstOrDefaultAsync(c => c.CommentId == id);
@@ -105,7 +118,7 @@ namespace Sub_Application_1.Controllers
 					CommentId = c.CommentId,
 					Content = c.Content,
 					DateCommented = c.DateCommented,
-					AuthorUsername = c.User.UserName
+					AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"// Default value for deleted users incase they are displayed, they should not be though
 				})
 				.ToListAsync();
 
@@ -113,10 +126,5 @@ namespace Sub_Application_1.Controllers
 			return PartialView("CommentsListPartial", comments);
 		}
 
-
-        private string GetCurrentUserId()
-        {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
     }
 }

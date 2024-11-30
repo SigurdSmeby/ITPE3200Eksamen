@@ -1,5 +1,4 @@
 using System;
-
 namespace Sub_Application_1.Models
 {
 	public class Like

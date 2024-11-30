@@ -233,6 +233,11 @@ namespace Sub_Application_1.Controllers
 				ModelState.AddModelError("User", "User not found");
 				return View("Settings", userProfileDto);
 			}
+			if (string.IsNullOrEmpty(userProfileDto.CurrentPassword) || string.IsNullOrEmpty(userProfileDto.NewPassword) || string.IsNullOrEmpty(userProfileDto.ConfirmPassword))
+			{
+				ViewData["PasswordError"] = "Please fill in all fields";
+				return View("Settings", userProfileDto);
+			}
 			if (userProfileDto.NewPassword != userProfileDto.ConfirmPassword)
 			{
 				ViewData["PasswordError"] = "The passwords do not match";

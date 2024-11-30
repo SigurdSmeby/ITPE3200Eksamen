@@ -111,11 +111,12 @@ namespace Sub_Application_1.Controllers
 		public async Task<IActionResult> CreatePost(CreatePostDto postDto)
 		{
 			var user = await _userManager.GetUserAsync(User);
-    	string userId = user.Id;
 			if (user == null)
 			{
 				return Unauthorized();
 			}
+			string userId = user.Id;
+
 			if (!ModelState.IsValid)
 			{
 				return View(postDto);
@@ -182,11 +183,12 @@ namespace Sub_Application_1.Controllers
 			
 			// Check the user 
 			var user = await _userManager.GetUserAsync(User);
-    	string userId = user.Id;
 			if (user == null)
 			{
 				return Unauthorized();
 			}
+			    	string userId = user.Id;
+
 			if (post == null)
 			{
 				return NotFound($"Post with ID '{postId}' not found.");
@@ -226,11 +228,11 @@ namespace Sub_Application_1.Controllers
 
 			// Check the user 
 			var user = await _userManager.GetUserAsync(User);
-    	string userId = user.Id;
 			if (user == null)
 			{
 				return Unauthorized();
 			}
+    	string userId = user.Id;
 
 			if (post == null)
 			{
@@ -302,11 +304,11 @@ namespace Sub_Application_1.Controllers
 
 			// Check the user 
 			var user = await _userManager.GetUserAsync(User);
-    	string userId = user.Id;
 			if (user == null)
 			{
 				return Unauthorized();
 			}
+    	string userId = user.Id;
 
 			// Find the post by ID
 			var post = await _context.Posts.FindAsync(id);
@@ -369,8 +371,8 @@ namespace Sub_Application_1.Controllers
 					Author = new UserDto
 					{
 						UserId = p.User.Id,
-						Username = p.User.UserName,
-						ProfilePictureUrl = p.User.ProfilePictureUrl
+						Username = p.User != null && p.User.UserName != null ? p.User.UserName : "[DELETED]", // Default value for deleted users, incase they are displayed, they should not be though
+						ProfilePictureUrl = p.User != null && p.User.ProfilePictureUrl != null ? p.User.ProfilePictureUrl : "/images/default-profile.png" // sets default profile picture if there is a null value
 					},
 					LikesCount = p.Likes.Count,
 					CommentsCount = p.Comments.Count,
@@ -379,7 +381,7 @@ namespace Sub_Application_1.Controllers
 						CommentId = c.CommentId,
 						Content = c.Content,
 						DateCommented = c.DateCommented,
-						AuthorUsername = c.User.UserName // Assuming User navigation property
+						AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"// Default value for deleted users incase they are displayed, they should not be though
 					}).ToList()
 				})
 				.ToListAsync();
