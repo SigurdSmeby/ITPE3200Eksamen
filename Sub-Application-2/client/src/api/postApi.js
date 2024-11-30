@@ -23,6 +23,18 @@ axiosInstance.interceptors.request.use(
     },
 );
 
+// Fetch all users
+export const getAllUsers = async () => {
+    try {
+        const response = await axiosInstance.get('/Users/all');
+        return response.data; // Returns the array of users
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        throw error;
+    }
+};
+
+
 // Get paginated posts
 export const getPosts = async (pageNumber, pageSize) => {
     const response = await axiosInstance.get('/Posts', {

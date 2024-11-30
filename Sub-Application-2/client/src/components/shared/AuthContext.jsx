@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext({
@@ -19,8 +19,19 @@ export const AuthProvider = ({ children }) => {
         localStorage.getItem('username')
     );
 
-    // Helper function to set the auto-logout timer
-    const setLogoutTimer = (expirationTime) => {
+    // Define logout first
+    const logout = useCallback(() => {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('username');
+        setIsLoggedIn(false);
+        setUsername(null);
+
+        // Clear the logout timer if it exists
+        if (logoutTimer) clearTimeout(logoutTimer);
+    }, []);
+
+    // Then define setLogoutTimer
+    const setLogoutTimer = useCallback((expirationTime) => {
         const currentTime = Date.now();
         const timeUntilExpiration = expirationTime * 1000 - currentTime; // Convert to milliseconds
 
@@ -29,10 +40,10 @@ export const AuthProvider = ({ children }) => {
 
         // Set a new timer to log out the user when the token expires
         logoutTimer = setTimeout(() => {
-            logout();
+            logout(); // Now logout is defined and accessible
             alert('Your session has expired. Please log in again.');
         }, timeUntilExpiration);
-    };
+    }, [logout]);
 
     const login = (token, username) => {
         localStorage.setItem('jwtToken', token);
@@ -47,16 +58,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('username');
-        setIsLoggedIn(false);
-        setUsername(null);
-
-        // Clear the logout timer if it exists
-        if (logoutTimer) clearTimeout(logoutTimer);
-    };
-
     const deleteAccount = () => {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('username');
@@ -66,7 +67,6 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
         setUsername(null); 
     };
-    
 
     useEffect(() => {
         // Check if a token exists on app load and set the logout timer if so
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
                 logout(); // Token has expired, so log the user out
             }
         }
-    }, []);
+    }, [setLogoutTimer, logout]); // Include setLogoutTimer and logout
 
     return (
         <AuthContext.Provider

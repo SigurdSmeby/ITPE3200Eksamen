@@ -157,7 +157,7 @@ const PostCards = ({ post, onDeleted }) => {
                 ) : (
                     <p
                         className="text-content mb-0"
-                        style={{ whiteSpace: 'pre-wrap' }}>
+                        style={{ whiteSpace: 'pre-wrap', padding: '1rem'}}>
                         {textContent}
                     </p>
                 )}

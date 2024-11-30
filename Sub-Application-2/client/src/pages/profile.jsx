@@ -15,11 +15,11 @@ const Profile = () => {
         dateJoined: '',
     });
 
-    const [posts, setPosts] = useState([]); // Stores the list of posts
-    const [pageNumber, setPageNumber] = useState(1); // Tracks the current page number
-    const [totalPosts, setTotalPosts] = useState(0); // Total number of posts available
-    const [loading, setLoading] = useState(false); // Indicates if data is being loaded
-    const loader = useRef(null); // Reference to the loader div
+    const [posts, setPosts] = useState([]);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [totalPosts, setTotalPosts] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const loader = useRef(null);
 
     const postsLengthRef = useRef(posts.length);
 
@@ -96,14 +96,15 @@ const Profile = () => {
             }
         };
 
+        const loaderNode = loader.current; // Copy the mutable ref to a local variable
         const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-        if (loader.current) observer.observe(loader.current);
+        if (loaderNode) observer.observe(loaderNode);
 
         return () => {
-            if (loader.current) observer.unobserve(loader.current);
+            if (loaderNode) observer.unobserve(loaderNode); // Use the local variable for cleanup
         };
-    }, [loader.current, totalPosts, loading]);
+    }, [totalPosts, loading]); // Removed 'loader.current' from dependencies
 
     const triggerRefresh = (deletedPostId) => {
         notifyDeleteSuccess();
@@ -111,7 +112,6 @@ const Profile = () => {
         setTotalPosts((prevTotal) => prevTotal - 1);
     };
 
-    // Render the profile's hero section with user info
     const HeroSection = () => {
         const { userName, profilePicture, bio, dateJoined } = profileData;
         const numberOfPosts = totalPosts || 0;
@@ -147,7 +147,7 @@ const Profile = () => {
 
     return (
         <>
-            <HeroSection /> {/* Render hero section */}
+            <HeroSection />
             {error ? (
                 <h1 className="text-danger text-center">{error}</h1>
             ) : (
@@ -166,7 +166,7 @@ const Profile = () => {
                     <div ref={loader}></div>
                 </>
             )}
-            <ToastContainer /> {/* Render toast notifications */}
+            <ToastContainer />
         </>
     );
 };
