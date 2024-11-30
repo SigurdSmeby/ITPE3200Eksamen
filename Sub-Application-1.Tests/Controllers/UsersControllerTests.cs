@@ -46,14 +46,14 @@ namespace Sub_Application_1.Tests.Controllers
             userManagerMock.Setup(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
             userManagerMock.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
-                .ReturnsAsync((User)null);
+                .ReturnsAsync((User)null!);
             userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>()))
-                .ReturnsAsync((User)null);
+                .ReturnsAsync((User)null!);
             signInManagerMock.Setup(sm => sm.SignInAsync(It.IsAny<User>(), It.IsAny<bool>(), null))
                 .Returns(Task.CompletedTask);
 
             var controller = new UsersController(
-                null, null, null, 
+                null!, null!, null!, 
                 signInManagerMock.Object, 
                 userManagerMock.Object
             );
@@ -97,7 +97,7 @@ namespace Sub_Application_1.Tests.Controllers
             var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
 
             var controller = new UsersController(
-                null, null, null, 
+                null!, null!, null!, 
                 signInManagerMock.Object, 
                 userManagerMock.Object
             );
