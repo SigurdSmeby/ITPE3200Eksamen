@@ -40,18 +40,22 @@ namespace server.Controllers
 				var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/posts");
 				if (!Directory.Exists(uploadsFolder))
 				{
+					// Create the uploads directory if it does not exist
 					Directory.CreateDirectory(uploadsFolder);
 				}
 
+				// Generate a unique file name for the image
 				var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(postDto.ImageFile.FileName);
 				var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
+				// Save the image to the server
 				using (var fileStream = new FileStream(filePath, FileMode.Create))
 				{
 					await postDto.ImageFile.CopyToAsync(fileStream);
 				}
 
-				imagePath = "/uploads/posts/" + uniqueFileName; // Set relative path
+				// Store the relative image path for database storage
+				imagePath = "/uploads/posts/" + uniqueFileName;
 			}
 
 			// Create and save the new post
@@ -60,9 +64,9 @@ namespace server.Controllers
 				UserId = userId,
 				ImagePath = imagePath,
 				TextContent = postDto.TextContent,
-				FontSize = postDto.FontSize ?? 16,
-				TextColor = postDto.TextColor ?? "#000000",
-				BackgroundColor = postDto.BackgroundColor ?? "#FFFFFF"
+				FontSize = postDto.FontSize ?? 16, 
+				TextColor = postDto.TextColor ?? "#000000", 
+				BackgroundColor = postDto.BackgroundColor ?? "#FFFFFF" // Default background color (white)
 			};
 
 			_context.Posts.Add(post);
@@ -76,44 +80,47 @@ namespace server.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetPosts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
 		{
-				var totalPosts = await _context.Posts.CountAsync();
+			// Get the total count of posts in the database
+			var totalPosts = await _context.Posts.CountAsync();
 
-				var posts = await _context.Posts
-						.OrderByDescending(p => p.DateUploaded)
-						.Skip((pageNumber - 1) * pageSize)
-						.Take(pageSize)
-						.Include(p => p.User)
-						.Include(p => p.Likes)
-						.Include(p => p.Comments)
-						.Select(p => new PostDto
-						{
-								PostId = p.PostId,
-								ImagePath = p.ImagePath,
-								TextContent = p.TextContent,
-								DateUploaded = p.DateUploaded,
-								FontSize = p.FontSize,
-								TextColor = p.TextColor,
-								BackgroundColor = p.BackgroundColor,
-								Author = new UserDto
-								{
-										UserId = p.User.UserId,
-										Username = p.User.Username,
-										ProfilePictureUrl = p.User.ProfilePictureUrl
-								},
-								LikesCount = p.Likes.Count,
-								CommentsCount = p.Comments.Count
-						})
-						.ToListAsync();
-
-				var response = new
+			// Retrieve paginated posts with user and interaction details
+			var posts = await _context.Posts
+				.OrderByDescending(p => p.DateUploaded) 
+				.Skip((pageNumber - 1) * pageSize) 
+				.Take(pageSize) 
+				.Include(p => p.User) 
+				.Include(p => p.Likes) 
+				.Include(p => p.Comments)
+				.Select(p => new PostDto
 				{
-						TotalPosts = totalPosts,
-						PageNumber = pageNumber,
-						PageSize = pageSize,
-						Posts = posts
-				};
+					PostId = p.PostId,
+					ImagePath = p.ImagePath,
+					TextContent = p.TextContent,
+					DateUploaded = p.DateUploaded,
+					FontSize = p.FontSize,
+					TextColor = p.TextColor,
+					BackgroundColor = p.BackgroundColor,
+					Author = new UserDto
+					{
+						UserId = p.User.UserId,
+						Username = p.User.Username,
+						ProfilePictureUrl = p.User.ProfilePictureUrl
+					},
+					LikesCount = p.Likes.Count, 
+					CommentsCount = p.Comments.Count 
+				})
+				.ToListAsync();
 
-				return Ok(response);
+			// Return posts along with pagination metadata
+			var response = new
+			{
+				TotalPosts = totalPosts,
+				PageNumber = pageNumber,
+				PageSize = pageSize,
+				Posts = posts
+			};
+
+			return Ok(response);
 		}
 
 		// GET: api/Posts/5
@@ -122,16 +129,18 @@ namespace server.Controllers
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetPost(int id)
 		{
+			// Find the post by ID and include user and interaction data
 			var post = await _context.Posts
 				.Include(p => p.User)
 				.Include(p => p.Likes)
 				.Include(p => p.Comments)
-				.ThenInclude(c => c.User)
+				.ThenInclude(c => c.User) 
 				.SingleOrDefaultAsync(p => p.PostId == id);
 
 			if (post == null)
-				return NotFound();
+				return NotFound(); // Return 404 if the post is not found
 
+			// Map the post to a DTO
 			var postDto = new PostDto
 			{
 				ImagePath = post.ImagePath,
@@ -153,11 +162,12 @@ namespace server.Controllers
 			var post = await _context.Posts.FindAsync(id);
 
 			if (post == null)
-				return NotFound();
+				return NotFound(); // Return 404 if the post does not exist
 
-			// Update the image if provided
+			// Update the image if a new file is provided
 			if (updatePostDto.ImageFile != null && updatePostDto.ImageFile.Length > 0)
 			{
+				// Remove the old image file if it exists
 				if (!string.IsNullOrEmpty(post.ImagePath))
 				{
 					var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
@@ -167,6 +177,7 @@ namespace server.Controllers
 					}
 				}
 
+				// Save the new image file
 				var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/posts");
 				if (!Directory.Exists(uploadsFolder))
 				{
@@ -197,6 +208,7 @@ namespace server.Controllers
 			if (!string.IsNullOrEmpty(updatePostDto.BackgroundColor))
 				post.BackgroundColor = updatePostDto.BackgroundColor;
 
+			// Save changes to the database
 			_context.Posts.Update(post);
 			await _context.SaveChangesAsync();
 
@@ -213,12 +225,15 @@ namespace server.Controllers
 
 			var post = await _context.Posts.FindAsync(id);
 
+			// Return 404 if the post does not exist
 			if (post == null)
-				return NotFound();
+				return NotFound(); 
 
+			// Ensure the current user owns the post
 			if (post.UserId != userId)
 				return Forbid("You are not authorized to delete this post.");
 
+			// Delete the associated image file if it exists
 			if (!string.IsNullOrEmpty(post.ImagePath))
 			{
 				var filePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
@@ -228,6 +243,7 @@ namespace server.Controllers
 				}
 			}
 
+			// Remove the post from the database
 			_context.Posts.Remove(post);
 			await _context.SaveChangesAsync();
 
@@ -235,63 +251,69 @@ namespace server.Controllers
 		}
 
 		// GET: api/Posts/user/{username}
+		// Retrieves all posts for a specific user, with pagination support.
 		[HttpGet("user/{username}")]
 		public async Task<IActionResult> GetPostsByUsername(string username, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
 		{
-				var user = await _context.Users
-						.Where(u => u.Username == username)
-						.FirstOrDefaultAsync();
+			// Find the user by username
+			var user = await _context.Users
+				.Where(u => u.Username == username)
+				.FirstOrDefaultAsync();
 
-				if (user == null)
-						return NotFound("User not found");
+			// Return 404 if the user does not exist
+			if (user == null)
+				return NotFound("User not found"); 
 
-				var totalPosts = await _context.Posts
-						.Where(p => p.UserId == user.UserId)
-						.CountAsync();
+			// Get the total count of posts for the user
+			var totalPosts = await _context.Posts
+				.Where(p => p.UserId == user.UserId)
+				.CountAsync();
 
-				var posts = await _context.Posts
-						.Where(p => p.UserId == user.UserId)
-						.OrderByDescending(p => p.DateUploaded)
-						.Skip((pageNumber - 1) * pageSize)
-						.Take(pageSize)
-						.Include(p => p.User)
-						.Include(p => p.Likes)
-						.Include(p => p.Comments)
-						.Select(p => new PostDto
-						{
-								PostId = p.PostId,
-								ImagePath = p.ImagePath,
-								TextContent = p.TextContent,
-								DateUploaded = p.DateUploaded,
-								FontSize = p.FontSize,
-								TextColor = p.TextColor,
-								BackgroundColor = p.BackgroundColor,
-								Author = new UserDto
-								{
-										UserId = p.User.UserId,
-										Username = p.User.Username,
-										ProfilePictureUrl = p.User.ProfilePictureUrl
-								},
-								LikesCount = p.Likes.Count,
-								CommentsCount = p.Comments.Count
-						})
-						.ToListAsync();
-
-				var response = new
+			// Retrieve paginated posts for the user
+			var posts = await _context.Posts
+				.Where(p => p.UserId == user.UserId)
+				.OrderByDescending(p => p.DateUploaded)
+				.Skip((pageNumber - 1) * pageSize)
+				.Take(pageSize)
+				.Include(p => p.User)
+				.Include(p => p.Likes)
+				.Include(p => p.Comments)
+				.Select(p => new PostDto
 				{
-						Username = user.Username,
-						ProfilePictureUrl = user.ProfilePictureUrl,
-						Bio = user.Bio,
-						DateJoined = user.DateJoined,
-						TotalPosts = totalPosts,
-						Posts = posts
-				};
+					PostId = p.PostId,
+					ImagePath = p.ImagePath,
+					TextContent = p.TextContent,
+					DateUploaded = p.DateUploaded,
+					FontSize = p.FontSize,
+					TextColor = p.TextColor,
+					BackgroundColor = p.BackgroundColor,
+					Author = new UserDto
+					{
+						UserId = p.User.UserId,
+						Username = p.User.Username,
+						ProfilePictureUrl = p.User.ProfilePictureUrl
+					},
+					LikesCount = p.Likes.Count,
+					CommentsCount = p.Comments.Count
+				})
+				.ToListAsync();
 
-				return Ok(response);
+			// Return user and their posts
+			var response = new
+			{
+				Username = user.Username,
+				ProfilePictureUrl = user.ProfilePictureUrl,
+				Bio = user.Bio,
+				DateJoined = user.DateJoined,
+				TotalPosts = totalPosts,
+				Posts = posts
+			};
+
+			return Ok(response);
 		}
 
-
 		// Helper method
+		// Retrieves the ID of the currently logged-in user
 		private int GetCurrentUserId()
 		{
 			var userIdClaim = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim is missing."));
