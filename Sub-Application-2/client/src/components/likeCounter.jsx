@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import { useAuth } from './shared/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { createLike, unLike } from '../api/likeApi.js';
 
-// LikeButton component
+
 const LikeButton = ({ postId, likeCounter, hasLiked: initialHasLiked }) => {
   // State to track likes and whether the user has liked the post
   const [likes, setLikes] = useState(0);
@@ -13,7 +13,7 @@ const LikeButton = ({ postId, likeCounter, hasLiked: initialHasLiked }) => {
   const navigate = useNavigate();
 
   // Initialize likes and liked status when props change
-  React.useEffect(() => {
+  useEffect(() => {
     setLikes(likeCounter);
     setHasLiked(initialHasLiked);
   }, [likeCounter, initialHasLiked]);

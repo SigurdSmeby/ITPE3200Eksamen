@@ -118,7 +118,7 @@ namespace Sub_Application_1.Controllers
 					CommentId = c.CommentId,
 					Content = c.Content,
 					DateCommented = c.DateCommented,
-					AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"// Default value for deleted users incase they are displayed, they should not be though
+					AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"// Default value for deleted users incase their comments are displayed, they should not be though
 				})
 				.ToListAsync();
 

@@ -11,6 +11,7 @@ const Search = () => {
     const [users, setUsers] = useState([]); // List of all users
     const [showDropdown, setShowDropdown] = useState(false); // Controls visibility of autocomplete dropdown
 
+	// Fetch all users when the component mounts
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -35,10 +36,10 @@ const Search = () => {
             : user.username?.toLowerCase().includes(filterUsername.toLowerCase())
     );
 
+	// Hide dropdown when input loses or gain focus
     const handleBlur = () => {
         setTimeout(() => setShowDropdown(false), 200); // Delay to allow click events to register
     };
-
     const handleFocus = () => {
         setShowDropdown(true); // Show dropdown when input is focused
     };
@@ -47,6 +48,7 @@ const Search = () => {
         <div className="container py-5">
             <div className="d-flex flex-column align-items-center mb-4 position-relative">
                 <h1 className="text-center mb-3">Search Profiles</h1>
+				{/* Search Input */}
                 <input
                     type="text"
                     placeholder="Search by username"
@@ -81,6 +83,7 @@ const Search = () => {
                             marginTop: '5px',
                         }}
                     >
+						{/* Render filtered users in dropdown */}
                         {filteredUsers.map((user) => (
                             <div
                                 key={user.username}
@@ -100,65 +103,64 @@ const Search = () => {
                 )}
             </div>
 
+			{/* Loading indicator */}
             {loading && <p className="text-center">Loading profiles...</p>}
             {!loading && filteredUsers.length === 0 && filterUsername.trim() !== '' && (
                 <p className="text-center text-muted">No profiles found for "{filterUsername}".</p>
             )}
 
-{/* Render Profile Cards */}
-<div className="row">
-    {filteredUsers.map((user) => (
-        <div key={user.username} className="col-md-4 mb-4 d-flex justify-content-center">
-            <div
-                className="card"
-                style={{
-                    width: '18rem',
-                    textAlign: 'center',
-                    borderRadius: '10px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Faint drop shadow
-                    overflow: 'hidden', // Ensure content stays within rounded corners
-                }}
-            >
-                <Link to={`/profile/${user.username}`}>
-                    <img
-                        src={BACKEND_URL + user.profilePictureUrl}
-                        alt={user.username}
-                        className="card-img-top"
-                        style={{
-                            width: '100%',
-                            height: '200px',
-                            objectFit: 'cover',
-                            borderBottom: '4px solid #f0f0f0',
-                        }}
-                    />
-                </Link>
-                <div className="card-body">
-                    <h5
-                        className="card-title"
-                        style={{
-                            padding: '10px', // Padding around the username
-                            backgroundColor: '#f8f9fa', // Light background for contrast
-                            borderRadius: '5px', // Slight rounding for aesthetics
-                            marginBottom: '0', // Avoid spacing issues with card-body
-                        }}
-                    >
-                        <Link
-                            to={`/profile/${user.username}`}
-                            className="text-decoration-none"
-                            style={{
-                                color: 'black', // Black text color
-                                fontWeight: 'bold', // Bold font for emphasis
-                                textDecoration: 'none', // No underline
-                            }}
-                        >
-                            {user.username}
-                        </Link>
-                    </h5>
-                </div>
-            </div>
-        </div>
-    ))}
-</div>
+			{/* Render Profile Cards */}
+			<div className="row">
+				{filteredUsers.map((user) => (
+					<div key={user.username} className="col-md-4 mb-4 d-flex justify-content-center">
+						{/* Profile Picture */}
+						<div
+							className="card"
+							style={{
+								width: '18rem',
+								borderRadius: '10px',
+								boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', 
+								overflow: 'hidden',
+							}}
+						>
+							<Link to={`/profile/${user.username}`}>
+								<img
+									src={BACKEND_URL + user.profilePictureUrl}
+									alt=""
+									className="card-img-top"
+									style={{
+										color: 'black',
+										width: '100%',
+										height: '200px',
+										objectFit: 'cover',
+									}}
+								/>
+							</Link>
+							{/* Profile Username */}
+							<div className="card-body">
+								<h5
+									className="card-title"
+									style={{
+										padding: '10px',
+									}}
+								>
+									<Link
+										to={`/profile/${user.username}`}
+										className="text-decoration-none"
+										style={{
+											color: 'black',
+											fontWeight: 'bold',
+											textDecoration: 'none',
+										}}
+									>
+										{user.username}
+									</Link>
+								</h5>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
 
         </div>
     );

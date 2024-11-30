@@ -14,27 +14,22 @@ const Profile = () => {
         bio: '',
         dateJoined: '',
     });
-
     const [posts, setPosts] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [totalPosts, setTotalPosts] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const { username } = useParams();
+    const loggedInUsername = localStorage.getItem('username');
+    const navigate = useNavigate();
+    const notifyDeleteSuccess = () => toast.success("Post deleted successfully!");
     const loader = useRef(null);
-
     const postsLengthRef = useRef(posts.length);
 
+    // Update the posts length ref when the posts state changes
     useEffect(() => {
         postsLengthRef.current = posts.length;
     }, [posts.length]);
-
-    const [error, setError] = useState(null);
-
-    const { username } = useParams();
-    const navigate = useNavigate();
-
-    const loggedInUsername = localStorage.getItem('username');
-
-    const notifyDeleteSuccess = () => toast.success("Post deleted successfully!");
 
     // Fetch user profile data
     useEffect(() => {
@@ -62,7 +57,6 @@ const Profile = () => {
             setLoading(true);
             try {
                 const response = await getUserPosts(username, pageNumber, 10);
-                console.log('Fetched posts:', response.posts.map((post) => post.postId));
                 setPosts((prevPosts) => {
                     const newPosts = response.posts.filter(
                         (newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId)
@@ -88,6 +82,7 @@ const Profile = () => {
             threshold: 1.0,
         };
 
+        // Callback function for the observer
         const observerCallback = (entries) => {
             const target = entries[0];
             if (target.isIntersecting && postsLengthRef.current < totalPosts && !loading) {
@@ -96,28 +91,33 @@ const Profile = () => {
             }
         };
 
-        const loaderNode = loader.current; // Copy the mutable ref to a local variable
+        // Create the observer and observe the loader
+        const loaderNode = loader.current;
         const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-        if (loaderNode) observer.observe(loaderNode);
-
+        if (loaderNode){
+            observer.observe(loaderNode);
+        } 
         return () => {
             if (loaderNode) observer.unobserve(loaderNode); // Use the local variable for cleanup
         };
-    }, [totalPosts, loading]); // Removed 'loader.current' from dependencies
+    }, [totalPosts, loading]);
 
+    // Trigger a refresh when a post is deleted
     const triggerRefresh = (deletedPostId) => {
         notifyDeleteSuccess();
         setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== deletedPostId));
         setTotalPosts((prevTotal) => prevTotal - 1);
     };
 
+    // Hero section for user profile, including profile picture and bio
     const HeroSection = () => {
         const { userName, profilePicture, bio, dateJoined } = profileData;
         const numberOfPosts = totalPosts || 0;
 
         return (
             <div className="d-flex align-items-center m-5">
+                {/* Display the user's profile picture */}
                 <img
                     src={`${BACKEND_URL}${profilePicture}`}
                     alt={userName}
@@ -125,6 +125,7 @@ const Profile = () => {
                     style={{ width: '150px', height: '150px', objectFit: 'cover' }}
                 />
                 <div>
+                    {/* Display the user's name and bio */}
                     <h1>{userName}</h1>
                     <p>{bio}</p>
                     <div className="btn btn-light">
@@ -133,6 +134,7 @@ const Profile = () => {
                     <div className="btn btn-light">
                         Member since: {dateJoined}
                     </div>
+                    {/* Display the edit profile button for the logged-in user */}
                     {loggedInUsername === username && (
                         <button
                             className="btn btn-primary ms-2"
@@ -147,11 +149,13 @@ const Profile = () => {
 
     return (
         <>
+            {/* Display the hero section with user profile data */}
             <HeroSection />
             {error ? (
                 <h1 className="text-danger text-center">{error}</h1>
             ) : (
                 <>
+                    {/* Display the user's posts */}
                     {posts.map((post) => (
                         <PostCards
                             key={post.postId}
@@ -166,7 +170,6 @@ const Profile = () => {
                     <div ref={loader}></div>
                 </>
             )}
-            <ToastContainer />
         </>
     );
 };

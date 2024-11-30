@@ -11,10 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import './postCards.css';
 import { checkIfUserHasLikedPost } from '../api/likeApi.js';
 
+// URL to the backend server
 const BACKEND_URL = 'http://localhost:5229';
 
-// PostCards component
+
 const PostCards = ({ post, onDeleted }) => {
+    // Destructure the post object into individual variables
     const {
         postId,
         imagePath: imageUrl,
@@ -28,22 +30,23 @@ const PostCards = ({ post, onDeleted }) => {
         backgroundColor,
     } = post;
 
+    // State to control the visibility of comments
     const [showComments, setShowComments] = useState(false);
     const [commentsInput, setCommentsInput] = useState('');
     const [refreshComments, setRefreshComments] = useState(false); // Track when to refresh comments
     const [commentsCount, setCommentsCount] = useState(initialCommentsCount);
-    const { isLoggedIn } = useAuth();
-    const navigate = useNavigate();
-
+    const [hasLiked, setHasLiked] = useState(false);
+    const { isLoggedIn } = useAuth(); // Check if the user is logged in
     const loggedInUsername = localStorage.getItem('username');
     const isOwner = loggedInUsername === author?.username;
-    const [hasLiked, setHasLiked] = useState(false);
+    const navigate = useNavigate();
 
+    // Check if the user has liked the post when the component mounts
     useEffect(() => {
         if (isLoggedIn) {
             checkIfUserHasLikedPost(postId)
                 .then((response) => {
-                    setHasLiked(response);
+                    setHasLiked(response); // Set the liked status
                     console.log('Response: ' + response + '\n' + response.data);
                 })
                 .catch((error) => {
@@ -52,6 +55,7 @@ const PostCards = ({ post, onDeleted }) => {
         }
     }, [postId, isLoggedIn]);
 
+    // Function to toggle the visibility of comments
     const handleToggleComments = () => {
         if (!isLoggedIn) {
             navigate('/login', { state: { from: `/post/${postId}` } }); // Redirect to login
@@ -60,14 +64,15 @@ const PostCards = ({ post, onDeleted }) => {
         setShowComments(!showComments);
     };
 
+    // Functions to increment and decrement the comments count
     const incrementCommentsCount = () => {
         setCommentsCount((prevCount) => prevCount + 1);
     };
-
     const decrementCommentsCount = () => {
         setCommentsCount((prevCount) => prevCount - 1);
     };
 
+    // Function to handle sending a comment
     const handleSendComment = () => {
         const commentData = { PostId: postId, Content: commentsInput };
 
@@ -83,12 +88,14 @@ const PostCards = ({ post, onDeleted }) => {
             });
     };
 
+    // Function to delete a post
     const handleDeletePost = (id) => {
+        // Confirm the deletion before proceeding
         if (window.confirm('Are you sure you want to delete this post?')) {
             deletePost(id)
                 .then((response) => {
                     console.log(response.data);
-                    onDeleted();
+                    onDeleted(); // Trigger the parent component to refresh the posts
                 })
                 .catch((error) => {
                     console.error(error);
@@ -96,12 +103,14 @@ const PostCards = ({ post, onDeleted }) => {
         }
     };
 
+    // Extract the author's name and profile picture
     const authorName = author?.username || 'Unknown Author';
     const profilePicture = author?.profilePictureUrl || 'default-profile.png';
     const profileUrl = `/profile/${authorName}`;
 
     return (
         <Card className="card-container">
+            {/* Card header with author details */}
             <Card.Header>
                 <a href={profileUrl} className="profile-link">
                     <Card.Img
@@ -119,6 +128,7 @@ const PostCards = ({ post, onDeleted }) => {
                     {timeAgo(dateUploaded)}
                 </p>
 
+                {/* Display the post menu option for the post owner */}
                 {isOwner && (
                     <Dropdown className="ms-auto">
                         <Dropdown.Toggle
@@ -138,6 +148,8 @@ const PostCards = ({ post, onDeleted }) => {
                     </Dropdown>
                 )}
             </Card.Header>
+
+            {/* Card body with post content */}
             <Card.Body
                 className="card-body"
                 style={{
@@ -145,6 +157,7 @@ const PostCards = ({ post, onDeleted }) => {
                     color: textColor || undefined,
                     backgroundColor: backgroundColor || undefined,
                 }}>
+                {/* Display the post image or text content */}
                 {imageUrl ? (
                     <div className="image-container">
                         <img
@@ -162,8 +175,10 @@ const PostCards = ({ post, onDeleted }) => {
                     </p>
                 )}
             </Card.Body>
+            {/* Card footer with like and comment buttons */}
             <Card.Footer>
                 <div className="like-comment-container">
+                    {/* Like button */}
                     <span className="heart-icon-container ">
                         <LikeButton
                             postId={postId}
@@ -171,6 +186,7 @@ const PostCards = ({ post, onDeleted }) => {
                             hasLiked={hasLiked}
                         />
                     </span>
+                    {/* Open Comments button */}
                     <div
                         className="comment-icon-container"
                         onClick={handleToggleComments}>
@@ -183,6 +199,7 @@ const PostCards = ({ post, onDeleted }) => {
                     </div>
                 </div>
             </Card.Footer>
+            {/* Comments section */}
             {showComments && (
                 <>
                     <div className="comments-section">
@@ -199,6 +216,7 @@ const PostCards = ({ post, onDeleted }) => {
                             e.preventDefault();
                             handleSendComment();
                         }}>
+                        {/* Input field for comments */}
                         <input
                             type="text"
                             className="comment-field form-control"

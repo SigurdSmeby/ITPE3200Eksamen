@@ -1,10 +1,4 @@
-/**
- * Calculates the time difference between the current time and a given date string.
- * Returns a human-readable time format like "2h", "3d", etc.
- *
- * @param {string} dateString - The date string to compare.
- * @returns {string} - The time difference in a readable format.
- */
+// Funtion to calculate the time difference between the current time and the time the post was created
 export const timeAgo = (dateString) => {
     const now = new Date();
     const postDate = new Date(dateString);

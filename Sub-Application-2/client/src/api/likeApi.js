@@ -1,19 +1,20 @@
 import axios from 'axios';
 
-// Create an axios instance with common configurations
+// Create a reusable Axios instance for handling likes with base URL and default headers
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5229/api/Likes/', // Replace with your backend URL
+    baseURL: 'http://localhost:5229/api/Likes/', // API base URL for likes
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`, // JWT token for authentication
+        'Content-Type': 'application/json', // Content type for JSON requests
     },
 });
 
+// Add an interceptor to include the token in every request if it exists
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('jwtToken');
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+            config.headers.Authorization = `Bearer ${token}`; // Attach token to request headers
         }
         return config;
     },
@@ -22,29 +23,33 @@ axiosInstance.interceptors.request.use(
     }
 );
 
-// Create a like
+// Function to like a post
 export const createLike = async (postId) => {
     try {
-        const response = await axiosInstance.post('like/'+postId);
-        return response.data; // Returns server response (e.g., success message)
+        // Send a POST request to like a post by ID
+        const response = await axiosInstance.post('like/' + postId);
+        return response.data; 
     } catch (error) {
-        throw error.response?.data || 'Failed to send comment'; // Throw error to handle in UI
+        throw error.response?.data || 'Failed to like the post';
     }
 };
 
-// Create a like
+// Function to unlike a post
 export const unLike = async (postId) => {
     try {
-        const response = await axiosInstance.delete('unlike/'+postId);
-        return response.data; // Returns server response (e.g., success message)
+        // Send a DELETE request to unlike a post by ID
+        const response = await axiosInstance.delete('unlike/' + postId);
+        return response.data;
     } catch (error) {
-        throw error.response?.data || 'Failed to send unlike'; // Throw error to handle in UI
+        throw error.response?.data || 'Failed to unlike the post';
     }
 };
 
+// Function to check if the user has liked a specific post
 export const checkIfUserHasLikedPost = async (postId) => {
     try {
-        const response = await axiosInstance.get('hasLiked/'+postId);
+        // Use a GET request to check if the user has liked a post by ID
+        const response = await axiosInstance.get('hasLiked/' + postId);
         console.log('Check liked status response:', response.data, postId);
         return response.data;
     } catch (error) {

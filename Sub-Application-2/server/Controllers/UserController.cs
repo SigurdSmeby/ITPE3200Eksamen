@@ -22,6 +22,7 @@ namespace server.Controllers
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
+        // Constructor initializes dependencies for database, configuration, and web host environment
         public UsersController(AppDbContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
@@ -30,18 +31,18 @@ namespace server.Controllers
         }
 
         // POST: api/Users/register
-        // Register a new user with a username, email, and password
+        // Registers a new user by validating the username and email, hashing the password, and saving the user in the database.
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            // Ensure username and email are unique
+            // Check for duplicate username or email
             if (await _context.Users.AnyAsync(u => u.Username == registerDto.Username))
                 return BadRequest("Username is already taken.");
 
             if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
                 return BadRequest("Email is already registered.");
 
-            // Hash the password and set the default profile picture
+            // Create the new user object
             var user = new User
             {
                 Username = registerDto.Username,
@@ -58,46 +59,48 @@ namespace server.Controllers
         }
 
         // POST: api/Users/login
-        // Authenticate a user and return a JWT token
+        // Authenticates a user by verifying credentials and generates a JWT token upon success.
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            // Verify user credentials
+            // Retrieve the user by username
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == loginDto.Username);
 
+            // Validate the user's password
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
                 return Unauthorized("Invalid username or password.");
 
-            // Generate and return a JWT token
+            // Generate a JWT token for the user
             var token = GenerateJwtToken(user);
             return Ok(new { Token = token });
         }
 
         // GET: api/Users/all
-		// Retrieve all users with their usernames and profile pictures
-		[HttpGet("all")]
-		public async Task<IActionResult> GetAllUsers()
-		{
-			var users = await _context.Users
-				.Select(u => new
-				{
-					u.Username,
-					u.ProfilePictureUrl
-				})
-				.ToListAsync();
+        // Retrieves all users, returning their usernames and profile pictures.
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            // Query the database for all users
+            var users = await _context.Users
+                .Select(u => new
+                {
+                    u.Username,
+                    u.ProfilePictureUrl
+                })
+                .ToListAsync();
 
-			return Ok(users);
-		}
+            return Ok(users);
+        }
 
         // GET: api/Users/profile
-        // Retrieve the profile of the currently logged-in user
+        // Retrieves the profile of the currently logged-in user, including user details and post count.
         [Authorize]
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
             int userId = GetCurrentUserId();
 
-            // Fetch user details and their posts
+            // Fetch user details and associated posts
             var user = await _context.Users
                 .Include(u => u.Posts)
                 .SingleOrDefaultAsync(u => u.UserId == userId);
@@ -105,7 +108,7 @@ namespace server.Controllers
             if (user == null)
                 return NotFound();
 
-            // Map user data to a DTO
+            // Map user details to a DTO for response
             var userDto = new UserProfileDto
             {
                 UserId = user.UserId,
@@ -121,7 +124,7 @@ namespace server.Controllers
         }
 
         // PUT: api/Users/profile
-        // Update the profile of the currently logged-in user
+        // Updates the currently logged-in user's profile, including username, email, bio, and profile picture.
         [Authorize]
         [HttpPut("profile")]
         public async Task<IActionResult> UpdateProfile([FromForm] UpdateProfileDto updateProfileDto)
@@ -158,7 +161,7 @@ namespace server.Controllers
                 var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(updateProfileDto.ProfilePicture.FileName);
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                // Delete old profile picture if not default
+                // Delete the old profile picture if it is not the default
                 if (!string.IsNullOrEmpty(user.ProfilePictureUrl) && !user.ProfilePictureUrl.Contains("default_profile.jpg"))
                 {
                     var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, user.ProfilePictureUrl.TrimStart('/'));
@@ -166,7 +169,7 @@ namespace server.Controllers
                         System.IO.File.Delete(oldFilePath);
                 }
 
-                // Save new profile picture
+                // Save the new profile picture
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await updateProfileDto.ProfilePicture.CopyToAsync(fileStream);
@@ -186,81 +189,14 @@ namespace server.Controllers
             return Ok(new { success = true, message = "Profile updated successfully." });
         }
 
-        // PUT: api/Users/change-password
-        // Change the password of the currently logged-in user
-        [Authorize]
-        [HttpPut("change-password")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto passwordDto)
-        {
-            int userId = GetCurrentUserId();
-
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-                return NotFound();
-
-            // Verify the current password
-            if (!BCrypt.Net.BCrypt.Verify(passwordDto.CurrentPassword, user.PasswordHash))
-                return BadRequest("Current password is incorrect.");
-
-            // Update password hash
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(passwordDto.NewPassword);
-
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-
-            return Ok("Password changed successfully.");
-        }
-
-        // DELETE: api/Users/delete-account
-        // Delete the currently logged-in user's account and associated data
-        [Authorize]
-        [HttpDelete("delete-account")]
-        public async Task<IActionResult> DeleteAccount()
-        {
-            int userId = GetCurrentUserId();
-
-            // Fetch user and their posts
-            var user = await _context.Users
-                .Include(u => u.Posts)
-                .FirstOrDefaultAsync(u => u.UserId == userId);
-
-            if (user == null)
-                return NotFound();
-
-            // Delete profile picture if not default
-            if (!string.IsNullOrEmpty(user.ProfilePictureUrl) && !user.ProfilePictureUrl.Contains("default_profile.jpg"))
-            {
-                var profilePicturePath = Path.Combine(_webHostEnvironment.WebRootPath, user.ProfilePictureUrl.TrimStart('/'));
-                if (System.IO.File.Exists(profilePicturePath))
-                    System.IO.File.Delete(profilePicturePath);
-            }
-
-            // Delete all post images
-            foreach (var post in user.Posts)
-            {
-                if (!string.IsNullOrEmpty(post.ImagePath))
-                {
-                    var postImagePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
-                    if (System.IO.File.Exists(postImagePath))
-                        System.IO.File.Delete(postImagePath);
-                }
-            }
-
-            // Remove user and save changes
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return Ok("Account and associated data deleted successfully.");
-        }
-
-        // Retrieve the ID of the currently logged-in user
+        // Helper method: Retrieves the ID of the currently logged-in user from JWT claims.
         private int GetCurrentUserId()
         {
             var userIdClaim = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim is missing."));
             return userIdClaim;
         }
 
-        // Generate a JWT token for a user
+        // Helper method: Generates a JWT token for user authentication.
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

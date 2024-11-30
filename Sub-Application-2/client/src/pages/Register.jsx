@@ -7,22 +7,17 @@ import { login as loginApi } from '../api/authApi';
 import { useAuth } from '../components/shared/AuthContext';
 
 const RegisterUser = () => {
-    // State for managing form inputs
+    // State for handling form data
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
-
-    // State for handling errors
     const [error, setError] = useState('');
-
+    const registerSuccess = () => toast.success("Profile created successfully!");
     const { login } = useAuth(); // Access login method from AuthContext
     const navigate = useNavigate();
-
-    // Success notification
-    const registerSuccess = () => toast.success("Profile created successfully!");
 
     // Handle form submission
     const handleSubmit = async (event) => {
@@ -35,7 +30,7 @@ const RegisterUser = () => {
         }
 
         try {
-            setError(''); // Clear any previous errors
+            setError('');
 
             // Register the user
             await register(formData.username, formData.email, formData.password);
@@ -44,10 +39,9 @@ const RegisterUser = () => {
             const { token: jwtToken } = await loginApi(formData.username, formData.password);
             login(jwtToken, formData.username); // Update auth context with token
 
-            registerSuccess(); // Notify success
+            registerSuccess(); // Display success message
             navigate(`/`); // Redirect to home
         } catch (err) {
-            // Display error message from API or fallback message
             setError(err?.response?.data?.message || 'Registration failed');
         }
     };
@@ -76,7 +70,7 @@ const RegisterUser = () => {
                         name="username" // Identifier for handleChange
                         placeholder="Enter username"
                         value={formData.username}
-                        onChange={handleChange} // Update state on input
+                        onChange={handleChange}
                         required
                     />
                 </Form.Group>

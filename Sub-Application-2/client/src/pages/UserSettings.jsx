@@ -10,28 +10,28 @@ import {
     deleteUserAccount,
 } from '../api/userApi';
 
-const UserSettings = () => {
-    const navigate = useNavigate();
-    const { deleteAccount } = useAuth(); // Access account deletion from AuthContext
-
+const UserSettings = () => { 
     // State for user profile data and image upload
     const [user, setUser] = useState({ username: '', email: '', bio: '' });
     const [profilePicture, setProfilePicture] = useState(null);
     const [previewUrl, setPreviewUrl] = useState('');
 
+    
+    // State for error handling and success notifications
+    const [profileError, setProfileError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+    const navigate = useNavigate();
+    const { deleteAccount } = useAuth();
+    const profileSuccess = () => toast.success("Profile updated successfully!");
+    const passwordSuccess = () => toast.success("Password updated successfully!");
+    const notifyDeleteSucsess = () => toast.success("Account deleted successfully!");
     // State for password changes
     const [passwords, setPasswords] = useState({
         currentPassword: '',
         newPassword: '',
         confirmPassword: '',
     });
-
-    // State for error handling and success notifications
-    const [profileError, setProfileError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const profileSuccess = () => toast.success("Profile updated successfully!");
-    const passwordSuccess = () => toast.success("Password updated successfully!");
-    const notifyDeleteSucsess = () => toast.success("Account deleted successfully!");
 
     // Fetch user data on component mount
     useEffect(() => {
@@ -58,6 +58,7 @@ const UserSettings = () => {
         setUser({ ...user, [name]: value });
     };
 
+    // Handle password changes
     const handlePasswordChange = (e) => {
         const { name, value } = e.target;
         setPasswords({ ...passwords, [name]: value });
@@ -72,17 +73,19 @@ const UserSettings = () => {
 
     // Submit updated profile
     const handleProfileSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent form submission
         setProfileError('');
         try {
+            // Create form data object
             const formData = new FormData();
             formData.append('username', user.username);
             formData.append('email', user.email);
             formData.append('bio', user.bio);
-            if (profilePicture) formData.append('profilePicture', profilePicture);
-
-            await updateUserProfile(formData);
-            profileSuccess();
+            if (profilePicture) {
+                formData.append('profilePicture', profilePicture);
+            }
+            await updateUserProfile(formData); // Update user profile
+            profileSuccess(); // Display success message
             localStorage.setItem('username', user.username); // Update local username
         } catch (error) {
             setProfileError(error.response.data || 'Error updating profile');
@@ -92,19 +95,22 @@ const UserSettings = () => {
 
     // Submit password change
     const handlePasswordSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent form submission
         setPasswordError('');
+
+        // Validate new password and confirmation match
         if (passwords.newPassword !== passwords.confirmPassword) {
             setPasswordError('New password and confirmation do not match');
             return;
         }
 
         try {
+            // Send request to change password
             await changeUserPassword({
                 currentPassword: passwords.currentPassword,
                 newPassword: passwords.newPassword,
             });
-            passwordSuccess();
+            passwordSuccess(); // Display success message
             setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
         } catch (error) {
             setPasswordError(error.response.data || 'Error updating password');
@@ -114,12 +120,13 @@ const UserSettings = () => {
 
     // Handle account deletion
     const handleDeleteAccount = async () => {
+        // Confirm account deletion
         if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
             try {
                 await deleteUserAccount();
                 deleteAccount();
-                notifyDeleteSucsess();
-                navigate(`/`);
+                notifyDeleteSucsess(); // Display success message
+                navigate(`/`); // Redirect to home
             } catch (error) {
                 console.error('Error deleting account:', error);
             }
@@ -136,6 +143,7 @@ const UserSettings = () => {
                 <Form.Group as={Row} className="mb-3" controlId="formUsername">
                     <Form.Label column sm="2">Username</Form.Label>
                     <Col sm="10">
+                        {/* input for username */}
                         <Form.Control
                             type="text"
                             name="username"
@@ -146,9 +154,11 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
+                {/* Email Field */}
                 <Form.Group as={Row} className="mb-3" controlId="formEmail">
                     <Form.Label column sm="2">Email</Form.Label>
                     <Col sm="10">
+                        {/* input for email */}
                         <Form.Control
                             type="email"
                             name="email"
@@ -159,14 +169,17 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
+                {/* Profile Picture Field */}
                 <Form.Group as={Row} className="mb-3" controlId="formProfilePicture">
                     <Form.Label column sm="2">Profile Picture</Form.Label>
                     <Col sm="10">
+                        {/* input for profile picture */}
                         <Form.Control
                             type="file"
                             accept="image/*"
                             onChange={handleFileChange}
                         />
+                        {/* Display image preview */}
                         {previewUrl && (
                             <img
                                 src={previewUrl}
@@ -178,10 +191,12 @@ const UserSettings = () => {
                         )}
                     </Col>
                 </Form.Group>
-
+                
+                {/* Bio Field */}
                 <Form.Group as={Row} className="mb-3" controlId="formBio">
                     <Form.Label column sm="2">Bio</Form.Label>
                     <Col sm="10">
+                        {/* input for bio */}
                         <Form.Control
                             as="textarea"
                             name="bio"
@@ -193,12 +208,14 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
+                {/* Save Profile Button */}
                 <Form.Group as={Row} className="mb-3">
                     <Col sm={{ span: 10, offset: 2 }}>
                         <Button type="submit" variant="primary">Save Profile Changes</Button>
                     </Col>
                 </Form.Group>
             </Form>
+
 
             {/* Change Password Form */}
             <h4 className="mt-4">Change Password</h4>
@@ -207,6 +224,7 @@ const UserSettings = () => {
                 <Form.Group as={Row} className="mb-3" controlId="formCurrentPassword">
                     <Form.Label column sm="2">Current Password</Form.Label>
                     <Col sm="10">
+                        {/* input for current password */}
                         <Form.Control
                             type="password"
                             name="currentPassword"
@@ -216,10 +234,10 @@ const UserSettings = () => {
                         />
                     </Col>
                 </Form.Group>
-
                 <Form.Group as={Row} className="mb-3" controlId="formNewPassword">
                     <Form.Label column sm="2">New Password</Form.Label>
                     <Col sm="10">
+                        {/* input for new password */}
                         <Form.Control
                             type="password"
                             name="newPassword"
@@ -229,10 +247,10 @@ const UserSettings = () => {
                         />
                     </Col>
                 </Form.Group>
-
                 <Form.Group as={Row} className="mb-3" controlId="formConfirmPassword">
                     <Form.Label column sm="2">Confirm New Password</Form.Label>
                     <Col sm="10">
+                        {/* input for password confirmation */}
                         <Form.Control
                             type="password"
                             name="confirmPassword"
@@ -243,6 +261,7 @@ const UserSettings = () => {
                     </Col>
                 </Form.Group>
 
+                {/* Update Password Button */}
                 <Form.Group as={Row} className="mb-3">
                     <Col sm={{ span: 10, offset: 2 }}>
                         <Button type="submit" variant="secondary">Update Password</Button>

@@ -5,35 +5,37 @@ import { useAuth } from './shared/AuthContext';
 
 const CommentsSection = ({ postId, refresh, onCommentDelete  }) => {
     const [comments, setComments] = useState([]);
-    const { username } = useAuth(); // Get the logged-in username
+    const { username } = useAuth();
 
+    // Function to handle the deletion of a comment
     const handleDeleteComment = async (commentId) => {
         try {
-            await deleteComment(commentId); // Call the API to delete the comment
-            setComments((prevComments) =>
+            await deleteComment(commentId);
+            setComments((prevComments) => //uppdates the comments array
                 prevComments.filter((comment) => comment.commentId !== commentId)
-            ); // Update the state to remove the deleted comment
-            if (onCommentDelete) onCommentDelete(); // Notify parent to decrement comments count
+            ); 
+            if (onCommentDelete) onCommentDelete(); 
         } catch (error) {
             console.error('Error deleting comment:', error);
         }
     };
 
+    // Fetch comments for the given post whenever postId or refresh changes
     useEffect(() => {
-        // Fetch comments for the given postId
         fetchCommentsForPost(postId)
             .then((response) => {
                 console.log('Fetched comments:', response);
-                setComments(response); // Set the comments in the state
+                setComments(response); //updates the comments array
             })
             .catch((error) => {
                 console.error('Error fetching comments:', error);
             });
-    }, [postId, refresh]); // Include 'postId'
+    }, [postId, refresh]);
     
 
     return (
         <div>
+            {/* Display a message if there are no comments*/}
             {comments.length === 0 ? (
                 <p>No comments yet. Be the first to comment!</p>
             ) : (
@@ -52,6 +54,7 @@ const CommentsSection = ({ postId, refresh, onCommentDelete  }) => {
                         }}
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            {/* Display the author's username and comment content */}
                             <div>
                                 <strong className="me-2 mb-0">
                                     {comment.authorUsername}
@@ -70,6 +73,7 @@ const CommentsSection = ({ postId, refresh, onCommentDelete  }) => {
                                 >
                                     {timeAgo(comment.dateCommented)}
                                 </p>
+                                {/* Display a delete button if the comment author is the current user */}
                                 {comment.authorUsername === username && (
                                     <button
                                         onClick={() => handleDeleteComment(comment.commentId)}
