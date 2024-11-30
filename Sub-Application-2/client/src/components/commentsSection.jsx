@@ -29,7 +29,8 @@ const CommentsSection = ({ postId, refresh, onCommentDelete  }) => {
             .catch((error) => {
                 console.error('Error fetching comments:', error);
             });
-    }, [refresh]);
+    }, [postId, refresh]); // Include 'postId'
+    
 
     return (
         <div>
