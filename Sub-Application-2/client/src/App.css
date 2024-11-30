@@ -28,6 +28,15 @@
   color: #61dafb;
 }
 
+.Routes-body{
+  margin-top: 60px !important;
+}
+@media (max-width: 550px) {
+  .Routes-body{
+    margin-top: 0 !important;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
