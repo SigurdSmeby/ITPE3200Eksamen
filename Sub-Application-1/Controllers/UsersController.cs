@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Sub_Application_1.Controllers
 {
-
 	public class UsersController : Controller
 	{
 		private readonly AppDbContext _context;
@@ -22,7 +21,7 @@ namespace Sub_Application_1.Controllers
 		private readonly SignInManager<User> _signInManager;
 		private readonly UserManager<User> _userManager;
 
-		//Constructor
+		// Constructor initializes dependencies required for user management and file handling.
 		public UsersController(
 			AppDbContext context,
 			IConfiguration configuration,
@@ -86,7 +85,7 @@ namespace Sub_Application_1.Controllers
 			if (result.Succeeded)
 			{
 				await _signInManager.SignInAsync(user, isPersistent: true);
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("Index", "Home"); // Successful registration.
 			}
 
 			foreach (var error in result.Errors)
@@ -96,10 +95,10 @@ namespace Sub_Application_1.Controllers
 			}
 			
 
-			return View(registerDto);
+			return View(registerDto); // Unuccessful registration.
 		}
 
-		// 
+		// Post login
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginDto loginDto)
 		{
@@ -157,7 +156,7 @@ namespace Sub_Application_1.Controllers
 			return View(userDto);
 		}
 
-		// 
+		// POST update profile
 		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> UpdateProfile(UserProfileDto userProfileDto)
@@ -203,7 +202,7 @@ namespace Sub_Application_1.Controllers
 					ViewData["ProfileError"] = "Profile picture must be smaller than 10MB.";
 					return View("Settings", userProfileDto);
 				}
-				// TODO: maybe unnececary consider removal
+				// checks if we have a folder for uploads, if not, create it
 				var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/profile_pictures");
 				if (!Directory.Exists(uploadsFolder))
 				{

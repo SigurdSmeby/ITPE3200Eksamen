@@ -28,6 +28,7 @@ namespace Sub_Application_1.Controllers
         [HttpGet("LikeButtonPartial")]
         public async Task<IActionResult> GetLikeButtonPartial(int postId)
         {
+            // Fetch the post along with its likes and associated users.
             var post = await _context.Posts
                 .Include(p => p.Likes)
                 .ThenInclude(l => l.User)
@@ -37,7 +38,7 @@ namespace Sub_Application_1.Controllers
             {
                 return NotFound("Post not found.");
             }
-
+            //add the data into a PostDto object
             var postDto = new PostDto
             {
                 PostId = post.PostId,
@@ -67,7 +68,7 @@ namespace Sub_Application_1.Controllers
 				return View();
 			}
             string userId = user.Id;
-
+            // Prevent duplicate likes from the same user on the same post. shouldnt be possible, but in case
             if (await _context.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId))
             {
                 return BadRequest("You have already liked this post.");
@@ -102,7 +103,8 @@ namespace Sub_Application_1.Controllers
 
 
             var like = await _context.Likes.FirstOrDefaultAsync(l => l.UserId == userId && l.PostId == postId);
-
+            
+            // Prevent user from unliking a post they have not liked. shouldnt be possible, but just in case
             if (like == null)
             {
                 return NotFound("You have not liked this post.");
