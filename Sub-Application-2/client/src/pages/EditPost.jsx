@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 
 const EditPost = () => {
     const { postId } = useParams(); // Extract the post ID from the URL
-    const navigate = useNavigate(); // Redirect to another page after form submission
     const [post, setPost] = useState({
         textContent: '',
         fontSize: 16,
@@ -14,16 +13,18 @@ const EditPost = () => {
         backgroundColor: '#FFFFFF',
         previewUrl: null, // Manage image preview for uploaded files
     });
-    const [isImagePost, setIsImagePost] = useState(true); // Identify post type (image or text)
-    const [imageFile, setImageFile] = useState(null); // Store the uploaded image file
+    const [isImagePost, setIsImagePost] = useState(true);
+    const [imageFile, setImageFile] = useState(null); 
     const [error, setError] = useState('');
     const editPostSucsess = () => toast.success("Post updated successfully!"); // Toast message on success
+    const navigate = useNavigate(); // Navigation object for redirection
 
     // Fetch the post details when the component mounts
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await getPost(postId); // Fetch post data by ID
+                const response = await getPost(postId);
+                // Set the post details in the state
                 setPost({
                     textContent: response.textContent || '',
                     fontSize: response.fontSize || 16,
@@ -31,11 +32,12 @@ const EditPost = () => {
                     backgroundColor: response.backgroundColor || '#FFFFFF',
                     previewUrl: `http://localhost:5229/${response.imagePath}`, // Set image URL for preview
                 });
-                setIsImagePost(!!response.imagePath); // Set type based on image presence
+                setIsImagePost(!!response.imagePath);
             } catch (error) {
-                setError('Error fetching post details'); // Error fetching post
+                setError('Error fetching post details');
             }
         };
+        // Fetch the post details
         fetchPost();
     }, [postId]);
 
@@ -53,8 +55,8 @@ const EditPost = () => {
             e.target.value = null;
             return;
         }
-        setImageFile(file); // Store the selected file
-        setError(''); // Clear previous errors
+        setImageFile(file);
+        setError('');
 
         // Create a preview for the uploaded image
         if (file) {
@@ -69,7 +71,7 @@ const EditPost = () => {
         }
     };
 
-    // Form submission handler
+    // Handle form submission to update the post
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -84,10 +86,10 @@ const EditPost = () => {
             return;
         }
 
-        // Prepare form data for the API
+        // Prepare form data for the API eather image or text post
         const formData = new FormData();
         if (isImagePost) {
-            formData.append('imageFile', imageFile); // Add the uploaded image file
+            formData.append('imageFile', imageFile);
         } else {
             formData.append('textContent', post.textContent);
             formData.append('fontSize', post.fontSize);
@@ -96,7 +98,8 @@ const EditPost = () => {
         }
 
         try {
-            await updatePost(postId, formData); // Update the post
+            // Update the post with the form data
+            await updatePost(postId, formData);
             editPostSucsess();
             navigate('/'); // Redirect to home
         } catch (error) {
@@ -107,6 +110,7 @@ const EditPost = () => {
     return (
         <Container>
             <h2 className="my-4">
+                {/* Display the appropriate title based on post type */}
                 {isImagePost ? 'Edit Image Post' : 'Edit Text Post'}
             </h2>
 
@@ -129,6 +133,7 @@ const EditPost = () => {
                                 onChange={handleFileChange}
                                 required
                             />
+                            {/* Display the image preview */}
                             {post.previewUrl && (
                                 <img
                                     src={post.previewUrl}
@@ -157,6 +162,7 @@ const EditPost = () => {
                                 Text Content
                             </Form.Label>
                             <Col sm="10">
+                                {/* Text content input */}
                                 <Form.Control
                                     as="textarea"
                                     name="textContent"
@@ -177,6 +183,7 @@ const EditPost = () => {
                                 Font Size
                             </Form.Label>
                             <Col sm="10">
+                                {/* Font size input */}
                                 <Form.Control
                                     type="number"
                                     name="fontSize"
@@ -197,6 +204,7 @@ const EditPost = () => {
                                 Text Color
                             </Form.Label>
                             <Col sm="10">
+                                {/* Text color input */}
                                 <Form.Control
                                     type="color"
                                     name="textColor"
@@ -215,6 +223,7 @@ const EditPost = () => {
                                 Background Color
                             </Form.Label>
                             <Col sm="10">
+                                {/* Background color input */}
                                 <Form.Control
                                     type="color"
                                     name="backgroundColor"

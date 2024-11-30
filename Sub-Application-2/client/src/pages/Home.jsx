@@ -4,44 +4,43 @@ import { getPosts } from '../api/postApi.js';
 import { toast } from 'react-toastify';
 
 const Home = () => {
-const [posts, setPosts] = useState([]); // Stores the list of posts
-const [pageNumber, setPageNumber] = useState(1); // Tracks the current page number
-const [totalPosts, setTotalPosts] = useState(0); // Total number of posts available
-const [loading, setLoading] = useState(false); // Indicates if data is being loaded
-const loader = useRef(null); // Reference to the loader div
-
+const [posts, setPosts] = useState([]); 
+const [pageNumber, setPageNumber] = useState(1);
+const [totalPosts, setTotalPosts] = useState(0);
+const [loading, setLoading] = useState(false); 
+const loader = useRef(null);
 const postsLengthRef = useRef(posts.length);
+const notifyDeleteSuccess = () => toast.success('Post deleted successfully!');
 
+// Update the posts length ref when the posts state changes
 useEffect(() => {
-postsLengthRef.current = posts.length;
+    postsLengthRef.current = posts.length;
 }, [posts.length]);
 
-const notifyDeleteSuccess = () => toast.success('Post deleted successfully!'); // Notification for successful deletion
 
+// Fetch posts when the page number changes
 useEffect(() => {
-const fetchData = async () => {
-    setLoading(true);
-    try {
-    console.log('Fetching page:', pageNumber);
-    const data = await getPosts(pageNumber, 10); // Fetch 10 posts per page
-    console.log('Received posts:', data.posts.map((post) => post.postId));
-    console.log('Total posts:', data.totalPosts);
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            console.log('Fetching page:', pageNumber);
+            const data = await getPosts(pageNumber, 10); // Fetch 10 posts per page
+            console.log('Received posts:', data.posts.map((post) => post.postId));
+            console.log('Total posts:', data.totalPosts);
 
-    setPosts((prevPosts) => {
-        const newPosts = data.posts.filter(
-        (newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId)
-        );
-        return [...prevPosts, ...newPosts];
-    });
+            setPosts((prevPosts) => {
+                const newPosts = data.posts.filter((newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId));
+                return [...prevPosts, ...newPosts];
+            });
 
-    setTotalPosts(data.totalPosts);
-    console.log('Updated posts length:', postsLengthRef.current);
-    } catch (error) {
-    console.error('Error fetching posts:', error);
-    } finally {
-    setLoading(false);
-    console.log('Loading state:', loading);
-    }
+            setTotalPosts(data.totalPosts);
+            console.log('Updated posts length:', postsLengthRef.current);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        } finally {
+        setLoading(false);
+            console.log('Loading state:', loading);
+        }
 };
 
 fetchData();

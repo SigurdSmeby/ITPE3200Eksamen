@@ -121,7 +121,7 @@ const Search = () => {
 							<Link to={`/profile/${user.username}`}>
 								<img
 									src={BACKEND_URL + user.profilePictureUrl}
-									alt="Profile image"
+									alt=""
 									className="card-img-top"
 									style={{
 										color: 'black',

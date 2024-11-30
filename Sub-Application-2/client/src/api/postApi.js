@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-// Create an axios instance with common configurations
+// Create a reusable Axios instance with base URL and default headers
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5229/api',
+    baseURL: 'http://localhost:5229/api', // API base URL
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        'Content-Type': 'multipart/form-data', // Optional: Can add other common headers
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`, // JWT token from localStorage
+        'Content-Type': 'multipart/form-data', // Content type for handling form data
     },
 });
 
-// Add a request interceptor to include the token dynamically
+// Add an interceptor to include the token in every request if it exists
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('jwtToken');
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+            config.headers.Authorization = `Bearer ${token}`; // Attach token to request headers
         }
         return config;
     },
@@ -23,55 +23,60 @@ axiosInstance.interceptors.request.use(
     },
 );
 
-// Fetch all users
+// Function to fetch all users
 export const getAllUsers = async () => {
     try {
+        // Send a GET request to retrieve all users
         const response = await axiosInstance.get('/Users/all');
-        return response.data; // Returns the array of users
+        return response.data;
     } catch (error) {
-        console.error('Error fetching users:', error);
-        throw error;
+        console.error('Error fetching users:', error); // Log the error
+        throw error; 
     }
 };
 
-
-// Get paginated posts
+// Function to fetch posts with pagination
 export const getPosts = async (pageNumber, pageSize) => {
+    // Send a GET request with pagination parameters
     const response = await axiosInstance.get('/Posts', {
-        params: { pageNumber, pageSize }, // Use 'pageNumber' to match the backend
+        params: { pageNumber, pageSize },
     });
     return response.data;
 };
 
-// Get all posts by a user
+// Function to fetch posts by a specific user with pagination
 export const getUserPosts = async (username, pageNumber = 1, pageSize = 10) => {
+    // Send a GET request to fetch posts by username
     const response = await axiosInstance.get(`/Posts/user/${username}`, {
         params: { pageNumber, pageSize },
     });
     return response.data;
 };
 
-
-// Create a new post
+// Function to create a new post
 export const createPost = async (postData) => {
-    const response = await axiosInstance.post('/Posts', postData); // Reuse the axios instance
+    // Send a POST request with post data (e.g., text, image)
+    const response = await axiosInstance.post('/Posts', postData);
     return response.data;
 };
 
-// Delete a post
+// Function to delete a post by ID
 export const deletePost = async (postId) => {
-    const response = await axiosInstance.delete(`/Posts/${postId}`); // Reuse the axios instance
-    return response.data;
+    // Send a DELETE request to remove a post by ID
+    const response = await axiosInstance.delete(`/Posts/${postId}`);
+    return response.data; 
 };
 
-// Update a post
+// Function to update a post by ID
 export const updatePost = async (postId, postData) => {
-    const response = await axiosInstance.put(`/Posts/${postId}`, postData); // Reuse the axios instance
-    return response.data;
+    // Send a PUT request with updated post data
+    const response = await axiosInstance.put(`/Posts/${postId}`, postData);
+    return response.data; 
 };
 
-// Get a single post
+// Function to fetch a single post by ID
 export const getPost = async (postId) => {
-    const response = await axiosInstance.get(`/Posts/${postId}`); // Reuse the axios instance
-    return response.data;
+    // Send a GET request to retrieve a post by ID
+    const response = await axiosInstance.get(`/Posts/${postId}`);
+    return response.data; 
 };
