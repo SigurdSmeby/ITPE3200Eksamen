@@ -37,11 +37,13 @@ else
                 }
                 @if (!string.IsNullOrEmpty(post.ImagePath))
                 {
-                    <div class="image-container">
-                        <img src="@post.ImagePath" alt="Post Image" class="img-fluid rounded">
+                    <div class="image-container" style="display: flex; justify-content: center; align-items: center; max-height: 40rem; overflow: hidden;">
+                        <img src="@post.ImagePath" alt="Post Image" class="img-fluid rounded" 
+                            style="max-height: 40rem; width: auto; object-fit: contain;" />
                     </div>
                 }
             </div>
+
 
             <!-- CARD FOOTER -->
             <div class="card-footer d-flex justify-content-start" style="gap: 15px; align-items: flex-start;">
