@@ -3,7 +3,6 @@
     @{
         var username = ViewData["Username"] as string;
     }
-    <!-- If the user is logged in, display the posts -->
     @if (!string.IsNullOrEmpty(username))
     {
         <!-- Posts Section -->
@@ -20,7 +19,6 @@
             </div>
         </div>
     }
-    <!-- If not display a welcome message -->
     else
     {
         <!-- Welcome Message -->
