@@ -3,9 +3,10 @@ namespace Sub_Application_1.DTOs
 {
     public class CommentDto
     {
-        public int CommentId { get; set; }
-        public string Content { get; set; }
-        public DateTime DateCommented { get; set; }
-        public string AuthorUsername { get; set; }
+        // all the properties are required 
+        public required int CommentId { get; set; }
+        public required string Content { get; set; } 
+        public required DateTime DateCommented { get; set; }
+        public required string AuthorUsername { get; set; }
     }
 }
