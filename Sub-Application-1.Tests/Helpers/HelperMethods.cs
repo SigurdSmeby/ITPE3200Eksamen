@@ -14,15 +14,8 @@ using Sub_Application_1.Data;
 using Sub_Application_1.DTOs;
 using Sub_Application_1.Models;
 using Xunit;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Moq;
-using Sub_Application_1.Models;
+
 
 
 namespace Sub_Application_1.Tests.Helpers
@@ -35,14 +28,14 @@ namespace Sub_Application_1.Tests.Helpers
             var userStoreMock = new Mock<IUserStore<User>>();
             return new Mock<UserManager<User>>(
                 userStoreMock.Object,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
+                null!,
+                null!,
+                null!,
+                null!,
+                null!,
+                null!,
+                null!,
+                null!);
         }
 
         // method to create a mocked SignInManager
@@ -52,10 +45,10 @@ namespace Sub_Application_1.Tests.Helpers
                 userManagerMock.Object,
                 new Mock<IHttpContextAccessor>().Object,
                 new Mock<IUserClaimsPrincipalFactory<User>>().Object,
-                null,
-                null,
-                null,
-                null);
+                null!,
+                null!,
+                null!,
+                null!);
         }
 
         // Method to create a mocked Database using SQLite in-memory
