@@ -23,6 +23,8 @@ namespace Sub_Application_1.Tests.Controllers
 
     public class HomeControllerTests
     {
+        private readonly ITestOutputHelper _output;
+
         private readonly SqliteConnection _connection;
         private readonly DbContextOptions<AppDbContext> _contextOptions;
         private const string TEMP_FILE_DIR = "TestUploads"; // Centralized constant for test files
@@ -44,6 +46,7 @@ namespace Sub_Application_1.Tests.Controllers
 
             // Ensure test upload directory exists
             Directory.CreateDirectory(TEMP_FILE_DIR);
+            _output = output;
         }
 
         private AppDbContext CreateDbContext()
@@ -100,18 +103,27 @@ namespace Sub_Application_1.Tests.Controllers
             // Assert
             var post = await context.Posts.FirstOrDefaultAsync();
             Assert.NotNull(post);
-            Assert.Equal(user.Id, post.UserId);
-            Assert.Equal("This is a test post.", post.TextContent);
+            _output.WriteLine("     ✅ Verified post was saved in the database.");
 
-            // Assert relative path correctness
+            Assert.Equal(user.Id, post.UserId);
+            _output.WriteLine("     ✅ Verified UserId is correct.");
+
+            Assert.Equal("This is a test post.", post.TextContent);
+            _output.WriteLine("     ✅ Verified TextContent is correct.");
+
             var relativeImagePath = $"/uploads/{Path.GetFileName(post.ImagePath)}";
             Assert.Equal(relativeImagePath, post.ImagePath);
+            _output.WriteLine("     ✅ Verified ImagePath is correct.");
 
-            // Clean up by verifying the mock (no physical file system interaction)
             webHostEnvironmentMock.Verify(env => env.WebRootPath, Times.Once);
+            _output.WriteLine("     ✅ Verified WebRootPath was accessed once.");
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
+            _output.WriteLine("     ✅ Verified redirect to Index action.");
+
+            _output.WriteLine("     ✅ All assertions passed for CreatePost_ValidPost test.");
+            _output.WriteLine("-----------------------------------------");
         }
         // Negative Test: CreatePost with invalid model state
         [Fact]

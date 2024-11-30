@@ -9,6 +9,8 @@
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<script src="~/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+	@RenderSection("Scripts", required: false)
+
 </head>
 
 <body>
@@ -66,12 +68,10 @@
 		</div>
 
 		<!-- Footer -->
-		<footer class="footer">
+		<footer>
 			<p class="footertext">&copy; 2024 - Unstagram</p>
 		</footer>
-
-		<!-- Additional Scripts -->
-		@RenderSection("Scripts", required: false)
+		</div>
 	</body>
-</div>
+
 </html>

@@ -39,8 +39,7 @@ a.navbar-brand {
   }
   
   /* Footer */
-  .footer {
-    position: absolute;
+  footer {
     bottom: 0;
     width: 100%;
     white-space: nowrap;
@@ -72,26 +71,31 @@ a.navbar-brand {
       padding-bottom: 60px; 
     }
     .footertext{
-      margin-bottom: 30px;
+      margin-bottom: 45px;
     }
   }
-  main {
-    flex: 1;
-  }
+
   .wrapper{
     display: flex;
+    flex: 1;
     flex-direction: column ;
-    min-height: 100vh;
   }
   html, body {
-    height: 100%;
-    margin: 0;
+    height: 100%; 
+
+    margin: 0; 
+    
 }
 
-.footer {
-  background-color: #343a40; /* Match Bootstrap dark background */
+body { 
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+  background-color: #343a40; 
   color: #fff;
   text-align: center;
   padding: 1rem;
-  width: 100%; /* Ensure the footer spans the full width */
+  width: 100%; 
 }

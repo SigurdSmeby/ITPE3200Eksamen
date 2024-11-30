@@ -84,7 +84,7 @@ namespace Sub_Application_1.Tests.Controllers
             _output.WriteLine("\nTesting register with model state errors:");
             _output.WriteLine("-----------------------------------------");
 
-            // Arrange
+            // Arrange 
             var registerDto = new RegisterDto
             {
                 Username = "testuser",
@@ -293,11 +293,7 @@ namespace Sub_Application_1.Tests.Controllers
 
             _output.WriteLine("     ✅ All assertions passed for wrong password test.");
             _output.WriteLine("-----------------------------------------");
-        }
-
-
-        // Tests for CRUD operations in the database
-        
+        }        
 
     }
 }
