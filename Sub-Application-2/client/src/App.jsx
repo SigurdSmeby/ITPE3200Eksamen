@@ -33,7 +33,7 @@ const App = () => {
                     <div
                         style={{
                             flex: 1, // Sørger for at dette området strekker seg for å fylle mellomrom
-                            marginLeft: '250px', // Juster for NavMenu-bredden
+                            marginLeft: '90px', // Juster for NavMenu-bredden
                             padding: '1rem',
                         }}>
                         <Routes>
@@ -45,7 +45,7 @@ const App = () => {
                                 path="/edit-post/:postId"
                                 element={
                                     <PrivateRoute>
-                                        <EditPost />
+                                        <EditPost/>
                                     </PrivateRoute>
                                 }
                             />

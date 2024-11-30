@@ -74,34 +74,46 @@ namespace server.Controllers
 		// GET: api/Posts
 		// Retrieves all posts, sorted by upload date, along with user and interaction data.
 		[HttpGet]
-		public async Task<IActionResult> GetPosts()
+		public async Task<IActionResult> GetPosts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
 		{
-			var posts = await _context.Posts
-				.OrderByDescending(p => p.DateUploaded)
-				.Include(p => p.User)
-				.Include(p => p.Likes)
-				.Include(p => p.Comments)
-				.Select(p => new PostDto
-				{
-					PostId = p.PostId,
-					ImagePath = p.ImagePath,
-					TextContent = p.TextContent,
-					DateUploaded = p.DateUploaded,
-					FontSize = p.FontSize,
-					TextColor = p.TextColor,
-					BackgroundColor = p.BackgroundColor,
-					Author = new UserDto
-					{
-						UserId = p.User.UserId,
-						Username = p.User.Username,
-						ProfilePictureUrl = p.User.ProfilePictureUrl
-					},
-					LikesCount = p.Likes.Count,
-					CommentsCount = p.Comments.Count
-				})
-				.ToListAsync();
+				var totalPosts = await _context.Posts.CountAsync();
 
-			return Ok(posts);
+				var posts = await _context.Posts
+						.OrderByDescending(p => p.DateUploaded)
+						.Skip((pageNumber - 1) * pageSize)
+						.Take(pageSize)
+						.Include(p => p.User)
+						.Include(p => p.Likes)
+						.Include(p => p.Comments)
+						.Select(p => new PostDto
+						{
+								PostId = p.PostId,
+								ImagePath = p.ImagePath,
+								TextContent = p.TextContent,
+								DateUploaded = p.DateUploaded,
+								FontSize = p.FontSize,
+								TextColor = p.TextColor,
+								BackgroundColor = p.BackgroundColor,
+								Author = new UserDto
+								{
+										UserId = p.User.UserId,
+										Username = p.User.Username,
+										ProfilePictureUrl = p.User.ProfilePictureUrl
+								},
+								LikesCount = p.Likes.Count,
+								CommentsCount = p.Comments.Count
+						})
+						.ToListAsync();
+
+				var response = new
+				{
+						TotalPosts = totalPosts,
+						PageNumber = pageNumber,
+						PageSize = pageSize,
+						Posts = posts
+				};
+
+				return Ok(response);
 		}
 
 		// GET: api/Posts/5
@@ -223,56 +235,61 @@ namespace server.Controllers
 		}
 
 		// GET: api/Posts/user/{username}
-		// Retrieves all posts created by a specific user, with pagination support.
 		[HttpGet("user/{username}")]
-		public async Task<IActionResult> GetPostsByUsername(string username, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+		public async Task<IActionResult> GetPostsByUsername(string username, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
 		{
-			var user = await _context.Users
-				.Where(u => u.Username == username)
-				.FirstOrDefaultAsync();
+				var user = await _context.Users
+						.Where(u => u.Username == username)
+						.FirstOrDefaultAsync();
 
-			if (user == null)
-				return NotFound("User not found");
+				if (user == null)
+						return NotFound("User not found");
 
-			var posts = await _context.Posts
-				.Where(p => p.UserId == user.UserId)
-				.OrderByDescending(p => p.DateUploaded)
-				.Skip((pageNumber - 1) * pageSize)
-				.Take(pageSize)
-				.Include(p => p.User)
-				.Include(p => p.Likes)
-				.Include(p => p.Comments)
-				.Select(p => new PostDto
+				var totalPosts = await _context.Posts
+						.Where(p => p.UserId == user.UserId)
+						.CountAsync();
+
+				var posts = await _context.Posts
+						.Where(p => p.UserId == user.UserId)
+						.OrderByDescending(p => p.DateUploaded)
+						.Skip((pageNumber - 1) * pageSize)
+						.Take(pageSize)
+						.Include(p => p.User)
+						.Include(p => p.Likes)
+						.Include(p => p.Comments)
+						.Select(p => new PostDto
+						{
+								PostId = p.PostId,
+								ImagePath = p.ImagePath,
+								TextContent = p.TextContent,
+								DateUploaded = p.DateUploaded,
+								FontSize = p.FontSize,
+								TextColor = p.TextColor,
+								BackgroundColor = p.BackgroundColor,
+								Author = new UserDto
+								{
+										UserId = p.User.UserId,
+										Username = p.User.Username,
+										ProfilePictureUrl = p.User.ProfilePictureUrl
+								},
+								LikesCount = p.Likes.Count,
+								CommentsCount = p.Comments.Count
+						})
+						.ToListAsync();
+
+				var response = new
 				{
-					PostId = p.PostId,
-					ImagePath = p.ImagePath,
-					TextContent = p.TextContent,
-					DateUploaded = p.DateUploaded,
-					FontSize = p.FontSize,
-					TextColor = p.TextColor,
-					BackgroundColor = p.BackgroundColor,
-					Author = new UserDto
-					{
-						UserId = p.User.UserId,
-						Username = p.User.Username,
-						ProfilePictureUrl = p.User.ProfilePictureUrl
-					},
-					LikesCount = p.Likes.Count,
-					CommentsCount = p.Comments.Count
-				})
-				.ToListAsync();
+						Username = user.Username,
+						ProfilePictureUrl = user.ProfilePictureUrl,
+						Bio = user.Bio,
+						DateJoined = user.DateJoined,
+						TotalPosts = totalPosts,
+						Posts = posts
+				};
 
-			var response = new
-			{
-				Username = user.Username,
-				ProfilePictureUrl = user.ProfilePictureUrl,
-				Bio = user.Bio,
-				Posts = posts,
-				dateJoined = user.DateJoined,
-			};
-
-			return Ok(response);
+				return Ok(response);
 		}
+
 
 		// Helper method
 		private int GetCurrentUserId()

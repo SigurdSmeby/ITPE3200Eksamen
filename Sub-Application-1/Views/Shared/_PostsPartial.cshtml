@@ -49,10 +49,11 @@ else
                 <div class="d-flex align-items-start" style="gap: 15px; line-height: 0;">
                     <!-- Like Button -->
                     <div style="display: flex; flex-direction: column; align-items: center;">
-                        <iframe aria-label="Like Container" class="lazy-load-like" 
+                        <iframe aria-label="Like Container" class="lazy-load-like"
                                 data-src="@Url.Action("GetLikeButtonPartial", "Like", new { postId = post.PostId })" 
                                 frameborder="0" 
                                 scrolling="no" 
+                                loading="lazy"
                                 style="width: 55px; height: 80px; display: block; border: none; margin: 0; padding: 0; vertical-align: top;">
                         </iframe>
                     </div>
@@ -71,14 +72,10 @@ else
                 </div>
             </div>
 
-
-
-
-
             <!-- COMMENTS SECTION -->
             <div class="collapse" id="comments-section-@post.PostId">
                 <div>
-                    <iframe name="commentsIframe_@post.PostId" frameborder="0" style="width: 100%; height: 300px;" data-src="@Url.Action("GetCommentsListPartial", "Comment", new { postId = post.PostId })"></iframe>
+                    <iframe name="commentsIframe_@post.PostId" frameborder="0" loading="lazy" style="width: 100%; height: 300px;" data-src="@Url.Action("GetCommentsListPartial", "Comment", new { postId = post.PostId })"></iframe>
                 </div>
 
                 <!-- Add Comment Form -->

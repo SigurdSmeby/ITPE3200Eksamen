@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
         'Content-Type': 'multipart/form-data', // Optional: Can add other common headers
     },
 });
+
 // Add a request interceptor to include the token dynamically
 axiosInstance.interceptors.request.use(
     (config) => {
@@ -21,18 +22,23 @@ axiosInstance.interceptors.request.use(
         return Promise.reject(error);
     },
 );
-// Get all posts
-export const getPosts = async () => {
-    const response = await axiosInstance.get('/Posts'); // Reuse the axios instance
+
+// Get paginated posts
+export const getPosts = async (pageNumber, pageSize) => {
+    const response = await axiosInstance.get('/Posts', {
+        params: { pageNumber, pageSize }, // Use 'pageNumber' to match the backend
+    });
     return response.data;
 };
 
-// get all posts by a user api/Posts/user/{userId}
-// returns all posts, username and profile picture of the user
-export const getUserPosts = async (userId) => {
-    const response = await axiosInstance.get(`/Posts/user/${userId}`); // Reuse the axios instance
+// Get all posts by a user
+export const getUserPosts = async (username, pageNumber = 1, pageSize = 10) => {
+    const response = await axiosInstance.get(`/Posts/user/${username}`, {
+        params: { pageNumber, pageSize },
+    });
     return response.data;
 };
+
 
 // Create a new post
 export const createPost = async (postData) => {
