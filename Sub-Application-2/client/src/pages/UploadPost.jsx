@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { createPost } from '../api/postApi'; // API call to handle post creation
+import { createPost } from '../api/postApi';
 import { toast } from 'react-toastify';
 
 const UploadPost = () => {
-    const navigate = useNavigate();
-
     // State for managing post data
     const [post, setPost] = useState({
         textContent: '',
@@ -14,14 +12,11 @@ const UploadPost = () => {
         textColor: '#000000',
         backgroundColor: '#FFFFFF',
     });
-
-    // State for file upload and toggle between post types
     const [imageFile, setImageFile] = useState(null);
     const [isImagePost, setIsImagePost] = useState(true);
     const [error, setError] = useState('');
-
-    // Toast notification for success
     const uploadSuccess = () => toast.success("Post created successfully!");
+    const navigate = useNavigate();
 
     // Handle text input changes
     const handleChange = (e) => {
@@ -41,7 +36,7 @@ const UploadPost = () => {
         }
 
         setImageFile(file);
-        setError(''); // Clear error on valid file
+        setError('');
 
         // Generate a preview of the image
         if (file) {
@@ -61,7 +56,7 @@ const UploadPost = () => {
     // Toggle between image and text post
     const handleTogglePostType = () => {
         setIsImagePost((prev) => !prev);
-        setError(''); // Clear error when toggling post types
+        setError('');
 
         // Reset respective state based on post type
         if (isImagePost) {
@@ -142,6 +137,7 @@ const UploadPost = () => {
                                 onChange={handleFileChange}
                                 required={isImagePost}
                             />
+                            {/* Display image preview */}
                             {imageFile && (
                                 <>
                                     <p className="mt-2">Selected file: {imageFile.name}</p>
@@ -165,6 +161,7 @@ const UploadPost = () => {
                                 Text Content
                             </Form.Label>
                             <Col sm="10">
+                            {/* Text content input */}
                                 <Form.Control
                                     as="textarea"
                                     name="textContent"
@@ -182,6 +179,7 @@ const UploadPost = () => {
                                 Font Size
                             </Form.Label>
                             <Col sm="10">
+                                {/* Font size input */}
                                 <Form.Control
                                     type="number"
                                     name="fontSize"
@@ -198,6 +196,7 @@ const UploadPost = () => {
                                 Text Color
                             </Form.Label>
                             <Col sm="10">
+                                {/* Text color input */}
                                 <Form.Control
                                     type="color"
                                     name="textColor"
@@ -212,6 +211,7 @@ const UploadPost = () => {
                                 Background Color
                             </Form.Label>
                             <Col sm="10">
+                                {/* Background color input */}
                                 <Form.Control
                                     type="color"
                                     name="backgroundColor"

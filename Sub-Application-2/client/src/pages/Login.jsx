@@ -15,22 +15,19 @@ const LoginUser = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent form's default submission behavior
-
         try {
             setError('');
-
             const { token: jwtToken } = await loginApi(username, password);
-
             login(jwtToken, username); // Update auth context with new token and username
 
+            // Clear the form fields and display success message
             setUsername('');
             setPassword('');
-
             notifyLoginSucsess();
 
             navigate(`/`); // Redirect to home page
         } catch (err) {
-            setError(err); // Set error state to display the error message
+            setError(err); 
         }
     };
 
@@ -43,6 +40,7 @@ const LoginUser = () => {
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formUsername">
                     <Form.Label>Username</Form.Label>
+                    {/* input for username */}
                     <Form.Control
                         type="text"
                         placeholder="Enter username"
@@ -54,6 +52,7 @@ const LoginUser = () => {
 
                 <Form.Group className="mb-3" controlId="formPassword">
                     <Form.Label>Password</Form.Label>
+                    {/* input for password */}
                     <Form.Control
                         type="password"
                         placeholder="Password"
@@ -63,6 +62,7 @@ const LoginUser = () => {
                     />
                 </Form.Group>
 
+                {/* Login button and new user navigation */}
                 <Button variant="primary" type="submit">
                     Login
                 </Button>

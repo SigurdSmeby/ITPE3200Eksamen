@@ -30,7 +30,7 @@ export const getAllUsers = async () => {
         const response = await axiosInstance.get('/Users/all');
         return response.data;
     } catch (error) {
-        console.error('Error fetching users:', error); // Log the error
+        console.error('Error fetching users:', error);
         throw error; 
     }
 };
@@ -64,7 +64,7 @@ export const createPost = async (postData) => {
 export const deletePost = async (postId) => {
     // Send a DELETE request to remove a post by ID
     const response = await axiosInstance.delete(`/Posts/${postId}`);
-    return response.data; 
+    return response.data;
 };
 
 // Function to update a post by ID

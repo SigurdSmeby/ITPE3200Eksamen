@@ -21,18 +21,19 @@ useEffect(() => {
 // Fetch posts when the page number changes
 useEffect(() => {
     const fetchData = async () => {
+        // Set loading state to true
         setLoading(true);
         try {
-            console.log('Fetching page:', pageNumber);
             const data = await getPosts(pageNumber, 10); // Fetch 10 posts per page
-            console.log('Received posts:', data.posts.map((post) => post.postId));
             console.log('Total posts:', data.totalPosts);
 
+            // Update the posts state with new posts
             setPosts((prevPosts) => {
                 const newPosts = data.posts.filter((newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId));
                 return [...prevPosts, ...newPosts];
             });
 
+            // Update the total posts count
             setTotalPosts(data.totalPosts);
             console.log('Updated posts length:', postsLengthRef.current);
         } catch (error) {
@@ -46,41 +47,44 @@ useEffect(() => {
 fetchData();
 }, [pageNumber]);
 
+// Intersection observer to load more posts when the loader is in view
 useEffect(() => {
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 1.0,
-};
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 1.0,
+    };
 
-const observerCallback = (entries) => {
-    const target = entries[0];
-    if (target.isIntersecting && postsLengthRef.current < totalPosts && !loading) {
-    console.log('Loader is in view, incrementing page number');
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+    // Callback function for the observer
+    const observerCallback = (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting && postsLengthRef.current < totalPosts && !loading) {
+        console.log('Loader is in view, incrementing page number');
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+    };
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    if (loader.current){
+        observer.observe(loader.current);
     }
-};
-
-const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-if (loader.current) observer.observe(loader.current);
-
-return () => {
-    if (loader.current) observer.unobserve(loader.current);
-};
+    return () => {
+        if (loader.current) observer.unobserve(loader.current);
+    };
 }, [loader.current, totalPosts, loading]); // Remove posts from dependencies
 
 const triggerRefresh = (deletedPostId) => {
-notifyDeleteSuccess();
+notifyDeleteSuccess(); // Display a success toast message
 setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== deletedPostId));
 setTotalPosts((prevTotal) => prevTotal - 1);
 };
 
 return (
 <>
+    {/* Display post cards */}
     {posts.map((post) => (
     <PostCards key={post.postId} post={post} onDeleted={() => triggerRefresh(post.postId)} />
     ))}
+    {/* Display a loading message */}
     {loading && <p>Loading more posts...</p>}
     {!loading && posts.length >= totalPosts && totalPosts !== 0 && (
     <p>You've reached the end!</p>

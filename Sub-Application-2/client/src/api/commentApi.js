@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
         return config;
     },
     (error) => {
-        return Promise.reject(error); // Reject the promise if there's an error
+        return Promise.reject(error);
     }
 );
 
@@ -28,10 +28,10 @@ export const createComment = async (commentData) => {
     try {
         // Send a POST request to create a comment
         const response = await axiosInstance.post('/Comments', commentData); 
-        return response.data; // Return the server's response
+        return response.data;
     } catch (error) {
-        console.error('Error creating comment:', error); // Log the error
-        throw error.response?.data || 'Failed to send comment'; // Throw a detailed error message
+        console.error('Error creating comment:', error);
+        throw error.response?.data || 'Failed to send comment'; 
     }
 };
 
@@ -42,10 +42,10 @@ export const fetchCommentsForPost = async (postId) => {
         const response = await axios.get(
             `http://localhost:5229/api/Comments/post/${postId}`, 
         );
-        return response.data; // Return the comments data
+        return response.data;
     } catch (error) {
-        console.error('Error fetching comments:', error); // Log the error
-        throw error; // Re-throw the error for further handling
+        console.error('Error fetching comments:', error); 
+        throw error; 
     }
 };
 
@@ -54,8 +54,8 @@ export const deleteComment = async (commentId) => {
     try {
         // Send a DELETE request to remove the comment by ID
         const response = await axiosInstance.delete(`/Comments/${commentId}`);
-        return response.data; // Return the server's response
+        return response.data;
     } catch (error) {
-        throw error.response?.data || 'Failed to delete comment'; // Throw a detailed error message
+        throw error.response?.data || 'Failed to delete comment';
     }
 };
