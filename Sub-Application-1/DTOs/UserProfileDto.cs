@@ -7,12 +7,10 @@ namespace Sub_Application_1.DTOs
     public string? Email { get; set; }
     public string? ProfilePictureUrl { get; set; }
     public string? Bio { get; set; }
-    public IFormFile? ProfilePicture { get; set; } // For file upload
+    public IFormFile? ProfilePicture { get; set; }
 
     public DateTime? DateJoined { get; set; }
     public int? TotalPosts { get; set; }
-
-    // For changing password
     public string? CurrentPassword { get; set; }
     public string? NewPassword { get; set; }
     public string? ConfirmPassword { get; set; }

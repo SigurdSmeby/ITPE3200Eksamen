@@ -15,7 +15,7 @@ namespace Sub_Application_1.Models
 		public  DateTime DateCommented { get; set; } = DateTime.Now;
 
 		// Navigation properties
-		public virtual User User { get; set; } = default!; // can be nullable because EF should populate it
-		public virtual Post Post { get; set; } = default!; // can be nullable because EF should populate it
+		public virtual User User { get; set; } = default!;
+		public virtual Post Post { get; set; } = default!;
 	}
 }
