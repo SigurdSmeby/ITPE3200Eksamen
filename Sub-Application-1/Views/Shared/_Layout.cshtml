@@ -26,7 +26,7 @@
 						<li class="nav-item">
 							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
-						@if (User.Identity.IsAuthenticated)
+						@if (User.Identity!=null && User.Identity.IsAuthenticated)
 						{
 							<li class="nav-item">
 								<a class="nav-link btn btn-link" href="@Url.Action("Logout", "Users")">Logout</a>

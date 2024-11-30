@@ -23,8 +23,9 @@ namespace Sub_Application_1.Models
         public string BackgroundColor { get; set; } = "#FFFFFF"; // Default background color (white)
 
         // Navigation properties
-        public virtual User User { get; set; }
-        public virtual ICollection<Like> Likes { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        
+        public virtual User User { get; set; } = default!; // can be nullable because EF should populate it
+        public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

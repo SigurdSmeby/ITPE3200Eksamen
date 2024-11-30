@@ -16,8 +16,9 @@ namespace Sub_Application_1.Models
 		public DateTime DateJoined { get; set; } = DateTime.Now;
 
 		// Navigation properties
-		public virtual ICollection<Post> Posts { get; set; }
-		public virtual ICollection<Like> Likes { get; set; }
-		public virtual ICollection<Comment> Comments { get; set; }
+public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
 	}
 }

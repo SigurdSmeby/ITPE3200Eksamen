@@ -21,7 +21,7 @@
                         @comment.DateCommented.ToString("MMM dd, yyyy")
                     </p>
 
-                    @if (comment.AuthorUsername == User.Identity.Name)
+                    @if (User.Identity != null && comment.AuthorUsername == User.Identity.Name)
                     {
                         <form method="post" action="/Comments/DeleteComment" class="d-inline">
                             @Html.AntiForgeryToken()

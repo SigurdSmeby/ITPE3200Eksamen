@@ -29,7 +29,7 @@ namespace Sub_Application_1.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-				if (User.Identity.IsAuthenticated)
+				if (User.Identity != null && User.Identity.IsAuthenticated)
 				{
 						var user = await _userManager.GetUserAsync(User);
 						ViewData["Username"] = user?.UserName;
@@ -62,14 +62,6 @@ namespace Sub_Application_1.Controllers
 										ProfilePictureUrl = p.User.ProfilePictureUrl
 								},
 								LikesCount = p.Likes.Count, // Count of likes for the post
-								CommentsCount = p.Comments.Count, // Count of comments for the post
-								Comments = p.Comments.Select(c => new CommentDto
-								{
-										CommentId = c.CommentId,
-										Content = c.Content,
-										DateCommented = c.DateCommented,
-										AuthorUsername = c.User.UserName // Assuming User navigation property
-								}).ToList(),
 								Likes = p.Likes.Select(l => new UserDto
 								{
 										UserId = l.User.Id,
@@ -375,14 +367,6 @@ namespace Sub_Application_1.Controllers
 						ProfilePictureUrl = p.User != null && p.User.ProfilePictureUrl != null ? p.User.ProfilePictureUrl : "/images/default-profile.png" // sets default profile picture if there is a null value
 					},
 					LikesCount = p.Likes.Count,
-					CommentsCount = p.Comments.Count,
-					Comments = p.Comments.Select(c => new CommentDto
-					{
-						CommentId = c.CommentId,
-						Content = c.Content,
-						DateCommented = c.DateCommented,
-						AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"// Default value for deleted users incase they are displayed, they should not be though
-					}).ToList()
 				})
 				.ToListAsync();
 
