@@ -37,7 +37,7 @@ namespace Sub_Application_1.Controllers
                     CommentId = c.CommentId,
                     Content = c.Content,
                     DateCommented = c.DateCommented,
-                    AuthorUsername = c.User.UserName
+                    AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"
                 })
                 .ToListAsync();
 

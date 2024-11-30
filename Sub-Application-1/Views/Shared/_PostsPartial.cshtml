@@ -16,7 +16,7 @@ else
                 <a href="/profile/@post.Author?.Username" class="profile-link">
                     <img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" class="profile-img me-2">
                     <div>
-                        <h2 aria-label="@($"Post by: {post.Author.Username}")" class="mb-0">@post.Author?.Username</h2>
+                        <h2 aria-label="@($"Post by: {post.Author?.Username ?? "Unknown Author"}")" class="mb-0">@post.Author?.Username</h2>
                         <small class="text-muted date">@post.DateUploaded.ToString("MMM dd, yyyy")</small>
                     </div>
                 </a>

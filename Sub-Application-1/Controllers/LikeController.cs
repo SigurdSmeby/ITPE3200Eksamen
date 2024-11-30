@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Sub_Application_1.Data;
 using Sub_Application_1.DTOs;
 using Sub_Application_1.Models;
@@ -8,16 +9,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 
+
 namespace Sub_Application_1.Controllers
 {
     [Route("Likes")]
     public class LikeController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public LikeController(AppDbContext context)
+        public LikeController(AppDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Likes/LikeButtonPartial?postId=5
@@ -54,7 +58,15 @@ namespace Sub_Application_1.Controllers
         [HttpPost("LikePost")]
         public async Task<IActionResult> LikePost(int postId)
         {
-            string userId = GetCurrentUserId();
+            var user = await _userManager.GetUserAsync(User);
+
+			if (user == null)
+			{
+				ModelState.AddModelError("User", "User not found");
+				Console.WriteLine("User not found");
+				return View();
+			}
+            string userId = user.Id;
 
             if (await _context.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId))
             {
@@ -78,7 +90,16 @@ namespace Sub_Application_1.Controllers
         [HttpPost("UnlikePost")]
         public async Task<IActionResult> UnlikePost(int postId)
         {
-            string userId = GetCurrentUserId();
+            var user = await _userManager.GetUserAsync(User);
+
+			if (user == null)
+			{
+				ModelState.AddModelError("User", "User not found");
+				Console.WriteLine("User not found");
+				return View();
+			}
+            string userId = user.Id;
+
 
             var like = await _context.Likes.FirstOrDefaultAsync(l => l.UserId == userId && l.PostId == postId);
 
@@ -93,9 +114,5 @@ namespace Sub_Application_1.Controllers
             return RedirectToAction("GetLikeButtonPartial", new { postId });
         }
 
-        private string GetCurrentUserId()
-        {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
     }
 }

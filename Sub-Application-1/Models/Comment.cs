@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Sub_Application_1.Models
 {
@@ -7,19 +6,16 @@ namespace Sub_Application_1.Models
 	{
 		public int CommentId { get; set; }
 
-		[Required]
-		public int PostId { get; set; }
+		public required int PostId { get; set; }
 
-		[Required]
-		public string  UserId { get; set; }
+		public required string  UserId { get; set; }
 
-		[Required]
-		public string Content { get; set; }
+		public required string Content { get; set; }
 
-		public DateTime DateCommented { get; set; } = DateTime.Now;
+		public required DateTime DateCommented { get; set; } = DateTime.Now;
 
 		// Navigation properties
-		public virtual User User { get; set; }
-		public virtual Post Post { get; set; }
+		public virtual User User { get; set; } = default!; // can be nullable because EF should populate it
+		public virtual Post Post { get; set; } = default!; // can be nullable because EF should populate it
 	}
 }

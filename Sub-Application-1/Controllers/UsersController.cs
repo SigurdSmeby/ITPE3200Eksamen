@@ -173,9 +173,27 @@ namespace Sub_Application_1.Controllers
 			{
 				return View("Settings", userProfileDto);
 			}
-			user.UserName = userProfileDto.Username;
-			user.Email = userProfileDto.Email;
-			user.Bio = userProfileDto.Bio;
+			if (!string.IsNullOrEmpty(userProfileDto.Username))
+				user.UserName = userProfileDto.Username;
+			else
+			{
+				ViewData["ProfileError"] = "Username cannot be empty.";
+				return View("Settings", userProfileDto);
+			}
+			if (!string.IsNullOrEmpty(userProfileDto.Email))
+				user.Email = userProfileDto.Email;
+			else
+			{
+				ViewData["ProfileError"] = "Email cannot be empty.";
+				return View("Settings", userProfileDto);
+			}
+			if (!string.IsNullOrEmpty(userProfileDto.Bio))
+				user.Bio = userProfileDto.Bio;
+			else
+			{
+				ViewData["ProfileError"] = "Bio cannot be empty.";
+				return View("Settings", userProfileDto);
+			}
 
 			// Handle profile picture upload
 			if (userProfileDto.ProfilePicture != null && userProfileDto.ProfilePicture.Length > 0)

@@ -6,9 +6,9 @@
 <div class="d-flex align-items-center justify-content-center flex-column" 
      style="background-color: #f8f9fa; width: 55px; height: 100%;">
     <!-- Like Button -->
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity!=null && User.Identity.IsAuthenticated)
     {
-        @if (Model.Likes.Any(l => l.Username == User.Identity.Name))
+        @if (Model.Likes != null && Model.Likes.Any(l => l.Username == User.Identity?.Name))
         {
             <!-- Unlike Button -->
             <form method="post" action="/Likes/UnlikePost" class="mb-1">
