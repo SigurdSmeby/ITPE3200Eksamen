@@ -1,93 +1,88 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // Fix: Corrected import for jwtDecode
 
+// Create the AuthContext with default values
 const AuthContext = createContext({
     isLoggedIn: false,
     username: null,
     login: () => {},
     logout: () => {},
-    deleteAccount: () => {}, // Added deleteAccount method to the context
+    deleteAccount: () => {},
 });
 
 let logoutTimer;
 
 export const AuthProvider = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(
-        !!localStorage.getItem('jwtToken')
-    );
-    const [username, setUsername] = useState(
-        localStorage.getItem('username')
-    );
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('jwtToken'));
+    const [username, setUsername] = useState(localStorage.getItem('username'));
 
-    // Define logout first
+    // Logout function
     const logout = useCallback(() => {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('username');
         setIsLoggedIn(false);
         setUsername(null);
 
-        // Clear the logout timer if it exists
-        if (logoutTimer) clearTimeout(logoutTimer);
+        if (logoutTimer) clearTimeout(logoutTimer); // Clear any existing timer
     }, []);
 
-    // Then define setLogoutTimer
+    // Set logout timer based on token expiration
     const setLogoutTimer = useCallback((expirationTime) => {
         const currentTime = Date.now();
-        const timeUntilExpiration = expirationTime * 1000 - currentTime; // Convert to milliseconds
+        const timeUntilExpiration = expirationTime * 1000 - currentTime; // Convert expiration time to milliseconds
 
-        // Clear any existing timer
-        if (logoutTimer) clearTimeout(logoutTimer);
+        if (logoutTimer) clearTimeout(logoutTimer); // Clear any existing timer
 
-        // Set a new timer to log out the user when the token expires
         logoutTimer = setTimeout(() => {
-            logout(); // Now logout is defined and accessible
+            logout(); // Trigger logout when token expires
             alert('Your session has expired. Please log in again.');
         }, timeUntilExpiration);
     }, [logout]);
 
+    // Login function
     const login = (token, username) => {
         localStorage.setItem('jwtToken', token);
         localStorage.setItem('username', username);
         setIsLoggedIn(true);
         setUsername(username);
 
-        // Decode token to get expiration time and set auto-logout timer
+        // Decode the token to get the expiration time and set a logout timer
         const decodedToken = jwtDecode(token);
         if (decodedToken.exp) {
             setLogoutTimer(decodedToken.exp);
         }
     };
 
+    // Delete account function
     const deleteAccount = () => {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('username');
-    
+
         if (logoutTimer) clearTimeout(logoutTimer);
-    
+
         setIsLoggedIn(false);
-        setUsername(null); 
+        setUsername(null);
     };
 
+    // Auto-logout if the token is expired or set a logout timer on app load
     useEffect(() => {
-        // Check if a token exists on app load and set the logout timer if so
         const token = localStorage.getItem('jwtToken');
         if (token) {
             const decodedToken = jwtDecode(token);
             if (decodedToken.exp && Date.now() / 1000 < decodedToken.exp) {
-                setLogoutTimer(decodedToken.exp);
+                setLogoutTimer(decodedToken.exp); // Set timer if token is valid
             } else {
-                logout(); // Token has expired, so log the user out
+                logout(); // Token expired, log the user out
             }
         }
-    }, [setLogoutTimer, logout]); // Include setLogoutTimer and logout
+    }, [setLogoutTimer, logout]);
 
     return (
-        <AuthContext.Provider
-            value={{ isLoggedIn, username, login, logout, deleteAccount }}
-        >
+        <AuthContext.Provider value={{ isLoggedIn, username, login, logout, deleteAccount }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
+// Hook to access authentication context
 export const useAuth = () => useContext(AuthContext);

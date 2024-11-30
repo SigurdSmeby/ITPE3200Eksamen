@@ -34,7 +34,7 @@ const CommentsSection = ({ postId, refresh, onCommentDelete  }) => {
 
     return (
         <div>
-            {comments.length === 0 ? (
+            {comments.length === 0 ? (  
                 <p>No comments yet. Be the first to comment!</p>
             ) : (
                 comments.map((comment) => (
@@ -77,7 +77,6 @@ const CommentsSection = ({ postId, refresh, onCommentDelete  }) => {
                                         style={{
                                             fontSize: '10px',
                                             padding: '2px 5px',
-                                           
                                         }}
                                     >
                                         Delete

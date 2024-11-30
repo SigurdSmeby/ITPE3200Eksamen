@@ -3,6 +3,7 @@ using server.Models;
 
 namespace server.Data
 {
+    // Represents the database context for the application
     public class AppDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
@@ -15,53 +16,57 @@ namespace server.Data
         {
         }
 
+        // Configures entity relationships and constraints
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // User configurations
+            // Ensures unique usernames for users
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
 
+            // Ensures unique email addresses for users
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
-            // Like configurations (composite key)
+            // Configures the Like entity with a composite key
             modelBuilder.Entity<Like>()
                 .HasKey(l => new { l.UserId, l.PostId });
 
+            // Establishes cascading deletion between likes and users
             modelBuilder.Entity<Like>()
                 .HasOne(l => l.User)
                 .WithMany(u => u.Likes)
                 .HasForeignKey(l => l.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Establishes cascading deletion between likes and posts
             modelBuilder.Entity<Like>()
                 .HasOne(l => l.Post)
                 .WithMany(p => p.Likes)
                 .HasForeignKey(l => l.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Post configurations
+            // Links posts to users with cascading deletion
             modelBuilder.Entity<Post>()
                 .HasOne(p => p.User)
                 .WithMany(u => u.Posts)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Comment configurations
+            // Links comments to users with cascading deletion
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Links comments to posts with cascading deletion
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
-
         }
     }
 }
