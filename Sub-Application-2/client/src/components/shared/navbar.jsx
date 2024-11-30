@@ -1,136 +1,69 @@
 import React from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
-import { useAuth } from './AuthContext';
+import { Nav, Navbar, Container } from 'react-bootstrap';
 import logo from './icons/webappLogo2.png';
-import './navbar.css'
+import { useAuth } from './AuthContext';
+import './navbar.css'; // Ensure CSS is loaded
 
 const NavMenu = () => {
-    const { isLoggedIn, username, logout } = useAuth();
+    const { isLoggedIn, username, logout } = useAuth(); // Access authentication state
 
     return (
         <Navbar
             bg="light"
             expand="lg"
-            className="navbar-main d-flex flex-column align-items-center "
-            style={{
-                position: 'fixed',
-                height: '100vh',
-
-            }}>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Navbar.Brand
-                    href="/"
-                    className="fw-bold text-primary d-flex justify-content-center align-items-center m-4">
-                </Navbar.Brand>
-                <Nav className="flex-column w-100 text-center">
-                    <img className='logo' src={logo}
-                         alt="Home" 
-                        onMouseOver={(e) => e.currentTarget.style.filter = 'brightness(0.8)'}
-                        onMouseOut={(e) => e.currentTarget.style.filter = 'brightness(1)'}/>
-                    <Nav.Link href="/" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
-                        Home
-                    </Nav.Link>
-                    <Nav.Link href="/about" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
-                        About
-                    </Nav.Link>
-                    {isLoggedIn ? (
-                        <>
-                            <Nav.Link
-                                href={`/profile/${username}`}
-                                className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
-                                Profile
-                            </Nav.Link>
-                            <Nav.Link href="/search" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
-                                Search
-                            </Nav.Link>
-                            <Nav.Link href="/upload" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
-                                Upload
-                            </Nav.Link>
-                            <Nav.Link href="/settings" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
-                                Settings
-                            </Nav.Link>
-                            <Nav.Link
-                                href="/"
-                                onClick={logout}
-                                className="py-2 px-3"
-                                style={{ fontSize: '1.25rem' }}>
-                                Logout
-                            </Nav.Link>
-                        </>
-                    ) : (
-                        <Nav.Link href="/login" className="py-2 px-3" style={{ fontSize: '1.25rem' }}>
-                            Login
-                        </Nav.Link>
-                    )}
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
-    );
-};
-
-export default NavMenu;
-
-/*import React from 'react';
-import { Nav, Navbar, Container } from 'react-bootstrap';
-import { FaHome } from 'react-icons/fa';
-import { useAuth } from './AuthContext.tsx';
-
-const NavMenu: React.FC = () => {
-    const { isLoggedIn, username, logout } = useAuth();
-
-    return (
-        <Navbar
-            bg="light"
-            expand="lg"
-            className="custom-navbar shadow-sm navbar">
+            className="navbar-main custom-navbar shadow-sm"
+        >
             <Container>
                 <Navbar.Brand href="/" className="fw-bold text-primary">
-                    <FaHome className="me-2" /> Home
+                    <img
+                        src={logo}
+                        alt="Home"
+                        className="logo"
+                    />
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle aria-controls="basic-navbar-nav" /> {/* Button to toggle the navbar in mobile view */}
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="/" className="mx-2 text-secondary">
+                    <Nav className="d-flex justify-content-center align-items-center navbar-nav">
+                        <Nav.Link href="/" className="nav-link">
                             Home
                         </Nav.Link>
-                        <Nav.Link href="/about" className="mx-2 text-secondary">
-                            About
-                        </Nav.Link>
-                        {isLoggedIn ? (
+                        {/* Conditional rendering for logged-in users */}
+                        {isLoggedIn && (
                             <>
-                                <Nav.Link
-                                    href={`/profile/${username}`}
-                                    className="mx-2 text-secondary">
+                                {/* Profile link for logged-in user */}
+                                <Nav.Link href={`/profile/${username}`} className="nav-link">
                                     Profile
                                 </Nav.Link>
-                                <Nav.Link
-                                    href="/Upload"
-                                    className="mx-2 text-secondary">
+                                {/* Upload link for logged-in user */}
+                                <Nav.Link href="/upload" className="nav-link">
                                     Upload
                                 </Nav.Link>
-                                <Nav.Link
-                                    href="/settings"
-                                    className="mx-2 text-secondary">
+                                {/* Search link for logged-in user */}
+                                <Nav.Link href="/search" className="nav-link">
+                                    Search
+                                </Nav.Link>
+                                {/* Settings link for logged-in user */}
+                                <Nav.Link href="/settings" className="nav-link">
                                     Settings
                                 </Nav.Link>
-                                <Nav.Link
-                                    href="/"
-                                    onClick={logout}
-                                    className="mx-2 text-secondary">
-                                    Logout
-                                </Nav.Link>
                             </>
-                        ) : (
-                            <Nav.Link
-                                href="/login"
-                                className="mx-2 text-secondary">
+                        )}
+                        {/* Show Login link when not logged in */}
+                        {!isLoggedIn && (
+                            <Nav.Link href="/login" className="nav-link">
                                 Login
                             </Nav.Link>
                         )}
-                        <Nav.Link href="/test" className="mx-2 text-secondary">
-                            Test Page
+                        {/* About link always visible */}
+                        <Nav.Link href="/about" className="nav-link">
+                            About
                         </Nav.Link>
+                        {/* Logout link for logged-in users */}
+                        {isLoggedIn && (
+                            <Nav.Link href="/" onClick={logout} className="nav-link">
+                                Logout
+                            </Nav.Link>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
@@ -139,4 +72,3 @@ const NavMenu: React.FC = () => {
 };
 
 export default NavMenu;
-*/
