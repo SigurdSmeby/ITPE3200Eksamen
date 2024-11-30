@@ -5,10 +5,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  align-items: center;
 
 }
 
+.Routes-body{
+  margin-top: 90px !important;
+}
+@media (max-width: 550px) {
+  .Routes-body{
+    margin-top: 0 !important;
+  }
+}
 
 
 code {

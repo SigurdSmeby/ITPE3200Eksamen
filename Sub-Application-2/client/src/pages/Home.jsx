@@ -4,94 +4,82 @@ import { getPosts } from '../api/postApi.js';
 import { toast } from 'react-toastify';
 
 const Home = () => {
-const [posts, setPosts] = useState([]); 
-const [pageNumber, setPageNumber] = useState(1);
-const [totalPosts, setTotalPosts] = useState(0);
-const [loading, setLoading] = useState(false); 
-const loader = useRef(null);
-const postsLengthRef = useRef(posts.length);
-const notifyDeleteSuccess = () => toast.success('Post deleted successfully!');
+    const [posts, setPosts] = useState([]);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [totalPosts, setTotalPosts] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const loader = useRef(null);
+    const postsLengthRef = useRef(posts.length);
+    const notifyDeleteSuccess = () => toast.success('Post deleted successfully!');
 
-// Update the posts length ref when the posts state changes
-useEffect(() => {
-    postsLengthRef.current = posts.length;
-}, [posts.length]);
+    useEffect(() => {
+        postsLengthRef.current = posts.length;
+    }, [posts.length]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const data = await getPosts(pageNumber, 10);
+                setPosts((prevPosts) => {
+                    const newPosts = data.posts.filter(
+                        (newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId)
+                    );
+                    return [...prevPosts, ...newPosts];
+                });
+                setTotalPosts(data.totalPosts);
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-// Fetch posts when the page number changes
-useEffect(() => {
-    const fetchData = async () => {
-        // Set loading state to true
-        setLoading(true);
-        try {
-            const data = await getPosts(pageNumber, 10); // Fetch 10 posts per page
-            console.log('Total posts:', data.totalPosts);
+        fetchData();
+    }, [pageNumber, loading]); // Added 'loading' to the dependency array
 
-            // Update the posts state with new posts
-            setPosts((prevPosts) => {
-                const newPosts = data.posts.filter((newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId));
-                return [...prevPosts, ...newPosts];
-            });
+    useEffect(() => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0,
+        };
 
-            // Update the total posts count
-            setTotalPosts(data.totalPosts);
-            console.log('Updated posts length:', postsLengthRef.current);
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        } finally {
-        setLoading(false);
-            console.log('Loading state:', loading);
-        }
-};
+        const observerCallback = (entries) => {
+            const target = entries[0];
+            if (target.isIntersecting && postsLengthRef.current < totalPosts && !loading) {
+                setPageNumber((prevPageNumber) => prevPageNumber + 1);
+            }
+        };
 
-fetchData();
-}, [pageNumber]);
+        const loaderNode = loader.current; // Copy the mutable ref to a local variable
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-// Intersection observer to load more posts when the loader is in view
-useEffect(() => {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 1.0,
+        if (loaderNode) observer.observe(loaderNode);
+
+        return () => {
+            if (loaderNode) observer.unobserve(loaderNode); // Use the local variable in cleanup
+        };
+    }, [totalPosts, loading]); // Removed 'loader.current' from dependencies
+
+    const triggerRefresh = (deletedPostId) => {
+        notifyDeleteSuccess();
+        setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== deletedPostId));
+        setTotalPosts((prevTotal) => prevTotal - 1);
     };
 
-    // Callback function for the observer
-    const observerCallback = (entries) => {
-        const target = entries[0];
-        if (target.isIntersecting && postsLengthRef.current < totalPosts && !loading) {
-        console.log('Loader is in view, incrementing page number');
-        setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        }
-    };
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    if (loader.current){
-        observer.observe(loader.current);
-    }
-    return () => {
-        if (loader.current) observer.unobserve(loader.current);
-    };
-}, [loader.current, totalPosts, loading]); // Remove posts from dependencies
-
-const triggerRefresh = (deletedPostId) => {
-notifyDeleteSuccess(); // Display a success toast message
-setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== deletedPostId));
-setTotalPosts((prevTotal) => prevTotal - 1);
-};
-
-return (
-<>
-    {/* Display post cards */}
-    {posts.map((post) => (
-    <PostCards key={post.postId} post={post} onDeleted={() => triggerRefresh(post.postId)} />
-    ))}
-    {/* Display a loading message */}
-    {loading && <p>Loading more posts...</p>}
-    {!loading && posts.length >= totalPosts && totalPosts !== 0 && (
-    <p>You've reached the end!</p>
-    )}
-    <div ref={loader}></div>
-</>
-);
+    return (
+        <>
+            {posts.map((post) => (
+                <PostCards key={post.postId} post={post} onDeleted={() => triggerRefresh(post.postId)} />
+            ))}
+            {loading && <p>Loading more posts...</p>}
+            {!loading && posts.length >= totalPosts && totalPosts !== 0 && (
+                <p>You've reached the end!</p>
+            )}
+            <div ref={loader}></div>
+        </>
+    );
 };
 
 export default Home;
