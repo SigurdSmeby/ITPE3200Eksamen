@@ -17,7 +17,8 @@ namespace server.Data
                     new User { Username = "Loony Racoony", Email = "Racoony@example.com", ProfilePictureUrl = "/images/seed/user2.jpg", Bio = "Im the Grapist and im gonna Grape you" },
                     new User { Username = "duckface", Email = "ducky@example.com", ProfilePictureUrl = "/images/seed/user3.jpg", Bio = "I'm a duck, quack quack" },
                     new User { Username = "Mr Turtle", Email = "Turtle.Md@example.com", ProfilePictureUrl = "/images/seed/user4.jpg", Bio = "Hate straws, but love a milkshake" },
-                    new User { Username = "Red", Email = "sara@example.com", ProfilePictureUrl = "/images/seed/user5.jpg" }
+                    new User { Username = "Red", Email = "sara@example.com", ProfilePictureUrl = "/images/seed/user5.jpg" },
+                    new User { Username = "Sligtly_scared", Email = "maybescared@example.com", ProfilePictureUrl = "/images/seed/user6.jpg", Bio = "I usually end up in scary situations" }
                 );
                 context.SaveChanges();
             }
@@ -28,6 +29,7 @@ namespace server.Data
             var duckface = context.Users.SingleOrDefault(u => u.Username == "duckface");
             var turtle = context.Users.SingleOrDefault(u => u.Username == "Mr Turtle");
             var red = context.Users.SingleOrDefault(u => u.Username == "Red");
+            var sheep = context.Users.SingleOrDefault(u => u.Username == "Sligtly_scared");
 
             // Ensure all users were found
             if (barbie == null || racoony == null || duckface == null || turtle == null || red == null)
@@ -56,7 +58,10 @@ namespace server.Data
                     new Post { UserId = turtle.UserId, ImagePath = "/images/seed/user4img2.jpg", DateUploaded = DateTime.Now.AddHours(-5) },
                     
                     // Red's posts
-                    new Post { UserId = red.UserId, TextContent = "Running into the weekend!", FontSize = 16, TextColor = "#E74C3C", BackgroundColor = "#F8F8F8", DateUploaded = DateTime.Now.AddHours(-9) }
+                    new Post { UserId = red.UserId, TextContent = "Running into the weekend!", FontSize = 16, TextColor = "#E74C3C", BackgroundColor = "#F8F8F8", DateUploaded = DateTime.Now.AddHours(-9) },
+
+                    // Sheeps's posts
+                    new Post { UserId = sheep.UserId, ImagePath = "/images/seed/user6img1.jpg", DateUploaded = DateTime.Now.AddHours(-30) }
                 );
                 context.SaveChanges();
             }
@@ -68,7 +73,8 @@ namespace server.Data
 
                 context.Comments.AddRange(
                     new Comment { PostId = posts[0].PostId, UserId = racoony.UserId, Content = "Looks great, Barbie!" },
-                    new Comment { PostId = posts[3].PostId, UserId = barbie.UserId, Content = "Amazing photo!" }
+                    new Comment { PostId = posts[3].PostId, UserId = barbie.UserId, Content = "Amazing photo!" },
+                    new Comment { PostId = posts[4].PostId UserId = sheep.UserId, Content = "That looks scary, be careful!" },
                 );
                 context.SaveChanges();
             }
@@ -77,7 +83,7 @@ namespace server.Data
             if (!context.Likes.Any())
             {
                 var posts = context.Posts.ToList();
-                var users = new[] { barbie, racoony, duckface, turtle, red };
+                var users = new[] { barbie, racoony, duckface, turtle, red, sheep };
                 var random = new Random();
 
                 foreach (var user in users)
