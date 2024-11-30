@@ -22,7 +22,7 @@ namespace Sub_Application_1.Models
         public string BackgroundColor { get; set; } = "#FFFFFF"; 
 
         // Navigation properties
-        public virtual UserUser { get; set; } = default!;
+        public virtual User User { get; set; } = default!;
         public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
