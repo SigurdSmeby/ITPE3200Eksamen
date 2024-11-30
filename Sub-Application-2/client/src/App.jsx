@@ -32,9 +32,9 @@ const App = () => {
                     }}>
                     <NavMenu />
                     <div
+                        className='Routes-body'
                         style={{
                             flex: 1, // Sørger for at dette området strekker seg for å fylle mellomrom
-                            marginLeft: '90px', // Juster for NavMenu-bredden
                             padding: '1rem',
                         }}>
                         <Routes>
