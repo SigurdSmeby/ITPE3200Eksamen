@@ -219,11 +219,13 @@ namespace Sub_Application_1.Tests.Controllers
 
             Assert.Equal(post.PostId, retrievedPost.PostId);
             Assert.Equal("This is a test post.", retrievedPost.TextContent);
-            Assert.Equal(user.UserName!, retrievedPost.Author.Username!);
-            Assert.Equal(14, retrievedPost.FontSize);
-            Assert.Equal("#000000", retrievedPost.TextColor);
-            Assert.Equal("#FFFFFF", retrievedPost.BackgroundColor);
-            Assert.Null(retrievedPost.ImagePath); // Confirm it’s a text post
+
+            
+            Assert.Equal(post?.DateUploaded, retrievedPost?.DateUploaded);
+            Assert.Equal(14, retrievedPost?.FontSize);
+            Assert.Equal("#000000", retrievedPost?.TextColor);
+            Assert.Equal("#FFFFFF", retrievedPost?.BackgroundColor);
+            Assert.Null(retrievedPost?.ImagePath); // Confirm it’s a text post
         }
 
         
@@ -293,17 +295,17 @@ namespace Sub_Application_1.Tests.Controllers
                 FontSize = 14,
                 TextColor = "#000000",
                 BackgroundColor = "#FFFFFF",
-                ImagePath = null // This is a text post
+                ImagePath = null! // This is a text post
             };
             context.Posts.Add(post);
             await context.SaveChangesAsync();
 
-            var controller = new HomeController(userManagerMock.Object, context, null);
+            var controller = new HomeController(userManagerMock.Object, context, null!);
             controller.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id, user.UserName)
+                    User = HelperMethods.CreateAuthenticatedUser(user.Id!, user.UserName!)
                 }
             };
 
@@ -316,7 +318,7 @@ namespace Sub_Application_1.Tests.Controllers
             };
 
             // Act
-            var result = await controller.EditPost(post.PostId, updatePostDto, null);
+            var result = await controller.EditPost(post.PostId, updatePostDto, null!);
 
             // Assert
             var updatedPost = await context.Posts.FirstOrDefaultAsync(p => p.PostId == post.PostId);
@@ -347,12 +349,12 @@ namespace Sub_Application_1.Tests.Controllers
             context.Users.Add(user);
             await context.SaveChangesAsync();
 
-            var controller = new HomeController(userManagerMock.Object, context, null);
+            var controller = new HomeController(userManagerMock.Object, context, null!);
             controller.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id, user.UserName)
+                    User = HelperMethods.CreateAuthenticatedUser(user.Id!, user.UserName!)
                 }
             };
 
@@ -362,7 +364,7 @@ namespace Sub_Application_1.Tests.Controllers
             };
 
             // Act
-            var result = await controller.EditPost(999, updatePostDto, null); // Non-existent postId
+            var result = await controller.EditPost(999, updatePostDto, null!); // Non-existent postId
 
             // Assert
             var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
@@ -390,17 +392,17 @@ namespace Sub_Application_1.Tests.Controllers
                 FontSize = 14,
                 TextColor = "#000000",
                 BackgroundColor = "#FFFFFF",
-                ImagePath = null // Text post
+                ImagePath = null! // Text post
             };
             context.Posts.Add(post);
             await context.SaveChangesAsync();
 
-            var controller = new HomeController(userManagerMock.Object, context, null);
+            var controller = new HomeController(userManagerMock.Object, context, null!);
             controller.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id, user.UserName)
+                    User = HelperMethods.CreateAuthenticatedUser(user.Id!, user.UserName!)
                 }
             };
 
@@ -440,17 +442,17 @@ namespace Sub_Application_1.Tests.Controllers
                 FontSize = 14,
                 TextColor = "#000000",
                 BackgroundColor = "#FFFFFF",
-                ImagePath = null
+                ImagePath = null!
             };
             context.Posts.Add(post);
             await context.SaveChangesAsync();
 
-            var controller = new HomeController(userManagerMock.Object, context, null);
+            var controller = new HomeController(userManagerMock.Object, context, null!);
             controller.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(otherUser.Id, otherUser.UserName) // Authenticated as otherUser
+                    User = HelperMethods.CreateAuthenticatedUser(otherUser.Id!, otherUser.UserName!) // Authenticated as otherUser
                 }
             };
 

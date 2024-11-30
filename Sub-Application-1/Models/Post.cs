@@ -23,10 +23,6 @@ namespace Sub_Application_1.Models
 
         // Navigation properties
         public virtual User User { get; set; } = default!;
-        public int FontSize { get; set; } = 16;
-        public string TextColor { get; set; } = "#000000";
-        public string BackgroundColor { get; set; } = "#FFFFFF";
-        public virtual User User { get; set; } = default!;
         public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }

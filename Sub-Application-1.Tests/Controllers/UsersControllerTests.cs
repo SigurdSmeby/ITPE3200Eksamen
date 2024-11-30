@@ -49,7 +49,7 @@ namespace Sub_Application_1.Tests.Controllers
                 .ReturnsAsync((User)null!);
             userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>()))
                 .ReturnsAsync((User)null!);
-            signInManagerMock.Setup(sm => sm.SignInAsync(It.IsAny<User>(), It.IsAny<bool>(), null))
+            signInManagerMock.Setup(sm => sm.SignInAsync(It.IsAny<User>(), It.IsAny<bool>(), null!))
                 .Returns(Task.CompletedTask);
 
             var controller = new UsersController(
@@ -149,13 +149,13 @@ namespace Sub_Application_1.Tests.Controllers
             var userManagerMock = HelperMethods.CreateUserManagerMock();
             var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
 
-            userManagerMock.Setup(um => um.FindByNameAsync(It.IsAny<string>())).ReturnsAsync((User)null);
-            userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
+            userManagerMock.Setup(um => um.FindByNameAsync(It.IsAny<string>())).ReturnsAsync((User)null!);
+            userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null!);
             userManagerMock.Setup(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "Password is too weak." }));
 
             var controller = new UsersController(
-                null, null, null, 
+                null!, null!, null!, 
                 signInManagerMock.Object, 
                 userManagerMock.Object
             );
@@ -173,7 +173,9 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.False(controller.ModelState.IsValid);
             _output.WriteLine("     ✅ Verified that ModelState is invalid.");
 
-            Assert.Contains("Password is too weak.", controller.ModelState[string.Empty].Errors.Select(e => e.ErrorMessage));
+            Assert.Contains("Password is too weak.", controller.ModelState[string.Empty]?.Errors?.Select(e => e.ErrorMessage) ?? Enumerable.Empty<string>()
+);
+
             _output.WriteLine("     ✅ Verified ModelState contains 'Password is too weak.' error.");
 
             userManagerMock.Verify(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
@@ -206,7 +208,7 @@ namespace Sub_Application_1.Tests.Controllers
             ).ReturnsAsync(IdentitySignInResult.Success);
 
             var controller = new UsersController(
-                null, null, null, 
+                null!, null!, null!, 
                 signInManagerMock.Object, 
                 userManagerMock.Object
             );
@@ -259,7 +261,7 @@ namespace Sub_Application_1.Tests.Controllers
             ).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
 
             var controller = new UsersController(
-                null, null, null, 
+                null!, null!, null!, 
                 signInManagerMock.Object, 
                 userManagerMock.Object
             );
@@ -277,7 +279,7 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.True(controller.ModelState.ContainsKey("Login"));
             _output.WriteLine("     ✅ Verified that 'Login' error exists in ModelState.");
 
-            var error = controller.ModelState["Login"].Errors.FirstOrDefault()?.ErrorMessage;
+            var error = controller.ModelState["Login"]?.Errors.FirstOrDefault()?.ErrorMessage;
             Assert.Equal("Invalid username or password.", error);
             _output.WriteLine("     ✅ Verified ModelState contains 'Invalid username or password.' error.");
 
