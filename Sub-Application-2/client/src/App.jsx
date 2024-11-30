@@ -20,29 +20,31 @@ import Search from './pages/Search';
 const App = () => {
     return (
         <>
-        
-        <ToastContainer />
-        <AuthProvider>
-            <Router>
+        <ToastContainer /> {/* For displaying toast notifications */}
+        <AuthProvider> {/* Provides authentication context to the app */}
+            <Router> {/* Routes for different pages*/}
                 <div
                     style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        minHeight: '100vh', // Sørger for at høyden dekker hele skjermen
+                        minHeight: '100vh', 
                     }}>
                     <NavMenu />
                     <div
                         className='Routes-body'
                         style={{
-                            flex: 1, // Sørger for at dette området strekker seg for å fylle mellomrom
+                            flex: 1, 
                             padding: '1rem',
+
                         }}>
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<LoginUser />} />
                             <Route path="/register" element={<Register />} />
-                            <Route
+                            
+                            {/* Private route for some pages*/}
+                            <Route 
                                 path="/edit-post/:postId"
                                 element={
                                     <PrivateRoute>

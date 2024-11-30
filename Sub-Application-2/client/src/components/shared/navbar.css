@@ -23,6 +23,7 @@
     transition: color 0.3s ease;
 }
 
+/* Changes color on link-text when hovered over */
 .navbar-main .nav-link:hover {
     color: #555;
 }
@@ -69,7 +70,7 @@
         background-color: #f8f9fa;
         border-top: 1px solid #ddd;
     }
-
+    /* Styles for the navbar links inside the custom navbar */
     .navbar-main .nav-link {
         font-size: 1.25rem;
         padding: 0.5rem;
