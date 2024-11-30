@@ -46,8 +46,8 @@ a.navbar-brand {
     white-space: nowrap;
     line-height: 60px;
   }
-  
-  /* Mobile View Adjustments */
+
+  /* for mobile view and small screens, moves the navbar to the bottom of the screen */
   @media (max-width: 576px) {
     /* Navbar moves to the bottom */
     nav.navbar {
@@ -73,7 +73,7 @@ a.navbar-brand {
     }
   }
   @media (max-width: 576px) {
-    .hsd {
+    .posts {
       background-color: lightcoral;
     }
   }

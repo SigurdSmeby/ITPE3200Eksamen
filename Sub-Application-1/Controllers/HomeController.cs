@@ -110,8 +110,12 @@ namespace Sub_Application_1.Controllers
 		[HttpPost("CreatePost")]
 		public async Task<IActionResult> CreatePost(CreatePostDto postDto)
 		{
-			string userId = GetCurrentUserId();
-
+			var user = await _userManager.GetUserAsync(User);
+    	string userId = user.Id;
+			if (user == null)
+			{
+				return Unauthorized();
+			}
 			if (!ModelState.IsValid)
 			{
 				return View(postDto);
@@ -175,14 +179,21 @@ namespace Sub_Application_1.Controllers
 		{
 			// Fetch the post by ID
 			var post = await _context.Posts.FirstOrDefaultAsync(p => p.PostId == postId);
-
+			
+			// Check the user 
+			var user = await _userManager.GetUserAsync(User);
+    	string userId = user.Id;
+			if (user == null)
+			{
+				return Unauthorized();
+			}
 			if (post == null)
 			{
 				return NotFound($"Post with ID '{postId}' not found.");
 			}
 
 			// Check if the logged-in user is the owner of the post
-			if (post.UserId != GetCurrentUserId())
+			if (post.UserId != userId)
 			{
 				return Forbid();
 			}
@@ -213,13 +224,21 @@ namespace Sub_Application_1.Controllers
 			// Fetch the post
 			var post = await _context.Posts.FirstOrDefaultAsync(p => p.PostId == postId);
 
+			// Check the user 
+			var user = await _userManager.GetUserAsync(User);
+    	string userId = user.Id;
+			if (user == null)
+			{
+				return Unauthorized();
+			}
+
 			if (post == null)
 			{
 				return NotFound($"Post with ID '{postId}' not found.");
 			}
 
 			// Check if the logged-in user is the owner of the post
-			if (post.UserId != GetCurrentUserId())
+			if (post.UserId != user.Id)
 			{
 				return Forbid();
 			}
@@ -279,8 +298,15 @@ namespace Sub_Application_1.Controllers
 		[HttpPost("DeletePost")]
 		public async Task<IActionResult> DeletePost(int id)
 		{
-			// Get the current user's ID
-			string userId = GetCurrentUserId();
+			
+
+			// Check the user 
+			var user = await _userManager.GetUserAsync(User);
+    	string userId = user.Id;
+			if (user == null)
+			{
+				return Unauthorized();
+			}
 
 			// Find the post by ID
 			var post = await _context.Posts.FindAsync(id);
@@ -368,11 +394,7 @@ namespace Sub_Application_1.Controllers
 		}
 
 
-		// Helper method
-		private string GetCurrentUserId()
-		{
-			return User.FindFirstValue(ClaimTypes.NameIdentifier);
-		}
+
 		public static bool FileSmallerThan10MB(IFormFile file)
 		{
 				long MaxFileSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes

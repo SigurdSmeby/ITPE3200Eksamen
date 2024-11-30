@@ -153,3 +153,11 @@
     background-color: #0056b3;
     transition: background-color 0.2s;
 }
+@media (max-width: 576px) { /* make the cards bigger for smaller screens */
+    .card {
+        width: 100%; /* Full width */
+        margin: 0; /* Remove external margins */
+        border-radius: 0; /* Optional: make it edge-to-edge */
+    }
+}
+
