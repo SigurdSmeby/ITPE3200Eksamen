@@ -242,9 +242,7 @@ namespace Sub_Application_1.Controllers
 			}
 			var result = await _userManager.UpdateAsync(user);
 
-			//TODO: Add error handling
-
-			ViewBag.SuccessMessage = "Profile updated successfully.";
+			ViewData["ProfileSuccess"] = "Profile updated successfully.";
 			return View("Settings", userProfileDto);
 		}
 
@@ -287,7 +285,7 @@ namespace Sub_Application_1.Controllers
 				var errorMessages = string.Join("<br/>", results.Errors.Select(e => e.Description));
 				ViewData["PasswordError"] = errorMessages;
 			}
-			return View("Settings", updatedUserDto);
+			return View("Settings", userProfileDto);
 		}
 
 		// DELETE: api/Users/delete-account
