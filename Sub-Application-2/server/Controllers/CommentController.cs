@@ -52,7 +52,7 @@ namespace server.Controllers
                     CommentId = c.CommentId,
                     Content = c.Content,
                     DateCommented = c.DateCommented,
-                    AuthorUsername = c.User.Username
+                    AuthorUsername = c.User == null ? "[Deleted]" : c.User.Username
                 })
                 .ToListAsync();
 

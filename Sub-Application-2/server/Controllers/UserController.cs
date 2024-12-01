@@ -188,6 +188,61 @@ namespace server.Controllers
 
             return Ok(new { success = true, message = "Profile updated successfully." });
         }
+        
+                // PUT: api/Users/change-password
+        // Change the password of the currently logged-in user
+        [Authorize]
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto passwordDto)
+        {
+            int userId = GetCurrentUserId();
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                return NotFound();
+            // Verify the current password
+            if (!BCrypt.Net.BCrypt.Verify(passwordDto.CurrentPassword, user.PasswordHash))
+                return BadRequest("Current password is incorrect.");
+            // Update password hash
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(passwordDto.NewPassword);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return Ok("Password changed successfully.");
+        }
+        // DELETE: api/Users/delete-account
+        // Delete the currently logged-in user's account and associated data
+        [Authorize]
+        [HttpDelete("delete-account")]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            int userId = GetCurrentUserId();
+            // Fetch user and their posts
+            var user = await _context.Users
+                .Include(u => u.Posts)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+                return NotFound();
+            // Delete profile picture if not default
+            if (!string.IsNullOrEmpty(user.ProfilePictureUrl) && !user.ProfilePictureUrl.Contains("default_profile.jpg"))
+            {
+                var profilePicturePath = Path.Combine(_webHostEnvironment.WebRootPath, user.ProfilePictureUrl.TrimStart('/'));
+                if (System.IO.File.Exists(profilePicturePath))
+                    System.IO.File.Delete(profilePicturePath);
+            }
+            // Delete all post images
+            foreach (var post in user.Posts)
+            {
+                if (!string.IsNullOrEmpty(post.ImagePath))
+                {
+                    var postImagePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(postImagePath))
+                        System.IO.File.Delete(postImagePath);
+                }
+            }
+            // Remove user and save changes
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return Ok("Account and associated data deleted successfully.");
+        }
 
         // Helper method: Retrieves the ID of the currently logged-in user from JWT claims.
         private int GetCurrentUserId()
