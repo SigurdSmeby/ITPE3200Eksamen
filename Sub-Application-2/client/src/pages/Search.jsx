@@ -30,11 +30,12 @@ const Search = () => {
     }, []);
 
     // Filter users dynamically based on the search input
-    const filteredUsers = users.filter((user) =>
-        filterUsername.trim() === ''
-            ? false
-            : user.username?.toLowerCase().includes(filterUsername.toLowerCase())
-    );
+    const filteredUsers = filterUsername.trim() === ''
+    ? users // Show all users when the search input is empty
+    : users.filter((user) =>
+          user.username?.toLowerCase().includes(filterUsername.toLowerCase())
+      );
+
 
 	// Hide dropdown when input loses or gain focus
     const handleBlur = () => {
