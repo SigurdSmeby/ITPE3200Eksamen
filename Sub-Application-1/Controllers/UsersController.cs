@@ -275,9 +275,7 @@ namespace Sub_Application_1.Controllers
 				var errorMessages = string.Join("<br/>", results.Errors.Select(e => e.Description));
 				ModelState.AddModelError("PasswordError", errorMessages);
 			}
-			return View("Settings", updatedUserDto);
-			return View("Settings", userProfileDto);
-			
+			return View("Settings", updatedUserDto);			
 		}
 		// DELETE: api/Users/delete-account
 		[Authorize]
