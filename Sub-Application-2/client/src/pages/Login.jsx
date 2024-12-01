@@ -4,6 +4,7 @@ import { login as loginApi } from '../api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/shared/AuthContext';
 import { toast } from 'react-toastify';
+import log from '../logger';
 
 const LoginUser = () => {
     const [username, setUsername] = useState('');
@@ -11,7 +12,7 @@ const LoginUser = () => {
     const [error, setError] = useState('');
     const { login } = useAuth(); // Get login function from AuthContext
     const navigate = useNavigate();
-    const notifyLoginSucsess = () => toast.success("Login successful!"); // Notify user of successful login
+    const notifyLoginSucsess = () => toast.success('Login successful!'); // Notify user of successful login
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent form's default submission behavior
@@ -27,16 +28,15 @@ const LoginUser = () => {
 
             navigate(`/`); // Redirect to home page
         } catch (err) {
-            setError(err); 
+            setError(err);
         }
     };
 
     return (
         <div className="container mt-4">
             <h2>Login</h2>
-
-            {error && <Alert variant="danger">{error}</Alert>} {/* Display error message if any */}
-
+            {error && <Alert variant="danger">{error}</Alert>}{' '}
+            {/* Display error message if any */}
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formUsername">
                     <Form.Label>Username</Form.Label>
@@ -66,7 +66,12 @@ const LoginUser = () => {
                 <Button variant="primary" type="submit">
                     Login
                 </Button>
-                <Button variant="light" onClick={() => navigate('/register')}>
+                <Button
+                    variant="light"
+                    onClick={() => {
+                        log.info('Navigating to register page.');
+                        navigate('/register');
+                    }}>
                     New User?
                 </Button>
             </Form>
