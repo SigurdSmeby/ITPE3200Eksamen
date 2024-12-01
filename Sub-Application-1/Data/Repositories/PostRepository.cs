@@ -8,39 +8,49 @@ using Sub_Application_1.Repositories.Interfaces;
 
 namespace Sub_Application_1.Repositories
 {
-    /// <summary>
-    /// Repository implementation for Post entity.
-    /// </summary>
     public class PostRepository : Repository<Post>, IPostRepository
     {
         public PostRepository(AppDbContext context) : base(context)
         {
         }
 
-        /// <summary>
-        /// Get all posts with related comments and likes.
-        /// </summary>
-        public async Task<IEnumerable<Post>> GetAllWithDetailsAsync()
+        public async Task<IEnumerable<Post>> GetAllPostsWithDetailsAsync()
         {
             return await _dbSet
-                .Include(p => p.Comments)
-                .Include(p => p.Likes)
+                .OrderByDescending(p => p.DateUploaded)
                 .Include(p => p.User)
+                .Include(p => p.Likes)
+                .ThenInclude(l => l.User)
+                .Include(p => p.Comments)
+                .ThenInclude(c => c.User)
                 .ToListAsync();
         }
 
-        /// <summary>
-        /// Get posts by a specific user.
-        /// </summary>
         public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(string userId)
         {
             return await _dbSet
                 .Where(p => p.UserId == userId)
-                .Include(p => p.Comments)
+                .OrderByDescending(p => p.DateUploaded)
+                .Include(p => p.User)
                 .Include(p => p.Likes)
+                .Include(p => p.Comments)
+                .ThenInclude(c => c.User)
                 .ToListAsync();
         }
 
-        // Implement additional methods specific to Post here
+        public async Task<Post?> GetPostByIdAsync(int postId)
+        {
+            return await _dbSet.FirstOrDefaultAsync(p => p.PostId == postId);
+        }
+
+        public async Task<Post?> GetPostWithDetailsAsync(int postId)
+        {
+            return await _dbSet
+                .Include(p => p.User)
+                .Include(p => p.Likes)
+                .Include(p => p.Comments)
+                .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(p => p.PostId == postId);
+        }
     }
 }
