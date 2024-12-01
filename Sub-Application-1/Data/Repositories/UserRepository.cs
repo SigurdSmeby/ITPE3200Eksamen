@@ -91,7 +91,15 @@ namespace Sub_Application_1.Repositories
 
         public async Task<User?> GetUserAsync(System.Security.Claims.ClaimsPrincipal principal)
         {
-            return await _userManager.GetUserAsync(principal);
+          var userId = _userManager.GetUserId(principal);
+          if (userId == null)
+          {
+              return null;
+          }
+
+          return await _userManager.Users
+              .Include(u => u.Likes) 
+              .FirstOrDefaultAsync(u => u.Id == userId);
         }
     }
 }

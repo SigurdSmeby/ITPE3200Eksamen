@@ -52,5 +52,12 @@ namespace Sub_Application_1.Repositories
                 .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(p => p.PostId == postId);
         }
+        public async Task<Post?> GetPostWithLikesAsync(int postId)
+        {
+            return await _dbSet
+                .Include(p => p.Likes)
+                .ThenInclude(l => l.User)
+                .FirstOrDefaultAsync(p => p.PostId == postId);
+        }
     }
 }

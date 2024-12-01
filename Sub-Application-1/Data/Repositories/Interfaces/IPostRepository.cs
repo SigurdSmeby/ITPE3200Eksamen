@@ -11,5 +11,6 @@ namespace Sub_Application_1.Repositories.Interfaces
         Task<IEnumerable<Post>> GetPostsByUserIdAsync(string userId);
         Task<Post?> GetPostByIdAsync(int postId);
         Task<Post?> GetPostWithDetailsAsync(int postId);
+        Task<Post?> GetPostWithLikesAsync(int postId);
     }
 }

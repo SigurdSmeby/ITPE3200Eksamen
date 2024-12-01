@@ -47,4 +47,5 @@ using (var scope = app.Services.CreateScope())
     SeedData.Initialize(context);
 }
 
+
 app.Run();
