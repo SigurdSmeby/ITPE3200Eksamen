@@ -31,8 +31,8 @@ namespace server.Data
             var red = context.Users.SingleOrDefault(u => u.Username == "Red");
             var sheep = context.Users.SingleOrDefault(u => u.Username == "Sligtly_scared");
 
-            // Ensure all users were found
-            if (barbie == null || racoony == null || duckface == null || turtle == null || red == null)
+            // Ensure all users were found, if more users are added, UPDATE THIS
+            if (barbie == null || racoony == null || duckface == null || turtle == null || red == null || sheep == null)
             {
                 throw new InvalidOperationException("Seeding failed: one or more users could not be found.");
             }
