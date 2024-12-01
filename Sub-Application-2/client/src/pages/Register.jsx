@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { login as loginApi } from '../api/authApi';
 import { useAuth } from '../components/shared/AuthContext';
+import log from '../logger';
 
 const RegisterUser = () => {
     // State for handling form data
@@ -15,12 +16,14 @@ const RegisterUser = () => {
         confirmPassword: '',
     });
     const [error, setError] = useState('');
-    const registerSuccess = () => toast.success("Profile created successfully!");
+    const registerSuccess = () =>
+        toast.success('Profile created successfully!');
     const { login } = useAuth(); // Access login method from AuthContext
     const navigate = useNavigate();
 
     // Password requirements regex
-    const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$/;
+    const passwordRequirements =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$/;
 
     // Handle form submission
     const handleSubmit = async (event) => {
@@ -29,14 +32,16 @@ const RegisterUser = () => {
         // Validate password requirements
         if (!passwordRequirements.test(formData.password)) {
             setError(
-                'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.'
+                'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.',
             );
+            log.error('Password does not meet requirements');
             return;
         }
 
         // Validate that passwords match
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
+            log.error('Passwords do not match');
             return;
         }
 
@@ -44,10 +49,17 @@ const RegisterUser = () => {
             setError('');
 
             // Register the user
-            await register(formData.username, formData.email, formData.password);
+            await register(
+                formData.username,
+                formData.email,
+                formData.password,
+            );
 
             // Log in the user automatically
-            const { token: jwtToken } = await loginApi(formData.username, formData.password);
+            const { token: jwtToken } = await loginApi(
+                formData.username,
+                formData.password,
+            );
             login(jwtToken, formData.username); // Update auth context with token
 
             registerSuccess(); // Display success message

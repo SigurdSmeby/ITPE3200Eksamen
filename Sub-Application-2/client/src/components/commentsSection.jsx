@@ -9,32 +9,23 @@ const CommentsSection = ({ postId, refresh, onCommentDelete }) => {
 
     // Function to handle the deletion of a comment
     const handleDeleteComment = async (commentId) => {
-        try {
-            await deleteComment(commentId);
-            setComments(
-                (
-                    prevComments, //uppdates the comments array
-                ) =>
-                    prevComments.filter(
-                        (comment) => comment.commentId !== commentId,
-                    ),
-            );
-            if (onCommentDelete) onCommentDelete();
-        } catch (error) {
-            console.error('Error deleting comment:', error);
-        }
+        await deleteComment(commentId);
+        setComments(
+            (
+                prevComments, //uppdates the comments array
+            ) =>
+                prevComments.filter(
+                    (comment) => comment.commentId !== commentId,
+                ),
+        );
+        if (onCommentDelete) onCommentDelete();
     };
 
     // Fetch comments for the given post whenever postId or refresh changes
     useEffect(() => {
-        fetchCommentsForPost(postId)
-            .then((response) => {
-                console.log('Fetched comments:', response);
-                setComments(response); //updates the comments array
-            })
-            .catch((error) => {
-                console.error('Error fetching comments:', error);
-            });
+        fetchCommentsForPost(postId).then((response) => {
+            setComments(response); //updates the comments array
+        });
     }, [postId, refresh]);
 
     return (
