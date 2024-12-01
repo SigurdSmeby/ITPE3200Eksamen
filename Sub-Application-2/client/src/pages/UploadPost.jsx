@@ -3,7 +3,7 @@ import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../api/postApi';
 import { toast } from 'react-toastify';
-import log from '../loggerl';
+import log from '../logger';
 
 const UploadPost = () => {
     // State for managing post data
