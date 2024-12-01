@@ -1,29 +1,33 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Sub_Application_1.Models;
-using Sub_Application_1.Data;
-using Sub_Application_1.DTOs;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Sub_Application_1.DTOs;
+using Sub_Application_1.Models;
+using Sub_Application_1.Repositories.Interfaces;
+using System;
 using System.IO;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
-namespace Sub_Application_1.Controllers 
+namespace Sub_Application_1.Controllers
 {
-	public class HomeController : Controller
-	{
-		private readonly UserManager<User> _userManager;
-		private readonly AppDbContext _context;
-		private readonly IWebHostEnvironment _webHostEnvironment;
+    public class HomeController : Controller
+    {
+				// Repository for post management
+        private readonly IPostRepository _postRepository;
+        private readonly IUserRepository _userRepository;
+				// Webhost for file management
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-		public HomeController(UserManager<User> userManager, AppDbContext context, IWebHostEnvironment webHostEnvironment)
-		{
-			_userManager = userManager;
-			_context = context;
-			_webHostEnvironment = webHostEnvironment;
-		}
+        public HomeController(
+            IPostRepository postRepository,
+            IUserRepository userRepository,
+            IWebHostEnvironment webHostEnvironment)
+        {
+            _postRepository = postRepository;
+            _userRepository = userRepository;
+            _webHostEnvironment = webHostEnvironment;
+        }
 
 		// GET: /Home/Index or /
 		[HttpGet]
@@ -31,47 +35,45 @@ namespace Sub_Application_1.Controllers
 		{
 				if (User.Identity != null && User.Identity.IsAuthenticated)
 				{
-						var user = await _userManager.GetUserAsync(User);
-						ViewData["Username"] = user?.UserName;
+                var user = await _userRepository.GetUserAsync(User);
+								ViewData["Username"] = user?.UserName;
 				}
 				else
 				{
 						ViewData["Username"] = null;
 				}
 
-				var posts = await _context.Posts
-						.OrderByDescending(p => p.DateUploaded)
-						.Include(p => p.User) // Include post owner details
-						.Include(p => p.Likes) // Include likes for each post
-						.ThenInclude(l => l.User) // Include details of users who liked the post
-						.Include(p => p.Comments)
-						.ThenInclude(c => c.User) // Include user details for comments
-						.Select(p => new PostDto
-						{
-								PostId = p.PostId,
-								ImagePath = p.ImagePath,
-								TextContent = p.TextContent,
-								DateUploaded = p.DateUploaded,
-								FontSize = p.FontSize,
-								TextColor = p.TextColor,
-								BackgroundColor = p.BackgroundColor,
-								Author = new UserDto
-								{
-										UserId = p.User.Id,
-										Username = p.User.UserName,
-										ProfilePictureUrl = p.User.ProfilePictureUrl
-								},
-								LikesCount = p.Likes.Count, // Count of likes for the post
-								Likes = p.Likes.Select(l => new UserDto
-								{
-										UserId = l.User.Id,
-										Username = l.User.UserName,
-										ProfilePictureUrl = l.User.ProfilePictureUrl
-								}).ToList() // List of users who liked the post
-						})
-						.ToListAsync();
+				var posts = await _postRepository.GetAllPostsWithDetailsAsync();
 
-				return View(posts);
+            // Map posts to PostDto
+            var postDtos = posts.Select(p => new PostDto
+            {
+                PostId = p.PostId,
+                ImagePath = p.ImagePath,
+                TextContent = p.TextContent,
+                DateUploaded = p.DateUploaded,
+                FontSize = p.FontSize,
+                TextColor = p.TextColor,
+                BackgroundColor = p.BackgroundColor,
+								// Create a userDTO for the author
+                Author = new UserDto
+                {
+                    UserId = p.User.Id,
+                    Username = p.User.UserName,
+                    ProfilePictureUrl = p.User.ProfilePictureUrl
+                },
+                LikesCount = p.Likes.Count,
+								// Create a list of userDTOs for the likes, so we kwow who liked the post
+                Likes = p.Likes.Select(l => new UserDto
+                {
+                    UserId = l.User.Id,
+                    Username = l.User.UserName,
+                    ProfilePictureUrl = l.User.ProfilePictureUrl
+                }).ToList()
+            }).ToList();
+						
+
+				return View(postDtos);
 		}
 
 
@@ -102,7 +104,7 @@ namespace Sub_Application_1.Controllers
 		[HttpPost("CreatePost")]
 		public async Task<IActionResult> CreatePost(CreatePostDto postDto)
 		{
-			var user = await _userManager.GetUserAsync(User);
+			var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				return Unauthorized();
@@ -160,8 +162,8 @@ namespace Sub_Application_1.Controllers
 				BackgroundColor = postDto.BackgroundColor ?? "#FFFFFF" // Default background color (white)
 			};
 
-			_context.Posts.Add(post);
-			await _context.SaveChangesAsync();
+			await _postRepository.AddAsync(post);
+      await _postRepository.SaveAsync();
 
 			return RedirectToAction("Index");
 		}
@@ -171,10 +173,9 @@ namespace Sub_Application_1.Controllers
 		public async Task<IActionResult> EditPost(int postId)
 		{
 			// Fetch the post by ID
-			var post = await _context.Posts.FirstOrDefaultAsync(p => p.PostId == postId);
-			
+      var post = await _postRepository.GetPostByIdAsync(postId);			
 			// Check the user 
-			var user = await _userManager.GetUserAsync(User);
+      var user = await _userRepository.GetUserAsync(User);			
 			if (user == null)
 			{
 				return Unauthorized();
@@ -211,15 +212,16 @@ namespace Sub_Application_1.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				ViewData["ImagePath"] = (await _context.Posts.FindAsync(postId))?.ImagePath; // Maintain image preview on error
+				var existingPost = await _postRepository.GetPostByIdAsync(postId);
+				ViewData["ImagePath"] = existingPost?.ImagePath; // Maintain image preview on error
 				return View(updatePostDto);
 			}
 
 			// Fetch the post
-			var post = await _context.Posts.FirstOrDefaultAsync(p => p.PostId == postId);
-
+      var post = await _postRepository.GetPostByIdAsync(postId);
+			
 			// Check the user 
-			var user = await _userManager.GetUserAsync(User);
+			var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				return Unauthorized();
@@ -280,8 +282,8 @@ namespace Sub_Application_1.Controllers
 
 
 
-			_context.Posts.Update(post);
-			await _context.SaveChangesAsync();
+      _postRepository.Update(post);
+      await _postRepository.SaveAsync();
 
 			return RedirectToAction("Index");
 		}
@@ -295,7 +297,7 @@ namespace Sub_Application_1.Controllers
 			
 
 			// Check the user 
-			var user = await _userManager.GetUserAsync(User);
+			var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				return Unauthorized();
@@ -303,7 +305,7 @@ namespace Sub_Application_1.Controllers
     	string userId = user.Id;
 
 			// Find the post by ID
-			var post = await _context.Posts.FindAsync(id);
+			var post = await _postRepository.GetPostByIdAsync(id);
 
 			if (post == null)
 				return NotFound("Post not found.");
@@ -312,15 +314,24 @@ namespace Sub_Application_1.Controllers
 			if (post.UserId != userId)
 				return Forbid("You are not authorized to delete this post.");
 
-			// Delete the post
-			_context.Posts.Remove(post);
-			await _context.SaveChangesAsync();
+			// Remove old image file if it exists
+			if (!string.IsNullOrEmpty(post.ImagePath))
+			{
+					var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
+					if (System.IO.File.Exists(oldFilePath))
+					{
+							System.IO.File.Delete(oldFilePath);
+					}
+			}
 
-			// Redirect back to the main posts page or index
+			// Delete the post
+			_postRepository.Delete(post);
+      await _postRepository.SaveAsync();
+
 			return RedirectToAction("Index");
 		}
 
-		[HttpGet("Profile/{username?}")] // Make 'username' optional
+		[HttpGet("Profile/{username?}")] // Make 'username' optional 
 		public async Task<IActionResult> Profile(string? username)
 		{
 			// Use the logged-in user's username if 'username' is null or empty
@@ -336,23 +347,18 @@ namespace Sub_Application_1.Controllers
 			}
 
 			// Fetch the user by username
-			var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
+			var user = await _userRepository.GetUserByUsernameAsync(username);
 
 			if (user == null)
 			{
 				return NotFound($"User with username '{username}' not found.");
 			}
 
-			// Fetch posts created by the user
-			var posts = await _context.Posts
-				.Where(p => p.UserId == user.Id)
-				.OrderByDescending(p => p.DateUploaded)
-				.Include(p => p.User)
-				.Include(p => p.Likes)
-				.Include(p => p.Comments)
-				.ThenInclude(c => c.User) // Include user details for comments
-				.Select(p => new PostDto
-				{
+			// fetch posts by user
+			var posts = await _postRepository.GetPostsByUserIdAsync(user.Id);
+			// Map posts to PostDto
+			var postDtos = posts.Select(p => new PostDto
+			{
 					PostId = p.PostId,
 					ImagePath = p.ImagePath,
 					TextContent = p.TextContent,
@@ -360,15 +366,15 @@ namespace Sub_Application_1.Controllers
 					FontSize = p.FontSize,
 					TextColor = p.TextColor,
 					BackgroundColor = p.BackgroundColor,
+					// Create a userDTO for the author and add to the postDto
 					Author = new UserDto
 					{
-						UserId = p.User.Id,
-						Username = p.User != null && p.User.UserName != null ? p.User.UserName : "[DELETED]", // Default value for deleted users, incase they are displayed, they should not be though
-						ProfilePictureUrl = p.User != null && p.User.ProfilePictureUrl != null ? p.User.ProfilePictureUrl : "/images/default-profile.png" // sets default profile picture if there is a null value
+							UserId = p.User.Id,
+							Username = p.User.UserName ?? "[DELETED]",
+							ProfilePictureUrl = p.User.ProfilePictureUrl ?? "/images/default-profile.png"
 					},
 					LikesCount = p.Likes.Count,
-				})
-				.ToListAsync();
+			}).ToList();
 
 			// Set ViewData for profile details
 			ViewData["Username"] = user.UserName;
@@ -376,7 +382,7 @@ namespace Sub_Application_1.Controllers
 			ViewData["Bio"] = user.Bio;
 
 			// Return the view with posts
-			return View(posts);
+			return View(postDtos);
 		}
 
 

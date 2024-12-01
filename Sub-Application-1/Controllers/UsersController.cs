@@ -1,40 +1,27 @@
-using Microsoft.AspNetCore.Mvc;
-using Sub_Application_1.Data;
-using Sub_Application_1.Models;
-using Sub_Application_1.DTOs;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Sub_Application_1.DTOs;
+using Sub_Application_1.Models;
+using Sub_Application_1.Repositories.Interfaces;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace Sub_Application_1.Controllers
 {
 	public class UsersController : Controller
 	{
-		private readonly AppDbContext _context;
-		private readonly IConfiguration _configuration;
-		private readonly IWebHostEnvironment _webHostEnvironment;
+		 private readonly IUserRepository _userRepository;
+			private readonly IWebHostEnvironment _webHostEnvironment;
 
-		private readonly SignInManager<User> _signInManager;
-		private readonly UserManager<User> _userManager;
-
-		// Constructor initializes dependencies required for user management and file handling.
-		public UsersController(
-			AppDbContext context,
-			IConfiguration configuration,
-			IWebHostEnvironment webHostEnvironment,
-			SignInManager<User> signInManager,
-			UserManager<User> userManager)
-		{
-			_context = context;
-			_configuration = configuration;
-			_webHostEnvironment = webHostEnvironment;
-			_signInManager = signInManager;
-			_userManager = userManager;
-		}
+			// Constructor initializes repository for user management, and iwebhost fir file management
+			public UsersController( IUserRepository userRepository, IWebHostEnvironment webHostEnvironment)
+			{
+					_userRepository = userRepository;
+					_webHostEnvironment = webHostEnvironment;
+			}
 		public IActionResult Register()
 		{
 			return View();
@@ -59,12 +46,12 @@ namespace Sub_Application_1.Controllers
 			{
 				ModelState.AddModelError("Password", "Passwords do not match.");
 			}
-			var existingUserByUsername = await _userManager.FindByNameAsync(registerDto.Username);
+			var existingUserByUsername = await _userRepository.GetUserByUsernameAsync(registerDto.Username);
 			if (existingUserByUsername != null)
 			{
 				ModelState.AddModelError("Username", "Username already exists.");
 			}
-			var existingUserByEmail = await _userManager.FindByEmailAsync(registerDto.Email);
+			var existingUserByEmail = await _userRepository.GetUserByEmailAsync(registerDto.Email);
 			if (existingUserByEmail != null)
 			{
 				ModelState.AddModelError("Email", "Email already registered.");
@@ -74,17 +61,11 @@ namespace Sub_Application_1.Controllers
 				return View(registerDto);
 			}
 			
-			var user = new User
-			{
-				UserName = registerDto.Username,
-				Email = registerDto.Email,
-			};
 
-			var result = await _userManager.CreateAsync(user, registerDto.Password);
+			var result = await _userRepository.RegisterUserAsync(registerDto);
 			Console.WriteLine("Result: " + result);
 			if (result.Succeeded)
 			{
-				await _signInManager.SignInAsync(user, isPersistent: true);
 				return RedirectToAction("Index", "Home"); // Successful registration.
 			}
 
@@ -108,8 +89,7 @@ namespace Sub_Application_1.Controllers
 				return View();
 			}
 
-			var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, isPersistent: false, lockoutOnFailure: false);
-
+			var result = await _userRepository.LoginAsync(loginDto);
 
 			if (result.Succeeded)
 			{
@@ -117,10 +97,13 @@ namespace Sub_Application_1.Controllers
 			}
 			else if (result.IsLockedOut)
 			{
+				// this shouldnt be able to be triggered, but it is created to be used in the eventual future
+				// just to prove we know that we can lock out users if we want to :hrek_smile:
 				ModelState.AddModelError("Login", "This account is locked out. Please try again later.");
 			}
 			else
 			{
+				// error message purposely vague to prevent brute force attacks
 				ModelState.AddModelError("Login", "Invalid username or password.");
 			}
 			return View();
@@ -128,7 +111,7 @@ namespace Sub_Application_1.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Logout()
 		{
-			await _signInManager.SignOutAsync();
+			await _userRepository.LogoutAsync();
 			return RedirectToAction("Index", "Home");
 		}
 
@@ -136,15 +119,14 @@ namespace Sub_Application_1.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Settings()
 		{
-			var user = await _userManager.GetUserAsync(User);
-
+            var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				ModelState.AddModelError("User", "User not found");
 				Console.WriteLine("User not found");
 				return View();
 			}
-			//TODO: Se ann om vi trenger å sende me all infoen
+
 			var userDto = new UserProfileDto
 			{
 				Username = user.UserName,
@@ -161,8 +143,7 @@ namespace Sub_Application_1.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateProfile(UserProfileDto userProfileDto)
 		{
-			var user = await _userManager.GetUserAsync(User);
-
+      var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				ModelState.AddModelError("User", "User not found");
@@ -173,16 +154,17 @@ namespace Sub_Application_1.Controllers
 				return View("Settings", userProfileDto);
 			}
 			if (!string.IsNullOrEmpty(userProfileDto.Username)){
+
 				user.UserName = userProfileDto.Username;
-				var resultuname = await _userManager.UpdateAsync(user);
+				var resultuname = await _userRepository.UpdateUserAsync(user);
+				// Sign out and sign in again to update the username in the cookie
 				if (resultuname.Succeeded)
 				{
-					await _signInManager.SignOutAsync();
-					await _signInManager.SignInAsync(user, isPersistent: false);
+				await _userRepository.SignOutAsync();
+				await _userRepository.SignInAsync(user, isPersistent: false);
 				}
 
 			}
-				
 			else
 			{
 				ViewData["ProfileError"] = "Username cannot be empty.";
@@ -240,9 +222,17 @@ namespace Sub_Application_1.Controllers
 				user.ProfilePictureUrl = "/uploads/profile_pictures/" + uniqueFileName;
 				userProfileDto.ProfilePictureUrl = user.ProfilePictureUrl;
 			}
-			var result = await _userManager.UpdateAsync(user);
+			var updateResult = await _userRepository.UpdateUserAsync(user);
+			if (updateResult.Succeeded)
+			{
+					ViewData["ProfileSuccess"] = "Profile updated successfully.";
+			}
+			else
+			{
+					var errorMessages = string.Join("<br/>", updateResult.Errors.Select(e => e.Description));
+					ViewData["ProfileError"] = errorMessages;
+			}
 
-			ViewData["ProfileSuccess"] = "Profile updated successfully.";
 			return View("Settings", userProfileDto);
 		}
 
@@ -251,8 +241,8 @@ namespace Sub_Application_1.Controllers
 		[HttpPost]
 		public async Task<IActionResult> ChangePassword(UserProfileDto userProfileDto)
 		{
-			var user = await _userManager.GetUserAsync(User);
-			// Reload user data to ensure the Settings view is populated with the latest data
+			var user = await _userRepository.GetUserAsync(User);
+			// Reload user data to ensure the Settings view is populated with the latest data on each form submission
 			var updatedUserDto = new UserProfileDto
 			{
 				Username = user.UserName,
@@ -275,7 +265,7 @@ namespace Sub_Application_1.Controllers
 				ViewData["PasswordError"] = "The passwords do not match";
 				return View("Settings", updatedUserDto);
 			}
-			var results = await _userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
+      var results = await _userRepository.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);			
 			if (results.Succeeded)
 			{
 				ViewData["PasswordSuccess"] = "Your password is updated";
@@ -283,17 +273,18 @@ namespace Sub_Application_1.Controllers
 			else
 			{
 				var errorMessages = string.Join("<br/>", results.Errors.Select(e => e.Description));
-				ViewData["PasswordError"] = errorMessages;
+				ModelState.AddModelError("PasswordError", errorMessages);
 			}
+			return View("Settings", updatedUserDto);
 			return View("Settings", userProfileDto);
+			
 		}
-
 		// DELETE: api/Users/delete-account
 		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> DeleteAccount()
 		{
-			var user = await _userManager.GetUserAsync(User);
+      var user = await _userRepository.GetUserAsync(User);			
 			if (user == null)
 			{
 				ModelState.AddModelError("User", "User not found");
@@ -308,8 +299,7 @@ namespace Sub_Application_1.Controllers
 					System.IO.File.Delete(oldFilePath);
 				}
 			}
-			var result = await _userManager.DeleteAsync(user);
-
+      var result = await _userRepository.DeleteUserAsync(user);
 			if (result.Succeeded)
 			{
 				return RedirectToAction("Login", "Users");

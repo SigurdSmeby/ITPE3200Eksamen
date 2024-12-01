@@ -4,121 +4,132 @@
 @model IEnumerable<Sub_Application_1.DTOs.PostDto>
 @if (Model == null || !Model.Any())
 {
-    <p>No posts available.</p>
+	<p>No posts available.</p>
 }
 else
 {
-    @foreach (var post in Model)
-    {
-        <div class="card mb-4 shadow-sm">
-            <!-- CARD HEADER -->
-            <div class="card-header d-flex align-items-center">
-                <a href="/profile/@post.Author?.Username" class="profile-link">
-                    <img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" class="profile-img me-2">
-                    <div>
-                        <h2 aria-label="@($"Post by: {post.Author?.Username ?? "Unknown Author"}")" class="mb-0">@post.Author?.Username</h2>
-                        <small class="text-muted date">@post.DateUploaded.ToString("MMM dd, yyyy")</small>
-                    </div>
-                </a>
-                @if (User.Identity?.Name == post.Author?.Username)
-                {
-                    <div class="ms-auto">
-                        <a aria-label="Post settings" class="dropdown-item" style="font-size: 30px;" href="EditPost/@post.PostId"><i class="bi bi-gear"></i></a>
-                    </div>
-                }
-            </div>
+	@foreach (var post in Model)
+	{
+		<div class="card mb-4 shadow-sm">
+			<!-- CARD HEADER -->
+			<div class="card-header d-flex align-items-center">
+				<a href="/profile/@post.Author?.Username" class="profile-link">
+					<img src="@post.Author?.ProfilePictureUrl" alt="Profile Picture" class="profile-img me-2">
+					<div>
+						<h2 aria-label="@($"Post by: {post.Author?.Username ?? "Unknown Author"}")" class="mb-0"
+							style="word-break: break-word">@post.Author?.Username</h2>
+						<small class="text-muted date">@post.DateUploaded.ToString("MMM dd, yyyy")</small>
+					</div>
+				</a>
+				@if (User.Identity?.Name == post.Author?.Username)
+				{
+					<div class="ms-auto">
+						<a aria-label="Post settings" class="dropdown-item" style="font-size: 30px;" href="EditPost/@post.PostId"><i
+								class="bi bi-gear"></i></a>
+					</div>
+				}
+			</div>
 
-            <!-- CARD BODY -->
-            <div class="card-body"
-                style="font-size: @(post.FontSize > 0 ? post.FontSize : 16)px; color: @post.TextColor; background-color: @post.BackgroundColor;">
-                @if (!string.IsNullOrEmpty(post.TextContent))
-                {
-                    <p class="mb-3 text-content" style="padding: 1rem;">@post.TextContent</p>
-                }
-                @if (!string.IsNullOrEmpty(post.ImagePath))
-                {
-                    <div class="image-container" style="display: flex; justify-content: center; align-items: center; max-height: 40rem; overflow: hidden;">
-                        <img src="@post.ImagePath" alt="Post Image" class="img-fluid" 
-                            style="width: 100%; height: 100%; max-height: 40rem; max-width: 100%; object-fit: contain; aspect-ratio: auto;border-radius: 0 !important;" />
-                    </div>
-                }
-            </div>
+			<!-- CARD BODY -->
+			<div class="card-body"
+				style="font-size: @(post.FontSize > 0 ? post.FontSize : 16)px; color: @post.TextColor; background-color: @post.BackgroundColor;">
+				@if (!string.IsNullOrEmpty(post.TextContent))
+				{
+					<p class="mb-3 text-content" style="padding: 1rem;">@post.TextContent</p>
+				}
+				@if (!string.IsNullOrEmpty(post.ImagePath))
+				{
+					<div class="image-container"
+						style="display: flex; justify-content: center; align-items: center; max-height: 40rem; overflow: hidden;">
+						<img src="@post.ImagePath" alt="Post Image" class="img-fluid"
+							style="width: 100%; height: 100%; max-height: 40rem; max-width: 100%; object-fit: contain; aspect-ratio: auto;border-radius: 0 !important;" />
+					</div>
+				}
+			</div>
 
 
-            <!-- CARD FOOTER -->
-            <div class="card-footer d-flex justify-content-start" style="gap: 15px; align-items: flex-start;">
-                <!-- Like Button and Comment Button -->
-                <div class="d-flex align-items-start" style="gap: 15px; line-height: 0;">
-                    <!-- Like Button -->
-                    <div style="display: flex; flex-direction: column; align-items: center;">
-                        <iframe aria-label="Like Container" class="lazy-load-like"
-                                data-src="@Url.Action("GetLikeButtonPartial", "Like", new { postId = post.PostId })" 
-                                frameborder="0" 
-                                scrolling="no" 
-                                loading="lazy"
-                                style="width: 55px; height: 80px; display: block; border: none; margin: 0; padding: 0; vertical-align: top;">
-                        </iframe>
-                    </div>
+			<!-- CARD FOOTER -->
+			<div class="card-footer d-flex justify-content-start" style="gap: 15px; align-items: flex-start;">
+				<!-- Like Button and Comment Button -->
+				<div class="d-flex align-items-start" style="gap: 15px; line-height: 0;">
+					<!-- Like Button -->
+					<div style="display: flex; flex-direction: column; align-items: center;">
+						<iframe aria-label="Like Container" class="lazy-load-like"
+							data-src="@Url.Action("GetLikeButtonPartial", "Like", new { postId = post.PostId })" frameborder="0"
+							scrolling="no" loading="lazy"
+							style="width: 55px; height: 80px; display: block; border: none; margin: 0; padding: 0; vertical-align: top;">
+						</iframe>
+					</div>
 
-                    <!-- Comment Button -->
-                    <div  style="display: flex; align-items: flex-start;">
-                        <button aria-label="Toggle comments" class="btn btn-light comment-icon-container toggle-comments" 
-                                data-bs-toggle="collapse"
-                                data-bs-target="#comments-section-@post.PostId" 
-                                data-post-id="@post.PostId" 
-                                aria-expanded="false"
-                                style="vertical-align: top;">
-                            <i class="bi bi-chat"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+					<!-- Comment Button -->
+					<div style="display: flex; align-items: flex-start;">
+						<button aria-label="Toggle comments" class="btn btn-light comment-icon-container toggle-comments"
+							data-bs-toggle="collapse" data-bs-target="#comments-section-@post.PostId"
+							data-post-id="@post.PostId" aria-expanded="false" style="vertical-align: top;">
+							<i class="bi bi-chat"></i>
+						</button>
+					</div>
+				</div>
+			</div>
 
-            <!-- COMMENTS SECTION -->
-            <div class="collapse" id="comments-section-@post.PostId">
-                <div>
-                    <iframe name="commentsIframe_@post.PostId" frameborder="0" loading="lazy" style="width: 100%; height: 300px;" data-src="@Url.Action("GetCommentsListPartial", "Comment", new { postId = post.PostId })"></iframe>
-                </div>
+			<!-- COMMENTS SECTION -->
+			<div class="collapse" id="comments-section-@post.PostId">
+				<div>
+					<iframe name="commentsIframe_@post.PostId" frameborder="0" loading="lazy"
+						style="width: 100%; height: 300px;"
+						data-src="@Url.Action("GetCommentsListPartial", "Comment", new { postId = post.PostId })"></iframe>
+				</div>
 
-                <!-- Add Comment Form -->
-                <form method="post" action="@Url.Action("AddComment", "Comment")" target="commentsIframe_@post.PostId" class="d-flex mt-3 comment-form" data-post-id="@post.PostId">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="PostId" value="@post.PostId" />
-                    <input type="text" name="Content" class="form-control me-2 comment-field" placeholder="Add a comment" required />
-                    <button type="submit" class="btn comment-button">Comment</button>
-                </form>
-            </div>
-        </div>
-    }
+				<!-- Add Comment Form -->
+				<form method="post" action="@Url.Action("AddComment", "Comment")" target="commentsIframe_@post.PostId"
+					class="d-flex mt-3 comment-form" data-post-id="@post.PostId">
+					@Html.AntiForgeryToken()
+					<input type="hidden" name="PostId" value="@post.PostId" />
+					<input type="text" name="Content" class="form-control me-2 comment-field"
+						style="margin: 1rem; margin-right: 0px;" placeholder="Add a comment" required />
+					<button type="submit" class="btn comment-button" style="margin: 1rem; margin-left: 0;">Comment</button>
+				</form>
+			</div>
+		</div>
+	}
 }
 <!-- script for lazy loading the like button iframe and comments iframe -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Lazy load the like button iframe
-        const lazyLoadLikes = document.querySelectorAll(".lazy-load-like");
+	document.addEventListener("DOMContentLoaded", function () {
+		// Lazy load the like button iframe
+		const lazyLoadLikes = document.querySelectorAll(".lazy-load-like");
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const iframe = entry.target;
-                    iframe.src = iframe.getAttribute("data-src");
-                    observer.unobserve(iframe); // Stop observing once loaded
-                }
-            });
-        });
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					const iframe = entry.target;
+					iframe.src = iframe.getAttribute("data-src");
+					observer.unobserve(iframe); // Stop observing once loaded
+				}
+			});
+		});
 
-        lazyLoadLikes.forEach(iframe => observer.observe(iframe));
+		lazyLoadLikes.forEach(iframe => observer.observe(iframe));
 
-        // Lazy load the comment iframe when toggled
-        document.querySelectorAll(".toggle-comments").forEach(button => {
-            button.addEventListener("click", function () {
-                const postId = this.getAttribute("data-post-id");
-                const iframe = document.querySelector(`#comments-section-${postId} iframe`);
-                if (!iframe.src) {
-                    iframe.src = iframe.getAttribute("data-src");
-                }
-            });
-        });
+		// Lazy load the comment iframe when toggled
+		document.querySelectorAll(".toggle-comments").forEach(button => {
+			button.addEventListener("click", function () {
+				const postId = this.getAttribute("data-post-id");
+				const iframe = document.querySelector(`#comments-section-${postId} iframe`);
+				if (!iframe.src) {
+					iframe.src = iframe.getAttribute("data-src");
+				}
+			});
+		});
+		// Clear comment input field on form submission
+		document.querySelectorAll(".comment-form").forEach(form => {
+			form.addEventListener("submit", function (event) {
+				const inputField = this.querySelector(".comment-field");
+				setTimeout(() => {
+					inputField.value = ""; // Clear input after form submission
+				}, 50); // Small delay to ensure submission occurs
+			});
+		});
 
-    });
+	});
 </script>
