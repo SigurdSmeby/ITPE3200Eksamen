@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IO;
+using System;
 
 namespace server.Controllers
 {
@@ -80,6 +81,7 @@ namespace server.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetPosts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
 		{
+			Console.WriteLine("GetPosts called PageNumber: " + pageNumber + " pageSize: " + pageSize);
 			// Get the total count of posts in the database
 			var totalPosts = await _context.Posts.CountAsync();
 
@@ -119,6 +121,7 @@ namespace server.Controllers
 				PageSize = pageSize,
 				Posts = posts
 			};
+			Console.WriteLine("GetPosts response: " + response);
 
 			return Ok(response);
 		}

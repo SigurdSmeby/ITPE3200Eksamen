@@ -11,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Debugging only, comment ut when fixed bugs
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.None); // Suppress EF SQL logs
+builder.Logging.AddFilter("Default", LogLevel.Debug); // Show Debug logs
+
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

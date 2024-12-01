@@ -25,6 +25,7 @@ const Profile = () => {
     const notifyDeleteSuccess = () => toast.success("Post deleted successfully!");
     const loader = useRef(null);
     const postsLengthRef = useRef(posts.length);
+    const loadingRef = useRef(false); // refrenece to track loading state
 
     // Update the posts length ref when the posts state changes
     useEffect(() => {
@@ -54,7 +55,10 @@ const Profile = () => {
     // Fetch user posts with pagination
     useEffect(() => {
         const fetchUserPostsData = async () => {
-            setLoading(true);
+            if (loadingRef.current) return; // Guard against redundant requests
+
+            loadingRef.current = true; // Update ref to reflect loading state
+            setLoading(true); // Update state for UI feedback
             try {
                 const response = await getUserPosts(username, pageNumber, 10);
                 setPosts((prevPosts) => {
@@ -67,7 +71,8 @@ const Profile = () => {
             } catch (err) {
                 setError(err.response?.data || 'An error occurred');
             } finally {
-                setLoading(false);
+                loadingRef.current = false; // Reset ref after fetch
+                setLoading(false); // Update state
             }
         };
 

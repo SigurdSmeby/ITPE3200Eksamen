@@ -10,37 +10,23 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const loader = useRef(null);
     const postsLengthRef = useRef(posts.length);
+    const loadingRef = useRef(false); // refrenece to track loading state
+
+    
     const notifyDeleteSuccess = () => toast.success('Post deleted successfully!');
-
-
-    // constants set to avoid querying the server too much, can be fine-tuned for a non-MVP
-    const REQUEST_LIMIT = 1; // Max number of requests per minute
-    const LOCKOUT_TIME = 30000; // Lockout duration in milliseconds (30 seconds)
-    const [lockedOut, setLockedOut] = useState(false);
-    const [requestTimestamps, setRequestTimestamps] = useState([]);
-
+    
+    
     useEffect(() => {
         postsLengthRef.current = posts.length;
     }, [posts.length]);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (lockedOut) {
-                // add notifyLockedOut(); if we have time
-                return;
-            }
-            setLoading(true);
+            if (loadingRef.current) return; // Guard against redundant requests
+
+            loadingRef.current = true; // Update ref to reflect loading state
+            setLoading(true); // Update state for UI feedback
             try {
-                const now = Date.now();
-                const recentRequests = requestTimestamps.filter(
-                    (timestamp) => now - timestamp < 60000
-                );
-                if (recentRequests.length >= REQUEST_LIMIT) {
-                    setLockedOut(true);
-                    setTimeout(() => setLockedOut(false), LOCKOUT_TIME);
-                    // add notifyLockedOut(); if we have time
-                    return;
-                }
 
                 const data = await getPosts(pageNumber, 10);
                 setPosts((prevPosts) => {
@@ -54,11 +40,12 @@ const Home = () => {
                 console.error('Error fetching posts:', error);
             } finally {
                 setLoading(false);
+                loadingRef.current = false;
             }
         };
 
         fetchData();
-    }, [pageNumber, loading]); // Added 'loading' to the dependency array
+    }, [pageNumber]);
 
     useEffect(() => {
         const observerOptions = {
@@ -82,7 +69,7 @@ const Home = () => {
         return () => {
             if (loaderNode) observer.unobserve(loaderNode); // Use the local variable in cleanup
         };
-    }, [totalPosts, loading]); // Removed 'loader.current' from dependencies
+    }, [totalPosts, loading]); 
 
     const triggerRefresh = (deletedPostId) => {
         notifyDeleteSuccess();
