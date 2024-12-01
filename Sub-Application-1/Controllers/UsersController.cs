@@ -172,8 +172,17 @@ namespace Sub_Application_1.Controllers
 			{
 				return View("Settings", userProfileDto);
 			}
-			if (!string.IsNullOrEmpty(userProfileDto.Username))
+			if (!string.IsNullOrEmpty(userProfileDto.Username)){
 				user.UserName = userProfileDto.Username;
+				var resultuname = await _userManager.UpdateAsync(user);
+				if (resultuname.Succeeded)
+				{
+					await _signInManager.SignOutAsync();
+					await _signInManager.SignInAsync(user, isPersistent: false);
+				}
+
+			}
+				
 			else
 			{
 				ViewData["ProfileError"] = "Username cannot be empty.";
@@ -245,20 +254,28 @@ namespace Sub_Application_1.Controllers
 		public async Task<IActionResult> ChangePassword(UserProfileDto userProfileDto)
 		{
 			var user = await _userManager.GetUserAsync(User);
+			// Reload user data to ensure the Settings view is populated with the latest data
+			var updatedUserDto = new UserProfileDto
+			{
+				Username = user.UserName,
+				Email = user.Email,
+				Bio = user.Bio,
+				ProfilePictureUrl = user.ProfilePictureUrl
+			};
 			if (user == null)
 			{
 				ModelState.AddModelError("User", "User not found");
-				return View("Settings", userProfileDto);
+				return View("Settings", updatedUserDto);
 			}
 			if (string.IsNullOrEmpty(userProfileDto.CurrentPassword) || string.IsNullOrEmpty(userProfileDto.NewPassword) || string.IsNullOrEmpty(userProfileDto.ConfirmPassword))
 			{
 				ViewData["PasswordError"] = "Please fill in all fields";
-				return View("Settings", userProfileDto);
+				return View("Settings", updatedUserDto);
 			}
 			if (userProfileDto.NewPassword != userProfileDto.ConfirmPassword)
 			{
 				ViewData["PasswordError"] = "The passwords do not match";
-				return View("Settings", userProfileDto);
+				return View("Settings", updatedUserDto);
 			}
 			var results = await _userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
 			if (results.Succeeded)
@@ -270,7 +287,7 @@ namespace Sub_Application_1.Controllers
 				var errorMessages = string.Join("<br/>", results.Errors.Select(e => e.Description));
 				ViewData["PasswordError"] = errorMessages;
 			}
-			return View("Settings", userProfileDto);
+			return View("Settings", updatedUserDto);
 		}
 
 		// DELETE: api/Users/delete-account
