@@ -80,15 +80,13 @@
 		<div class="d-flex justify-content-between align-items-center mt-4">
 			<!-- Submit Button -->
 			<button type="submit" class="btn btn-primary">Save Changes</button>
-
-			<!-- Delete Post Button -->
-			<form asp-action="DeletePost" method="post" asp-route-id="@ViewData["PostId"]">
-				@Html.AntiForgeryToken()
-				<button type="submit" class="btn btn-danger">Delete Post</button>
-			</form>
 		</div>
 	</form>
-	
+		<!-- Delete Post Button -->
+	<form asp-action="DeletePost" method="post" asp-route-id="@ViewData["PostId"]">
+		@Html.AntiForgeryToken()
+		<button type="submit" class="btn btn-danger">Delete Post</button>
+	</form>
 
 </div>
 

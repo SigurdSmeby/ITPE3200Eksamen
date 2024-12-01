@@ -17,7 +17,7 @@ using Sub_Application_1.DTOs;
 using Sub_Application_1.Models;
 using Sub_Application_1.Tests.Helpers;
 using Xunit;
-
+using Xunit.Abstractions;
 namespace Sub_Application_1.Tests.Controllers
 {
 
@@ -29,7 +29,7 @@ namespace Sub_Application_1.Tests.Controllers
         private readonly DbContextOptions<AppDbContext> _contextOptions;
         private const string TEMP_FILE_DIR = "TestUploads"; // Centralized constant for test files
 
-        public HomeControllerTests()
+        public HomeControllerTests(ITestOutputHelper output)
         {
             // Initialize SQLite in-memory connection
             _connection = new SqliteConnection("Filename=:memory:");
@@ -58,6 +58,8 @@ namespace Sub_Application_1.Tests.Controllers
         [Fact]
         public async Task CreatePost_ValidPost_SavesToDatabaseAndSavesFile()
         {
+        _output.WriteLine("Testing Creating a post with valid data saves it to database");
+        _output.WriteLine("-----------------------------------------");
             // Arrange
             var userName = "testuser";
             var user = HelperMethods.CreateTestUser(userName);
@@ -129,6 +131,8 @@ namespace Sub_Application_1.Tests.Controllers
         [Fact]
         public async Task CreatePost_InvalidModelState_ReturnsViewWithErrors()
         {
+            _output.WriteLine("Testing CreatePost with invalid model state returns view with errors");
+            _output.WriteLine("-----------------------------------------");
             // Arrange
             var user = HelperMethods.CreateTestUser("testuser");
             var userManagerMock = HelperMethods.CreateUserManagerMock();
@@ -166,24 +170,31 @@ namespace Sub_Application_1.Tests.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            _output.WriteLine("     ✅ Verified result is a ViewResult.");
 
-            // Ensure ViewData and ModelState are not null before asserting
             Assert.NotNull(viewResult.ViewData);
             Assert.NotNull(viewResult.ViewData.ModelState);
-
+            _output.WriteLine("     ✅ Verified ViewData and ModelState are not null.");
+            
             // Validate ModelState
             Assert.False(viewResult.ViewData.ModelState.IsValid);
+            _output.WriteLine("     ✅ Verified ModelState is not valid.");
 
             // Check if "TextContent" key exists and its Errors are not empty
             var textContentErrors = viewResult.ViewData.ModelState["TextContent"]?.Errors;
             Assert.NotNull(textContentErrors);
+            _output.WriteLine("     ✅ Verified TextContent error is not null.");
             Assert.NotEmpty(textContentErrors);
+            _output.WriteLine("     ✅ Verified TextContent error is not empty.");
+            _output.WriteLine("-----------------------------------------");        
         }
 
         //Positive test for readPost
         [Fact]
         public async Task Index_WithPosts_ReturnsPostsList()
         {
+            _output.WriteLine("Testing Index with posts returns a list of posts");
+            _output.WriteLine("-----------------------------------------");
             // Arrange
             var user = HelperMethods.CreateTestUser("testuser");
             var userManagerMock = HelperMethods.CreateUserManagerMock();
@@ -225,19 +236,30 @@ namespace Sub_Application_1.Tests.Controllers
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<System.Collections.Generic.List<PostDto>>(viewResult.Model);
 
-            Assert.NotNull(model);
-            Assert.Single(model); // Ensure exactly one post is retrieved
+            Assert.NotNull(model); 
+            _output.WriteLine("     ✅ Verified model is not null.");
+            Assert.Single(model); 
+            _output.WriteLine("     ✅ Verified model contains a single post.");
             var retrievedPost = model.First();
 
             Assert.Equal(post.PostId, retrievedPost.PostId);
-            Assert.Equal("This is a test post.", retrievedPost.TextContent);
+            _output.WriteLine("     ✅ Verified PostId is correct.");
 
+            Assert.Equal("This is a test post.", retrievedPost.TextContent);
+            _output.WriteLine("     ✅ Verified TextContent is correct.");
             
             Assert.Equal(post?.DateUploaded, retrievedPost?.DateUploaded);
+            _output.WriteLine("     ✅ Verified DateUploaded is correct.");
             Assert.Equal(14, retrievedPost?.FontSize);
+            _output.WriteLine("     ✅ Verified FontSize is correct.");
             Assert.Equal("#000000", retrievedPost?.TextColor);
+            _output.WriteLine("     ✅ Verified TextColor is correct.");
             Assert.Equal("#FFFFFF", retrievedPost?.BackgroundColor);
-            Assert.Null(retrievedPost?.ImagePath); // Confirm it’s a text post
+            _output.WriteLine("     ✅ Verified BackgroundColor is correct.");
+            Assert.Null(retrievedPost?.ImagePath); 
+            _output.WriteLine("     ✅ Verified it is a text post, by checking ImagePath if is null.");
+            _output.WriteLine("-----------------------------------------");
+
         }
 
         
@@ -245,6 +267,8 @@ namespace Sub_Application_1.Tests.Controllers
         [Fact]
         public async Task Index_NoPosts_ReturnsEmptyList()
         {
+            _output.WriteLine("Testing Index with no posts returns an empty list");
+            _output.WriteLine("-----------------------------------------");
             // Arrange
             var userName = "testuser";
             var user = HelperMethods.CreateTestUser(userName);
@@ -281,14 +305,21 @@ namespace Sub_Application_1.Tests.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            _output.WriteLine("     ✅ Verified result is a ViewResult.");
             var model = Assert.IsAssignableFrom<System.Collections.Generic.List<PostDto>>(viewResult.Model);
-            Assert.Empty(model); // Expecting an empty list
+            _output.WriteLine("     ✅ Verified model is a list of PostDto.");
+            Assert.Empty(model);
+            _output.WriteLine("     ✅ Verified model is empty.");
+            _output.WriteLine("-----------------------------------------");
+
         }
 
         // Positive test for Update post
         [Fact]
         public async Task EditTextPost_WithValidData_UpdatesOtherFields()
         {
+            _output.WriteLine("Testing EditPost with valid data updates other fields");
+            _output.WriteLine("-----------------------------------------");
             // Arrange
             var user = HelperMethods.CreateTestUser("testuser");
             var userManagerMock = HelperMethods.CreateUserManagerMock();
@@ -333,22 +364,36 @@ namespace Sub_Application_1.Tests.Controllers
             var result = await controller.EditPost(post.PostId, updatePostDto, null!);
 
             // Assert
+            // get the post from the db
             var updatedPost = await context.Posts.FirstOrDefaultAsync(p => p.PostId == post.PostId);
+            
             Assert.NotNull(updatedPost);
+            _output.WriteLine("     ✅ Verified post was updated in the database.");
             Assert.Equal("Updated content", updatedPost.TextContent);
+            _output.WriteLine("     ✅ Verified TextContent is updated.");
             Assert.Equal(16, updatedPost.FontSize);
+            _output.WriteLine("     ✅ Verified FontSize is updated.");
             Assert.Equal("#FF5733", updatedPost.TextColor);
+            _output.WriteLine("     ✅ Verified TextColor is updated.");
             Assert.Equal("#CCCCCC", updatedPost.BackgroundColor);
-            Assert.Null(updatedPost.ImagePath); // Ensure the post remains a text post
+            _output.WriteLine("     ✅ Verified BackgroundColor is updated.");
+            Assert.Null(updatedPost.ImagePath); 
+            _output.WriteLine("     ✅ Verified it is still a text post, by checking ImagePath if is null.");
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
+            _output.WriteLine("     ✅ Verified redirect to Index action.");
+            _output.WriteLine("-----------------------------------------");
+
+
         }
 
         // Negative test for Update post
         [Fact]
         public async Task EditPost_PostNotFound_ReturnsNotFound()
         {
+            _output.WriteLine("Testing EditPost with non-existent post returns NotFound");
+            _output.WriteLine("-----------------------------------------");
             // Arrange
             var user = HelperMethods.CreateTestUser("testuser");
             var userManagerMock = HelperMethods.CreateUserManagerMock();
@@ -380,7 +425,11 @@ namespace Sub_Application_1.Tests.Controllers
 
             // Assert
             var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            _output.WriteLine("     ✅ Verified result is NotFoundObjectResult.");
             Assert.Equal("Post with ID '999' not found.", notFoundResult.Value);
+            _output.WriteLine("     ✅ Verified error message.");
+            _output.WriteLine("-----------------------------------------");
+
         }
         // Positive test for Delete post
         [Fact]
@@ -434,6 +483,8 @@ namespace Sub_Application_1.Tests.Controllers
         [Fact]
         public async Task DeletePost_UserNotOwner_ReturnsForbid()
         {
+            _output.WriteLine("Testing DeletePost with user not owner returns Forbid");
+            _output.WriteLine("-----------------------------------------");
             // Arrange
             var ownerUser = HelperMethods.CreateTestUser("owneruser");
             var otherUser = HelperMethods.CreateTestUser("otheruser");
@@ -473,9 +524,14 @@ namespace Sub_Application_1.Tests.Controllers
 
             // Assert
             var forbidResult = Assert.IsType<ForbidResult>(result);
+            _output.WriteLine("     ✅ Verified result is ForbidResult.");
             var existingPost = await context.Posts.FindAsync(post.PostId);
-            Assert.NotNull(existingPost); // Post should still exist
-            Assert.Equal(post.TextContent, existingPost.TextContent); // Data should be unchanged
+            _output.WriteLine("     ✅ Verified post still exists in the database.");
+            Assert.NotNull(existingPost);
+            _output.WriteLine("     ✅ Verified post still exists in the database.");
+            Assert.Equal(post.TextContent, existingPost.TextContent); 
+            _output.WriteLine("     ✅ Verified post content is unchanged.");
+            _output.WriteLine("-----------------------------------------");
         }
 
 
