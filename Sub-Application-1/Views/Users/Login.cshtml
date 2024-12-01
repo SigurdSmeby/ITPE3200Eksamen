@@ -11,20 +11,25 @@
                     </div>
                     <div class="card-body">
                         @if (!ViewData.ModelState.IsValid)
-                        {
+                        {   
+                            <!-- Shows a validation error summary when the model state is invalid. -->
                             <div class="alert alert-danger">
                                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                             </div>
                         }
+                        <!-- Form for Login -->
                         <form asp-action="Login" method="post">
+                            <!-- Username Input Field -->
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" id="username" name="username" class="form-control" required />
                             </div>
+                            <!-- Password Input Field -->
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" id="password" name="password" class="form-control" required />
                             </div>
+                            <!-- Submit Button -->
                             <button type="submit" class="btn btn-primary w-100">Login</button>
                         </form>
                     </div>

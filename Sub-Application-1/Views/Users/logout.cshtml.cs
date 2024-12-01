@@ -7,7 +7,8 @@ namespace Sub_Application_1.Views.Account
     public class LogoutModel : PageModel
     {
         public async Task<IActionResult> OnGetAsync()
-        {
+        {   
+            // Sign out the user
             await HttpContext.SignOutAsync();
             return RedirectToPage("/Account/Login");
         }

@@ -13,21 +13,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDefaultIdentity<User>().AddEntityFrameworkStores<AppDbContext>();
 
 // Configure Entity Framework Core with SQLite
-
 builder.Services.AddSession();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-
-
 var app = builder.Build();
 
+// Configure middleware for handling HTTP requests in the application.
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
-
+app.UseStaticFiles();   
 app.MapDefaultControllerRoute();
 
 // Seed the database
@@ -39,10 +35,5 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
     SeedData.Initialize(context);
 }
-
-
- //app.MapControllerRoute(
- //    name: "default",
- //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
