@@ -4,39 +4,37 @@
 @model IEnumerable<Sub_Application_1.DTOs.CommentDto>
 
 <div class="comments-section">
-    @if (Model != null && Model.Any())
-    {
-        @foreach (var comment in Model)
-        {
-            <div class="comment d-flex justify-content-between align-items-center">
-                <!-- Left Section: Author and Content -->
-                <div>
-                    <strong style="color: black;">@comment.AuthorUsername</strong>
-                    <p class="mb-1">@comment.Content</p>
-                </div>
+	@if (Model != null && Model.Any())
+	{
+		@foreach (var comment in Model)
+		{
+			<div class="comment d-flex justify-content-between align-items-center">
+				<!-- Left Section: Author and Content -->
+				<div>
+					<strong style="color: black; word-break: break-word">@comment.AuthorUsername</strong>
+					<p class="mb-1" style="word-break: break-word">@comment.Content</p>
+				</div>
 
-                <!-- Right Section: Metadata and Actions -->
-                <div class="text-end">
-                    <p class="text-muted" title="@comment.DateCommented.ToString("MMMM dd, yyyy HH:mm:ss")">
-                        @comment.DateCommented.ToString("MMM dd, yyyy")
-                    </p>
+				<!-- Right Section: Metadata and Actions -->
+				<div class="text-end">
+					<p class="text-muted" title="@comment.DateCommented.ToString("MMMM dd, yyyy HH:mm:ss")">
+						@comment.DateCommented.ToString("MMM dd, yyyy")
+					</p>
 
-                    @if (User.Identity != null && comment.AuthorUsername == User.Identity.Name)
-                    {
-                        <form method="post" action="/Comments/DeleteComment" class="d-inline">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@comment.CommentId" />
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    }
-                </div>
-            </div>
-        }
-    }
-    else
-    {
-        <p class="text-muted">No comments yet. Be the first to comment!</p>
-    }
+					@if (User.Identity != null && comment.AuthorUsername == User.Identity.Name)
+					{
+						<form method="post" action="/Comments/DeleteComment" class="d-inline">
+							@Html.AntiForgeryToken()
+							<input type="hidden" name="id" value="@comment.CommentId" />
+							<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+						</form>
+					}
+				</div>
+			</div>
+		}
+	}
+	else
+	{
+		<p class="text-muted">No comments yet. Be the first to comment!</p>
+	}
 </div>
-
-
