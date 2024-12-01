@@ -526,7 +526,6 @@ namespace Sub_Application_1.Tests.Controllers
             var forbidResult = Assert.IsType<ForbidResult>(result);
             _output.WriteLine("     ✅ Verified result is ForbidResult.");
             var existingPost = await context.Posts.FindAsync(post.PostId);
-            _output.WriteLine("     ✅ Verified post still exists in the database.");
             Assert.NotNull(existingPost);
             _output.WriteLine("     ✅ Verified post still exists in the database.");
             Assert.Equal(post.TextContent, existingPost.TextContent); 
