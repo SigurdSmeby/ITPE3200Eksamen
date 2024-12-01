@@ -20,7 +20,7 @@ const RegisterUser = () => {
     const navigate = useNavigate();
 
     // Password requirements regex
-    const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$/;
 
     // Handle form submission
     const handleSubmit = async (event) => {
