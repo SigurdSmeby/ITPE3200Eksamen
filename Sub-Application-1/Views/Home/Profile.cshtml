@@ -1,68 +1,69 @@
-	@model IEnumerable<Sub_Application_1.DTOs.PostDto>
-	<link rel="stylesheet" href="/css/cards.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-	<main>
-	@{
-		var username = ViewData["Username"] as string;
-		var profilePictureUrl = ViewData["ProfilePictureUrl"] as string;
-		var bio = ViewData["Bio"] as string;
-		var loggedInUsername = User.Identity?.Name;
+@model IEnumerable<Sub_Application_1.DTOs.PostDto>
+<link rel="stylesheet" href="/css/cards.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<main>
+@{
+	var username = ViewData["Username"] as string;
+	var profilePictureUrl = ViewData["ProfilePictureUrl"] as string;
+	var bio = ViewData["Bio"] as string;
+	var loggedInUsername = User.Identity?.Name;
+	var test = ViewData["Success"] as string;
+}
+
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="hero-section d-flex mb-5">
+        <!-- Profile Picture -->
+        <div class="me-5" style="height: 150px; width: 150px; overflow: hidden; border-radius: 50%;">
+            <img src="@profilePictureUrl" alt="@username" class="img-fluid" 
+                style="object-fit: cover; width: 100%; height: 100%;" />
+        </div>
+
+        <!-- User Details -->
+        <div>
+            <h1>@username</h1>
+            <p>@bio</p>
+            <h2 class="btn btn-light">Number of posts: @(Model?.Count() ?? 0)</h2>
+
+            <!-- Edit Profile Button for Logged-in User -->
+            @if (loggedInUsername == username)
+            {
+                <a href="/Users/Settings" class="btn btn-primary ms-2">Edit Profile</a>
+            }
+        </div>
+    </div>
+</div>
+
+	<!-- Error Section -->
+	@if (ViewData["Error"] != null)
+	{
+		<div class="alert alert-danger">@ViewData["Error"]</div>
 	}
 
-	<div class="container mt-5">
-			<!-- Hero Section -->
-			<div class="hero-section d-flex mb-5">
-					<!-- Profile Picture -->
-					<div style="height: 150px; width: 150px; overflow: hidden; border-radius: 50%; flex-shrink: 0;">
-    				<img src="@profilePictureUrl" alt="@username" style="object-fit: cover; width: 100%; height: 100%;" />
-					</div>
-
-
-					<!-- User Details -->
-					<div>
-							<h1>@username</h1>
-							<p style="word-wrap: break-word; word-break: break-word; overflow-wrap: break-word;">@bio</p>
-							<h2 class="btn btn-light">Number of posts: @(Model?.Count() ?? 0)</h2>
-
-							<!-- Edit Profile Button for Logged-in User -->
-							@if (loggedInUsername == username)
-							{
-									<a href="/Users/Settings" class="btn btn-primary ms-2">Edit Profile</a>
-							}
-					</div>
-			</div>
-	</div>
-
-		<!-- Error Section -->
-		@if (ViewData["Error"] != null)
+	<!-- Posts Section -->
+	<div class="posts-container">
+		<!-- If there are no posts, display a message -->
+		@if (Model == null || !Model.Any())
 		{
-			<div class="alert alert-danger">@ViewData["Error"]</div>
+			<h2>The user has not posted any images yet</h2>
 		}
-
-		<!-- Posts Section -->
-		<div class="posts-container">
-			<!-- If there are no posts, display a message -->
-			@if (Model == null || !Model.Any())
-			{
-				<h2>The user has not posted any images yet</h2>
-			}
-			else
-			{
-			<!-- If there are posts, display them -->
-			<div class="posts-container mt-5">
-				<div id="posts">
-					@if (Model == null || !Model.Any())
-					{
-						<p>No posts available for this user.</p>
-					}
-					else
-					{
-						@await Html.PartialAsync("_PostsPartial", Model)
-					}
-				</div>
+		else
+		{
+		<!-- If there are posts, display them -->
+		<div class="posts-container mt-5">
+			<div id="posts">
+				@if (Model == null || !Model.Any())
+				{
+					<p>No posts available for this user.</p>
+				}
+				else
+				{
+					@await Html.PartialAsync("_PostsPartial", Model)
+				}
 			</div>
-
-			}
 		</div>
+
+		}
 	</div>
-	</main>
+</div>
+</main>
