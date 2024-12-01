@@ -18,80 +18,90 @@ import 'react-toastify/dist/ReactToastify.css';
 import Search from './pages/Search';
 
 const App = () => {
+    console.log('Current environment:', process.env.NODE_ENV);
     return (
         <>
-        <main>
-            <ToastContainer /> {/* For displaying toast notifications */}
-            <AuthProvider> {/* Provides authentication context to the app */}
-                <Router> {/* Routes for different pages*/}
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            minHeight: '100vh', 
-                        }}>
-                        <NavMenu />
+            <main>
+                <ToastContainer /> {/* For displaying toast notifications */}
+                <AuthProvider>
+                    {' '}
+                    {/* Provides authentication context to the app */}
+                    <Router>
+                        {' '}
+                        {/* Routes for different pages*/}
                         <div
-                            className='Routes-body'
                             style={{
-                                flex: 1, 
-                                padding: '1rem',
-
+                                display: 'flex',
+                                flexDirection: 'column',
+                                minHeight: '100vh',
                             }}>
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="/about" element={<About />} />
-                                <Route path="/login" element={<LoginUser />} />
-                                <Route path="/register" element={<Register />} />
-                                
-                                {/* Private route for some pages*/}
-                                <Route 
-                                    path="/edit-post/:postId"
-                                    element={
-                                        <PrivateRoute>
-                                            <EditPost/>
-                                        </PrivateRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/profile/:username"
-                                    element={
-                                        <PrivateRoute>
-                                            <Profile />
-                                        </PrivateRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/search"
-                                    element={
-                                        <PrivateRoute>
-                                            <Search />
-                                        </PrivateRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/upload"
-                                    element={
-                                        <PrivateRoute>
-                                            <UploadPost />
-                                        </PrivateRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/settings"
-                                    element={
-                                        <PrivateRoute>
-                                            <UserSettings />
-                                        </PrivateRoute>
-                                    }
-                                />
-                            </Routes>
+                            <NavMenu />
+                            <div
+                                className="Routes-body"
+                                style={{
+                                    flex: 1,
+                                    padding: '1rem',
+                                }}>
+                                <Routes>
+                                    <Route path="/" element={<Home />} />
+                                    <Route path="/about" element={<About />} />
+                                    <Route
+                                        path="/login"
+                                        element={<LoginUser />}
+                                    />
+                                    <Route
+                                        path="/register"
+                                        element={<Register />}
+                                    />
+
+                                    {/* Private route for some pages*/}
+                                    <Route
+                                        path="/edit-post/:postId"
+                                        element={
+                                            <PrivateRoute>
+                                                <EditPost />
+                                            </PrivateRoute>
+                                        }
+                                    />
+                                    <Route
+                                        path="/profile/:username"
+                                        element={
+                                            <PrivateRoute>
+                                                <Profile />
+                                            </PrivateRoute>
+                                        }
+                                    />
+                                    <Route
+                                        path="/search"
+                                        element={
+                                            <PrivateRoute>
+                                                <Search />
+                                            </PrivateRoute>
+                                        }
+                                    />
+                                    <Route
+                                        path="/upload"
+                                        element={
+                                            <PrivateRoute>
+                                                <UploadPost />
+                                            </PrivateRoute>
+                                        }
+                                    />
+                                    <Route
+                                        path="/settings"
+                                        element={
+                                            <PrivateRoute>
+                                                <UserSettings />
+                                            </PrivateRoute>
+                                        }
+                                    />
+                                </Routes>
+                            </div>
+                            <Footer />
                         </div>
-                        <Footer />
-                    </div>
-                </Router>
-            </AuthProvider>
-        </main>
+                    </Router>
+                </AuthProvider>
+            </main>
         </>
     );
 };
