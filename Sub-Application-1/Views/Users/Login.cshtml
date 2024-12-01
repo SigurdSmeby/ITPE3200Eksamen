@@ -5,8 +5,10 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header bg-primary text-white text-center">
+                <div class="card" style="margin-bottom: 5rem;">
+                    <div class="card-header text-white text-center"
+                            style="background-color: #314660;
+                            outline:auto none;">
                         <h2>Login</h2>
                     </div>
                     <div class="card-body">
@@ -30,8 +32,13 @@
                                 <input type="password" id="password" name="password" class="form-control" required />
                             </div>
                             <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                            <button type="submit" class="btn text-white w-100"
+                                style="background-color: #314660;
+                                outline:auto none;">Login</button>
                         </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p>New user? <a href="/Users/Register" style="color:  #343a40; text-decoration: underline;">Register here</a></p>
                     </div>
                 </div>
             </div>

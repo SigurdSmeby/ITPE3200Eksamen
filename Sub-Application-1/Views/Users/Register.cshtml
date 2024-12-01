@@ -4,10 +4,12 @@
 <main>
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
+            <div class="col-md-6">
+                <div class="card" style="margin-bottom: 5rem;">
                     <!-- Card Header -->
-                    <div class="card-header bg-success text-white text-center">
+                    <div class="card-header text-white text-center"
+                            style="background-color: #2f614e;
+                            outline:auto none;">
                         <h2>Register</h2>
                     </div>
                     <div class="card-body">
@@ -40,11 +42,16 @@
                                 <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control" required />
                             </div>
                             <!-- Submit Button -->
-                            <button type="submit" class="btn btn-success w-100">Register</button>
+                            <button type="submit" 
+                            class="btn w-100" 
+                            style="background-color: #2f614e;
+                            color: white;
+                            outline:auto none;">
+                            Register</button>
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <p>Already have an account? <a href="/Account/Login" style="color:  #006af6;" class="text-decoration-none">Login here</a></p>
+                        <p>Already have an account? <a href="/Users/Login" style="color:  #343a40; text-decoration: underline; margin-bottom: 5rem;">Login here</a></p>
                     </div>
                 </div>
             </div>
