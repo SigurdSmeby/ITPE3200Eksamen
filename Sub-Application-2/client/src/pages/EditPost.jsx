@@ -3,6 +3,7 @@ import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPost, updatePost } from '../api/postApi';
 import { toast } from 'react-toastify';
+import log from '../logger';
 
 const EditPost = () => {
     const { postId } = useParams(); // Extract the post ID from the URL
@@ -14,9 +15,9 @@ const EditPost = () => {
         previewUrl: null, // Manage image preview for uploaded files
     });
     const [isImagePost, setIsImagePost] = useState(true);
-    const [imageFile, setImageFile] = useState(null); 
+    const [imageFile, setImageFile] = useState(null);
     const [error, setError] = useState('');
-    const editPostSucsess = () => toast.success("Post updated successfully!"); // Toast message on success
+    const editPostSucsess = () => toast.success('Post updated successfully!'); // Toast message on success
     const navigate = useNavigate(); // Navigation object for redirection
 
     // Fetch the post details when the component mounts
@@ -52,10 +53,14 @@ const EditPost = () => {
         const file = e.target.files[0];
         if (file.size > 10 * 1024 * 1024) {
             setError('File size exceeds 10MB, please upload a smaller file.');
+            log.error('File size exceeds 10MB');
             e.target.value = null;
             return;
         }
         setImageFile(file);
+        log.info(
+            `Image file selected: ${file.name} and ready for upload. file size: ${file.size}`,
+        );
         setError('');
 
         // Create a preview for the uploaded image
@@ -79,10 +84,12 @@ const EditPost = () => {
         // Validate fields based on post type
         if (isImagePost && !imageFile) {
             setError('Please upload an image file for the post.');
+            log.error('No image file selected for upload');
             return;
         }
         if (!isImagePost && !post.textContent.trim()) {
             setError('Text Content cannot be blank for a text post.');
+            log.error('Text content is empty for a text post');
             return;
         }
 
@@ -109,7 +116,7 @@ const EditPost = () => {
 
     const handleReturnIndex = () => {
         navigate('/');
-    }
+    };
 
     return (
         <Container>
@@ -117,9 +124,8 @@ const EditPost = () => {
                 {/* Display the appropriate title based on post type */}
                 {isImagePost ? 'Edit Image Post' : 'Edit Text Post'}
             </h2>
-
-            {error && <Alert variant="danger">{error}</Alert>} {/* Error message */}
-
+            {error && <Alert variant="danger">{error}</Alert>}{' '}
+            {/* Error message */}
             <Form onSubmit={handleSubmit}>
                 {/* Image Post Fields */}
                 {isImagePost && (
@@ -143,7 +149,10 @@ const EditPost = () => {
                                     src={post.previewUrl}
                                     alt="Preview"
                                     className="mt-3 img-thumbnail"
-                                    style={{ maxWidth: '200px', height: 'auto' }}
+                                    style={{
+                                        maxWidth: '200px',
+                                        height: 'auto',
+                                    }}
                                 />
                             )}
                             {imageFile && (

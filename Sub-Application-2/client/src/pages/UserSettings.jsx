@@ -3,6 +3,7 @@ import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/shared/AuthContext';
+import log from '../logger';
 import {
     getUserProfile,
     updateUserProfile,
@@ -21,7 +22,7 @@ const UserSettings = () => {
     const [passwordError, setPasswordError] = useState('');
 
     const navigate = useNavigate();
-    const { deleteAccount } = useAuth();
+    const { deleteAccount, login } = useAuth();
     const profileSuccess = () => toast.success('Profile updated successfully!');
     const passwordSuccess = () =>
         toast.success('Password updated successfully!');
@@ -71,6 +72,7 @@ const UserSettings = () => {
         const file = e.target.files[0];
         setProfilePicture(file);
         setPreviewUrl(URL.createObjectURL(file)); // Set preview image URL
+        log.info('Profile Picture changed ready for upload');
     };
 
     // Submit updated profile
@@ -88,7 +90,10 @@ const UserSettings = () => {
             }
             await updateUserProfile(formData); // Update user profile
             profileSuccess(); // Display success message
-            localStorage.setItem('username', user.username); // Update local username
+
+            const token = localStorage.getItem('jwtToken');
+            login(token, user.username); // Update username in AuthContext
+            log.info('Username updated successfully:', user.username);
         } catch (error) {
             setProfileError(error.response.data || 'Error updating profile');
         }
@@ -101,6 +106,7 @@ const UserSettings = () => {
 
         // Validate new password and confirmation match
         if (passwords.newPassword !== passwords.confirmPassword) {
+            log.error('New password and confirmation do not match');
             setPasswordError('New password and confirmation do not match');
             return;
         }
@@ -118,6 +124,7 @@ const UserSettings = () => {
                 confirmPassword: '',
             });
         } catch (error) {
+            log.error('Error updating password: ', error.response.data);
             setPasswordError(error.response.data || 'Error updating password');
         }
     };
