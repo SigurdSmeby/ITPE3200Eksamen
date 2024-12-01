@@ -13,7 +13,7 @@ namespace Sub_Application_1.Data
             {
                 context.Users.AddRange(
                     new User { UserName = "barbie", Email = "barbie@example.com", ProfilePictureUrl = "/images/seed/user1.jpg" },
-                    new User { UserName = "Loony Racoony", Email = "Racoony@example.com", ProfilePictureUrl = "/images/seed/user2.jpg", Bio = "Im the Grapist and im gonna Grape you" },
+                    new User { UserName = "Loony Racoony", Email = "Racoony@example.com", ProfilePictureUrl = "/images/seed/user2.jpg", Bio = "Im the gloomy racoony" },
                     new User { UserName = "duckface", Email = "ducky@example.com", ProfilePictureUrl = "/images/seed/user3.jpg", Bio = "I'm a duck, quack quack" },
                     new User { UserName = "Mr Turtle", Email = "Turtle.Md@example.com", ProfilePictureUrl = "/images/seed/user4.jpg", Bio = "Hate straws, but love a milkshake" },
                     new User { UserName = "Red", Email = "sara@example.com", ProfilePictureUrl = "/images/seed/user5.jpg" }

@@ -120,7 +120,7 @@ const PostCards = ({ post, onDeleted }) => {
                         loading="lazy"
                         className="profile-img"
                     />
-                    <h4>{authorName}</h4>
+                    <h2>{authorName}</h2>
                 </a>
                 <p
                     className="date"
