@@ -14,7 +14,6 @@ import { checkIfUserHasLikedPost } from '../api/likeApi.js';
 // URL to the backend server
 const BACKEND_URL = 'http://localhost:5229';
 
-
 const PostCards = ({ post, onDeleted }) => {
     // Destructure the post object into individual variables
     const {
@@ -44,14 +43,9 @@ const PostCards = ({ post, onDeleted }) => {
     // Check if the user has liked the post when the component mounts
     useEffect(() => {
         if (isLoggedIn) {
-            checkIfUserHasLikedPost(postId)
-                .then((response) => {
-                    setHasLiked(response); // Set the liked status
-                    console.log('Response: ' + response + '\n' + response.data);
-                })
-                .catch((error) => {
-                    console.error('Error checking like status:', error);
-                });
+            checkIfUserHasLikedPost(postId).then((response) => {
+                setHasLiked(response); // Set the liked status
+            });
         }
     }, [postId, isLoggedIn]);
 
@@ -76,30 +70,20 @@ const PostCards = ({ post, onDeleted }) => {
     const handleSendComment = () => {
         const commentData = { PostId: postId, Content: commentsInput };
 
-        createComment(commentData)
-            .then((response) => {
-                console.log('Comment created:', response.data);
-                setCommentsInput(''); // Clear the input field
-                setRefreshComments((prev) => !prev); // Trigger comments refresh
-                incrementCommentsCount();
-            })
-            .catch((error) => {
-                console.error('Error creating comment:', error);
-            });
+        createComment(commentData).then((response) => {
+            setCommentsInput(''); // Clear the input field
+            setRefreshComments((prev) => !prev); // Trigger comments refresh
+            incrementCommentsCount();
+        });
     };
 
     // Function to delete a post
     const handleDeletePost = (id) => {
         // Confirm the deletion before proceeding
         if (window.confirm('Are you sure you want to delete this post?')) {
-            deletePost(id)
-                .then((response) => {
-                    console.log(response.data);
-                    onDeleted(); // Trigger the parent component to refresh the posts
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            deletePost(id).then((response) => {
+                onDeleted(); // Trigger the parent component to refresh the posts
+            });
         }
     };
 
@@ -170,7 +154,7 @@ const PostCards = ({ post, onDeleted }) => {
                 ) : (
                     <p
                         className="text-content mb-0"
-                        style={{ whiteSpace: 'pre-wrap', padding: '1rem'}}>
+                        style={{ whiteSpace: 'pre-wrap', padding: '1rem' }}>
                         {textContent}
                     </p>
                 )}

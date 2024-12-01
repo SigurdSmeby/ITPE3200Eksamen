@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/shared/AuthContext'; 
+import { useAuth } from '../components/shared/AuthContext';
 import {
     getUserProfile,
     updateUserProfile,
@@ -10,22 +10,23 @@ import {
     deleteUserAccount,
 } from '../api/userApi';
 
-const UserSettings = () => { 
+const UserSettings = () => {
     // State for user profile data and image upload
     const [user, setUser] = useState({ username: '', email: '', bio: '' });
     const [profilePicture, setProfilePicture] = useState(null);
     const [previewUrl, setPreviewUrl] = useState('');
 
-    
     // State for error handling and success notifications
     const [profileError, setProfileError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
     const navigate = useNavigate();
     const { deleteAccount } = useAuth();
-    const profileSuccess = () => toast.success("Profile updated successfully!");
-    const passwordSuccess = () => toast.success("Password updated successfully!");
-    const notifyDeleteSucsess = () => toast.success("Account deleted successfully!");
+    const profileSuccess = () => toast.success('Profile updated successfully!');
+    const passwordSuccess = () =>
+        toast.success('Password updated successfully!');
+    const notifyDeleteSucsess = () =>
+        toast.success('Account deleted successfully!');
     // State for password changes
     const [passwords, setPasswords] = useState({
         currentPassword: '',
@@ -43,10 +44,11 @@ const UserSettings = () => {
                     email: response.data.email,
                     bio: response.data.bio,
                 });
-                setPreviewUrl('http://localhost:5229' + response.data.profilePictureUrl);
+                setPreviewUrl(
+                    'http://localhost:5229' + response.data.profilePictureUrl,
+                );
             } catch (error) {
                 setProfileError('Error fetching user data');
-                console.error('Error fetching user data:', error);
             }
         };
         fetchUser();
@@ -89,7 +91,6 @@ const UserSettings = () => {
             localStorage.setItem('username', user.username); // Update local username
         } catch (error) {
             setProfileError(error.response.data || 'Error updating profile');
-            console.error('Error updating profile:', error);
         }
     };
 
@@ -111,25 +112,28 @@ const UserSettings = () => {
                 newPassword: passwords.newPassword,
             });
             passwordSuccess(); // Display success message
-            setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
+            setPasswords({
+                currentPassword: '',
+                newPassword: '',
+                confirmPassword: '',
+            });
         } catch (error) {
             setPasswordError(error.response.data || 'Error updating password');
-            console.error('Error updating password:', error);
         }
     };
 
     // Handle account deletion
     const handleDeleteAccount = async () => {
         // Confirm account deletion
-        if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-            try {
-                await deleteUserAccount();
-                deleteAccount();
-                notifyDeleteSucsess(); // Display success message
-                navigate(`/`); // Redirect to home
-            } catch (error) {
-                console.error('Error deleting account:', error);
-            }
+        if (
+            window.confirm(
+                'Are you sure you want to delete your account? This action cannot be undone.',
+            )
+        ) {
+            await deleteUserAccount();
+            deleteAccount();
+            notifyDeleteSucsess(); // Display success message
+            navigate(`/`); // Redirect to home
         }
     };
 
@@ -141,7 +145,9 @@ const UserSettings = () => {
             {profileError && <Alert variant="danger">{profileError}</Alert>}
             <Form onSubmit={handleProfileSubmit}>
                 <Form.Group as={Row} className="mb-3" controlId="formUsername">
-                    <Form.Label column sm="2">Username</Form.Label>
+                    <Form.Label column sm="2">
+                        Username
+                    </Form.Label>
                     <Col sm="10">
                         {/* input for username */}
                         <Form.Control
@@ -156,7 +162,9 @@ const UserSettings = () => {
 
                 {/* Email Field */}
                 <Form.Group as={Row} className="mb-3" controlId="formEmail">
-                    <Form.Label column sm="2">Email</Form.Label>
+                    <Form.Label column sm="2">
+                        Email
+                    </Form.Label>
                     <Col sm="10">
                         {/* input for email */}
                         <Form.Control
@@ -170,8 +178,13 @@ const UserSettings = () => {
                 </Form.Group>
 
                 {/* Profile Picture Field */}
-                <Form.Group as={Row} className="mb-3" controlId="formProfilePicture">
-                    <Form.Label column sm="2">Profile Picture</Form.Label>
+                <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formProfilePicture">
+                    <Form.Label column sm="2">
+                        Profile Picture
+                    </Form.Label>
                     <Col sm="10">
                         {/* input for profile picture */}
                         <Form.Control
@@ -191,10 +204,12 @@ const UserSettings = () => {
                         )}
                     </Col>
                 </Form.Group>
-                
+
                 {/* Bio Field */}
                 <Form.Group as={Row} className="mb-3" controlId="formBio">
-                    <Form.Label column sm="2">Bio</Form.Label>
+                    <Form.Label column sm="2">
+                        Bio
+                    </Form.Label>
                     <Col sm="10">
                         {/* input for bio */}
                         <Form.Control
@@ -211,18 +226,24 @@ const UserSettings = () => {
                 {/* Save Profile Button */}
                 <Form.Group as={Row} className="mb-3">
                     <Col sm={{ span: 10, offset: 2 }}>
-                        <Button type="submit" variant="primary">Save Profile Changes</Button>
+                        <Button type="submit" variant="primary">
+                            Save Profile Changes
+                        </Button>
                     </Col>
                 </Form.Group>
             </Form>
-
 
             {/* Change Password Form */}
             <h4 className="mt-4">Change Password</h4>
             {passwordError && <Alert variant="danger">{passwordError}</Alert>}
             <Form onSubmit={handlePasswordSubmit}>
-                <Form.Group as={Row} className="mb-3" controlId="formCurrentPassword">
-                    <Form.Label column sm="2">Current Password</Form.Label>
+                <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formCurrentPassword">
+                    <Form.Label column sm="2">
+                        Current Password
+                    </Form.Label>
                     <Col sm="10">
                         {/* input for current password */}
                         <Form.Control
@@ -234,8 +255,13 @@ const UserSettings = () => {
                         />
                     </Col>
                 </Form.Group>
-                <Form.Group as={Row} className="mb-3" controlId="formNewPassword">
-                    <Form.Label column sm="2">New Password</Form.Label>
+                <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formNewPassword">
+                    <Form.Label column sm="2">
+                        New Password
+                    </Form.Label>
                     <Col sm="10">
                         {/* input for new password */}
                         <Form.Control
@@ -247,8 +273,13 @@ const UserSettings = () => {
                         />
                     </Col>
                 </Form.Group>
-                <Form.Group as={Row} className="mb-3" controlId="formConfirmPassword">
-                    <Form.Label column sm="2">Confirm New Password</Form.Label>
+                <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formConfirmPassword">
+                    <Form.Label column sm="2">
+                        Confirm New Password
+                    </Form.Label>
                     <Col sm="10">
                         {/* input for password confirmation */}
                         <Form.Control
@@ -264,14 +295,18 @@ const UserSettings = () => {
                 {/* Update Password Button */}
                 <Form.Group as={Row} className="mb-3">
                     <Col sm={{ span: 10, offset: 2 }}>
-                        <Button type="submit" variant="secondary">Update Password</Button>
+                        <Button type="submit" variant="secondary">
+                            Update Password
+                        </Button>
                     </Col>
                 </Form.Group>
             </Form>
 
             {/* Delete Account Button */}
             <div className="text-end">
-                <Button variant="danger" onClick={handleDeleteAccount}>Delete Account</Button>
+                <Button variant="danger" onClick={handleDeleteAccount}>
+                    Delete Account
+                </Button>
             </div>
         </Container>
     );
