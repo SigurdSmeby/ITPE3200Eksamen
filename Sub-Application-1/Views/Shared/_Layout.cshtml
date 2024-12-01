@@ -32,7 +32,8 @@
 							@if (User.Identity!=null && User.Identity.IsAuthenticated)
 							{
 								<li class="nav-item">
-									<a class="nav-link btn btn-link" href="@Url.Action("Logout", "Users")">Logout</a>
+									<a class="nav-link btn btn-link" asp-area="" asp-controller="Home"
+										asp-action="Profile">Profile</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link btn btn-link" asp-area="" asp-controller="Home"
@@ -43,8 +44,7 @@
 										asp-action="Settings">Settings</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link btn btn-link" asp-area="" asp-controller="Home"
-										asp-action="Profile">Profile</a>
+									<a class="nav-link btn btn-link" href="@Url.Action("Logout", "Users")">Logout</a>
 								</li>
 							}
 							else

@@ -107,6 +107,10 @@ const EditPost = () => {
         }
     };
 
+    const handleReturnIndex = () => {
+        navigate('/');
+    }
+
     return (
         <Container>
             <h2 className="my-4">
@@ -241,6 +245,14 @@ const EditPost = () => {
                     <Col sm={{ span: 10, offset: 2 }}>
                         <Button type="submit" variant="primary">
                             Save Changes
+                        </Button>
+                    </Col>
+                </Form.Group>
+                {/* return to index Button */}
+                <Form.Group as={Row} className="mb-3">
+                    <Col sm={{ span: 10, offset: 2 }}>
+                        <Button onClick={handleReturnIndex} variant="secondary">
+                            Return to Home
                         </Button>
                     </Col>
                 </Form.Group>

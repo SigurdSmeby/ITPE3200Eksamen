@@ -29,6 +29,13 @@ const Home = () => {
             try {
 
                 const data = await getPosts(pageNumber, 10);
+
+                if (data.posts.length === 0) {
+                    // No more posts to fetch
+                    setTotalPosts(posts.length); // Explicitly set totalPosts to prevent further fetches
+                    return;
+                }
+
                 setPosts((prevPosts) => {
                     const newPosts = data.posts.filter(
                         (newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId)
@@ -56,10 +63,16 @@ const Home = () => {
 
         const observerCallback = (entries) => {
             const target = entries[0];
-            if (target.isIntersecting && postsLengthRef.current < totalPosts && !loading) {
+            if (
+                target.isIntersecting &&
+                postsLengthRef.current < totalPosts &&
+                postsLengthRef.current !== totalPosts && // Ensure no repeat fetching
+                !loading
+            ) {
                 setPageNumber((prevPageNumber) => prevPageNumber + 1);
             }
         };
+
 
         const loaderNode = loader.current; // Copy the mutable ref to a local variable
         const observer = new IntersectionObserver(observerCallback, observerOptions);
