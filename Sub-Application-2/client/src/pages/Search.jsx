@@ -48,7 +48,7 @@ const Search = () => {
     return (
         <div className="container py-5">
             <div className="d-flex flex-column align-items-center mb-4 position-relative">
-                <h1 className="text-center mb-3">Search Profiles</h1>
+                <h2 className="text-center mb-3">Search Profiles</h2>
 				{/* Search Input */}
                 <input
                     type="text"
@@ -127,7 +127,7 @@ const Search = () => {
 							<Link to={`/profile/${user.username}`}>
 								<img
 									src={BACKEND_URL + user.profilePictureUrl}
-									alt=""
+									alt={user.username}
 									className="card-img-top"
 									style={{
 										color: 'black',
@@ -139,7 +139,7 @@ const Search = () => {
 							</Link>
 							{/* Profile Username */}
 							<div className="card-body">
-								<h5
+								<h3
 									className="card-title"
 									style={{
 										padding: '10px',
@@ -156,7 +156,7 @@ const Search = () => {
 									>
 										{user.username}
 									</Link>
-								</h5>
+								</h3>
 							</div>
 						</div>
 					</div>

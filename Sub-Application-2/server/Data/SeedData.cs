@@ -14,7 +14,7 @@ namespace server.Data
             {
                 context.Users.AddRange(
                     new User { Username = "barbie", Email = "barbie@example.com", ProfilePictureUrl = "/images/seed/user1.jpg" },
-                    new User { Username = "Loony Racoony", Email = "Racoony@example.com", ProfilePictureUrl = "/images/seed/user2.jpg", Bio = "Im the Grapist and im gonna Grape you" },
+                    new User { Username = "Loony Racoony", Email = "Racoony@example.com", ProfilePictureUrl = "/images/seed/user2.jpg", Bio = "Im the Gloony racoony" },
                     new User { Username = "duckface", Email = "ducky@example.com", ProfilePictureUrl = "/images/seed/user3.jpg", Bio = "I'm a duck, quack quack" },
                     new User { Username = "Mr Turtle", Email = "Turtle.Md@example.com", ProfilePictureUrl = "/images/seed/user4.jpg", Bio = "Hate straws, but love a milkshake" },
                     new User { Username = "Red", Email = "sara@example.com", ProfilePictureUrl = "/images/seed/user5.jpg" },
@@ -31,8 +31,8 @@ namespace server.Data
             var red = context.Users.SingleOrDefault(u => u.Username == "Red");
             var sheep = context.Users.SingleOrDefault(u => u.Username == "Sligtly_scared");
 
-            // Ensure all users were found
-            if (barbie == null || racoony == null || duckface == null || turtle == null || red == null)
+            // Ensure all users were found, if more users are added, UPDATE THIS
+            if (barbie == null || racoony == null || duckface == null || turtle == null || red == null || sheep == null)
             {
                 throw new InvalidOperationException("Seeding failed: one or more users could not be found.");
             }

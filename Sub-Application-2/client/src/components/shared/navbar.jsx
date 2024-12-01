@@ -15,9 +15,9 @@ const NavMenu = () => {
         >
             <Container>
                 <Navbar.Brand href="/" className="fw-bold text-primary">
-                    <img
+                    <img role="heading" aria-level="1" //instead of having a H1 header for this page
                         src={logo}
-                        alt="Home"
+                        alt="Page logo"
                         className="logo"
                     />
                 </Navbar.Brand>
@@ -52,6 +52,12 @@ const NavMenu = () => {
                         {!isLoggedIn && (
                             <Nav.Link href="/login" className="nav-link">
                                 Login
+                            </Nav.Link>
+                        )}
+                        {/* Show Register link when not logged in */}
+                        {!isLoggedIn && (
+                            <Nav.Link href="/register" className="nav-link">
+                                Register
                             </Nav.Link>
                         )}
                         {/* About link always visible */}
