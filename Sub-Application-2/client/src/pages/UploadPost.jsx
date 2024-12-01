@@ -3,6 +3,7 @@ import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../api/postApi';
 import { toast } from 'react-toastify';
+import log from '../loggerl';
 
 const UploadPost = () => {
     // State for managing post data
@@ -15,7 +16,7 @@ const UploadPost = () => {
     const [imageFile, setImageFile] = useState(null);
     const [isImagePost, setIsImagePost] = useState(true);
     const [error, setError] = useState('');
-    const uploadSuccess = () => toast.success("Post created successfully!");
+    const uploadSuccess = () => toast.success('Post created successfully!');
     const navigate = useNavigate();
 
     // Handle text input changes
@@ -31,11 +32,15 @@ const UploadPost = () => {
         // Validate file size (10MB max)
         if (file?.size > 10 * 1024 * 1024) {
             setError('File size exceeds 10MB, please upload a smaller file.');
+            log.error('File size exceeds 10MB');
             e.target.value = null;
             return;
         }
 
         setImageFile(file);
+        log.info(
+            `Image file selected: ${file.name} and ready for upload. file size: ${file.size}`,
+        );
         setError('');
 
         // Generate a preview of the image
@@ -56,6 +61,7 @@ const UploadPost = () => {
     // Toggle between image and text post
     const handleTogglePostType = () => {
         setIsImagePost((prev) => !prev);
+        log.info(`Post type toggled to ${isImagePost ? 'text' : 'image'}`);
         setError('');
 
         // Reset respective state based on post type
@@ -79,10 +85,12 @@ const UploadPost = () => {
         // Validate inputs based on post type
         if (isImagePost && !imageFile) {
             setError('Please upload an image for an image post.');
+            log.error('Please upload an image for an image post.');
             return;
         }
         if (!isImagePost && !post.textContent.trim()) {
             setError('Text content cannot be empty for a text post.');
+            log.error('Text content cannot be empty for a text post.');
             return;
         }
 
@@ -126,7 +134,10 @@ const UploadPost = () => {
             <Form onSubmit={handleSubmit}>
                 {/* Image Post */}
                 {isImagePost && (
-                    <Form.Group as={Row} className="mb-3" controlId="formPostImageFile">
+                    <Form.Group
+                        as={Row}
+                        className="mb-3"
+                        controlId="formPostImageFile">
                         <Form.Label column sm="2">
                             Upload Image
                         </Form.Label>
@@ -140,12 +151,17 @@ const UploadPost = () => {
                             {/* Display image preview */}
                             {imageFile && (
                                 <>
-                                    <p className="mt-2">Selected file: {imageFile.name}</p>
+                                    <p className="mt-2">
+                                        Selected file: {imageFile.name}
+                                    </p>
                                     <img
                                         src={post.previewUrl}
                                         alt="Preview"
                                         className="mt-2"
-                                        style={{ maxHeight: '200px', maxWidth: '200px' }}
+                                        style={{
+                                            maxHeight: '200px',
+                                            maxWidth: '200px',
+                                        }}
                                     />
                                 </>
                             )}
@@ -156,12 +172,15 @@ const UploadPost = () => {
                 {/* Text Post */}
                 {!isImagePost && (
                     <>
-                        <Form.Group as={Row} className="mb-3" controlId="formPostTextContent">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostTextContent">
                             <Form.Label column sm="2">
                                 Text Content
                             </Form.Label>
                             <Col sm="10">
-                            {/* Text content input */}
+                                {/* Text content input */}
                                 <Form.Control
                                     as="textarea"
                                     name="textContent"
@@ -174,7 +193,10 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostFontSize">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostFontSize">
                             <Form.Label column sm="2">
                                 Font Size
                             </Form.Label>
@@ -191,7 +213,10 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostTextColor">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostTextColor">
                             <Form.Label column sm="2">
                                 Text Color
                             </Form.Label>
@@ -206,7 +231,10 @@ const UploadPost = () => {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPostBackgroundColor">
+                        <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPostBackgroundColor">
                             <Form.Label column sm="2">
                                 Background Color
                             </Form.Label>
