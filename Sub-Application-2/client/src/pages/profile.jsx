@@ -22,7 +22,8 @@ const Profile = () => {
     const { username } = useParams();
     const loggedInUsername = localStorage.getItem('username');
     const navigate = useNavigate();
-    const notifyDeleteSuccess = () => toast.success("Post deleted successfully!");
+    const notifyDeleteSuccess = () =>
+        toast.success('Post deleted successfully!');
     const loader = useRef(null);
     const postsLengthRef = useRef(posts.length);
     const loadingRef = useRef(false); // refrenece to track loading state
@@ -41,7 +42,9 @@ const Profile = () => {
                     userName: response.username,
                     profilePicture: response.profilePictureUrl,
                     bio: response.bio,
-                    dateJoined: new Date(response.dateJoined).toLocaleDateString('en-US'),
+                    dateJoined: new Date(
+                        response.dateJoined,
+                    ).toLocaleDateString('en-US'),
                 });
                 setTotalPosts(response.totalPosts);
             } catch (err) {
@@ -63,7 +66,11 @@ const Profile = () => {
                 const response = await getUserPosts(username, pageNumber, 10);
                 setPosts((prevPosts) => {
                     const newPosts = response.posts.filter(
-                        (newPost) => !prevPosts.some((prevPost) => prevPost.postId === newPost.postId)
+                        (newPost) =>
+                            !prevPosts.some(
+                                (prevPost) =>
+                                    prevPost.postId === newPost.postId,
+                            ),
                     );
                     return [...prevPosts, ...newPosts];
                 });
@@ -90,7 +97,11 @@ const Profile = () => {
         // Callback function for the observer
         const observerCallback = (entries) => {
             const target = entries[0];
-            if (target.isIntersecting && postsLengthRef.current < totalPosts && !loading) {
+            if (
+                target.isIntersecting &&
+                postsLengthRef.current < totalPosts &&
+                !loading
+            ) {
                 console.log('Loader is in view, incrementing page number');
                 setPageNumber((prevPageNumber) => prevPageNumber + 1);
             }
@@ -98,11 +109,14 @@ const Profile = () => {
 
         // Create the observer and observe the loader
         const loaderNode = loader.current;
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        const observer = new IntersectionObserver(
+            observerCallback,
+            observerOptions,
+        );
 
-        if (loaderNode){
+        if (loaderNode) {
             observer.observe(loaderNode);
-        } 
+        }
         return () => {
             if (loaderNode) observer.unobserve(loaderNode); // Use the local variable for cleanup
         };
@@ -111,7 +125,9 @@ const Profile = () => {
     // Trigger a refresh when a post is deleted
     const triggerRefresh = (deletedPostId) => {
         notifyDeleteSuccess();
-        setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== deletedPostId));
+        setPosts((prevPosts) =>
+            prevPosts.filter((post) => post.postId !== deletedPostId),
+        );
         setTotalPosts((prevTotal) => prevTotal - 1);
     };
 
@@ -127,12 +143,16 @@ const Profile = () => {
                     src={`${BACKEND_URL}${profilePicture}`}
                     alt={userName}
                     className="rounded-circle img-fluid me-5"
-                    style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                    style={{
+                        width: '150px',
+                        height: '150px',
+                        objectFit: 'cover',
+                    }}
                 />
                 <div>
                     {/* Display the user's name and bio */}
-                    <h1>{userName}</h1>
-                    <p>{bio}</p>
+                    <h1 style={{ wordBreak: 'break-word' }}>{userName}</h1>
+                    <p style={{ wordBreak: 'break-word' }}>{bio}</p>
                     <div className="btn btn-light">
                         Number of posts: {numberOfPosts}
                     </div>
@@ -169,9 +189,9 @@ const Profile = () => {
                         />
                     ))}
                     {loading && <p>Loading more posts...</p>}
-                    {!loading && posts.length >= totalPosts && totalPosts !== 0 && (
-                        <p>You've reached the end!</p>
-                    )}
+                    {!loading &&
+                        posts.length >= totalPosts &&
+                        totalPosts !== 0 && <p>You've reached the end!</p>}
                     <div ref={loader}></div>
                 </>
             )}

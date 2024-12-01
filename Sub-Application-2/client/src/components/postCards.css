@@ -17,6 +17,7 @@
   align-items: center;
   text-decoration: none;
   color: inherit;
+  word-break: break-word; 
 }
 
 
