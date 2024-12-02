@@ -20,11 +20,11 @@ namespace Sub_Application_1.Data
 				);
 				context.SaveChanges();
 			}
-			var barbie = context.Users.SingleOrDefault(u => u.UserName == "barbie");
+			var barbie = context.Users.SingleOrDefault(u => u.UserName == "barbie koala");
 			var racoony = context.Users.SingleOrDefault(u => u.UserName == "Loony Racoony");
-			var duckface = context.Users.SingleOrDefault(u => u.UserName == "duckface");
+			var duckface = context.Users.SingleOrDefault(u => u.UserName == "duck face");
 			var turtle = context.Users.SingleOrDefault(u => u.UserName == "Mr Turtle");
-			var red = context.Users.SingleOrDefault(u => u.UserName == "Red");
+			var red = context.Users.SingleOrDefault(u => u.UserName == "mr Red");
 
 			if (barbie == null || racoony == null || duckface == null || turtle == null || red == null)
 			{
