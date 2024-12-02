@@ -68,12 +68,6 @@ var app = builder.Build();
 
 app.UseCors("AllowReactClient");
 
-// Configure middleware for development environment
-if (app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI();
-}
 
 // Set up database with seed data
 using (var scope = app.Services.CreateScope())
