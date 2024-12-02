@@ -13,24 +13,45 @@ namespace Sub_Application_1.Repositories
     /// </summary>
     public class CommentRepository : Repository<Comment>, ICommentRepository
     {
-        public CommentRepository(AppDbContext context) : base(context)
+        private readonly ILogger<CommentRepository> _logger;
+        public CommentRepository(AppDbContext context, ILogger<CommentRepository> logger) : base(context)
         {
+            _logger = logger;
+            _logger.LogInformation("CommentRepository initialized.");
         }
 
         public async Task<List<Comment>> GetCommentsByPostIdAsync(int postId)
         {
-            return await _dbSet
+            _logger.LogInformation("Fetching comments for PostId: {PostId}", postId);
+
+            var comments = await _dbSet
                 .Where(c => c.PostId == postId)
                 .Include(c => c.User)
                 .OrderBy(c => c.DateCommented)
                 .ToListAsync();
+
+            _logger.LogInformation("Retrieved {Count} comments for PostId: {PostId}", comments.Count, postId);
+            return comments;
         }
 
         public async Task<Comment?> GetCommentByIdAsync(int commentId)
         {
-            return await _dbSet
+            _logger.LogInformation("Fetching comment with CommentId: {CommentId}", commentId);
+
+            var comment = await _dbSet
                 .Include(c => c.Post)
                 .FirstOrDefaultAsync(c => c.CommentId == commentId);
+
+            if (comment == null)
+            {
+                _logger.LogWarning("No comment found with CommentId: {CommentId}", commentId);
+            }
+            else
+            {
+                _logger.LogInformation("Successfully retrieved comment with CommentId: {CommentId}", commentId);
+            }
+
+            return comment;
         }
     }
 }
