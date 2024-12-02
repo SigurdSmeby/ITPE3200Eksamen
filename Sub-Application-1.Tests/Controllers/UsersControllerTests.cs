@@ -1,17 +1,20 @@
 using Xunit;
-using Microsoft.AspNetCore.Identity;
-using Sub_Application_1.Controllers;
-using Sub_Application_1.DTOs;
-using Sub_Application_1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Xunit.Abstractions;
 using System.Linq;
-using Sub_Application_1.Tests.Helpers;
-// Alias to avoid conflict with SignInResult from Microsoft.AspNetCore.Mvc
-using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult; 
+using Sub_Application_1.Controllers;
+using Sub_Application_1.DTOs;
+using Sub_Application_1.Models;
+using Sub_Application_1.Repositories.Interfaces;
+using System;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+//we need this because signinresult is a part of both Mvc and Identity
+using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Sub_Application_1.Tests.Controllers
 {
@@ -40,22 +43,19 @@ namespace Sub_Application_1.Tests.Controllers
                 confirmPassword = "Password123!"
             };
 
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
+            var userRepositoryMock = new Mock<IUserRepository>();
+            var webHostEnvironmentMock = new Mock<IWebHostEnvironment>();
 
-            userManagerMock.Setup(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
+            userRepositoryMock.Setup(repo => repo.GetUserByUsernameAsync(It.IsAny<string>()))
+                .ReturnsAsync((User)null!);
+            userRepositoryMock.Setup(repo => repo.GetUserByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync((User)null!);
+            userRepositoryMock.Setup(repo => repo.RegisterUserAsync(It.IsAny<RegisterDto>()))
                 .ReturnsAsync(IdentityResult.Success);
-            userManagerMock.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
-                .ReturnsAsync((User)null!);
-            userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>()))
-                .ReturnsAsync((User)null!);
-            signInManagerMock.Setup(sm => sm.SignInAsync(It.IsAny<User>(), It.IsAny<bool>(), null!))
-                .Returns(Task.CompletedTask);
 
             var controller = new UsersController(
-                null!, null!, null!, 
-                signInManagerMock.Object, 
-                userManagerMock.Object
+                userRepositoryMock.Object,
+                webHostEnvironmentMock.Object
             );
 
             // Act
@@ -71,8 +71,14 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.Equal("Home", redirectResult.ControllerName);
             _output.WriteLine("     ✅ Redirected to controller 'Home'.");
 
-            userManagerMock.Verify(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
-            _output.WriteLine("     ✅ Verified that UserManager.CreateAsync was called once.");
+            userRepositoryMock.Verify(repo => repo.GetUserByUsernameAsync(registerDto.Username), Times.Once);
+            _output.WriteLine("     ✅ Verified that GetUserByUsernameAsync was called once, to check if username already exists.");
+
+            userRepositoryMock.Verify(repo => repo.GetUserByEmailAsync(registerDto.Email), Times.Once);
+            _output.WriteLine("     ✅ Verified that GetUserByEmailAsync was called once, to check if email is already registered.");
+
+            userRepositoryMock.Verify(repo => repo.RegisterUserAsync(registerDto), Times.Once);
+            _output.WriteLine("     ✅ Verified that RegisterUserAsync was called once.");
 
             _output.WriteLine("     ✅ All assertions passed for valid data test.");
             _output.WriteLine("-----------------------------------------");
@@ -93,13 +99,12 @@ namespace Sub_Application_1.Tests.Controllers
                 confirmPassword = "DifferentPassword123!" // Passwords do not match
             };
 
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
+            var userRepositoryMock = new Mock<IUserRepository>();
+            var webHostEnvironmentMock = new Mock<IWebHostEnvironment>();
 
             var controller = new UsersController(
-                null!, null!, null!, 
-                signInManagerMock.Object, 
-                userManagerMock.Object
+                userRepositoryMock.Object,
+                webHostEnvironmentMock.Object
             );
 
             controller.ModelState.AddModelError("Email", "Invalid email format.");
@@ -124,17 +129,17 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.True(controller.ModelState.ContainsKey("Password"));
             _output.WriteLine("     ✅ Verified that 'Password' error exists in ModelState.");
 
-            userManagerMock.Verify(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
-            _output.WriteLine("     ✅ Verified that UserManager.CreateAsync was not called.");
+            userRepositoryMock.Verify(repo => repo.RegisterUserAsync(It.IsAny<RegisterDto>()), Times.Never);
+            _output.WriteLine("     ✅ Verified that RegisterUserAsync was not called.");
 
             _output.WriteLine("     ✅ All assertions passed for model state errors test.");
             _output.WriteLine("-----------------------------------------");
         }
 
         [Fact]
-        public async Task Register_UserManagerErrors_ReturnsViewWithErrors()
+        public async Task Register_UserRepositoryErrors_ReturnsViewWithErrors()
         {
-            _output.WriteLine("Testing register with UserManager errors:");
+            _output.WriteLine("Testing register with UserRepository errors:");
             _output.WriteLine("-----------------------------------------");
 
             // Arrange
@@ -146,18 +151,19 @@ namespace Sub_Application_1.Tests.Controllers
                 confirmPassword = "Password123!"
             };
 
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
+            var userRepositoryMock = new Mock<IUserRepository>();
+            var webHostEnvironmentMock = new Mock<IWebHostEnvironment>();
 
-            userManagerMock.Setup(um => um.FindByNameAsync(It.IsAny<string>())).ReturnsAsync((User)null!);
-            userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null!);
-            userManagerMock.Setup(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
+            userRepositoryMock.Setup(repo => repo.GetUserByUsernameAsync(It.IsAny<string>()))
+                .ReturnsAsync((User)null!);
+            userRepositoryMock.Setup(repo => repo.GetUserByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync((User)null!);
+            userRepositoryMock.Setup(repo => repo.RegisterUserAsync(It.IsAny<RegisterDto>()))
                 .ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "Password is too weak." }));
 
             var controller = new UsersController(
-                null!, null!, null!, 
-                signInManagerMock.Object, 
-                userManagerMock.Object
+                userRepositoryMock.Object,
+                webHostEnvironmentMock.Object
             );
 
             // Act
@@ -173,17 +179,17 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.False(controller.ModelState.IsValid);
             _output.WriteLine("     ✅ Verified that ModelState is invalid.");
 
-            Assert.Contains("Password is too weak.", controller.ModelState[string.Empty]?.Errors?.Select(e => e.ErrorMessage) ?? Enumerable.Empty<string>()
-);
+            Assert.Contains("Password is too weak.", controller.ModelState[string.Empty]?.Errors?.Select(e => e.ErrorMessage) ?? Enumerable.Empty<string>());
 
             _output.WriteLine("     ✅ Verified ModelState contains 'Password is too weak.' error.");
 
-            userManagerMock.Verify(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
-            _output.WriteLine("     ✅ Verified that UserManager.CreateAsync was called once.");
+            userRepositoryMock.Verify(repo => repo.RegisterUserAsync(registerDto), Times.Once);
+            _output.WriteLine("     ✅ Verified that RegisterUserAsync was called once.");
 
-            _output.WriteLine("     ✅ All assertions passed for UserManager errors test.");
+            _output.WriteLine("     ✅ All assertions passed for UserRepository errors test.");
             _output.WriteLine("-----------------------------------------");
         }
+
         [Fact]
         public async Task Login_ValidCredentials_ReturnsRedirectToAction()
         {
@@ -197,20 +203,15 @@ namespace Sub_Application_1.Tests.Controllers
                 Password = "ValidPassword123!"
             };
 
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
+            var userRepositoryMock = new Mock<IUserRepository>();
+            var webHostEnvironmentMock = new Mock<IWebHostEnvironment>();
 
-            signInManagerMock.Setup(sm => sm.PasswordSignInAsync(
-                loginDto.Username, 
-                loginDto.Password, 
-                It.IsAny<bool>(), 
-                It.IsAny<bool>())
-            ).ReturnsAsync(IdentitySignInResult.Success);
+            userRepositoryMock.Setup(repo => repo.LoginAsync(It.IsAny<LoginDto>()))
+                .ReturnsAsync(IdentitySignInResult.Success);
 
             var controller = new UsersController(
-                null!, null!, null!, 
-                signInManagerMock.Object, 
-                userManagerMock.Object
+                userRepositoryMock.Object,
+                webHostEnvironmentMock.Object
             );
 
             // Act
@@ -226,17 +227,13 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.Equal("Home", redirectResult.ControllerName);
             _output.WriteLine("     ✅ Redirected to controller 'Home'.");
 
-            signInManagerMock.Verify(sm => sm.PasswordSignInAsync(
-                loginDto.Username, 
-                loginDto.Password, 
-                It.IsAny<bool>(), 
-                It.IsAny<bool>()), 
-                Times.Once);
-            _output.WriteLine("     ✅ Verified that SignInManager.PasswordSignInAsync was called once.");
-        
+            userRepositoryMock.Verify(repo => repo.LoginAsync(loginDto), Times.Once);
+            _output.WriteLine("     ✅ Verified that LoginAsync was called once.");
+
             _output.WriteLine("     ✅ All assertions passed for valid credentials test.");
             _output.WriteLine("-----------------------------------------");
         }
+
         [Fact]
         public async Task Login_WrongPassword_ReturnsViewWithError()
         {
@@ -250,20 +247,15 @@ namespace Sub_Application_1.Tests.Controllers
                 Password = "WrongPassword123!"
             };
 
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            var signInManagerMock = HelperMethods.CreateSignInManagerMock(userManagerMock);
+            var userRepositoryMock = new Mock<IUserRepository>();
+            var webHostEnvironmentMock = new Mock<IWebHostEnvironment>();
 
-            signInManagerMock.Setup(sm => sm.PasswordSignInAsync(
-                loginDto.Username, 
-                loginDto.Password, 
-                It.IsAny<bool>(), 
-                It.IsAny<bool>())
-            ).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+            userRepositoryMock.Setup(repo => repo.LoginAsync(It.IsAny<LoginDto>()))
+                .ReturnsAsync(IdentitySignInResult.Failed);
 
             var controller = new UsersController(
-                null!, null!, null!, 
-                signInManagerMock.Object, 
-                userManagerMock.Object
+                userRepositoryMock.Object,
+                webHostEnvironmentMock.Object
             );
 
             // Act
@@ -283,17 +275,14 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.Equal("Invalid username or password.", error);
             _output.WriteLine("     ✅ Verified ModelState contains 'Invalid username or password.' error.");
 
-            signInManagerMock.Verify(sm => sm.PasswordSignInAsync(
-                loginDto.Username, 
-                loginDto.Password, 
-                It.IsAny<bool>(), 
-                It.IsAny<bool>()), 
-                Times.Once);
-            _output.WriteLine("     ✅ Verified that SignInManager.PasswordSignInAsync was called once.");
+            userRepositoryMock.Verify(repo => repo.LoginAsync(loginDto), Times.Once);
+            _output.WriteLine("     ✅ Verified that LoginAsync was called once.");
 
             _output.WriteLine("     ✅ All assertions passed for wrong password test.");
             _output.WriteLine("-----------------------------------------");
-        }        
+        }
+
+        // with more time we would have added more tests here        
 
     }
 }
