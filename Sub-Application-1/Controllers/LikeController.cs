@@ -40,13 +40,13 @@ public async Task<IActionResult> GetLikeButtonPartial(int postId)
     {
         post.Likes = new List<Like>();
     }
-
+    // Something is wrong here, that makes seeded data not be able ti be liked
     var postDto = new PostDto
     {
         PostId = post.PostId,
         LikesCount = post.Likes.Count,
         Likes = post.Likes
-            .Where(l => l?.User != null) // Add null check for l itself
+            .Where(l => l?.User != null) 
             .Select(l => new UserDto
             {
                 UserId = l.User.Id,
