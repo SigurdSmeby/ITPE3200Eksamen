@@ -1,47 +1,42 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using Sub_Application_1.Data;
+using Microsoft.AspNetCore.Mvc;
 using Sub_Application_1.DTOs;
 using Sub_Application_1.Models;
+using Sub_Application_1.Repositories.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
-
 
 namespace Sub_Application_1.Controllers
 {
     [Route("Comments")]
     public class CommentController : Controller
     {
-        private readonly AppDbContext _context;
-        private readonly UserManager<User> _userManager;
+        private readonly ICommentRepository _commentRepository;
+        private readonly IUserRepository _userRepository;
 
-        public CommentController(AppDbContext context, UserManager<User> userManager)
+        public CommentController(
+            ICommentRepository commentRepository,
+            IUserRepository userRepository)
         {
-            _context = context;
-            _userManager = userManager;
+            _commentRepository = commentRepository;
+            _userRepository = userRepository;
         }
 
         // GET: Comments/CommentsListPartial?postId=5
         [HttpGet("CommentsListPartial")]
         public async Task<IActionResult> GetCommentsListPartial(int postId)
         {
-            var comments = await _context.Comments
-                .Where(c => c.PostId == postId)
-                .Include(c => c.User)
-                .OrderBy(c => c.DateCommented)
-                .Select(c => new CommentDto
-                {
-                    CommentId = c.CommentId,
-                    Content = c.Content,
-                    DateCommented = c.DateCommented,
-                    AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"
-                })
-                .ToListAsync();
+            var comments = await _commentRepository.GetCommentsByPostIdAsync(postId);
+            
+            var commentDtos = comments.Select(c => new CommentDto
+            {
+                CommentId = c.CommentId,
+                Content = c.Content,
+                DateCommented = c.DateCommented,
+                AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"
+            }).ToList();
 
-            return PartialView("CommentsListPartial", comments);
+            return PartialView("CommentsListPartial", commentDtos);
         }
 
         // POST: Comments/AddComment
@@ -54,7 +49,7 @@ namespace Sub_Application_1.Controllers
                 return BadRequest("Invalid comment data.");
             }
 
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				return Unauthorized();
@@ -69,9 +64,8 @@ namespace Sub_Application_1.Controllers
                 DateCommented = DateTime.UtcNow
             };
 
-            _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
-
+            await _commentRepository.AddAsync(comment);
+            await _commentRepository.SaveAsync();
             return RedirectToAction("GetCommentsListPartial", new { postId = commentDto.PostId });
         }
 
@@ -80,7 +74,7 @@ namespace Sub_Application_1.Controllers
 		[HttpPost("DeleteComment")]
 		public async Task<IActionResult> DeleteComment(int id)
 		{
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userRepository.GetUserAsync(User);
             if (user == null)
             {
                 return Unauthorized();
@@ -88,7 +82,7 @@ namespace Sub_Application_1.Controllers
             string userId = user.Id;
 
 			// Find the comment by ID
-			var comment = await _context.Comments.Include(c => c.Post).FirstOrDefaultAsync(c => c.CommentId == id);
+			var comment = await _commentRepository.GetCommentByIdAsync(id);
 
 			if (comment == null)
 			{
@@ -105,25 +99,22 @@ namespace Sub_Application_1.Controllers
 			var postId = comment.PostId;
 
 			// Delete the comment
-			_context.Comments.Remove(comment);
-			await _context.SaveChangesAsync();
+			_commentRepository.Delete(comment);
+            await _commentRepository.SaveAsync();
 
 			// Fetch the updated comments list for the post
-			var comments = await _context.Comments
-				.Where(c => c.PostId == postId)
-				.Include(c => c.User)
-				.OrderBy(c => c.DateCommented)
-				.Select(c => new CommentDto
-				{
-					CommentId = c.CommentId,
-					Content = c.Content,
-					DateCommented = c.DateCommented,
-					AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"// Default value for deleted users incase their comments are displayed, they should not be though
-				})
-				.ToListAsync();
+			var comments = await _commentRepository.GetCommentsByPostIdAsync(postId);
+
+            var commentDtos = comments.Select(c => new CommentDto
+            {
+                CommentId = c.CommentId,
+                Content = c.Content,
+                DateCommented = c.DateCommented,
+                AuthorUsername = c.User != null && c.User.UserName != null ? c.User.UserName : "[Deleted]"
+            }).ToList();
 
 			// Return the updated partial view
-			return PartialView("CommentsListPartial", comments);
+			return PartialView("CommentsListPartial", commentDtos);
 		}
 
     }

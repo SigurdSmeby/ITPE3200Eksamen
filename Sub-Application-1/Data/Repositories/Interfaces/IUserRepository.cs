@@ -15,8 +15,8 @@ namespace Sub_Application_1.Repositories.Interfaces
         // methods for user management (CUD)
         Task<IdentityResult> RegisterUserAsync(RegisterDto registerDto);
         Task<SignInResult> LoginAsync(LoginDto loginDto);
-        Task SignInAsync(User user, bool isPersistent); 
         Task LogoutAsync();
+        Task SignInAsync(User user, bool isPersistent); 
         Task SignOutAsync();
         Task<IdentityResult> UpdateUserAsync(User user);
         Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword);

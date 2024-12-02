@@ -4,6 +4,7 @@ import { getUserPosts } from '../api/postApi';
 import PostCards from '../components/postCards';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import log from 'loglevel';
 
 const BACKEND_URL = 'http://localhost:5229';
 
@@ -102,7 +103,7 @@ const Profile = () => {
                 postsLengthRef.current < totalPosts &&
                 !loading
             ) {
-                console.log('Loader is in view, incrementing page number');
+                log.debug('Loader is in view, incrementing page number');
                 setPageNumber((prevPageNumber) => prevPageNumber + 1);
             }
         };
@@ -116,9 +117,13 @@ const Profile = () => {
 
         if (loaderNode) {
             observer.observe(loaderNode);
+            log.debug('Observer attached to loader node');
         }
         return () => {
-            if (loaderNode) observer.unobserve(loaderNode); // Use the local variable for cleanup
+            if (loaderNode) {
+                observer.unobserve(loaderNode); // Use the local variable for cleanup
+                log.debug('Observer detached from loader node');
+            }
         };
     }, [totalPosts, loading]);
 

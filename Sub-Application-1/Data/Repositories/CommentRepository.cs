@@ -17,17 +17,20 @@ namespace Sub_Application_1.Repositories
         {
         }
 
-        /// <summary>
-        /// Get comments by Post ID.
-        /// </summary>
-        public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(int postId)
+        public async Task<List<Comment>> GetCommentsByPostIdAsync(int postId)
         {
             return await _dbSet
                 .Where(c => c.PostId == postId)
                 .Include(c => c.User)
+                .OrderBy(c => c.DateCommented)
                 .ToListAsync();
         }
 
-        // Implement additional methods specific to Comment here
+        public async Task<Comment?> GetCommentByIdAsync(int commentId)
+        {
+            return await _dbSet
+                .Include(c => c.Post)
+                .FirstOrDefaultAsync(c => c.CommentId == commentId);
+        }
     }
 }

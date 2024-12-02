@@ -1,39 +1,48 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Sub_Application_1.Data;
+using Sub_Application_1.Data.Repositories.Interfaces;
 using Sub_Application_1.Models;
-using Sub_Application_1.Repositories.Interfaces;
 
-namespace Sub_Application_1.Repositories
+namespace Sub_Application_1.Data.Repositories
 {
-    /// <summary>
-    /// Repository implementation for Like entity.
-    /// </summary>
-    public class LikeRepository : Repository<Like>, ILikeRepository
-    {
-        public LikeRepository(AppDbContext context) : base(context)
-        {
-        }
+	public class LikeRepository : ILikeRepository
+	{
+		private readonly AppDbContext _context;
 
-        /// <summary>
-        /// Get a Like by User ID and Post ID.
-        /// </summary>
-        public async Task<Like?> GetLikeAsync(string userId, int postId)
-        {
-            return await _dbSet
-                .Include(l => l.User)
-                .Include(l => l.Post)
-                .FirstOrDefaultAsync(l => l.UserId == userId && l.PostId == postId);
-        }
+		public LikeRepository(AppDbContext context)
+		{
+			_context = context;
+		}
 
-        /// <summary>
-        /// Count the number of likes for a specific post.
-        /// </summary>
-        public async Task<int> CountLikesByPostIdAsync(int postId)
-        {
-            return await _dbSet.CountAsync(l => l.PostId == postId);
-        }
+		public async Task AddLikeAsync(Like like)
+		{
+			_context.Likes.Add(like);
+			await _context.SaveChangesAsync();
+		}
 
-        // Implement additional methods specific to Like here
-    }
+		public async Task RemoveLikeAsync(Like like)
+		{
+			_context.Likes.Remove(like);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task<bool> LikeExistsAsync(string userId, int postId)
+		{
+			return await _context.Likes.AnyAsync(l => l.UserId == userId && l.PostId == postId);
+		}
+
+		public async Task<Like?> GetLikeAsync(string userId, int postId)
+		{
+			return await _context.Likes
+				.FirstOrDefaultAsync(l => l.UserId == userId && l.PostId == postId);
+		}
+
+		public async Task<Post?> GetPostWithLikesAsync(int postId)
+		{
+			return await _context.Posts
+				.Include(p => p.Likes)
+					.ThenInclude(l => l.User)
+				.FirstOrDefaultAsync(p => p.PostId == postId);
+		}
+	}
 }

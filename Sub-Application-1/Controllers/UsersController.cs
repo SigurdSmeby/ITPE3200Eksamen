@@ -13,15 +13,15 @@ namespace Sub_Application_1.Controllers
 {
 	public class UsersController : Controller
 	{
-		 private readonly IUserRepository _userRepository;
-			private readonly IWebHostEnvironment _webHostEnvironment;
+		private readonly IUserRepository _userRepository;
+		private readonly IWebHostEnvironment _webHostEnvironment;
 
-			// Constructor initializes repository for user management, and iwebhost fir file management
-			public UsersController( IUserRepository userRepository, IWebHostEnvironment webHostEnvironment)
-			{
-					_userRepository = userRepository;
-					_webHostEnvironment = webHostEnvironment;
-			}
+		// Constructor initializes repository for user management, and iwebhost fir file management
+		public UsersController(IUserRepository userRepository, IWebHostEnvironment webHostEnvironment)
+		{
+			_userRepository = userRepository;
+			_webHostEnvironment = webHostEnvironment;
+		}
 		public IActionResult Register()
 		{
 			return View();
@@ -55,12 +55,12 @@ namespace Sub_Application_1.Controllers
 			if (existingUserByEmail != null)
 			{
 				ModelState.AddModelError("Email", "Email already registered.");
-			}			
+			}
 			if (!ModelState.IsValid)
 			{
 				return View(registerDto);
 			}
-			
+
 
 			var result = await _userRepository.RegisterUserAsync(registerDto);
 			Console.WriteLine("Result: " + result);
@@ -74,7 +74,7 @@ namespace Sub_Application_1.Controllers
 				Console.WriteLine("Error: " + error.Description);
 				ModelState.AddModelError(string.Empty, error.Description);
 			}
-			
+
 
 			return View(registerDto); // Unuccessful registration.
 		}
@@ -119,7 +119,7 @@ namespace Sub_Application_1.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Settings()
 		{
-            var user = await _userRepository.GetUserAsync(User);
+			var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				ModelState.AddModelError("User", "User not found");
@@ -143,7 +143,7 @@ namespace Sub_Application_1.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateProfile(UserProfileDto userProfileDto)
 		{
-      var user = await _userRepository.GetUserAsync(User);
+			var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				ModelState.AddModelError("User", "User not found");
@@ -153,15 +153,16 @@ namespace Sub_Application_1.Controllers
 			{
 				return View("Settings", userProfileDto);
 			}
-			if (!string.IsNullOrEmpty(userProfileDto.Username)){
+			if (!string.IsNullOrEmpty(userProfileDto.Username))
+			{
 
 				user.UserName = userProfileDto.Username;
 				var resultuname = await _userRepository.UpdateUserAsync(user);
 				// Sign out and sign in again to update the username in the cookie
 				if (resultuname.Succeeded)
 				{
-				await _userRepository.SignOutAsync();
-				await _userRepository.SignInAsync(user, isPersistent: false);
+					await _userRepository.SignOutAsync();
+					await _userRepository.SignInAsync(user, isPersistent: false);
 				}
 
 			}
@@ -225,12 +226,12 @@ namespace Sub_Application_1.Controllers
 			var updateResult = await _userRepository.UpdateUserAsync(user);
 			if (updateResult.Succeeded)
 			{
-					ViewData["ProfileSuccess"] = "Profile updated successfully.";
+				ViewData["ProfileSuccess"] = "Profile updated successfully.";
 			}
 			else
 			{
-					var errorMessages = string.Join("<br/>", updateResult.Errors.Select(e => e.Description));
-					ViewData["ProfileError"] = errorMessages;
+				var errorMessages = string.Join("<br/>", updateResult.Errors.Select(e => e.Description));
+				ViewData["ProfileError"] = errorMessages;
 			}
 
 			return View("Settings", userProfileDto);
@@ -245,14 +246,14 @@ namespace Sub_Application_1.Controllers
 			// Reload user data to ensure the Settings view is populated with the latest data on each form submission
 			var updatedUserDto = new UserProfileDto
 			{
-				Username = user.UserName,
-				Email = user.Email,
-				Bio = user.Bio,
-				ProfilePictureUrl = user.ProfilePictureUrl
+				Username = user?.UserName,
+				Email = user?.Email,
+				Bio = user?.Bio,
+				ProfilePictureUrl = user?.ProfilePictureUrl
 			};
 			if (user == null)
 			{
-				ModelState.AddModelError("User", "User not found");
+				ViewData["PasswordError"] = "User not found";
 				return View("Settings", updatedUserDto);
 			}
 			if (string.IsNullOrEmpty(userProfileDto.CurrentPassword) || string.IsNullOrEmpty(userProfileDto.NewPassword) || string.IsNullOrEmpty(userProfileDto.ConfirmPassword))
@@ -265,26 +266,23 @@ namespace Sub_Application_1.Controllers
 				ViewData["PasswordError"] = "The passwords do not match";
 				return View("Settings", updatedUserDto);
 			}
-      var results = await _userRepository.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);			
+			var results = await _userRepository.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
 			if (results.Succeeded)
 			{
 				ViewData["PasswordSuccess"] = "Your password is updated";
 			}
 			else
 			{
-				var errorMessages = string.Join("<br/>", results.Errors.Select(e => e.Description));
-				ModelState.AddModelError("PasswordError", errorMessages);
+				ViewData["PasswordError"] = "Current password is incorrect";
 			}
 			return View("Settings", updatedUserDto);
-			return View("Settings", userProfileDto);
-			
 		}
 		// DELETE: api/Users/delete-account
 		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> DeleteAccount()
 		{
-      var user = await _userRepository.GetUserAsync(User);			
+			var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				ModelState.AddModelError("User", "User not found");
@@ -299,7 +297,7 @@ namespace Sub_Application_1.Controllers
 					System.IO.File.Delete(oldFilePath);
 				}
 			}
-      var result = await _userRepository.DeleteUserAsync(user);
+			var result = await _userRepository.DeleteUserAsync(user);
 			if (result.Succeeded)
 			{
 				return RedirectToAction("Login", "Users");
@@ -310,11 +308,11 @@ namespace Sub_Application_1.Controllers
 
 		}
 
-		        public static bool FileSmallerThan10MB(IFormFile file)
-        {
-						long MaxFileSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
-            return file.Length <= MaxFileSizeInBytes;
-        }
+		public static bool FileSmallerThan10MB(IFormFile file)
+		{
+			long MaxFileSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
+			return file.Length <= MaxFileSizeInBytes;
+		}
 
 	}
 }
