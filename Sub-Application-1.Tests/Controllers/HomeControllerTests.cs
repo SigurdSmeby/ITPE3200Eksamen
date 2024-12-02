@@ -1,94 +1,77 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using Sub_Application_1.Controllers;
-using Sub_Application_1.Data;
 using Sub_Application_1.DTOs;
 using Sub_Application_1.Models;
-using Sub_Application_1.Tests.Helpers;
+using Sub_Application_1.Repositories.Interfaces;
 using Xunit;
 using Xunit.Abstractions;
+
+
 namespace Sub_Application_1.Tests.Controllers
 {
-
     public class HomeControllerTests
     {
+        private readonly Mock<IPostRepository> _postRepositoryMock;
+        private readonly Mock<IUserRepository> _userRepositoryMock;
+        private readonly Mock<IWebHostEnvironment> _webHostEnvironmentMock;
         private readonly ITestOutputHelper _output;
 
-        private readonly SqliteConnection _connection;
-        private readonly DbContextOptions<AppDbContext> _contextOptions;
-        private const string TEMP_FILE_DIR = "TestUploads"; // Centralized constant for test files
 
         public HomeControllerTests(ITestOutputHelper output)
         {
-            // Initialize SQLite in-memory connection
-            _connection = new SqliteConnection("Filename=:memory:");
-            _connection.Open();
-
-            // Configure DbContext to use SQLite in-memory
-            _contextOptions = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlite(_connection)
-                .Options;
-
-            // Create the schema in the database
-            using var context = CreateDbContext();
-            context.Database.EnsureCreated();
-
-            // Ensure test upload directory exists
-            Directory.CreateDirectory(TEMP_FILE_DIR);
+            _postRepositoryMock = new Mock<IPostRepository>();
+            _userRepositoryMock = new Mock<IUserRepository>();
+            _webHostEnvironmentMock = new Mock<IWebHostEnvironment>();
             _output = output;
         }
-
-        private AppDbContext CreateDbContext()
-        {
-            return new AppDbContext(_contextOptions);
-        }
-
         // Positive test case for CreatePost (Create in db)
         [Fact]
         public async Task CreatePost_ValidPost_SavesToDatabaseAndSavesFile()
         {
         _output.WriteLine("Testing Creating a post with valid data saves it to database");
         _output.WriteLine("-----------------------------------------");
-            // Arrange
-            var userName = "testuser";
-            var user = HelperMethods.CreateTestUser(userName);
 
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            // Arrange
+
+            var user = new User { Id = "testuser", UserName = "testuser" };
+            _userRepositoryMock.Setup(repo => repo.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .ReturnsAsync(user);
 
-            var webHostEnvironmentMock = HelperMethods.CreateWebHostEnvironmentMock();
+            var posts = new List<Post>();
+            _postRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Post>()))
+                .Callback<Post>(post => posts.Add(post));
+            _postRepositoryMock.Setup(repo => repo.SaveAsync()).Returns(Task.CompletedTask);
+
             var mockRootPath = Path.Combine(Path.GetTempPath(), "MockUploads");
-            webHostEnvironmentMock.Setup(env => env.WebRootPath).Returns(mockRootPath);
+            _webHostEnvironmentMock.Setup(env => env.WebRootPath).Returns(mockRootPath);
 
-            ResetDatabase();
-
-            using var context = CreateDbContext();
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
-
-            var controller = new HomeController(userManagerMock.Object, context, webHostEnvironmentMock.Object);
-            controller.ControllerContext = new ControllerContext
+            var controller = new HomeController(_postRepositoryMock.Object, _userRepositoryMock.Object, _webHostEnvironmentMock.Object)
             {
-                HttpContext = new DefaultHttpContext
+                ControllerContext = new ControllerContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id, userName)
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, user.Id)
+                        }))
+                    }
                 }
             };
 
-            // Create mock file
-            var fileMock = HelperMethods.CreateMockFile("testimage.jpg", "Fake Image Content");
+            var fileMock = new Mock<IFormFile>();
+            fileMock.Setup(f => f.Length).Returns(1024); // 1KB
+            fileMock.Setup(f => f.FileName).Returns("testimage.jpg");
+            fileMock.Setup(f => f.OpenReadStream()).Returns(new MemoryStream(new byte[1024]));
 
             var createPostDto = new CreatePostDto
             {
@@ -103,26 +86,20 @@ namespace Sub_Application_1.Tests.Controllers
             var result = await controller.CreatePost(createPostDto);
 
             // Assert
-            var post = await context.Posts.FirstOrDefaultAsync();
-            Assert.NotNull(post);
-            _output.WriteLine("     ✅ Verified post was saved in the database.");
+             _postRepositoryMock.Verify(repo => repo.AddAsync(It.IsAny<Post>()), Times.Once);
+            _postRepositoryMock.Verify(repo => repo.SaveAsync(), Times.Once);
 
+            Assert.Single(posts);
+             _output.WriteLine("     ✅ Verified post was added to the database.");
+            var post = posts.First();
             Assert.Equal(user.Id, post.UserId);
-            _output.WriteLine("     ✅ Verified UserId is correct.");
-
+             _output.WriteLine("     ✅ Verified post has the correct UserId.");
             Assert.Equal("This is a test post.", post.TextContent);
-            _output.WriteLine("     ✅ Verified TextContent is correct.");
-
-            var relativeImagePath = $"/uploads/{Path.GetFileName(post.ImagePath)}";
-            Assert.Equal(relativeImagePath, post.ImagePath);
-            _output.WriteLine("     ✅ Verified ImagePath is correct.");
-
-            webHostEnvironmentMock.Verify(env => env.WebRootPath, Times.Once);
-            _output.WriteLine("     ✅ Verified WebRootPath was accessed once.");
-
+             _output.WriteLine("     ✅ Verified post has the correct TextContent");
+            Assert.Equal(14, post.FontSize);
+                _output.WriteLine("     ✅ Verified post unchange FontSize.");
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
-            _output.WriteLine("     ✅ Verified redirect to Index action.");
 
             _output.WriteLine("     ✅ All assertions passed for CreatePost_ValidPost test.");
             _output.WriteLine("-----------------------------------------");
@@ -134,24 +111,19 @@ namespace Sub_Application_1.Tests.Controllers
             _output.WriteLine("Testing CreatePost with invalid model state returns view with errors");
             _output.WriteLine("-----------------------------------------");
             // Arrange
-            var user = HelperMethods.CreateTestUser("testuser");
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            var user = new User { Id = "testuser", UserName = "testuser" };
+            _userRepositoryMock.Setup(repo => repo.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .ReturnsAsync(user);
 
-            var webHostEnvironmentMock = HelperMethods.CreateWebHostEnvironmentMock();
-            ResetDatabase();
-
-            using var context = CreateDbContext();
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
-
-            var controller = new HomeController(userManagerMock.Object, context, webHostEnvironmentMock.Object);
+            var controller = new HomeController(_postRepositoryMock.Object, _userRepositoryMock.Object, _webHostEnvironmentMock.Object);
             controller.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id!, user.UserName!)
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, user.Id)
+                    }))
                 }
             };
 
@@ -175,7 +147,7 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.NotNull(viewResult.ViewData);
             Assert.NotNull(viewResult.ViewData.ModelState);
             _output.WriteLine("     ✅ Verified ViewData and ModelState are not null.");
-            
+
             // Validate ModelState
             Assert.False(viewResult.ViewData.ModelState.IsValid);
             _output.WriteLine("     ✅ Verified ModelState is not valid.");
@@ -186,7 +158,7 @@ namespace Sub_Application_1.Tests.Controllers
             _output.WriteLine("     ✅ Verified TextContent error is not null.");
             Assert.NotEmpty(textContentErrors);
             _output.WriteLine("     ✅ Verified TextContent error is not empty.");
-            _output.WriteLine("-----------------------------------------");        
+            _output.WriteLine("-----------------------------------------");
         }
 
         //Positive test for readPost
@@ -196,36 +168,43 @@ namespace Sub_Application_1.Tests.Controllers
             _output.WriteLine("Testing Index with posts returns a list of posts");
             _output.WriteLine("-----------------------------------------");
             // Arrange
-            var user = HelperMethods.CreateTestUser("testuser");
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            var user = new User { Id = "testuser", UserName = "testuser" };
+            _userRepositoryMock.Setup(repo => repo.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .ReturnsAsync(user);
 
-            ResetDatabase();
-
-            using var context = CreateDbContext();
-            context.Users.Add(user);
-
-            // Add a post to the database
-            var post = new Post
+            // Setup posts
+            var posts = new List<Post>
             {
-                UserId = user.Id,
-                TextContent = "This is a test post.",
-                FontSize = 14,
-                TextColor = "#000000",
-                BackgroundColor = "#FFFFFF",
-                ImagePath = null, // Text post
-                DateUploaded = DateTime.Now
-            };
-            context.Posts.Add(post);
-            await context.SaveChangesAsync();
-
-            var controller = new HomeController(userManagerMock.Object, context, null!);
-            controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext
+                new Post
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id!, user.UserName!)
+                    PostId = 1,
+                    UserId = user.Id,
+                    TextContent = "This is a test post.",
+                    FontSize = 14,
+                    TextColor = "#000000",
+                    BackgroundColor = "#FFFFFF",
+                    ImagePath = null, // Text post
+                    DateUploaded = DateTime.Now,
+                    User = user,
+                    Likes = new List<Like>()
+                }
+            };
+
+            _postRepositoryMock.Setup(repo => repo.GetAllPostsWithDetailsAsync())
+                .ReturnsAsync(posts);
+
+            var controller = new HomeController(_postRepositoryMock.Object, _userRepositoryMock.Object, null)
+            {
+                ControllerContext = new ControllerContext
+                {
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, user.Id),
+                            new Claim(ClaimTypes.Name, user.UserName)
+                        }))
+                    }
                 }
             };
 
@@ -234,30 +213,30 @@ namespace Sub_Application_1.Tests.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<System.Collections.Generic.List<PostDto>>(viewResult.Model);
+            var model = Assert.IsAssignableFrom<List<PostDto>>(viewResult.Model);
 
-            Assert.NotNull(model); 
+            Assert.NotNull(model);
             _output.WriteLine("     ✅ Verified model is not null.");
-            Assert.Single(model); 
+            Assert.Single(model);
             _output.WriteLine("     ✅ Verified model contains a single post.");
             var retrievedPost = model.First();
 
-            Assert.Equal(post.PostId, retrievedPost.PostId);
+            Assert.Equal(posts[0].PostId, retrievedPost.PostId);
             _output.WriteLine("     ✅ Verified PostId is correct.");
 
             Assert.Equal("This is a test post.", retrievedPost.TextContent);
             _output.WriteLine("     ✅ Verified TextContent is correct.");
-            
-            Assert.Equal(post?.DateUploaded, retrievedPost?.DateUploaded);
+
+            Assert.Equal(posts[0].DateUploaded, retrievedPost.DateUploaded);
             _output.WriteLine("     ✅ Verified DateUploaded is correct.");
-            Assert.Equal(14, retrievedPost?.FontSize);
+            Assert.Equal(14, retrievedPost.FontSize);
             _output.WriteLine("     ✅ Verified FontSize is correct.");
-            Assert.Equal("#000000", retrievedPost?.TextColor);
+            Assert.Equal("#000000", retrievedPost.TextColor);
             _output.WriteLine("     ✅ Verified TextColor is correct.");
-            Assert.Equal("#FFFFFF", retrievedPost?.BackgroundColor);
+            Assert.Equal("#FFFFFF", retrievedPost.BackgroundColor);
             _output.WriteLine("     ✅ Verified BackgroundColor is correct.");
-            Assert.Null(retrievedPost?.ImagePath); 
-            _output.WriteLine("     ✅ Verified it is a text post, by checking ImagePath if is null.");
+            Assert.Null(retrievedPost.ImagePath);
+            _output.WriteLine("     ✅ Verified it is a text post, by checking ImagePath is null.");
             _output.WriteLine("-----------------------------------------");
 
         }
@@ -270,33 +249,27 @@ namespace Sub_Application_1.Tests.Controllers
             _output.WriteLine("Testing Index with no posts returns an empty list");
             _output.WriteLine("-----------------------------------------");
             // Arrange
-            var userName = "testuser";
-            var user = HelperMethods.CreateTestUser(userName);
-
-            // Create and configure UserManager mock
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            var user = new User { Id = "testuser", UserName = "testuser" };
+            _userRepositoryMock.Setup(repo => repo.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .ReturnsAsync(user);
 
-            // Create and configure WebHostEnvironment mock
-            var webHostEnvironmentMock = HelperMethods.CreateWebHostEnvironmentMock();
-            var mockRootPath = Path.Combine(Path.GetTempPath(), "MockUploads");
-            webHostEnvironmentMock.Setup(env => env.WebRootPath).Returns(mockRootPath);
+            // Setup empty posts
+            var posts = new List<Post>();
+            _postRepositoryMock.Setup(repo => repo.GetAllPostsWithDetailsAsync())
+                .ReturnsAsync(posts);
 
-            ResetDatabase();
-
-            // Initialize database context
-            using var context = new AppDbContext(_contextOptions);
-
-            // Initialize HomeController with mocks
-            var controller = new HomeController(userManagerMock.Object, context, webHostEnvironmentMock.Object);
-
-            // Set up a mocked authenticated user
-            controller.ControllerContext = new ControllerContext
+            var controller = new HomeController(_postRepositoryMock.Object, _userRepositoryMock.Object, null)
             {
-                HttpContext = new DefaultHttpContext
+                ControllerContext = new ControllerContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id, userName)
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, user.Id),
+                            new Claim(ClaimTypes.Name, user.UserName)
+                        }))
+                    }
                 }
             };
 
@@ -306,12 +279,11 @@ namespace Sub_Application_1.Tests.Controllers
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             _output.WriteLine("     ✅ Verified result is a ViewResult.");
-            var model = Assert.IsAssignableFrom<System.Collections.Generic.List<PostDto>>(viewResult.Model);
+            var model = Assert.IsAssignableFrom<List<PostDto>>(viewResult.Model);
             _output.WriteLine("     ✅ Verified model is a list of PostDto.");
             Assert.Empty(model);
             _output.WriteLine("     ✅ Verified model is empty.");
             _output.WriteLine("-----------------------------------------");
-
         }
 
         // Positive test for Update post
@@ -321,34 +293,37 @@ namespace Sub_Application_1.Tests.Controllers
             _output.WriteLine("Testing EditPost with valid data updates other fields");
             _output.WriteLine("-----------------------------------------");
             // Arrange
-            var user = HelperMethods.CreateTestUser("testuser");
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            var user = new User { Id = "testuser", UserName = "testuser" };
+            _userRepositoryMock.Setup(repo => repo.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .ReturnsAsync(user);
-
-            ResetDatabase();
-
-            using var context = CreateDbContext();
-            context.Users.Add(user);
 
             var post = new Post
             {
+                PostId = 1,
                 UserId = user.Id,
                 TextContent = "Original content",
                 FontSize = 14,
                 TextColor = "#000000",
                 BackgroundColor = "#FFFFFF",
-                ImagePath = null! // This is a text post
+                ImagePath = null // This is a text post
             };
-            context.Posts.Add(post);
-            await context.SaveChangesAsync();
 
-            var controller = new HomeController(userManagerMock.Object, context, null!);
-            controller.ControllerContext = new ControllerContext
+            _postRepositoryMock.Setup(repo => repo.GetPostByIdAsync(post.PostId))
+                .ReturnsAsync(post);
+            _postRepositoryMock.Setup(repo => repo.Update(It.IsAny<Post>()));
+            _postRepositoryMock.Setup(repo => repo.SaveAsync()).Returns(Task.CompletedTask);
+
+            var controller = new HomeController(_postRepositoryMock.Object, _userRepositoryMock.Object, null)
             {
-                HttpContext = new DefaultHttpContext
+                ControllerContext = new ControllerContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id!, user.UserName!)
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, user.Id)
+                        }))
+                    }
                 }
             };
 
@@ -361,31 +336,27 @@ namespace Sub_Application_1.Tests.Controllers
             };
 
             // Act
-            var result = await controller.EditPost(post.PostId, updatePostDto, null!);
+            var result = await controller.EditPost(post.PostId, updatePostDto, null);
 
             // Assert
-            // get the post from the db
-            var updatedPost = await context.Posts.FirstOrDefaultAsync(p => p.PostId == post.PostId);
-            
-            Assert.NotNull(updatedPost);
-            _output.WriteLine("     ✅ Verified post was updated in the database.");
-            Assert.Equal("Updated content", updatedPost.TextContent);
+            _postRepositoryMock.Verify(repo => repo.Update(It.IsAny<Post>()), Times.Once);
+            _postRepositoryMock.Verify(repo => repo.SaveAsync(), Times.Once);
+
+            Assert.Equal("Updated content", post.TextContent);
             _output.WriteLine("     ✅ Verified TextContent is updated.");
-            Assert.Equal(16, updatedPost.FontSize);
+            Assert.Equal(16, post.FontSize);
             _output.WriteLine("     ✅ Verified FontSize is updated.");
-            Assert.Equal("#FF5733", updatedPost.TextColor);
+            Assert.Equal("#FF5733", post.TextColor);
             _output.WriteLine("     ✅ Verified TextColor is updated.");
-            Assert.Equal("#CCCCCC", updatedPost.BackgroundColor);
+            Assert.Equal("#CCCCCC", post.BackgroundColor);
             _output.WriteLine("     ✅ Verified BackgroundColor is updated.");
-            Assert.Null(updatedPost.ImagePath); 
-            _output.WriteLine("     ✅ Verified it is still a text post, by checking ImagePath if is null.");
+            Assert.Null(post.ImagePath);
+            _output.WriteLine("     ✅ Verified it is still a text post, by checking ImagePath is null.");
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
             _output.WriteLine("     ✅ Verified redirect to Index action.");
             _output.WriteLine("-----------------------------------------");
-
-
         }
 
         // Negative test for Update post
@@ -395,23 +366,24 @@ namespace Sub_Application_1.Tests.Controllers
             _output.WriteLine("Testing EditPost with non-existent post returns NotFound");
             _output.WriteLine("-----------------------------------------");
             // Arrange
-            var user = HelperMethods.CreateTestUser("testuser");
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            var user = new User { Id = "testuser", UserName = "testuser" };
+            _userRepositoryMock.Setup(repo => repo.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .ReturnsAsync(user);
 
-            ResetDatabase();
+            _postRepositoryMock.Setup(repo => repo.GetPostByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync((Post)null!); // Post not found, and supressing warning
 
-            using var context = CreateDbContext();
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
-
-            var controller = new HomeController(userManagerMock.Object, context, null!);
-            controller.ControllerContext = new ControllerContext
+            var controller = new HomeController(_postRepositoryMock.Object, _userRepositoryMock.Object, null)
             {
-                HttpContext = new DefaultHttpContext
+                ControllerContext = new ControllerContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id!, user.UserName!)
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, user.Id)
+                        }))
+                    }
                 }
             };
 
@@ -421,7 +393,7 @@ namespace Sub_Application_1.Tests.Controllers
             };
 
             // Act
-            var result = await controller.EditPost(999, updatePostDto, null!); // Non-existent postId
+            var result = await controller.EditPost(999, updatePostDto, null);
 
             // Assert
             var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
@@ -429,41 +401,46 @@ namespace Sub_Application_1.Tests.Controllers
             Assert.Equal("Post with ID '999' not found.", notFoundResult.Value);
             _output.WriteLine("     ✅ Verified error message.");
             _output.WriteLine("-----------------------------------------");
-
         }
-        // Positive test for Delete post
+
+        // Positive test for DeletePost
         [Fact]
         public async Task DeletePost_ValidPost_DeletesPost()
         {
+            _output.WriteLine("Testing DeletePost with valid post deletes post");
+            _output.WriteLine("-----------------------------------------");
             // Arrange
-            var user = HelperMethods.CreateTestUser("testuser");
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            var user = new User { Id = "testuser", UserName = "testuser" };
+            _userRepositoryMock.Setup(repo => repo.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .ReturnsAsync(user);
-
-            ResetDatabase();
-
-            using var context = CreateDbContext();
-            context.Users.Add(user);
 
             var post = new Post
             {
+                PostId = 1,
                 UserId = user.Id,
                 TextContent = "This post will be deleted",
                 FontSize = 14,
                 TextColor = "#000000",
                 BackgroundColor = "#FFFFFF",
-                ImagePath = null! // Text post
+                ImagePath = null // Text post
             };
-            context.Posts.Add(post);
-            await context.SaveChangesAsync();
 
-            var controller = new HomeController(userManagerMock.Object, context, null!);
-            controller.ControllerContext = new ControllerContext
+            _postRepositoryMock.Setup(repo => repo.GetPostByIdAsync(post.PostId))
+                .ReturnsAsync(post);
+            _postRepositoryMock.Setup(repo => repo.Delete(It.IsAny<Post>()));
+            _postRepositoryMock.Setup(repo => repo.SaveAsync()).Returns(Task.CompletedTask);
+
+            var controller = new HomeController(_postRepositoryMock.Object, _userRepositoryMock.Object, _webHostEnvironmentMock.Object)
             {
-                HttpContext = new DefaultHttpContext
+                ControllerContext = new ControllerContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(user.Id!, user.UserName!)
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, user.Id)
+                        }))
+                    }
                 }
             };
 
@@ -471,14 +448,15 @@ namespace Sub_Application_1.Tests.Controllers
             var result = await controller.DeletePost(post.PostId);
 
             // Assert
-            var deletedPost = await context.Posts.FindAsync(post.PostId);
-            Assert.Null(deletedPost); // Post should be deleted
+            _postRepositoryMock.Verify(repo => repo.Delete(It.IsAny<Post>()), Times.Once);
+            _postRepositoryMock.Verify(repo => repo.SaveAsync(), Times.Once);
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("Index", redirectResult.ActionName); // Redirects to Index
+            Assert.Equal("Index", redirectResult.ActionName);
+            _output.WriteLine("     ✅ Verified post deletion and redirection.");
+            _output.WriteLine("-----------------------------------------");
         }
-
-
+        
         // Negative test for Delete post
         [Fact]
         public async Task DeletePost_UserNotOwner_ReturnsForbid()
@@ -486,36 +464,36 @@ namespace Sub_Application_1.Tests.Controllers
             _output.WriteLine("Testing DeletePost with user not owner returns Forbid");
             _output.WriteLine("-----------------------------------------");
             // Arrange
-            var ownerUser = HelperMethods.CreateTestUser("owneruser");
-            var otherUser = HelperMethods.CreateTestUser("otheruser");
-            var userManagerMock = HelperMethods.CreateUserManagerMock();
-            userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            var ownerUser = new User { Id = "owneruser", UserName = "owneruser" };
+            var otherUser = new User { Id = "otheruser", UserName = "otheruser" };
+            _userRepositoryMock.Setup(repo => repo.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .ReturnsAsync(otherUser);
-
-            ResetDatabase();
-
-            using var context = CreateDbContext();
-            context.Users.Add(ownerUser);
-            context.Users.Add(otherUser);
 
             var post = new Post
             {
-                UserId = ownerUser.Id, // Post belongs to ownerUser
+                PostId = 1,
+                UserId = ownerUser.Id,
                 TextContent = "This post belongs to owneruser",
                 FontSize = 14,
                 TextColor = "#000000",
                 BackgroundColor = "#FFFFFF",
-                ImagePath = null!
+                ImagePath = null
             };
-            context.Posts.Add(post);
-            await context.SaveChangesAsync();
 
-            var controller = new HomeController(userManagerMock.Object, context, null!);
-            controller.ControllerContext = new ControllerContext
+            _postRepositoryMock.Setup(repo => repo.GetPostByIdAsync(post.PostId))
+                .ReturnsAsync(post);
+
+            var controller = new HomeController(_postRepositoryMock.Object, _userRepositoryMock.Object, null)
             {
-                HttpContext = new DefaultHttpContext
+                ControllerContext = new ControllerContext
                 {
-                    User = HelperMethods.CreateAuthenticatedUser(otherUser.Id!, otherUser.UserName!) // Authenticated as otherUser
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, otherUser.Id)
+                        }))
+                    }
                 }
             };
 
@@ -525,24 +503,11 @@ namespace Sub_Application_1.Tests.Controllers
             // Assert
             var forbidResult = Assert.IsType<ForbidResult>(result);
             _output.WriteLine("     ✅ Verified result is ForbidResult.");
-            var existingPost = await context.Posts.FindAsync(post.PostId);
-            Assert.NotNull(existingPost);
-            _output.WriteLine("     ✅ Verified post still exists in the database.");
-            Assert.Equal(post.TextContent, existingPost.TextContent); 
-            _output.WriteLine("     ✅ Verified post content is unchanged.");
+
+            _postRepositoryMock.Verify(repo => repo.Delete(It.IsAny<Post>()), Times.Never);
+            _postRepositoryMock.Verify(repo => repo.SaveAsync(), Times.Never);
+            _output.WriteLine("     ✅ Verified post was not deleted.");
             _output.WriteLine("-----------------------------------------");
-        }
-
-
-
-
-
-
-        private void ResetDatabase()
-        {
-            using var context = CreateDbContext();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
         }
 
         
