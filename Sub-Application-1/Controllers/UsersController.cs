@@ -52,6 +52,11 @@ namespace Sub_Application_1.Controllers
 				_logger.LogWarning("Passwords do not match for registration.");
 				ModelState.AddModelError("Password", "Passwords do not match.");
 			}
+			if (registerDto.Username.Length > 25){
+				_logger.LogWarning("Username exceeds character limit for user.");
+				ModelState.AddModelError("Username", "Username must be less than 25 characters.");
+				return View(registerDto);
+			}
 			var existingUserByUsername = await _userRepository.GetUserByUsernameAsync(registerDto.Username);
 			if (existingUserByUsername != null)
 			{
@@ -177,8 +182,13 @@ namespace Sub_Application_1.Controllers
 			}
 			if (!string.IsNullOrEmpty(userProfileDto.Username))
 			{
-
+			if (userProfileDto.Username.Length > 25){
+				_logger.LogWarning("Username exceeds character limit for user {UserId}.", user.Id);
+				ViewData["ProfileError"] = "Username must be less than 25 characters.";
+				return View("Settings", userProfileDto);
+			}
 				user.UserName = userProfileDto.Username;
+				
 				var resultuname = await _userRepository.UpdateUserAsync(user);
 				// Sign out and sign in again to update the username in the cookie
 				if (resultuname.Succeeded)
