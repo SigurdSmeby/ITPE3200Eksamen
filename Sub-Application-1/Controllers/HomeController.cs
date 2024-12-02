@@ -11,69 +11,69 @@ using System.Threading.Tasks;
 
 namespace Sub_Application_1.Controllers
 {
-    public class HomeController : Controller
-    {
-				// Repository for post management
-        private readonly IPostRepository _postRepository;
-        private readonly IUserRepository _userRepository;
-				// Webhost for file management
-        private readonly IWebHostEnvironment _webHostEnvironment;
+	public class HomeController : Controller
+	{
+		// Repository for post management
+		private readonly IPostRepository _postRepository;
+		private readonly IUserRepository _userRepository;
+		// Webhost for file management
+		private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(
-            IPostRepository postRepository,
-            IUserRepository userRepository,
-            IWebHostEnvironment webHostEnvironment)
-        {
-            _postRepository = postRepository;
-            _userRepository = userRepository;
-            _webHostEnvironment = webHostEnvironment;
-        }
+		public HomeController(
+			IPostRepository postRepository,
+			IUserRepository userRepository,
+			IWebHostEnvironment webHostEnvironment)
+		{
+			_postRepository = postRepository;
+			_userRepository = userRepository;
+			_webHostEnvironment = webHostEnvironment;
+		}
 
 		// GET: /Home/Index or /
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-				if (User.Identity != null && User.Identity.IsAuthenticated)
+			if (User.Identity != null && User.Identity.IsAuthenticated)
+			{
+				var user = await _userRepository.GetUserAsync(User);
+				ViewData["Username"] = user?.UserName;
+			}
+			else
+			{
+				ViewData["Username"] = null;
+			}
+
+			var posts = await _postRepository.GetAllPostsWithDetailsAsync();
+
+			// Map posts to PostDto
+			var postDtos = posts.Select(p => new PostDto
+			{
+				PostId = p.PostId,
+				ImagePath = p.ImagePath,
+				TextContent = p.TextContent,
+				DateUploaded = p.DateUploaded,
+				FontSize = p.FontSize,
+				TextColor = p.TextColor,
+				BackgroundColor = p.BackgroundColor,
+				// Create a userDTO for the author
+				Author = new UserDto
 				{
-                var user = await _userRepository.GetUserAsync(User);
-								ViewData["Username"] = user?.UserName;
-				}
-				else
+					UserId = p.User.Id,
+					Username = p.User.UserName,
+					ProfilePictureUrl = p.User.ProfilePictureUrl
+				},
+				LikesCount = p.Likes.Count,
+				// Create a list of userDTOs for the likes, so we kwow who liked the post
+				Likes = p.Likes.Select(l => new UserDto
 				{
-						ViewData["Username"] = null;
-				}
+					UserId = l.User.Id,
+					Username = l.User.UserName,
+					ProfilePictureUrl = l.User.ProfilePictureUrl
+				}).ToList()
+			}).ToList();
 
-				var posts = await _postRepository.GetAllPostsWithDetailsAsync();
 
-            // Map posts to PostDto
-            var postDtos = posts.Select(p => new PostDto
-            {
-                PostId = p.PostId,
-                ImagePath = p.ImagePath,
-                TextContent = p.TextContent,
-                DateUploaded = p.DateUploaded,
-                FontSize = p.FontSize,
-                TextColor = p.TextColor,
-                BackgroundColor = p.BackgroundColor,
-								// Create a userDTO for the author
-                Author = new UserDto
-                {
-                    UserId = p.User.Id,
-                    Username = p.User.UserName,
-                    ProfilePictureUrl = p.User.ProfilePictureUrl
-                },
-                LikesCount = p.Likes.Count,
-								// Create a list of userDTOs for the likes, so we kwow who liked the post
-                Likes = p.Likes.Select(l => new UserDto
-                {
-                    UserId = l.User.Id,
-                    Username = l.User.UserName,
-                    ProfilePictureUrl = l.User.ProfilePictureUrl
-                }).ToList()
-            }).ToList();
-						
-
-				return View(postDtos);
+			return View(postDtos);
 		}
 
 
@@ -163,7 +163,7 @@ namespace Sub_Application_1.Controllers
 			};
 
 			await _postRepository.AddAsync(post);
-      await _postRepository.SaveAsync();
+			await _postRepository.SaveAsync();
 
 			return RedirectToAction("Index");
 		}
@@ -173,14 +173,14 @@ namespace Sub_Application_1.Controllers
 		public async Task<IActionResult> EditPost(int postId)
 		{
 			// Fetch the post by ID
-      var post = await _postRepository.GetPostByIdAsync(postId);			
+			var post = await _postRepository.GetPostByIdAsync(postId);
 			// Check the user 
-      var user = await _userRepository.GetUserAsync(User);			
+			var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				return Unauthorized();
 			}
-			    	string userId = user.Id;
+			string userId = user.Id;
 
 			if (post == null)
 			{
@@ -218,15 +218,15 @@ namespace Sub_Application_1.Controllers
 			}
 
 			// Fetch the post
-      var post = await _postRepository.GetPostByIdAsync(postId);
-			
+			var post = await _postRepository.GetPostByIdAsync(postId);
+
 			// Check the user 
 			var user = await _userRepository.GetUserAsync(User);
 			if (user == null)
 			{
 				return Unauthorized();
 			}
-    	string userId = user.Id;
+			string userId = user.Id;
 
 			if (post == null)
 			{
@@ -282,8 +282,8 @@ namespace Sub_Application_1.Controllers
 
 
 
-      _postRepository.Update(post);
-      await _postRepository.SaveAsync();
+			_postRepository.Update(post);
+			await _postRepository.SaveAsync();
 
 			return RedirectToAction("Index");
 		}
@@ -294,7 +294,7 @@ namespace Sub_Application_1.Controllers
 		[HttpPost("DeletePost")]
 		public async Task<IActionResult> DeletePost(int id)
 		{
-			
+
 
 			// Check the user 
 			var user = await _userRepository.GetUserAsync(User);
@@ -302,7 +302,7 @@ namespace Sub_Application_1.Controllers
 			{
 				return Unauthorized();
 			}
-    	string userId = user.Id;
+			string userId = user.Id;
 
 			// Find the post by ID
 			var post = await _postRepository.GetPostByIdAsync(id);
@@ -317,16 +317,16 @@ namespace Sub_Application_1.Controllers
 			// Remove old image file if it exists
 			if (!string.IsNullOrEmpty(post.ImagePath))
 			{
-					var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
-					if (System.IO.File.Exists(oldFilePath))
-					{
-							System.IO.File.Delete(oldFilePath);
-					}
+				var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, post.ImagePath.TrimStart('/'));
+				if (System.IO.File.Exists(oldFilePath))
+				{
+					System.IO.File.Delete(oldFilePath);
+				}
 			}
 
 			// Delete the post
 			_postRepository.Delete(post);
-      await _postRepository.SaveAsync();
+			await _postRepository.SaveAsync();
 
 			return RedirectToAction("Index");
 		}
@@ -359,21 +359,21 @@ namespace Sub_Application_1.Controllers
 			// Map posts to PostDto
 			var postDtos = posts.Select(p => new PostDto
 			{
-					PostId = p.PostId,
-					ImagePath = p.ImagePath,
-					TextContent = p.TextContent,
-					DateUploaded = p.DateUploaded,
-					FontSize = p.FontSize,
-					TextColor = p.TextColor,
-					BackgroundColor = p.BackgroundColor,
-					// Create a userDTO for the author and add to the postDto
-					Author = new UserDto
-					{
-							UserId = p.User.Id,
-							Username = p.User.UserName ?? "[DELETED]",
-							ProfilePictureUrl = p.User.ProfilePictureUrl ?? "/images/default-profile.png"
-					},
-					LikesCount = p.Likes.Count,
+				PostId = p.PostId,
+				ImagePath = p.ImagePath,
+				TextContent = p.TextContent,
+				DateUploaded = p.DateUploaded,
+				FontSize = p.FontSize,
+				TextColor = p.TextColor,
+				BackgroundColor = p.BackgroundColor,
+				// Create a userDTO for the author and add to the postDto
+				Author = new UserDto
+				{
+					UserId = p.User.Id,
+					Username = p.User.UserName ?? "[DELETED]",
+					ProfilePictureUrl = p.User.ProfilePictureUrl ?? "/images/default-profile.png"
+				},
+				LikesCount = p.Likes.Count,
 			}).ToList();
 
 			// Set ViewData for profile details
@@ -389,8 +389,8 @@ namespace Sub_Application_1.Controllers
 
 		public static bool FileSmallerThan10MB(IFormFile file)
 		{
-				long MaxFileSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
-				return file.Length <= MaxFileSizeInBytes;
+			long MaxFileSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
+			return file.Length <= MaxFileSizeInBytes;
 		}
 	}
 }

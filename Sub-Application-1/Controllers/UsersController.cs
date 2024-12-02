@@ -246,10 +246,10 @@ namespace Sub_Application_1.Controllers
 			// Reload user data to ensure the Settings view is populated with the latest data on each form submission
 			var updatedUserDto = new UserProfileDto
 			{
-				Username = user.UserName,
-				Email = user.Email,
-				Bio = user.Bio,
-				ProfilePictureUrl = user.ProfilePictureUrl
+				Username = user?.UserName,
+				Email = user?.Email,
+				Bio = user?.Bio,
+				ProfilePictureUrl = user?.ProfilePictureUrl
 			};
 			if (user == null)
 			{
