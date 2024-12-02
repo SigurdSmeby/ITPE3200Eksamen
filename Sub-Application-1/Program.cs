@@ -8,7 +8,7 @@ using Sub_Application_1.Repositories;
 using Sub_Application_1.Repositories.Interfaces;
 using Sub_Application_1.Data.Repositories;
 using Sub_Application_1.Data.Repositories.Interfaces;
-
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -16,6 +16,14 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDefaultIdentity<User>().AddEntityFrameworkStores<AppDbContext>();
+
+// the logger
+var loggerConfiguration = new LoggerConfiguration()
+	.MinimumLevel.Information() // Logging levels: Trace < Information < Warning < Error < Fatal
+	.WriteTo.File($"Logs/app_{DateTime.Now:yyyyMMdd_HHmmss}.log");
+
+var logger = loggerConfiguration.CreateLogger();
+builder.Logging.AddSerilog(logger);
 
 // Configure Entity Framework Core with SQLite
 builder.Services.AddSession();
