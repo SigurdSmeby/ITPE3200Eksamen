@@ -1,27 +1,48 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Sub_Application_1.Data;
+using Sub_Application_1.Data.Repositories.Interfaces;
 using Sub_Application_1.Models;
-using Sub_Application_1.Repositories.Interfaces;
 
-namespace Sub_Application_1.Repositories
+namespace Sub_Application_1.Data.Repositories
 {
-    public class LikeRepository : Repository<Like>, ILikeRepository
-    {
-        public LikeRepository(AppDbContext context) : base(context)
-        {
-        }
+	public class LikeRepository : ILikeRepository
+	{
+		private readonly AppDbContext _context;
 
-        public async Task<Like?> GetLikeAsync(string userId, int postId)
-        {
-            return await _dbSet.FirstOrDefaultAsync(l => l.UserId == userId && l.PostId == postId);
-        }
+		public LikeRepository(AppDbContext context)
+		{
+			_context = context;
+		}
 
-        public async Task<bool> UserHasLikedPostAsync(string userId, int postId)
-        {
-            return await _dbSet.AnyAsync(l => l.UserId == userId && l.PostId == postId);
-        }
+		public async Task AddLikeAsync(Like like)
+		{
+			_context.Likes.Add(like);
+			await _context.SaveChangesAsync();
+		}
 
-    }
+		public async Task RemoveLikeAsync(Like like)
+		{
+			_context.Likes.Remove(like);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task<bool> LikeExistsAsync(string userId, int postId)
+		{
+			return await _context.Likes.AnyAsync(l => l.UserId == userId && l.PostId == postId);
+		}
+
+		public async Task<Like?> GetLikeAsync(string userId, int postId)
+		{
+			return await _context.Likes
+				.FirstOrDefaultAsync(l => l.UserId == userId && l.PostId == postId);
+		}
+
+		public async Task<Post?> GetPostWithLikesAsync(int postId)
+		{
+			return await _context.Posts
+				.Include(p => p.Likes)
+					.ThenInclude(l => l.User)
+				.FirstOrDefaultAsync(p => p.PostId == postId);
+		}
+	}
 }
