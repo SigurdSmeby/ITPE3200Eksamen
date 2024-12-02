@@ -309,8 +309,9 @@ namespace Sub_Application_1.Controllers
 			}
 			else
 			{
+				var errorMessages = string.Join("<br/>", results.Errors.Select(e => e.Description));
 				_logger.LogWarning("Password change failed for user {UserId}.", user.Id);
-				ViewData["PasswordError"] = "Current password is incorrect";
+				ViewData["PasswordError"] = errorMessages;
 			}
 			return View("Settings", updatedUserDto);
 		}
